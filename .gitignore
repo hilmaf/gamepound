@@ -1,0 +1,16 @@
+springRepo/gamepound/target/
+/.metadata/
+*.project
+*.prefs
+*.properties
+*.policy
+*.class
+*.classpath
+*.springBeans
+*.MF
+*.component
+*.jar
+springRepo/gamepound/src/main/resources/log4j.xml
+springRepo/gamepound/.settings/org.eclipse.wst.common.project.facet.core.xml
+springRepo/gamepound/src/test/resources/log4j.xml
+springRepo/Servers/
