@@ -15,12 +15,31 @@ public class MemberServiceHJY {
 	private final MemberDaoHJY dao;
 	private final SqlSessionTemplate sst;
 	
-	// ·Î±×ÀÎ Ã³¸®
-	public MemberVo login(MemberVo vo) {
-		
-		// TODO: °ËÁõ·ÎÁ÷ Ã³¸®, ½ºÇÁ¸µ½ÃÅ¥¸®Æ¼ Àû¿ë, ¾ÏÈ£È­ Àû¿ë 1230ÇöÁö¿¬
+	// ë¡œê·¸ì¸ ì²˜ë¦¬
+	public MemberVo login(MemberVo vo) throws Exception {
 		return dao.login(sst, vo);
+	}
+
+	// íšŒì›ê°€ì… ì²˜ë¦¬
+	public int join(MemberVo vo) throws Exception {
+		// TODO: ì´ë©”ì¼ ì¸ì¦ í•„ìš”
 		
+		// ì•„ì´ë”” ê²€ì¦
+		if(!MemberValidation.isValidEmail(vo.getEmail())) {
+			throw new Exception("ì´ë©”ì¼ì´ ìœ íš¨í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
+		}
+		
+		// ì´ë¦„ ê²€ì¦
+		if(!MemberValidation.isValidName(vo.getName())) {
+			throw new Exception("ì´ë¦„ì´ ìœ íš¨í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
+		}
+		
+		// ë¹„ë°€ë²ˆí˜¸ ê²€ì¦
+		if(!MemberValidation.isValidPwd(vo.getPwd())) {
+			throw new Exception("ë¹„ë°€ë²ˆí˜¸ê°€ ìœ íš¨í•˜ì§€ ì•ŠìŠµë‹ˆë‹¤.");
+		}
+		
+		return dao.join(sst, vo);
 	}
 
 }

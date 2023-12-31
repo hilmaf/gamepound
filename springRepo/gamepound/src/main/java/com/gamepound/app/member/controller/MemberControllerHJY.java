@@ -19,13 +19,13 @@ public class MemberControllerHJY {
 	
 	private final MemberServiceHJY service;
 	
-	// ·Î±×ÀÎ Ã³¸®
+	// ë¡œê·¸ì¸ ì²˜ë¦¬
 	@PostMapping("login")
 	public void login(MemberVo vo, HttpSession session) {
 		
 		MemberVo loginMember = service.login(vo);
 		if(loginMember == null) {
-			System.out.println("±×·± ¾ÆÀÌµğ¾øÀ½"); // TODO: ·Î±×ÀÎ½ÇÆĞ ¸Ş¼¼Áö
+			System.out.println("ë¡œê·¸ì¸ ì‹¤íŒ¨"); // TODO: ë¡œê·¸ì¸ì‹¤íŒ¨
 		} else {
 			session.setAttribute("loginMember", loginMember);
 			System.out.println(loginMember);
@@ -33,10 +33,22 @@ public class MemberControllerHJY {
 		
 	}
 	
-	// È¸¿ø°¡ÀÔ Ã³¸®
+	// íšŒì›ê°€ì… ì²˜ë¦¬
+	@PostMapping("join")
+	public void join(MemberVo vo) throws Exception {
+		int result = service.join(vo);
+		if(result == 1) {
+			System.out.println("íšŒì›ê°€ì… ì„±ê³µ");
+		} else {
+			System.out.println(result);
+		}
+	}
 	
-	// ºñ¹Ğ¹øÈ£ Àç¼³Á¤ Ã³¸®
+	// ì•„ì´ë”” ì¤‘ë³µê²€ì‚¬
 	
-	// È¸¿øÅ»Åğ Ã³¸®
+	
+	// ë¹„ë°€ë²ˆí˜¸ ì¬ì„¤ì • ì²˜ë¦¬
+	
+	// íšŒì›íƒˆí‡´ ì²˜ë¦¬
 	
 }

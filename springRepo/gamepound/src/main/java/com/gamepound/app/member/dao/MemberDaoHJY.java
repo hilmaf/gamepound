@@ -8,9 +8,14 @@ import com.gamepound.app.member.vo.MemberVo;
 @Repository
 public class MemberDaoHJY {
 
-	// �α��� ó��
+	// 로그인 처리
 	public MemberVo login(SqlSessionTemplate sst, MemberVo vo) {
 		return sst.selectOne("MemberMapper.login", vo);
+	}
+
+	// 회원가입 처리
+	public int join(SqlSessionTemplate sst, MemberVo vo) {
+		return sst.insert("MemberMapper.join", vo);
 	}
 
 }

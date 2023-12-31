@@ -12,4 +12,10 @@
 		AND PWD = #{pwd}
 	</select>
 	
+	<!-- 회원가입 처리 -->
+	<insert id="join">
+		INSERT INTO MEMBER (NO, NAME, EMAIL, PWD, ENROLL_DATE)
+		VALUES (SEQ_MEMBER_NO.NEXTVAL, #{name}, #{email}, #{pwd}, SYSDATE)
+	</insert>
+	
 </mapper>
