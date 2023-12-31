@@ -21,7 +21,7 @@ public class MemberControllerHJY {
 	
 	// 로그인 처리
 	@PostMapping("login")
-	public void login(MemberVo vo, HttpSession session) {
+	public void login(MemberVo vo, HttpSession session) throws Exception {
 		
 		MemberVo loginMember = service.login(vo);
 		if(loginMember == null) {
