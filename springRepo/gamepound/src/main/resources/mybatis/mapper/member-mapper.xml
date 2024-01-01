@@ -10,6 +10,40 @@
 		FROM MEMBER
 		WHERE EMAIL = #{email}
 		AND PWD = #{pwd}
+		AND QUIT_YN = 'N'
 	</select>
+	
+	<!-- 회원가입 처리 -->
+	<insert id="join">
+		INSERT INTO MEMBER (NO, NAME, EMAIL, PWD, ENROLL_DATE)
+		VALUES (SEQ_MEMBER_NO.NEXTVAL, #{name}, #{email}, #{pwd}, SYSDATE)
+	</insert>
+	
+	<!-- 이메일 중복검사 -->
+	<select id="isEmailUnique" resultType="int">
+		SELECT COUNT(*) FROM MEMBER WHERE EMAIL = #{email} AND QUIT_YN = 'N'
+	</select>
+	
+	<!-- 비밀번호 찾기 : 이메일, 비밀번호 재확인 -->
+	<select id="confirmPassword" resultType="int">
+		SELECT COUNT(*) FROM MEMBER WHERE EMAIL = #{email} AND PWD = #{pwd} AND QUIT_YN = 'N'
+	</select>
+	
+	<!-- 비밀번호 재설정 -->
+	<update id="resetPassword">
+		UPDATE MEMBER
+		    SET PWD = #{pwd}
+		WHERE EMAIL = #{email}
+		AND QUIT_YN = 'N'
+	</update>
+	
+	<!-- 회원탈퇴 -->
+	<update id="quit">
+		UPDATE MEMBER
+		    SET QUIT_YN = 'Y'
+		WHERE EMAIL = #{email}
+		AND PWD = #{pwd}
+		AND QUIT_YN = 'N'
+	</update>
 	
 </mapper>
