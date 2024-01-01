@@ -35,4 +35,9 @@ public class MemberDaoHJY {
 		return sst.update("MemberMapper.resetPassword", vo);
 	}
 
+	// 회원 탈퇴처리
+	public int quit(SqlSessionTemplate sst, MemberVo vo) {
+		return sst.update("MemberMapper.quit", vo);
+	}
+
 }

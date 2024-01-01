@@ -94,6 +94,7 @@ public class MemberControllerHJY {
 		int result = service.isEmailUnique(vo);
 		if(result >= 1) {
 			System.out.println("이미 가입된 이메일입니다.");
+			throw new Exception("이미 가입된 이메일입니다.");
 		}
 		System.out.println("이 계정으로 가입하실 수 있습니다.");
 	}
@@ -135,5 +136,13 @@ public class MemberControllerHJY {
 	}
 	
 	// 회원탈퇴 처리
+	@PostMapping("quit")
+	public void quit(MemberVo vo) {
+		int result = service.quit(vo);
+		if(result != 1) {
+			System.out.println("회원탈퇴 실패");
+		}
+		System.out.println("회원탈퇴 성공");
+	}
 	
 }

@@ -69,4 +69,9 @@ public class MemberServiceHJY {
 		return dao.resetPassword(sst, vo);
 	}
 
+	// 회원 탈퇴처리
+	public int quit(MemberVo vo) {
+		return dao.quit(sst, vo);
+	}
+
 }
