@@ -1,5 +1,7 @@
 package com.gamepound.app.member.dao;
 
+import java.util.Map;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -26,6 +28,11 @@ public class MemberDaoHJY {
 	// 비밀번호 찾기 : 이메일, 비밀번호 재확인
 	public int confirmPassword(SqlSessionTemplate sst, MemberVo vo) {
 		return sst.selectOne("MemberMapper.confirmPassword", vo);
+	}
+
+	// 비밀번호 재설정 처리
+	public int resetPassword(SqlSessionTemplate sst, MemberVo vo) {
+		return sst.update("MemberMapper.resetPassword", vo);
 	}
 
 }

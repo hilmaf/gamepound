@@ -1,6 +1,8 @@
 package com.gamepound.app.member.service;
 
 
+import java.util.Map;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -57,6 +59,14 @@ public class MemberServiceHJY {
 	// 비밀번호 찾기 : 이메일, 비밀번호 재확인
 	public int confirmPassword(MemberVo vo) {
 		return dao.confirmPassword(sst, vo);
+	}
+
+	// 비밀번호 재설정 처리
+	public int resetPassword(MemberVo vo) throws Exception {
+		if(vo.getPwd() == null || vo.getConfirmPwd() == null || !vo.getPwd().equals(vo.getConfirmPwd())) {
+			throw new Exception("비밀번호가 일치하지 않습니다.");
+		}
+		return dao.resetPassword(sst, vo);
 	}
 
 }

@@ -28,4 +28,11 @@
 		SELECT COUNT(*) FROM MEMBER WHERE EMAIL = #{email} AND PWD = #{pwd}
 	</select>
 	
+	<!-- 비밀번호 재설정 -->
+	<update id="resetPassword">
+		UPDATE MEMBER
+		    SET PWD = #{pwd}
+		WHERE EMAIL = #{email}
+	</update>
+	
 </mapper>

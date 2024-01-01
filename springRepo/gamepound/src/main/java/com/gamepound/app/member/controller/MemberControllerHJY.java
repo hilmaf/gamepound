@@ -32,10 +32,9 @@ public class MemberControllerHJY {
 		MemberVo loginMember = service.login(vo);
 		if(loginMember == null) {
 			System.out.println("로그인 실패"); // TODO: 로그인실패 처리 필요
-		} else {
-			session.setAttribute("loginMember", loginMember);
-			System.out.println(loginMember);
 		}
+		session.setAttribute("loginMember", loginMember);
+		System.out.println(loginMember);
 		
 	}
 	
@@ -43,10 +42,10 @@ public class MemberControllerHJY {
 	@PostMapping("join")
 	public void join(MemberVo vo) throws Exception {
 		int result = service.join(vo);
-		if(result == 1) {
-			System.out.println("회원가입 성공");
+		if(result != 1) {
+			// TODO: 회원가입 검증로직 실패 처리 필요
 		}
-		// TODO: 회원가입 검증로직 실패 처리 필요
+		System.out.println("회원가입 성공");
 	}
 	
 	// 이메일 인증번호 발송
@@ -95,36 +94,44 @@ public class MemberControllerHJY {
 		int result = service.isEmailUnique(vo);
 		if(result >= 1) {
 			System.out.println("이미 가입된 이메일입니다.");
-		} else {
-			System.out.println("이 계정으로 가입하실 수 있습니다.");
 		}
+		System.out.println("이 계정으로 가입하실 수 있습니다.");
 	}
 	
 	// 비밀번호 찾기 : 이메일, 비밀번호 재확인
 	@PostMapping("confirmPassword")
 	public String confirmPassword(MemberVo vo, HttpSession session) {
 		int result = service.confirmPassword(vo);
-		if(result == 1) {
-			System.out.println("새 비밀번호 입력창으로 통과");
-			
-			// 이메일, 비밀번호 세션에 저장
-			Map<String, String> confirmInfo = new HashMap<String, String>();
-			confirmInfo.put("confirmId", vo.getEmail());
-			confirmInfo.put("confirmPwd", vo.getPwd());
-			session.setAttribute("confirmInfo", confirmInfo);
-			System.out.println(confirmInfo);
-			return "redirect:/member/resetPassword";
-			
-		} else {
+		if(result != 1) {
 			System.out.println("아이디, 비밀번호 확인 실패");
-			return "redirect:/member/confirmPassword"; // 실패 시 같은페이지로 리다이렉트 
 		}
+		
+		System.out.println("새 비밀번호 입력창으로 통과");
+		// 이메일, 비밀번호 세션에 저장
+		Map<String, String> confirmInfo = new HashMap<String, String>();
+		confirmInfo.put("confirmEmail", vo.getEmail());
+		confirmInfo.put("confirmPwd", vo.getPwd());
+		session.setAttribute("confirmInfo", confirmInfo);
+		System.out.println(confirmInfo);
+		return "redirect:/member/resetPassword";
 	}
 		
 	// 비밀번호 재설정 처리
 	@PostMapping("resetPassword")
-	public void resetPassword() {
+	public String resetPassword(MemberVo vo, HttpSession session) throws Exception {
+		Map<String, String> confirmInfo = (Map<String, String>) session.getAttribute("confirmInfo");
+		if(confirmInfo != null) {
+			vo.setEmail(confirmInfo.get("confirmEmail"));			
+		}
 		
+		int result = service.resetPassword(vo);
+		if(result != 1) {
+			System.out.println("비밀번호 재설정 실패");
+			throw new Exception("비밀번호 재설정 실패");
+		} 
+		System.out.println("비밀번호 재설정 완료");
+		session.invalidate();
+		return "redirect:/member/login";
 	}
 	
 	// 회원탈퇴 처리

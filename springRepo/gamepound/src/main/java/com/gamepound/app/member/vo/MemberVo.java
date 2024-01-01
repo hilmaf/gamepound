@@ -9,6 +9,7 @@ public class MemberVo {
 	private String name;
 	private String email;
 	private String pwd;
+	private String confirmPwd;
 	private String pic;
 	private String intro;
 	private String siteUrl;
