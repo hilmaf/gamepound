@@ -54,4 +54,9 @@ public class MemberServiceHJY {
 		return dao.isEmailUnique(sst, vo);
 	}
 
+	// 비밀번호 찾기 : 이메일, 비밀번호 재확인
+	public int confirmPassword(MemberVo vo) {
+		return dao.confirmPassword(sst, vo);
+	}
+
 }

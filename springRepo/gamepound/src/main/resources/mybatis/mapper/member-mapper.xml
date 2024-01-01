@@ -23,4 +23,9 @@
 		SELECT COUNT(*) FROM MEMBER WHERE EMAIL = #{email}
 	</select>
 	
+	<!-- 비밀번호 찾기 : 이메일, 비밀번호 재확인 -->
+	<select id="confirmPassword" resultType="int">
+		SELECT COUNT(*) FROM MEMBER WHERE EMAIL = #{email} AND PWD = #{pwd}
+	</select>
+	
 </mapper>

@@ -1,5 +1,8 @@
 package com.gamepound.app.member.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -97,7 +100,32 @@ public class MemberControllerHJY {
 		}
 	}
 	
+	// 비밀번호 찾기 : 이메일, 비밀번호 재확인
+	@PostMapping("confirmPassword")
+	public String confirmPassword(MemberVo vo, HttpSession session) {
+		int result = service.confirmPassword(vo);
+		if(result == 1) {
+			System.out.println("새 비밀번호 입력창으로 통과");
+			
+			// 이메일, 비밀번호 세션에 저장
+			Map<String, String> confirmInfo = new HashMap<String, String>();
+			confirmInfo.put("confirmId", vo.getEmail());
+			confirmInfo.put("confirmPwd", vo.getPwd());
+			session.setAttribute("confirmInfo", confirmInfo);
+			System.out.println(confirmInfo);
+			return "redirect:/member/resetPassword";
+			
+		} else {
+			System.out.println("아이디, 비밀번호 확인 실패");
+			return "redirect:/member/confirmPassword"; // 실패 시 같은페이지로 리다이렉트 
+		}
+	}
+		
 	// 비밀번호 재설정 처리
+	@PostMapping("resetPassword")
+	public void resetPassword() {
+		
+	}
 	
 	// 회원탈퇴 처리
 	

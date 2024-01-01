@@ -18,8 +18,14 @@ public class MemberDaoHJY {
 		return sst.insert("MemberMapper.join", vo);
 	}
 
+	// 이메일 중복검사
 	public int isEmailUnique(SqlSessionTemplate sst, MemberVo vo) {
 		return sst.selectOne("MemberMapper.isEmailUnique", vo);
+	}
+
+	// 비밀번호 찾기 : 이메일, 비밀번호 재확인
+	public int confirmPassword(SqlSessionTemplate sst, MemberVo vo) {
+		return sst.selectOne("MemberMapper.confirmPassword", vo);
 	}
 
 }
