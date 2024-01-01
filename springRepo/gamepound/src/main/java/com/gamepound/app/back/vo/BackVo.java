@@ -1,5 +1,10 @@
 package com.gamepound.app.back.vo;
 
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
@@ -14,8 +19,8 @@ public class BackVo {
 	private String projectCategory;
 	private String projectSubCategory;
 	private String projectName;
-	private String goalAmount;
-	private String currentAmount;
+	private int goalAmount;
+	private int currentAmount;
 	// 달성률
 	private String achievedRate;
 	// 마감기한까지 D-N
@@ -38,4 +43,24 @@ public class BackVo {
 	private String paymentStatus;
 	
 
+	public int getAchievedRate(int goalAmount, int currentAmount) {
+		return currentAmount/goalAmount * 100;
+	}
+	
+	public String getRemainPeriod(String endDate) {
+	    try {
+	    	DateFormat df = new SimpleDateFormat("yy/mm/dd HH:mm:ss");
+		    Date date = df.parse(endDate);
+		    long timeStamp = date.getTime();
+		    Timestamp endDate_ = new Timestamp(timeStamp);
+		    
+		    System.out.println(endDate);
+		    
+		    Date currentDate = new Date();
+	    } catch(Exception e) {
+	    	
+	    }
+		return "";
+	}
+	
 }
