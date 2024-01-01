@@ -24,9 +24,8 @@ public class MemberServiceHJY {
 
 	// 회원가입 처리
 	public int join(MemberVo vo) throws Exception {
-		// TODO: 이메일 인증 필요
 		
-		// 아이디 검증
+		// TODO: 이메일 검증확인으로 변경 필요
 		if(!MemberValidation.isValidEmail(vo.getEmail())) {
 			throw new Exception("이메일이 유효하지 않습니다.");
 		}
@@ -42,6 +41,17 @@ public class MemberServiceHJY {
 		}
 		
 		return dao.join(sst, vo);
+	}
+
+	// 아이디 중복검사
+	public int isEmailUnique(MemberVo vo) throws Exception {
+		
+		// 이메일 형식 검증
+		if(!MemberValidation.isValidEmail(vo.getEmail())) {
+			throw new Exception("이메일형식이 맞지 않습니다.");
+		}
+		
+		return dao.isEmailUnique(sst, vo);
 	}
 
 }

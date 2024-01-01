@@ -18,4 +18,8 @@ public class MemberDaoHJY {
 		return sst.insert("MemberMapper.join", vo);
 	}
 
+	public int isEmailUnique(SqlSessionTemplate sst, MemberVo vo) {
+		return sst.selectOne("MemberMapper.isEmailUnique", vo);
+	}
+
 }

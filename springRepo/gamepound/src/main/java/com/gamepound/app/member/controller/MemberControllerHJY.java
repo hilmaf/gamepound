@@ -46,7 +46,7 @@ public class MemberControllerHJY {
 		// TODO: 회원가입 검증로직 실패 처리 필요
 	}
 	
-	// 이메일 인증
+	// 이메일 인증번호 발송
 	@GetMapping("mailCheck")
 	public void mailCheck(MemberVo vo, HttpSession session) {
 		System.out.println(vo);
@@ -87,9 +87,14 @@ public class MemberControllerHJY {
     }
 	
 	// 아이디 중복검사
-	@PostMapping("email")
-	public void isEmailUnique(MemberVo vo) {
-		
+	@PostMapping("emailUnique")
+	public void isEmailUnique(MemberVo vo) throws Exception {
+		int result = service.isEmailUnique(vo);
+		if(result >= 1) {
+			System.out.println("이미 가입된 이메일입니다.");
+		} else {
+			System.out.println("이 계정으로 가입하실 수 있습니다.");
+		}
 	}
 	
 	// 비밀번호 재설정 처리
