@@ -18,7 +18,6 @@ import com.gamepound.app.member.vo.MemberVo;
 import lombok.RequiredArgsConstructor;
 
 @Controller
-@RequestMapping("member")
 @RequiredArgsConstructor
 public class MemberControllerHJY {
 
@@ -28,10 +27,9 @@ public class MemberControllerHJY {
 	// 로그인 처리
 	@PostMapping("login")
 	public void login(MemberVo vo, HttpSession session) throws Exception {
-		
 		MemberVo loginMember = service.login(vo);
 		if(loginMember == null) {
-			System.out.println("로그인 실패"); // TODO: 로그인실패 처리 필요
+			System.out.println("로그인 실패"); // TODO-현지연 : 로그인실패하면 실패 메세지 띄우기
 		}
 		session.setAttribute("loginMember", loginMember);
 		System.out.println(loginMember);
@@ -43,7 +41,7 @@ public class MemberControllerHJY {
 	public void join(MemberVo vo) throws Exception {
 		int result = service.join(vo);
 		if(result != 1) {
-			// TODO: 회원가입 검증로직 실패 처리 필요
+			// TODO-현지연 : 회원가입 검증로직 실패 메세지 띄우기
 		}
 		System.out.println("회원가입 성공");
 	}
@@ -94,7 +92,7 @@ public class MemberControllerHJY {
 		int result = service.isEmailUnique(vo);
 		if(result >= 1) {
 			System.out.println("이미 가입된 이메일입니다.");
-			throw new Exception("이미 가입된 이메일입니다.");
+			throw new Exception("이미 가입된 이메일입니다.");// TODO-현지연 : 가입된 이메일 메세지 띄우기
 		}
 		System.out.println("이 계정으로 가입하실 수 있습니다.");
 	}
