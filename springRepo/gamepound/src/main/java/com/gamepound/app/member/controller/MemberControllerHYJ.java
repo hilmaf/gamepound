@@ -19,7 +19,6 @@ public class MemberControllerHYJ {
 	//프로필 사진 변경
 	@PostMapping("pic")
 	public void editPic(MemberVo vo) throws Exception {
-		System.out.println(vo);
 		
 		int result = service.editPic(vo);
 		
@@ -28,11 +27,23 @@ public class MemberControllerHYJ {
 			throw new Exception();
 		}
 		
-		//TODO-HYJ : [setting-pic]syso말고 화면 변경해야함
+		//TODO-HYJ : [setting-pic]syso말고 ajax해야함
 		System.out.println("[MSP-C]사진 변경 성공");
 	}
 	
-	//이름 변경
+	//프로필 이름 변경
+	@PostMapping("name")
+	public void editName(MemberVo vo) throws Exception {
+		int result = service.editName(vo);
+		
+		if(result != 1) {
+			System.out.println("[MSN-C]이름 변경 실패");
+			throw new Exception();
+		}
+		
+		//TODO-HYJ : [setting-name] syso말고 ajax처리해야함ㅠㅠ
+		System.out.println("[MSN-C]이름 변경 성공");
+	}
 	
 	//소개 변경
 	

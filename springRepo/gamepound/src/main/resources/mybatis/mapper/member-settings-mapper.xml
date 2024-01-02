@@ -9,4 +9,10 @@
 	SET PIC = #{pic}
 	WHERE NO = #{no}
   </update>
+  <!-- 이름 변경 -->
+  <update id="editName">
+	UPDATE MEMBER
+	SET NAME = #{name}
+	WHERE NO = #{no}
+  </update>
 </mapper>

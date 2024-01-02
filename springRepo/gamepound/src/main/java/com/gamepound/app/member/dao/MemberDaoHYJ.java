@@ -13,4 +13,9 @@ public class MemberDaoHYJ {
 		return sst.update("MemberSettingsMapper.editPic", vo);
 	}
 
+	//프로필 이름 변경
+	public int editName(MemberVo vo, SqlSessionTemplate sst) {
+		return sst.update("MemberSettingsMapper.editName", vo);
+	}
+
 }

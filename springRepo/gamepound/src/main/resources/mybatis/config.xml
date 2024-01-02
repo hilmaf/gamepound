@@ -12,7 +12,10 @@
   
   <typeAliases>
   	<typeAlias type="com.gamepound.app.member.vo.MemberVo" alias="MemberVo"/>
+  	<typeAlias type="com.gamepound.app.project.vo.ProjectVo" alias="ProjectVo"/>
+  	<typeAlias type="com.gamepound.app.back.vo.BackVo" alias="BackVo"/>
   </typeAliases>
+  
   
   
   
