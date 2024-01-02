@@ -18,7 +18,6 @@ import com.gamepound.app.member.vo.MemberVo;
 import lombok.RequiredArgsConstructor;
 
 @Controller
-@RequestMapping("member")
 @RequiredArgsConstructor
 public class MemberControllerHJY {
 
