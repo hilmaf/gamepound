@@ -22,4 +22,8 @@ public class BackServiceLKM {
 		return dao.back(sst, vo);
 	}
 
+	public String cntBacker(String projectNo) {		
+		return dao.cntBacker(sst, projectNo);
+	}
+
 }

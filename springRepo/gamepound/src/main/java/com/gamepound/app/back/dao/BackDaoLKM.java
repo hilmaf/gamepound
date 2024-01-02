@@ -13,4 +13,8 @@ public class BackDaoLKM {
 		return sst.insert("BackMapper.back", vo);
 	}
 
+	public String cntBacker(SqlSessionTemplate sst, String projectNo) {
+		return sst.selectOne("BackMapper.cntBacker", projectNo);
+	}
+
 }

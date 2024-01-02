@@ -19,4 +19,11 @@
   		, SYSDATE)
   </insert>
   
+  <select id="cntBacker" resultType="java.lang.String">
+  	SELECT
+	    COUNT(*)
+	FROM BACKER
+	WHERE PROJECT_NO = #{projectNo}
+  </select>
+  
 </mapper>
