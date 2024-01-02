@@ -17,4 +17,8 @@ public class BackDaoLKM {
 		return sst.selectOne("BackMapper.cntBacker", projectNo);
 	}
 
+	public int cancel(SqlSessionTemplate sst, String backNo) {
+		return sst.update("BackMapper.cancel", backNo);
+	}
+
 }

@@ -49,4 +49,12 @@ public class BackControllerLKM {
 		
 		return nthBacker;
 	}
+	
+	// 후원 취소
+	@PostMapping("canceled")
+	public String cancel(String backNo) {
+		int result = service.cancel(backNo);
+		
+		return "";
+	}
 }

@@ -16,14 +16,21 @@ public class BackServiceLKM {
 	private final BackDaoLKM dao;
 	private final SqlSessionTemplate sst;
 	
+	// 후원하기
 	public int back(BackVo vo) {
 		// TODO: 후원 business logic
 		
 		return dao.back(sst, vo);
 	}
 
+	// 후원완료(n번째 후원자)
 	public String cntBacker(String projectNo) {		
 		return dao.cntBacker(sst, projectNo);
+	}
+
+	// 후원취소
+	public int cancel(String backNo) {
+		return dao.cancel(sst, backNo);
 	}
 
 }
