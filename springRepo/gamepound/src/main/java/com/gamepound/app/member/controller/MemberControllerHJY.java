@@ -27,7 +27,6 @@ public class MemberControllerHJY {
 	// 로그인 처리
 	@PostMapping("login")
 	public void login(MemberVo vo, HttpSession session) throws Exception {
-		
 		MemberVo loginMember = service.login(vo);
 		if(loginMember == null) {
 			System.out.println("로그인 실패"); // TODO-현지연 : 로그인실패하면 실패 메세지 띄우기
