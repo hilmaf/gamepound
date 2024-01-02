@@ -47,6 +47,7 @@ public class BackVo {
 		return currentAmount/goalAmount * 100;
 	}
 	
+	// TODO : 마감기한까지 n일
 	public String getRemainPeriod(String endDate) {
 	    try {
 	    	DateFormat df = new SimpleDateFormat("yy/mm/dd HH:mm:ss");
