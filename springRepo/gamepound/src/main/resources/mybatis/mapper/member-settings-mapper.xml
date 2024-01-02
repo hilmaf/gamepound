@@ -26,4 +26,9 @@
   	SET SITE_URL = #{siteUrl}
   	WHERE NO = #{no}
   </update>
+  <update id="editPwd">
+  	UPDATE MEMBER
+  	SET PWD = #{pwd}
+  	WHERE NO = #{no}
+  </update>
 </mapper>

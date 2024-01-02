@@ -74,8 +74,20 @@ public class MemberControllerHYJ {
 		System.out.println("[MSS-C]웹사이트 변경 성공");
 	}
 	
-	//프로필 이메일 변경
-	
 	//프로필 비밀번호 변경
+	@PostMapping("pwd")
+	public void editPwd(MemberVo vo) throws Exception {
+		int result = service.editPwd(vo);
+		
+		if(result != 1) {
+			System.out.println("[MSP-C]비밀번호 변경 실패");
+			throw new Exception();
+		}
+		
+		//TODO-HYJ : [setting-pwd] syso ㄴㄴ ajax ㄱㄱ
+		System.out.println("[MSP-C]비밀번호 변경 성공");
+	}
+	
+	//프로필 이메일 변경
 	
 }

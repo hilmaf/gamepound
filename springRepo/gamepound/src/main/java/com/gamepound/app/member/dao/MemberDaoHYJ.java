@@ -28,4 +28,9 @@ public class MemberDaoHYJ {
 		return sst.update("MemberSettingsMapper.editSiteUrl", vo);
 	}
 
+	//프로필 비밀번호 변경
+	public int editPwd(SqlSessionTemplate sst, MemberVo vo) {
+		return sst.update("MemberSettingsMapper.editPwd", vo);
+	}
+
 }

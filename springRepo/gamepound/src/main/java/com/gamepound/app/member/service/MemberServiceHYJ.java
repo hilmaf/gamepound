@@ -30,6 +30,9 @@ public class MemberServiceHYJ {
 			System.out.println("[MSN-S]이름 변경 실패 vo예외 발생");
 			throw new Exception();
 		}
+		
+		//TODO-HYJ :이름 중복 확인 해야함 
+		
 		return dao.editName(vo, sst);
 	}
 
@@ -51,6 +54,16 @@ public class MemberServiceHYJ {
 		}
 		
 		return dao.editSiteUrl(sst, vo);
+	}
+
+	//프로필 비밀번호 변경
+	public int editPwd(MemberVo vo) throws Exception {
+		if(vo.getPwd() == null || vo.getPwd() == "") {
+			System.out.println("[MSP-S]비밀번호 변경 실패 vo예외 발생");
+			throw new Exception();
+		}
+		
+		return dao.editPwd(sst, vo);
 	}
 	
 }
