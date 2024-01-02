@@ -24,12 +24,12 @@ public class BackControllerLKM {
 	// 후원하기
 	@PostMapping("/back")
 	public String back(BackVo vo) throws Exception {
-		int result = service.back(vo);
+//		int result = service.back(vo);
 		
-		if(result != 1) {
-			System.out.println("후원 실패");
-			throw new Exception();
-		}
+//		if(result != 1) {
+//			System.out.println("후원 실패");
+//			throw new Exception();
+//		}
 		
 		System.out.println("후원 완료");
 		
