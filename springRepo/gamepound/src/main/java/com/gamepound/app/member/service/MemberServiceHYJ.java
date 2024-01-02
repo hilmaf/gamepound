@@ -17,12 +17,20 @@ public class MemberServiceHYJ {
 
 	//프로필 사진 변경
 	public int editPic(MemberVo vo) throws Exception {
-		System.out.println(vo.getPic());
 		if(vo.getPic() == null || vo.getPic()=="") {
 			System.out.println("[MSP-S]사진 변경 실패");
 			throw new Exception();
 		}
 		return dao.editPic(vo, sst);
+	}
+
+	//프로필 이름 변경
+	public int editName(MemberVo vo) throws Exception {
+		if(vo.getName() == null || vo.getName()=="") {
+			System.out.println("[MSN-S]이름 변경 실패");
+			throw new Exception();
+		}
+		return dao.editName(vo, sst);
 	}
 	
 }
