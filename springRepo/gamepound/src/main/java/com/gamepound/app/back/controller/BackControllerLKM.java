@@ -1,7 +1,10 @@
 package com.gamepound.app.back.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gamepound.app.back.service.BackServiceLKM;
 import com.gamepound.app.back.vo.BackVo;
@@ -11,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor
 
+@RequestMapping("back")
 public class BackControllerLKM {
 	
 	private final BackServiceLKM service;	
@@ -22,22 +26,35 @@ public class BackControllerLKM {
 	 * - 결제 실패 시 +7일 후 결제 요청 다시 하게끔 로직 설정
 	 */
 	// 후원하기
-	@PostMapping("/back")
+	@PostMapping("process")
 	public String back(BackVo vo) throws Exception {
-//		int result = service.back(vo);
+		int result = service.back(vo);
 		
-//		if(result != 1) {
-//			System.out.println("후원 실패");
-//			throw new Exception();
-//		}
+		if(result != 1) {
+			System.out.println("후원 실패");
+			throw new Exception();
+		}
 		
 		System.out.println("후원 완료");
 		
-		return "";
+		return "redirect:/";
 	}
 	
-	// 후원 예약
+	// 후원 완료
+	@GetMapping("completed")
+	@ResponseBody
+	public String completed(String projectNo) {
+		
+		String nthBacker = service.cntBacker(projectNo);
+		
+		return nthBacker;
+	}
 	
 	// 후원 취소
-	
+	@PostMapping("canceled")
+	public String cancel(String backNo) {
+		int result = service.cancel(backNo);
+		
+		return "";
+	}
 }
