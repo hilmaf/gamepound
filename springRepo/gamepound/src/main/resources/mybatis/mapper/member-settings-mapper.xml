@@ -15,4 +15,10 @@
 	SET NAME = #{name}
 	WHERE NO = #{no}
   </update>
+  <!-- 소개 변경 -->
+  <update id="editIntro">
+  	UPDATE MEMBER
+  	SET INTRO = #{intro}
+  	WHERE NO = #{no}
+  </update>
 </mapper>

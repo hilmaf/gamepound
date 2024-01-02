@@ -18,4 +18,9 @@ public class MemberDaoHYJ {
 		return sst.update("MemberSettingsMapper.editName", vo);
 	}
 
+	//프로필 소개 변경
+	public int editIntro(SqlSessionTemplate sst, MemberVo vo) {
+		return sst.update("MemberSettingsMapper.editIntro", vo);
+	}
+
 }

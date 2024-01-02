@@ -32,5 +32,15 @@ public class MemberServiceHYJ {
 		}
 		return dao.editName(vo, sst);
 	}
+
+	//프로필 소개 변경
+	public int editIntro(MemberVo vo) throws Exception {
+		if(vo.getIntro() == null || vo.getIntro()=="") {
+			System.out.println("[MSI-S]소개 변경 실패");
+			throw new Exception();
+		}
+		
+		return dao.editIntro(sst, vo);
+	}
 	
 }

@@ -46,6 +46,19 @@ public class MemberControllerHYJ {
 	}
 	
 	//소개 변경
+	@PostMapping("intro")
+	public void editIntro(MemberVo vo) throws Exception {
+		int result = service.editIntro(vo);
+		
+		if(result != 1) {
+			System.out.println("[MSI-C]소개 변경 샐패");
+			throw new Exception();
+		}
+		
+		//TODO-HYJ : [setting-intro] syso말고 ajax처리
+		System.out.println("[MSI-C]소개 변경 성공");
+		
+	}
 	
 	//웹사이트 변경
 	
