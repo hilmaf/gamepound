@@ -1,5 +1,8 @@
 package com.gamepound.app.project.vo;
 
+import lombok.Data;
+
+@Data
 public class ProjectVo {
 	//프로젝트 상태
 	private String statusNo;
