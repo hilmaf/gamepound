@@ -45,7 +45,7 @@ public class MemberControllerHYJ {
 		System.out.println("[MSN-C]이름 변경 성공");
 	}
 	
-	//소개 변경
+	//프로필 소개 변경
 	@PostMapping("intro")
 	public void editIntro(MemberVo vo) throws Exception {
 		int result = service.editIntro(vo);
@@ -60,10 +60,22 @@ public class MemberControllerHYJ {
 		
 	}
 	
-	//웹사이트 변경
+	//프로필 웹사이트 변경
+	@PostMapping("siteUrl")
+	public void editSiteUrl(MemberVo vo) throws Exception {
+		int result = service.editSiteUrl(vo);
+		
+		if(result != 1) {
+			System.out.println("[MSS-C]웹사이트 변경 실패");
+			throw new Exception();
+		}
+		
+		//TODO-HYJ : [setting-siteUrl] syso말고 ajax처리ㄱㄱ
+		System.out.println("[MSS-C]웹사이트 변경 성공");
+	}
 	
-	//이메일 변경
+	//프로필 이메일 변경
 	
-	//비밀번호 변경
+	//프로필 비밀번호 변경
 	
 }

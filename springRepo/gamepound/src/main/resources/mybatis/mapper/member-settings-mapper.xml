@@ -21,4 +21,9 @@
   	SET INTRO = #{intro}
   	WHERE NO = #{no}
   </update>
+  <update id="editSiteUrl">
+  	UPDATE MEMBER
+  	SET SITE_URL = #{siteUrl}
+  	WHERE NO = #{no}
+  </update>
 </mapper>
