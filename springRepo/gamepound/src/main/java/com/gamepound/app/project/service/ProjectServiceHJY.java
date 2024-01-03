@@ -13,6 +13,8 @@ import com.gamepound.app.project.dao.ProjectDaoHJY;
 import com.gamepound.app.project.vo.ProjectVo;
 import com.gamepound.app.reward.dao.RewardDaoHJY;
 import com.gamepound.app.reward.vo.RewardVo;
+import com.gamepound.app.settlement.dao.SettlementDaoHJY;
+import com.gamepound.app.settlement.vo.SettlementVo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -26,6 +28,7 @@ public class ProjectServiceHJY {
 
 	private final ProjectDaoHJY dao;
 	private final RewardDaoHJY rewardDao;
+	private final SettlementDaoHJY settlementDao;
 	private final SqlSessionTemplate sst;
 
 	// 작성중 프로젝트 조회
@@ -125,6 +128,11 @@ public class ProjectServiceHJY {
 	// 프로젝트 작성조회 : 프로젝트 계획
 	public ProjectVo getDateplan(ProjectVo vo) {
 		return dao.getDateplan(sst, vo);
+	}
+
+	// 프로젝트 작성조회 : 창작자 정보
+	public SettlementVo getUserinfo(ProjectVo vo) {
+		return settlementDao.getSettlementByNo(sst, vo);
 	}
 	
 }

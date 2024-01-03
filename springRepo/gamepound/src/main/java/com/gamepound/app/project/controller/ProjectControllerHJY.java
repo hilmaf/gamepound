@@ -14,6 +14,7 @@ import com.gamepound.app.member.vo.MemberVo;
 import com.gamepound.app.project.service.ProjectServiceHJY;
 import com.gamepound.app.project.vo.ProjectVo;
 import com.gamepound.app.reward.vo.RewardVo;
+import com.gamepound.app.settlement.vo.SettlementVo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -118,7 +119,10 @@ public class ProjectControllerHJY {
 	
 	// 프로젝트 작성조회 : 창작자 정보 프로젝트 넘버필요
 	@GetMapping("get/userinfo")
-	public void getUserinfo() {}
+	public void getUserinfo(ProjectVo vo) {
+		SettlementVo settlementVo = service.getUserinfo(vo);
+		System.out.println("창작자 정보 : " + settlementVo);
+	}
 	// 프로젝트 작성저장 : 창작자 정보
 	@GetMapping("save/userinfo")
 	public void saveUserinfo() {}
