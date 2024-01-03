@@ -106,5 +106,10 @@ public class ProjectServiceHJY {
         double completionRate = ((double) completedTasks / totalTasks) * 100;
         return completionRate;
     }
+
+	// 프로젝트 작성조회 : 기본정보
+	public ProjectVo getBasic(ProjectVo vo) {
+		return dao.getBasic(sst, vo);
+	}
 	
 }

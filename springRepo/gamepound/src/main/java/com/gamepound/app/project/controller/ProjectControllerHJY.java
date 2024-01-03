@@ -64,37 +64,42 @@ public class ProjectControllerHJY {
 		System.out.println("창작자 정보 작성률 : " + map.get("userinfoPercent"));
 	}
 	
-	// 프로젝트 작성조회 : 기본정보
+	// 프로젝트 작성조회 : 기본정보 프로젝트 넘버필요
 	@GetMapping("get/basic")
-	public void basic() {}
+	public void getBasic(ProjectVo vo) {
+		
+		ProjectVo projectVo = service.getBasic(vo);
+		System.out.println("기본정보 : " + projectVo);
+		
+	}
 	// 프로젝트 작성저장 : 기본정보
 	@GetMapping("save/basic")
 	public void saveBasic() {}
 	
-	// 프로젝트 작성조회 : 펀딩계획
+	// 프로젝트 작성조회 : 펀딩계획 프로젝트 넘버필요
 	@GetMapping("get/plan")
-	public void plan() {}
+	public void getPlan() {}
 	// 프로젝트 작성저장 : 펀딩계획
 	@GetMapping("save/plan")
 	public void savePlan() {}
 	
-	// 프로젝트 작성조회 : 선물구성
+	// 프로젝트 작성조회 : 선물구성 프로젝트 넘버필요
 	@GetMapping("get/reword")
-	public void reword() {}
+	public void getReword() {}
 	// 프로젝트 작성저장 : 선물구성
 	@GetMapping("save/reword")
 	public void saveReword() {}
 	
-	// 프로젝트 작성조회 : 프로젝트 계획
+	// 프로젝트 작성조회 : 프로젝트 계획 프로젝트 넘버필요
 	@GetMapping("get/dateplan")
-	public void dateplan() {}
+	public void getDateplan() {}
 	// 프로젝트 작성저장 : 프로젝트 계획
 	@GetMapping("save/dateplan")
 	public void saveDateplan() {}
 	
-	// 프로젝트 작성조회 : 창작자 정보
+	// 프로젝트 작성조회 : 창작자 정보 프로젝트 넘버필요
 	@GetMapping("get/userinfo")
-	public void userinfo() {}
+	public void getUserinfo() {}
 	// 프로젝트 작성저장 : 창작자 정보
 	@GetMapping("save/userinfo")
 	public void saveUserinfo() {}

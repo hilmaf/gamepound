@@ -51,6 +51,12 @@
 		AND P.DELETE_YN = 'N'
 	</select>
 	
-	
+	<!-- 프로젝트 작성조회 : 기본정보 -->
+	<select id="getBasic" resultType="ProjectVo">
+		SELECT C.MAIN_CATEGORY, C.SUB_CATEGORY, P.TITLE, P.IMAGE_URL
+		FROM PROJECT P
+		JOIN CATEGORY C ON C.NO = P.CATEGORY_NO
+		WHERE P.NO = ${no}
+	</select>
 	
 </mapper>
