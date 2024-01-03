@@ -10,7 +10,8 @@ public class ProjectVo {
 	
 	//프로젝트 카테고리
 	private String categoryNo;
-	private String categoryName;
+	private String mainCategory;	//대분류
+	private String subCategory;		//소분류
 	
 	//프로젝트 작성자
 	private String memberNo;
