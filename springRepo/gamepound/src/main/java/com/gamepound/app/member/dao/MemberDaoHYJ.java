@@ -18,4 +18,19 @@ public class MemberDaoHYJ {
 		return sst.update("MemberSettingsMapper.editName", vo);
 	}
 
+	//프로필 소개 변경
+	public int editIntro(SqlSessionTemplate sst, MemberVo vo) {
+		return sst.update("MemberSettingsMapper.editIntro", vo);
+	}
+
+	//프로필 웹사이트 변경
+	public int editSiteUrl(SqlSessionTemplate sst, MemberVo vo) {
+		return sst.update("MemberSettingsMapper.editSiteUrl", vo);
+	}
+
+	//프로필 비밀번호 변경
+	public int editPwd(SqlSessionTemplate sst, MemberVo vo) {
+		return sst.update("MemberSettingsMapper.editPwd", vo);
+	}
+
 }

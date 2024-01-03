@@ -18,7 +18,7 @@ public class MemberServiceHYJ {
 	//프로필 사진 변경
 	public int editPic(MemberVo vo) throws Exception {
 		if(vo.getPic() == null || vo.getPic()=="") {
-			System.out.println("[MSP-S]사진 변경 실패");
+			System.out.println("[MSP-S]사진 변경 실패 vo예외 발생");
 			throw new Exception();
 		}
 		return dao.editPic(vo, sst);
@@ -27,10 +27,43 @@ public class MemberServiceHYJ {
 	//프로필 이름 변경
 	public int editName(MemberVo vo) throws Exception {
 		if(vo.getName() == null || vo.getName()=="") {
-			System.out.println("[MSN-S]이름 변경 실패");
+			System.out.println("[MSN-S]이름 변경 실패 vo예외 발생");
 			throw new Exception();
 		}
+		
+		//TODO-HYJ :이름 중복 확인 해야함 
+		
 		return dao.editName(vo, sst);
+	}
+
+	//프로필 소개 변경
+	public int editIntro(MemberVo vo) throws Exception {
+		if(vo.getIntro() == null || vo.getIntro()=="") {
+			System.out.println("[MSI-S]소개 변경 실패 vo예외 발생");
+			throw new Exception();
+		}
+		
+		return dao.editIntro(sst, vo);
+	}
+
+	//프로필 웹사이트 변경
+	public int editSiteUrl(MemberVo vo) throws Exception {
+		if(vo.getSiteUrl() == null || vo.getSiteUrl() == "") {
+			System.out.println("[MSS-S]웹사이트 변경 실패 vo예외 발생");
+			throw new Exception();
+		}
+		
+		return dao.editSiteUrl(sst, vo);
+	}
+
+	//프로필 비밀번호 변경
+	public int editPwd(MemberVo vo) throws Exception {
+		if(vo.getPwd() == null || vo.getPwd() == "") {
+			System.out.println("[MSP-S]비밀번호 변경 실패 vo예외 발생");
+			throw new Exception();
+		}
+		
+		return dao.editPwd(sst, vo);
 	}
 	
 }
