@@ -13,12 +13,16 @@ import com.gamepound.app.review.vo.ReviewVo;
 
 public class UserPageDao {
 
-//	public Map<String, Object> listReview(SqlSessionTemplate sst, String memberNo) {
-//		// 리뷰 목록
-//		List<ReviewVo> reviewList = sst.selectList("ReviewMapper.listReview", memberNo);
-//		
-//		return ;
-//	}
+	// 리뷰 목록
+	public List<ReviewVo> listReview(SqlSessionTemplate sst, String memberNo) {
+		return sst.selectList("ReviewMapper.listReview", memberNo);
+	}
+
+	// 리뷰 통계 정보
+	public ReviewStatVo getStat(SqlSessionTemplate sst, String memberNo) {
+		return sst.selectOne("ReviewMapper.getStat", memberNo);
+	}
+	
 
 	
 }

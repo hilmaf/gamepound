@@ -9,6 +9,7 @@ import com.gamepound.app.review.vo.ReviewVo;
 
 public class ReviewDaoLKM {
 
+	// 리뷰 작성
 	public int write(SqlSessionTemplate sst, ReviewVo vo) {
 		return sst.insert("ReviewMapper.write", vo);
 	}
