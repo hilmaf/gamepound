@@ -4,7 +4,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.gamepound.app.back.service.BackServiceLKM;
 import com.gamepound.app.back.vo.BackVo;
@@ -25,6 +24,13 @@ public class BackControllerLKM {
 	 * - 결제일에 결제 성공 및 실패 시 그에 따라 결제 상태 update
 	 * - 결제 실패 시 +7일 후 결제 요청 다시 하게끔 로직 설정
 	 */
+	
+	// 후원하기(화면)
+	@GetMapping("process")
+	public BackVo viewBackPage(BackVo vo) throws Exception {
+		return vo;
+	}
+	
 	// 후원하기
 	@PostMapping("process")
 	public void back(BackVo vo) throws Exception {
