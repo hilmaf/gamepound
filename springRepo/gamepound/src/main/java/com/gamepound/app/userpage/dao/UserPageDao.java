@@ -17,8 +17,6 @@ public class UserPageDao {
 //		// 리뷰 목록
 //		List<ReviewVo> reviewList = sst.selectList("ReviewMapper.listReview", memberNo);
 //		
-//		// 리뷰 통계
-//		
 //		return ;
 //	}
 

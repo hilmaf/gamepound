@@ -16,6 +16,7 @@ public class UserPageService {
 
 //	private final SqlSessionTemplate sst;
 //	private final UserPageDao dao;
+//	
 //	public Map<String, Object> listReview(String memberNo) {
 //		return dao.listReview(sst, memberNo);
 //	}

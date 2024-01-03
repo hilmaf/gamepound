@@ -23,4 +23,6 @@ public class ReviewVo {
 	private String projectNo;
 	private String projectName;
 	
+	// 후원 정보
+	private String backerNo;
 }
