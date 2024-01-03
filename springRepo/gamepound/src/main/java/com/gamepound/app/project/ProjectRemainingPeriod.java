@@ -1,6 +1,5 @@
 package com.gamepound.app.project;
 
-import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -19,6 +18,7 @@ public class ProjectRemainingPeriod {
 		    Date endDate_ = df.parse(endDate);
 		    
 		    diff = Integer.toString((int) ((endDate_.getTime() - currentDate.getTime()) / (24*60*60*1000)));
+		    
 	    } catch(Exception e) {
 	    	e.printStackTrace();
 	    }
