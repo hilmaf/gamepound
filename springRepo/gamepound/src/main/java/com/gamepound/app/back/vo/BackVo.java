@@ -42,22 +42,4 @@ public class BackVo {
 	private String paymentAmount; // == 최종 후원 금액
 	private String paymentStatus;
 	
-	
-	// TODO : 마감기한까지 n일
-	public String getRemainPeriod(String endDate) {
-	    try {
-	    	DateFormat df = new SimpleDateFormat("yy/mm/dd HH:mm:ss");
-		    Date date = df.parse(endDate);
-		    long timeStamp = date.getTime();
-		    Timestamp endDate_ = new Timestamp(timeStamp);
-		    
-		    System.out.println(endDate);
-		    
-		    Date currentDate = new Date();
-	    } catch(Exception e) {
-	    	
-	    }
-		return "";
-	}
-	
 }
