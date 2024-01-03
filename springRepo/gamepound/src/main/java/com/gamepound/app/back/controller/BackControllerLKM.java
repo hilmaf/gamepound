@@ -45,7 +45,7 @@ public class BackControllerLKM {
 		System.out.println("후원 완료");
 	}
 	
-	// 후원 완료
+	// 후원 완료(화면)
 	@GetMapping("completed")
 	public void completed(String projectNo) {
 		
@@ -54,11 +54,20 @@ public class BackControllerLKM {
 		System.out.println(nthBacker);
 	}
 	
+	// 후원 취소(화면) - 불필요
+	
 	// 후원 취소
 	@PostMapping("canceled")
 	public void cancel(String backNo) {
 		int result = service.cancel(backNo);
 	
 		System.out.println(result);
+	}
+	
+	// 후원 상세 조회
+	@GetMapping("detail")
+	public void detail(String backNo) {
+		BackVo vo = service.detail(backNo);
+		
 	}
 }
