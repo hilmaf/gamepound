@@ -3,7 +3,54 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ProjectCreateMapper">
-	<select id="getCurrentProject" resultType="com.gamepound.app.project.vo.ProjectVo">
-		SELECT * FROM PROJECT WHERE STATUS_NO = 1 AND MEMBER_NO = #{no}
+
+	<!-- 작성중 프로젝트 조회 -->
+	<select id="getCurrentProject" resultType="ProjectVo">
+		SELECT * FROM PROJECT WHERE STATUS_NO = 1 AND MEMBER_NO = #{no} AND DELETE_YN = 'N'
 	</select>
+	
+	<!-- 프로젝트 올리기 (카테고리 저장 및 insert) -->
+	<insert id="newProject">
+		INSERT INTO PROJECT(NO, CATEGORY_NO, MEMBER_NO) 
+		VALUES (SEQ_PROJECT_NO.NEXTVAL, ${categoryNo}, ${memberNo})
+	</insert>
+	
+	<!-- 프로젝트 내용 조회 (메인) -->
+	<select id="createMain" resultType="ProjectVo">
+		SELECT
+		    P.NO
+		    , P.STATUS_NO
+		    , C.MAIN_CATEGORY
+		    , C.SUB_CATEGORY
+		    , P.MEMBER_NO
+		    , M.NAME AS MEMBER_NAME
+		    , P.TITLE
+		    , P.GOAL_AMOUNT
+		    , P.IMAGE_URL
+		    , P.TXT_DESCRIPTION
+		    , P.TXT_BUDGET
+		    , P.TXT_SCHEDULE
+		    , P.TXT_TEAM
+		    , P.TXT_ITEM
+		    , P.CURRENT_AMOUNT
+		    , P.OK_YN
+		    , P.OK_DATE
+		    , P.ENROLL_DATE
+		    , P.START_DATE
+		    , P.END_DATE
+		    , P.CAL_DATE
+		    , P.DELETE_YN
+		    , S.BANK_NAME
+		    , S.NAME
+		    , S.ACCOUNT_NUM
+		FROM PROJECT P
+		JOIN MEMBER M ON P.MEMBER_NO = M.NO
+		JOIN CATEGORY C ON P.CATEGORY_NO = C.NO
+		JOIN SETTLEMENT_INFO S ON P.NO = S.PROJECT_NO
+		WHERE P.NO = ${no}
+		AND P.DELETE_YN = 'N'
+	</select>
+	
+	
+	
 </mapper>
