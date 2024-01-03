@@ -36,4 +36,9 @@ public class ProjectDaoHJY {
 		return sst.selectOne("ProjectCreateMapper.getBasic", vo);
 	}
 
+	// 프로젝트 작성조회 : 펀딩계획
+	public ProjectVo getPlan(SqlSessionTemplate sst, ProjectVo vo) {
+		return sst.selectOne("ProjectCreateMapper.getPlan", vo);
+	}
+
 }

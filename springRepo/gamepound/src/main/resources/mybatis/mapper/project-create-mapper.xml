@@ -59,4 +59,11 @@
 		WHERE P.NO = ${no}
 	</select>
 	
+	<!-- 프로젝트 작성조회 : 펀딩계획 -->
+	<select id="getPlan" resultType="ProjectVo">
+		SELECT TO_CHAR(GOAL_AMOUNT, '999,999,999') AS GOAL_AMOUNT, TO_CHAR(START_DATE, 'YYYY-MM-DD') AS START_DATE, TO_CHAR(END_DATE, 'YYYY-MM-DD') AS END_DATE
+		FROM PROJECT
+		WHERE NO = #{no}
+	</select>
+	
 </mapper>

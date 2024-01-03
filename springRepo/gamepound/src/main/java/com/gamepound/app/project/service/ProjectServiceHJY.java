@@ -111,5 +111,10 @@ public class ProjectServiceHJY {
 	public ProjectVo getBasic(ProjectVo vo) {
 		return dao.getBasic(sst, vo);
 	}
+
+	// 프로젝트 작성조회 : 펀딩계획
+	public ProjectVo getPlan(ProjectVo vo) {
+		return dao.getPlan(sst, vo);
+	}
 	
 }

@@ -78,7 +78,12 @@ public class ProjectControllerHJY {
 	
 	// 프로젝트 작성조회 : 펀딩계획 프로젝트 넘버필요
 	@GetMapping("get/plan")
-	public void getPlan() {}
+	public void getPlan(ProjectVo vo) {
+		
+		ProjectVo projectVo = service.getPlan(vo);
+		System.out.println("펀딩계획 : " + projectVo);
+		
+	}
 	// 프로젝트 작성저장 : 펀딩계획
 	@GetMapping("save/plan")
 	public void savePlan() {}
