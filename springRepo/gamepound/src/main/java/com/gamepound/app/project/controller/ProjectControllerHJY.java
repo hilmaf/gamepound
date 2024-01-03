@@ -76,8 +76,17 @@ public class ProjectControllerHJY {
 		
 	}
 	// 프로젝트 작성저장 : 기본정보
-	@GetMapping("save/basic")
-	public void saveBasic() {}
+	@PostMapping("save/basic")
+	public void saveBasic(ProjectVo vo) throws Exception {
+		System.out.println(vo);
+		int result = service.saveBasic(vo);
+		if(result != 1) {
+			throw new Exception("프로젝트 기본정보 작성에 실패했습니다.");
+		}
+		System.out.println("프로젝트 작성저장 결과 : " + result);
+		
+	}
+	
 	
 	// 프로젝트 작성조회 : 펀딩계획 프로젝트 넘버필요
 	@GetMapping("get/plan")
@@ -88,8 +97,9 @@ public class ProjectControllerHJY {
 		
 	}
 	// 프로젝트 작성저장 : 펀딩계획
-	@GetMapping("save/plan")
+	@PostMapping("save/plan")
 	public void savePlan() {}
+	
 	
 	// 프로젝트 작성조회 : 선물구성 프로젝트 넘버필요
 	@GetMapping("get/reword")
@@ -100,11 +110,12 @@ public class ProjectControllerHJY {
 		
 	}
 	// 프로젝트 작성저장 : 선물구성
-	@GetMapping("save/reword")
+	@PostMapping("save/reword")
 	public void saveReword() {}
 	// 프로젝트 선물삭제 : 선물구성
 	@GetMapping("delete/reword")
 	public void deleteReword() {}
+	
 	
 	// 프로젝트 작성조회 : 프로젝트 계획 프로젝트 넘버필요
 	@GetMapping("get/dateplan")
@@ -114,9 +125,11 @@ public class ProjectControllerHJY {
 		System.out.println("프로젝트 계획 : " + projectVo);
 		
 	}
+	// 프로젝트 작성저장 : 프로젝트 계획 작성시 이미지 업로드 메소드 추가 TODO-현지연 : 선생님이 갤러리 할 시 만들어야함
 	// 프로젝트 작성저장 : 프로젝트 계획
-	@GetMapping("save/dateplan")
+	@PostMapping("save/dateplan")
 	public void saveDateplan() {}
+	
 	
 	// 프로젝트 작성조회 : 창작자 정보 프로젝트 넘버필요
 	@GetMapping("get/userinfo")
@@ -125,7 +138,7 @@ public class ProjectControllerHJY {
 		System.out.println("창작자 정보 : " + settlementVo);
 	}
 	// 프로젝트 작성저장 : 창작자 정보
-	@GetMapping("save/userinfo")
+	@PostMapping("save/userinfo")
 	public void saveUserinfo() {}
 	
 }

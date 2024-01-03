@@ -76,4 +76,17 @@
 		AND DELETE_YN = 'N'
 	</select>
 	
+	
+	
+	<!-- 프로젝트 작성저장 : 기본정보 -->
+	<update id="saveBasic">
+		UPDATE PROJECT
+		    SET 
+		    CATEGORY_NO = #{categoryNo}
+		    , TITLE = #{title}
+		    , IMAGE_URL = #{imageUrl}
+		WHERE NO = #{no}
+	</update>
+	
+	
 </mapper>

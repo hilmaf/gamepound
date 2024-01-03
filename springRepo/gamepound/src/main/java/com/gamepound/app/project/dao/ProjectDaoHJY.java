@@ -46,4 +46,11 @@ public class ProjectDaoHJY {
 		return sst.selectOne("ProjectCreateMapper.getDateplan", vo);
 	}
 
+	
+	
+	// 프로젝트 작성저장 : 기본정보
+	public int saveBasic(SqlSessionTemplate sst, ProjectVo vo) {
+		return sst.update("ProjectCreateMapper.saveBasic", vo);
+	}
+
 }

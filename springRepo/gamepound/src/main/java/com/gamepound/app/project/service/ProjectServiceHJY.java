@@ -139,5 +139,12 @@ public class ProjectServiceHJY {
 	public SettlementVo getUserinfo(ProjectVo vo) {
 		return settlementDao.getSettlementByNo(sst, vo);
 	}
+
+	
+	
+	// 프로젝트 작성저장 : 기본정보
+	public int saveBasic(ProjectVo vo) {
+		return dao.saveBasic(sst, vo);
+	}
 	
 }
