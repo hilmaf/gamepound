@@ -31,8 +31,6 @@ public class MemberServiceHYJ {
 			throw new Exception();
 		}
 		
-		//TODO-HYJ :이름 중복 확인 해야함 
-		
 		return dao.editName(vo, sst);
 	}
 
