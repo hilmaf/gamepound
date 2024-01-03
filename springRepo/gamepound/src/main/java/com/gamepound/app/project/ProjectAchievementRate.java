@@ -6,7 +6,7 @@ public class ProjectAchievementRate {
 	public String achievementRate(String goalAmount, String currentAmount) {
 		int goalA = Integer.parseInt(goalAmount);
 		int currentA = Integer.parseInt(currentAmount);
-		int result = (goalA*100)/currentA;
+		int result = (currentA*100)/goalA;
 		
 		return Integer.toString(result);
 	}
