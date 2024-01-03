@@ -77,6 +77,9 @@ public class ProjectControllerHJY {
 
 		System.out.println(mainVo);
 		System.out.println("기본정보 작성 : " + basicPercent + "%");
+		System.out.println("펀딩계획 작성률 : " + planPercent + "%");
+		System.out.println("프로젝트계획 작성률 : " + dateplanPercent + "%");
+		System.out.println("창작자 정보 작성률 : " + userinfoPercent + "%");
 	}
 	
 	// 프로젝트 작성조회 : 기본정보

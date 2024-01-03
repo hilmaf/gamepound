@@ -1,6 +1,8 @@
 package com.gamepound.app.project.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
@@ -38,11 +40,40 @@ public class ProjectServiceHJY {
 	// 프로젝트 내용 조회 (메인)
 	public ProjectVo createMain(ProjectVo vo) {
 		
-		return dao.createMain(sst, vo);
+		ProjectVo mainVo = dao.createMain(sst, vo);
+		
+		Map<String, Object> map = new HashMap<String, Object>(); 
+		map.put("mainVo", mainVo);
+		
+		// 기본정보 작성률
+		String[] basic = {mainVo.getCategoryName(), mainVo.getTitle(), mainVo.getImageUrl(), mainVo.getCategoryName()};
+		double basicPercent = calculateCompletionRate(basic);
+		map.put("basicPercent", basicPercent);
+		
+		// 펀딩계획 작성률
+		String[] plan = {mainVo.getGoalAmount(), mainVo.getStartDate(), mainVo.getEndDate()};
+		double planPercent = calculateCompletionRate(plan);
+		map.put("planPercent", planPercent);
+		
+		// 선물 작성률 : 선물 테이블에 행이있으면 100% 아니면 0%
+		
+		//if() {}
+		
+		// 프로젝트계획 작성률
+		String[] dateplan = {mainVo.getTxtDescription(), mainVo.getTxtBudget(), mainVo.getTxtSchedule(), mainVo.getTxtTeam(), mainVo.getTxtItem()};
+		double dateplanPercent = calculateCompletionRate(dateplan);
+		map.put("dateplanPercent", dateplanPercent);
+		
+		// 창작자 정보 작성률
+		String[] userinfo = {};
+		double userinfoPercent = calculateCompletionRate(userinfo);
+		map.put("userinfoPercent", userinfoPercent);
+		
+		return mainVo;
 	}
 	
 	// 작성률 계산
-	public static double calculateCompletionRate(String[] row) {
+	public double calculateCompletionRate(String[] row) {
         if (row == null || row.length == 0) {
             // 배열이나 리스트가 null이거나 비어있으면 작업이 없음
             return 0.0;
