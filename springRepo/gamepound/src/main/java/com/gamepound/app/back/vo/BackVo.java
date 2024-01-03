@@ -19,8 +19,8 @@ public class BackVo {
 	private String projectCategory;
 	private String projectSubCategory;
 	private String projectName;
-	private int goalAmount;
-	private int currentAmount;
+	private String goalAmount;
+	private String currentAmount;
 	// 달성률
 	private String achievedRate;
 	// 마감기한까지 D-N
@@ -42,10 +42,6 @@ public class BackVo {
 	private String paymentAmount; // == 최종 후원 금액
 	private String paymentStatus;
 	
-
-	public int getAchievedRate(int goalAmount, int currentAmount) {
-		return currentAmount/goalAmount * 100;
-	}
 	
 	// TODO : 마감기한까지 n일
 	public String getRemainPeriod(String endDate) {
