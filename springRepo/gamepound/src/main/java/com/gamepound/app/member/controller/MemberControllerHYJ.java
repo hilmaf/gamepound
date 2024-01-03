@@ -88,6 +88,6 @@ public class MemberControllerHYJ {
 		System.out.println("[MSP-C]비밀번호 변경 성공");
 	}
 	
-	//프로필 이메일 변경
+
 	
 }
