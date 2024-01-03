@@ -26,5 +26,4 @@ public class UserPageController {
 		System.out.println(map);
 	}
 	
-	
 }

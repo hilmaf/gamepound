@@ -15,6 +15,7 @@ public class ReviewServiceLKM {
 	private final SqlSessionTemplate sst;
 	private final ReviewDaoLKM dao;
 	
+	// 리뷰 작성
 	public int write(ReviewVo vo) {	
 		return dao.write(sst, vo);
 	}

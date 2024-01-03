@@ -27,7 +27,7 @@ public class BackControllerLKM {
 	 */
 	// 후원하기
 	@PostMapping("process")
-	public String back(BackVo vo) throws Exception {
+	public void back(BackVo vo) throws Exception {
 		int result = service.back(vo);
 		
 		if(result != 1) {
@@ -35,26 +35,24 @@ public class BackControllerLKM {
 			throw new Exception();
 		}
 		
+		System.out.println(result);
 		System.out.println("후원 완료");
-		
-		return "redirect:/";
 	}
 	
 	// 후원 완료
 	@GetMapping("completed")
-	@ResponseBody
-	public String completed(String projectNo) {
+	public void completed(String projectNo) {
 		
 		String nthBacker = service.cntBacker(projectNo);
 		
-		return nthBacker;
+		System.out.println(nthBacker);
 	}
 	
 	// 후원 취소
 	@PostMapping("canceled")
-	public String cancel(String backNo) {
+	public void cancel(String backNo) {
 		int result = service.cancel(backNo);
-		
-		return "";
+	
+		System.out.println(result);
 	}
 }
