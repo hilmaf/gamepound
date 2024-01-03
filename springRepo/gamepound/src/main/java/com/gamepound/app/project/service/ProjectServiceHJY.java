@@ -81,8 +81,9 @@ public class ProjectServiceHJY {
 		double dateplanPercent = calculateCompletionRate(dateplan);
 		map.put("dateplanPercent", dateplanPercent);
 		
-		// 창작자 정보 작성률 TODO-현지연 ProjectDetailVo 만들어지면 수정하기
-		String[] userinfo = {};
+		// 창작자 정보 작성률
+		SettlementVo settlementVo = settlementDao.getSettlementByNo(sst, mainVo);
+		String[] userinfo = {settlementVo.getBankName(), settlementVo.getName(), settlementVo.getAccountNum()};
 		double userinfoPercent = calculateCompletionRate(userinfo);
 		map.put("userinfoPercent", userinfoPercent);
 		
