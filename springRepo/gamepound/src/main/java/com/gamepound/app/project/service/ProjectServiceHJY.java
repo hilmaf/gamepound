@@ -87,6 +87,10 @@ public class ProjectServiceHJY {
 		double userinfoPercent = calculateCompletionRate(userinfo);
 		map.put("userinfoPercent", userinfoPercent);
 		
+		// 전체 작성률
+		double totalCompletionRate = (basicPercent + planPercent + rewardPercent + dateplanPercent + userinfoPercent) / 5;
+		map.put("totalCompletionRate", totalCompletionRate);
+		
 		return map;
 	}
 	

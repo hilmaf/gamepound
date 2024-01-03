@@ -64,6 +64,7 @@ public class ProjectControllerHJY {
 		System.out.println("선물 작성률 : " + map.get("rewardPercent"));
 		System.out.println("프로젝트계획 작성률 : " + map.get("dateplanPercent"));
 		System.out.println("창작자 정보 작성률 : " + map.get("userinfoPercent"));
+		System.out.println("전체 작성률 : " + map.get("totalCompletionRate"));
 	}
 	
 	// 프로젝트 작성조회 : 기본정보 프로젝트 넘버필요
