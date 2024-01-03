@@ -1,6 +1,7 @@
 package com.gamepound.app.project.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -53,33 +54,14 @@ public class ProjectControllerHJY {
 	// 프로젝트 내용 조회 (메인) 프로젝트 넘버필요
 	@GetMapping("create/main")
 	public void createMain(ProjectVo vo) {
-		ProjectVo mainVo = service.createMain(vo);
+		Map<String, Object> map = service.createMain(vo);
 		
-		// 기본정보 작성률
-		String[] basic = {mainVo.getCategoryName(), mainVo.getTitle(), mainVo.getImageUrl(), mainVo.getCategoryName()};
-		double basicPercent = service.calculateCompletionRate(basic);
-		
-		// 펀딩계획 작성률
-		String[] plan = {mainVo.getGoalAmount(), mainVo.getStartDate(), mainVo.getEndDate()};
-		double planPercent = service.calculateCompletionRate(plan);
-		
-		String[] reword = {};
-		double rewordPercent = service.calculateCompletionRate(reword);
-		
-		// 프로젝트계획 작성률
-		String[] dateplan = {mainVo.getTxtDescription(), mainVo.getTxtBudget(), mainVo.getTxtSchedule(), mainVo.getTxtTeam(), mainVo.getTxtItem()};
-		double dateplanPercent = service.calculateCompletionRate(dateplan);
-		
-		// 창작자 정보 작성률
-		String[] userinfo = {};
-		double userinfoPercent = service.calculateCompletionRate(userinfo);
-		
-
-		System.out.println(mainVo);
-		System.out.println("기본정보 작성 : " + basicPercent + "%");
-		System.out.println("펀딩계획 작성률 : " + planPercent + "%");
-		System.out.println("프로젝트계획 작성률 : " + dateplanPercent + "%");
-		System.out.println("창작자 정보 작성률 : " + userinfoPercent + "%");
+		System.out.println("메인vo : " + map.get("mainVo"));
+		System.out.println("기본정보 작성률 : " + map.get("basicPercent"));
+		System.out.println("펀딩계획 작성률 : " + map.get("planPercent"));
+		System.out.println("선물 작성률 : " + map.get("rewardPercent"));
+		System.out.println("프로젝트계획 작성률 : " + map.get("dateplanPercent"));
+		System.out.println("창작자 정보 작성률 : " + map.get("userinfoPercent"));
 	}
 	
 	// 프로젝트 작성조회 : 기본정보

@@ -7,9 +7,14 @@ import org.springframework.stereotype.Repository;
 
 import com.gamepound.app.member.vo.MemberVo;
 import com.gamepound.app.project.vo.ProjectVo;
+import com.gamepound.app.reward.vo.RewardVo;
 
 @Repository
 public class ProjectDaoHJY {
+	
+	/**
+	 * 현지연 프로젝트 dao
+	 * */
 
 	// 작성중 프로젝트 조회
 	public List<ProjectVo> getCurrentProject(SqlSessionTemplate sst, MemberVo loginMember) {
