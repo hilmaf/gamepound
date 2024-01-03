@@ -16,4 +16,14 @@ public class ProjectDaoHJY {
 		return sst.selectList("ProjectCreateMapper.getCurrentProject", loginMember);
 	}
 
+	// 프로젝트 올리기 (카테고리 저장 및 insert)
+	public int newProject(SqlSessionTemplate sst, ProjectVo vo) {
+		return sst.insert("ProjectCreateMapper.newProject", vo);
+	}
+
+	// 프로젝트 내용 조회 (메인)
+	public ProjectVo createMain(SqlSessionTemplate sst, ProjectVo vo) {
+		return sst.selectOne("ProjectCreateMapper.createMain", vo);
+	}
+
 }
