@@ -41,4 +41,9 @@ public class ProjectDaoHJY {
 		return sst.selectOne("ProjectCreateMapper.getPlan", vo);
 	}
 
+	// 프로젝트 작성조회 : 프로젝트 계획
+	public ProjectVo getDateplan(SqlSessionTemplate sst, ProjectVo vo) {
+		return sst.selectOne("ProjectCreateMapper.getDateplan", vo);
+	}
+
 }

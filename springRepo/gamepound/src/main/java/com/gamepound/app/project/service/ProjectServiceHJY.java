@@ -117,9 +117,14 @@ public class ProjectServiceHJY {
 		return dao.getPlan(sst, vo);
 	}
 
-	// 프로젝트 작성조회 : 선물구성 프로젝트 넘버필요
+	// 프로젝트 작성조회 : 선물구성
 	public List<RewardVo> getReword(ProjectVo vo) {
 		return rewardDao.getRewardListByNo(sst, vo);
+	}
+
+	// 프로젝트 작성조회 : 프로젝트 계획
+	public ProjectVo getDateplan(ProjectVo vo) {
+		return dao.getDateplan(sst, vo);
 	}
 	
 }

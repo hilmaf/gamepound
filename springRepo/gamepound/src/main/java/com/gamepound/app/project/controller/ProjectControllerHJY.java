@@ -106,7 +106,12 @@ public class ProjectControllerHJY {
 	
 	// 프로젝트 작성조회 : 프로젝트 계획 프로젝트 넘버필요
 	@GetMapping("get/dateplan")
-	public void getDateplan() {}
+	public void getDateplan(ProjectVo vo) {
+		
+		ProjectVo projectVo = service.getDateplan(vo);
+		System.out.println("프로젝트 계획 : " + projectVo);
+		
+	}
 	// 프로젝트 작성저장 : 프로젝트 계획
 	@GetMapping("save/dateplan")
 	public void saveDateplan() {}

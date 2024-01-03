@@ -68,4 +68,12 @@
 		AND DELETE_YN = 'N'
 	</select>
 	
+	<!-- 프로젝트 작성조회 : 프로젝트 계획 -->
+	<select id="getDateplan" resultType="ProjectVo">
+		SELECT TXT_DESCRIPTION, TXT_BUDGET, TXT_SCHEDULE, TXT_TEAM, TXT_ITEM
+		FROM PROJECT
+		WHERE NO = #{no}
+		AND DELETE_YN = 'N'
+	</select>
+	
 </mapper>
