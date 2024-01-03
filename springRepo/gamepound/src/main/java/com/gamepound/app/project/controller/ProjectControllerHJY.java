@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.gamepound.app.member.vo.MemberVo;
 import com.gamepound.app.project.service.ProjectServiceHJY;
 import com.gamepound.app.project.vo.ProjectVo;
+import com.gamepound.app.reward.vo.RewardVo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -90,10 +91,18 @@ public class ProjectControllerHJY {
 	
 	// 프로젝트 작성조회 : 선물구성 프로젝트 넘버필요
 	@GetMapping("get/reword")
-	public void getReword() {}
+	public void getReword(ProjectVo vo) {
+		
+		List<RewardVo> projectVo = service.getReword(vo);
+		System.out.println("선물 : " + projectVo);
+		
+	}
 	// 프로젝트 작성저장 : 선물구성
 	@GetMapping("save/reword")
 	public void saveReword() {}
+	// 프로젝트 선물삭제 : 선물구성
+	@GetMapping("delete/reword")
+	public void deleteReword() {}
 	
 	// 프로젝트 작성조회 : 프로젝트 계획 프로젝트 넘버필요
 	@GetMapping("get/dateplan")
