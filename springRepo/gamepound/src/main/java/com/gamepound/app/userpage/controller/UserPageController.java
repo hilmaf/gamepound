@@ -18,13 +18,13 @@ public class UserPageController {
 	private final UserPageService service;
 	
 	// 특정 창작자에게 달린 리뷰 목록 조회하기
-//	@GetMapping("list")
-//	public Map<String, Object> listReview(String memberNo) {
-//		
-//		Map<String, Object> map = service.listReview(memberNo);
-//		
-//		return map;
-//	}
+	@GetMapping("list")
+	public void listReview(String memberNo) {
+		
+		Map<String, Object> map = service.listReview(memberNo);
+		
+		System.out.println(map);
+	}
 	
 	
 }
