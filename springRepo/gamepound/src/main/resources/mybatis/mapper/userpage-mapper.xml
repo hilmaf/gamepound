@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="UserPageMapper">
+  
+  <!-- 리뷰 목록 조회 -->
+<select id="listReview" resultType="com.gamepound.app.review.vo.ReviewVo">
+	SELECT
+	    R.NO
+	    , R.MEMBER_NO
+	    , R.PROJECT_NO
+	    , R.BACKER_NO
+	    , R.CONTENT
+	    , R.IMAGE
+	    , R.RATING
+	    , TO_CHAR(R.ENROLL_DATE, 'YY"년" MM"월" DD"일"')
+	FROM REVIEW R
+	JOIN PROJECT P ON R.PROJECT_NO = P.NO 
+	WHERE P.MEMBER_NO = #{memberNo}
+</select>
+
+<select id="getReviewStat" resultType="com.gamepound.app.review.vo.ReviewStatVo">
+	SELECT
+	    AVG(R.RATING)   RATING_AVG
+	    , COUNT(R.RATING) TOTAL_COUNT
+	    , COUNT(CASE WHEN R.RATING = 1 THEN 1 END) AS COUNT_RATING_1
+	    , COUNT(CASE WHEN R.RATING = 2 THEN 1 END) AS COUNT_RATING_2
+	    , COUNT(CASE WHEN R.RATING = 3 THEN 1 END) AS COUNT_RATING_3
+	    , COUNT(CASE WHEN R.RATING = 4 THEN 1 END) AS COUNT_RATING_4
+	    , COUNT(CASE WHEN R.RATING = 5 THEN 1 END) AS COUNT_RATING_5
+	FROM REVIEW R
+	JOIN PROJECT P ON P.NO = R.PROJECT_NO
+	WHERE P.MEMBER_NO = #{memberNo}
+</select>
+
+<!-- 리뷰 작성 -->
+<insert id="writeReview">
+	INSERT INTO REVIEW(
+	    NO
+	    , MEMBER_NO
+	    , PROJECT_NO
+	    , BACKER_NO
+	    , CONTENT
+	    , IMAGE
+	    , RATING
+	)
+	VALUES(
+	    SEQ_REVIEW_NO.NEXTVAL
+	    , #{memberNo}
+	    , #{projectNo}
+	    , #{backerNo}
+	    , #{content}
+	    , #{reviewImg}
+	    , #{rating}
+	)
+</insert>
+
+<!-- 내가 올린 프로젝트 목록 조회 -->
+<select id="listMyProjects" resultType="ProjectVo">
+	SELECT
+	    C.MAIN_CATEGORY
+	    , C.SUB_CATEGORY
+	    , M.NAME
+	    , P.TITLE
+	    , REGEXP_REPLACE(REVERSE(REGEXP_REPLACE(REVERSE(TO_CHAR(P.CURRENT_AMOUNT)), '(\d{3})', '\1,')), '^,', '') AS CURRENT_AMOUNT
+	    , REGEXP_REPLACE(REVERSE(REGEXP_REPLACE(REVERSE(TO_CHAR(P.GOAL_AMOUNT)), '(\d{3})', '\1,')), '^,', '') AS GOAL_AMOUNT
+	FROM PROJECT P
+	JOIN CATEGORY C ON P.CATEGORY_NO = C.NO
+	JOIN MEMBER M ON P.MEMBER_NO = M.NO
+	WHERE P.MEMBER_NO = #{memberNo}
+</select>
+
+<select id="backedSuccessfully" resultType="BackVo">
+	SELECT
+	    B.NO
+	    , PS.STATUS
+	    , P.TITLE
+	    , R.NAME
+	    , TO_CHAR(PAY.PAYMENT_DATE, 'YY"년" MM"월" DD"일"')
+	    , PSTAT.PAYMENT_STATUS
+	FROM BACKER B
+	JOIN PROJECT P ON P.NO = B.PROJECT_NO
+	JOIN PROJECT_STATUS PS ON PS.NO = P.STATUS_NO
+	JOIN PAYMENT PAY ON PAY.BACKER_NO = B.NO
+	JOIN PAYMENT_STATUS PSTAT ON PSTAT.NO = PAY.PAYMENT_STATUS_NO
+	JOIN PAYMENT_TYPE PTYPE ON PTYPE.NO = PAY.PAYMENT_TYPE_NO
+	JOIN REWARD R ON P.NO = R.PROJECT_NO
+	WHERE B.MEMBER_NO = #{memberNo} AND R.NO = B.REWARD_NO AND P.STATUS_NO = 6
+</select>
+
+<select id="backedUnsuccessfully" resultType="BackVo">
+	SELECT
+	    B.NO
+	    , PS.STATUS
+	    , P.TITLE
+	    , R.NAME
+	    , TO_CHAR(PAY.PAYMENT_DATE, 'YY"년" MM"월" DD"일"')
+	    , PSTAT.PAYMENT_STATUS
+	FROM BACKER B
+	JOIN PROJECT P ON P.NO = B.PROJECT_NO
+	JOIN PROJECT_STATUS PS ON PS.NO = P.STATUS_NO
+	JOIN PAYMENT PAY ON PAY.BACKER_NO = B.NO
+	JOIN PAYMENT_STATUS PSTAT ON PSTAT.NO = PAY.PAYMENT_STATUS_NO
+	JOIN PAYMENT_TYPE PTYPE ON PTYPE.NO = PAY.PAYMENT_TYPE_NO
+	JOIN REWARD R ON P.NO = R.PROJECT_NO
+	WHERE B.MEMBER_NO = #{memberNo} AND R.NO = B.REWARD_NO AND (P.STATUS_NO = 7 OR B.RETRACT_YN='Y')
+</select>
+  
+</mapper>
