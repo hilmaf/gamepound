@@ -146,4 +146,70 @@
 	ORDER BY START_DATE DESC
   </select>
   
+  <!-- 프로젝트 마감임박순 목록 가져오기 -->
+  <select id="ListImminent" resultType="ProjectVo">
+   <![CDATA[
+	SELECT 
+	    NO
+	    , STATUS_NO
+	    , IMAGE_URL
+	    , CATEGORY_NO
+	    , MAIN_CATEGORY
+	    , SUB_CATEGORY
+	    , MEMBER_NO
+	    , NAME AS MEMBER_NAME
+	    , TITLE
+	    , REGEXP_REPLACE(REVERSE(REGEXP_REPLACE(REVERSE(TO_CHAR(GOAL_AMOUNT)), '(\d{3})', '\1,')), '^,', '') AS "GOAL_AMOUNT"
+	    , GOAL_AMOUNT AS GOAL_AMOUNT_NO
+	    , REGEXP_REPLACE(REVERSE(REGEXP_REPLACE(REVERSE(TO_CHAR(CURRENT_AMOUNT)), '(\d{3})', '\1,')), '^,', '') AS "CURRENT_AMOUNT"
+	    , CURRENT_AMOUNT AS CURRENT_AMOUNT_NO
+	    , START_DATE
+	    , END_DATE
+	]]>
+	FROM (
+	        SELECT 
+	        P.NO
+	        , P.IMAGE_URL
+	        , P.CATEGORY_NO
+	        , C.MAIN_CATEGORY
+	        , C.SUB_CATEGORY
+	        , P.MEMBER_NO
+	        , M.NAME
+	        , P.TITLE
+	        , P.START_DATE
+	        , P.END_DATE
+	        , P.GOAL_AMOUNT
+	        , P.CURRENT_AMOUNT
+	        , P.STATUS_NO
+	    FROM (SELECT NO
+	                , IMAGE_URL
+	                , CATEGORY_NO
+	                , MEMBER_NO
+	                , TITLE
+	                , START_DATE
+	                , END_DATE
+	                , GOAL_AMOUNT
+	                , CURRENT_AMOUNT
+	                , STATUS_NO
+	                FROM PROJECT
+	                WHERE DELETE_YN = 'N') P
+	        JOIN MEMBER M ON P.MEMBER_NO = M.NO
+	        JOIN CATEGORY C ON P.CATEGORY_NO = C.NO
+	        JOIN PROJECT_STATUS PS ON P.STATUS_NO = PS.NO
+	        WHERE 
+	            P.STATUS_NO = 5
+	    )
+    <if test="(achievementRateStart != null and achievementRateStart != '') or (achievementRateEnd != null and achievementRateEnd != '')">
+		WHERE 
+		<trim prefixOverrides="AND">
+			<if test="achievementRateStart != null and achievementRateStart != ''">
+				<![CDATA[CURRENT_AMOUNT*100/GOAL_AMOUNT >= #{achievementRateStart}]]>
+			</if>
+			<if test="achievementRateEnd != null and achievementRateEnd != ''">
+				<![CDATA[AND CURRENT_AMOUNT*100/GOAL_AMOUNT <= #{achievementRateEnd}]]>
+			</if>
+		</trim>
+    </if>
+	ORDER BY END_DATE
+  </select>
 </mapper>

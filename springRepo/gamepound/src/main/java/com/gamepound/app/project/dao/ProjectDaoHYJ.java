@@ -24,7 +24,14 @@ public class ProjectDaoHYJ {
 
 	//목록 조회 - 신규
 	public List<ProjectVo> projectListNew(SqlSessionTemplate sst, ProjectListVo vo) {
+		//TODO-HYJ : [list-new] 현재 날짜 이후 날짜 제외 시키는구문 추가해야함 (현재 1월1일이면 1월 2일 예정인거 제외시켜야함)
 		return sst.selectList("ProjectMapper.ListNew", vo);
+	}
+
+	//목록 조회 - 마감임박
+	public List<ProjectVo> projectListImminent(SqlSessionTemplate sst, ProjectListVo vo) {
+		//TODO-HYJ : [list-imminent] 현재 날짜보다 이전인거 제외 시키는 구문 추가해야함 (현재 1월 2일이면 1월 1일에 마감된거 제외시켜야함)
+		return sst.selectList("ProjectMapper.ListImminent", vo);
 	}
 
 }

@@ -54,6 +54,15 @@ public class ProjectControllerHYJ {
 	
 	
 	//목록 조회 - 마감임박
+	@GetMapping("list/imminent")
+	public void projectListImminent(ProjectListVo vo) {
+		List<ProjectVo> voList = service.projectListImminent(vo);
+		
+		//TODO-HYJ : [list-imminent] ajax (화면에서 받을때 : 달성률 시작 + 끝)
+		for (ProjectVo projectVo : voList) {
+			System.out.println(projectVo);
+		}
+	}
 	
 	
 	//목록 조회 - 공개예정
