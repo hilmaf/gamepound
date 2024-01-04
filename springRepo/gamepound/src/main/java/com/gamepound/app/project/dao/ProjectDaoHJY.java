@@ -73,4 +73,9 @@ public class ProjectDaoHJY {
 		return sst.delete("ProjectCreateMapper.deleteReword", vo);
 	}
 
+	// 프로젝트 작성저장 : 프로젝트 계획
+	public int saveDateplan(SqlSessionTemplate sst, ProjectVo vo) {
+		return sst.update("ProjectCreateMapper.saveDateplan", vo);
+	}
+
 }

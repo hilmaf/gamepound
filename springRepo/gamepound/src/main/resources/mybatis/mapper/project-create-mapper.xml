@@ -122,4 +122,16 @@
 		WHERE NO = #{no}
 	</delete>
 	
+	<!-- 프로젝트 작성저장 : 프로젝트 계획 -->
+	<update id="saveDateplan">
+		UPDATE PROJECT
+		    SET
+		        TXT_DESCRIPTION = #{txtDescription}
+		        , TXT_BUDGET = #{txtBudget}
+		        , TXT_SCHEDULE = #{txtSchedule}
+		        , TXT_TEAM = #{txtTeam}
+		        , TXT_ITEM = #{txtItem}
+		WHERE NO = #{no}
+	</update>
+	
 </mapper>

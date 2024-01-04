@@ -160,10 +160,18 @@ public class ProjectControllerHJY {
 		System.out.println("프로젝트 계획 : " + projectVo);
 		
 	}
-	// 프로젝트 작성저장 : 프로젝트 계획 작성시 이미지 업로드 메소드 추가 TODO-현지연 : 선생님이 갤러리 할 시 만들어야함
+	// 프로젝트 작성저장 : 프로젝트 계획 작성시 TODO-현지연 : 이미지 업로드 메소드 추가 : 선생님이 갤러리 할 시 만들어야함
 	// 프로젝트 작성저장 : 프로젝트 계획
 	@PostMapping("save/dateplan")
-	public void saveDateplan() {}
+	public void saveDateplan(ProjectVo vo) throws Exception {
+		
+		int result = service.saveDateplan(vo);
+		if(result != 1) {
+			throw new Exception("프로젝트 계획 작성에 실패했습니다.");
+		}
+		System.out.println("프로젝트 계획 작성 결과 : " + result);
+		
+	}
 	
 	
 	// 프로젝트 작성조회 : 창작자 정보 프로젝트 넘버필요
