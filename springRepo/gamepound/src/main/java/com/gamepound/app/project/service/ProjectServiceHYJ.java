@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
 
 import com.gamepound.app.project.dao.ProjectDaoHYJ;
+import com.gamepound.app.project.vo.ProjectListVo;
 import com.gamepound.app.project.vo.ProjectVo;
 
 import lombok.RequiredArgsConstructor;
@@ -17,7 +18,7 @@ public class ProjectServiceHYJ {
 	private final SqlSessionTemplate sst;
 	
 	//목록 조회 - 카테고리
-	public List<ProjectVo> projectListCategory() {
-		return dao.projectListCategory(sst);
+	public List<ProjectVo> projectListCategory(ProjectListVo vo) {
+		return dao.projectListCategory(sst, vo);
 	}
 }

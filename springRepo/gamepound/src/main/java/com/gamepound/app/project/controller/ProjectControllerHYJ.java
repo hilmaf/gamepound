@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gamepound.app.project.ProjectAchievementRate;
 import com.gamepound.app.project.service.ProjectServiceHYJ;
+import com.gamepound.app.project.vo.ProjectListVo;
 import com.gamepound.app.project.vo.ProjectVo;
 
 import lombok.RequiredArgsConstructor;
@@ -20,12 +21,12 @@ public class ProjectControllerHYJ {
 	
 	//목록 조회 - 카테고리(소분류)
 	@GetMapping("list/category")
-	public void projectListCategory() {
-		List<ProjectVo> voList = service.projectListCategory();
+	public void projectListCategory(ProjectListVo vo) {
+		List<ProjectVo> voList = service.projectListCategory(vo);
 		
 		//TODO-HYJ : ajaxㄱㄱ
-		for (ProjectVo vo : voList) {
-			System.out.println(vo);
+		for (ProjectVo projectVo : voList) {
+			System.out.println(projectVo);
 		}
 	}
 	
