@@ -151,5 +151,10 @@ public class ProjectServiceHJY {
 	public int savePlan(ProjectVo vo) {
 		return dao.savePlan(sst, vo);
 	}
+
+	// 프로젝트 작성 : 선물구성
+	public int createReword(RewardVo vo) {
+		return dao.createReword(sst, vo);
+	}
 	
 }

@@ -101,5 +101,10 @@
 		WHERE NO = #{no}
 	</update>
 	
+	<!-- 프로젝트 작성 : 선물구성 -->
+	<insert id="createReword">
+		INSERT INTO REWARD(NO, PROJECT_NO, AMOUNT, NAME)
+		VALUES(SEQ_REWARD_NO.NEXTVAL, #{projectNo}, #{amount}, #{name})
+	</insert>
 	
 </mapper>
