@@ -117,6 +117,9 @@ public class ProjectControllerHJY {
 		System.out.println("선물 : " + projectVo);
 		
 	}
+	// 프로젝트 작성 : 선물구성
+	@PostMapping("create/reword")
+	public void createReword() {}
 	// 프로젝트 작성저장 : 선물구성
 	@PostMapping("save/reword")
 	public void saveReword() {}
