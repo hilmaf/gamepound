@@ -12,7 +12,7 @@ public class ProjectDaoHYJ {
 
 	//목록 조회 - 카테고리
 	public List<ProjectVo> projectListCategory(SqlSessionTemplate sst) {
-		return sst.selectList("ProjectMapper.getProject");
+		return sst.selectList("ProjectMapper.ListCategory");
 	}
 
 }
