@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.gamepound.app.back.vo.BackVo;
 import com.gamepound.app.project.vo.ProjectVo;
 import com.gamepound.app.review.vo.ReviewVo;
 import com.gamepound.app.userpage.service.UserPageService;
@@ -54,6 +55,8 @@ public class UserPageController {
 	// 유저페이지 - 내 후원 목록 조회
 	@GetMapping("backed")
 	public void listMyBackedProjects(String memberNo) {
+		Map<String, Object> map = service.listMyBackedProjects(memberNo);
 		
+		System.out.println(map);
 	}
 }

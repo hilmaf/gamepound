@@ -7,6 +7,7 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
 
+import com.gamepound.app.back.vo.BackVo;
 import com.gamepound.app.project.vo.ProjectVo;
 import com.gamepound.app.review.vo.ReviewStatVo;
 import com.gamepound.app.review.vo.ReviewVo;
@@ -48,7 +49,20 @@ public class UserPageService {
 
 		return myProjectList;
 	}
+
+	// 유저페이지 - 내가 후원 목록 조회
+	public Map<String, Object> listMyBackedProjects(String memberNo) {
+		// 후원 성공 목록 : 프로젝트 펀딩 성공
+		List<BackVo> successList = dao.backedSuccessfully(sst, memberNo);
+		// 후원 실패 목록 : 프로젝트 펀딩 실패 OR 후원 취소
+		List<BackVo> failList = dao.backedUnsuccessfully(sst, memberNo);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("successList", successList);
+		map.put("failList", failList);
+		
+		return map;
+	}
 	
-	// 유저페이지 - 
-	
+	 
 }
