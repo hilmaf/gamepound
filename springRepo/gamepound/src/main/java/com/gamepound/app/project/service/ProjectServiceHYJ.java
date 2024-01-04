@@ -21,4 +21,9 @@ public class ProjectServiceHYJ {
 	public List<ProjectVo> projectListCategory(ProjectListVo vo) {
 		return dao.projectListCategory(sst, vo);
 	}
+
+	//목록 조회 - 인기순
+	public List<ProjectVo> projectListPopular(ProjectListVo vo) {
+		return dao.projectListPopular(sst, vo);
+	}
 }

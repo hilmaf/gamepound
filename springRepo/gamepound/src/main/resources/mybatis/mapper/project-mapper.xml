@@ -76,5 +76,8 @@
 		    </if>
   </select>
   
+  <!-- 프로젝트 인기순 목록 가져오기 -->
+  <select id="ListPopular" resultType="ProjectVo"></select>
+  
   
 </mapper>

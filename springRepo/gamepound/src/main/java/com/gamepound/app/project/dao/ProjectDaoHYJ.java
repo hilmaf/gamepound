@@ -16,4 +16,10 @@ public class ProjectDaoHYJ {
 		return sst.selectList("ProjectMapper.ListCategory", vo);
 	}
 
+	//목록 조회 - 인기순
+	public List<ProjectVo> projectListPopular(SqlSessionTemplate sst, ProjectListVo vo) {
+		//TODO-HYJ : mapper작성해야함
+		return sst.selectList("ProjectMapper.ListPopular", vo);
+	}
+
 }
