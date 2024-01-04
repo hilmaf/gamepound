@@ -98,7 +98,15 @@ public class ProjectControllerHJY {
 	}
 	// 프로젝트 작성저장 : 펀딩계획
 	@PostMapping("save/plan")
-	public void savePlan() {}
+	public void savePlan(ProjectVo vo) throws Exception {
+		
+		int result = service.savePlan(vo);
+		if(result != 1) {
+			throw new Exception("프로젝트 펀딩계획 작성에 실패했습니다.");
+		}
+		System.out.println("프로젝트 펀딩계획 결과 : " + result);
+		
+	}
 	
 	
 	// 프로젝트 작성조회 : 선물구성 프로젝트 넘버필요
@@ -109,6 +117,9 @@ public class ProjectControllerHJY {
 		System.out.println("선물 : " + projectVo);
 		
 	}
+	// 프로젝트 작성 : 선물구성
+	@PostMapping("create/reword")
+	public void createReword() {}
 	// 프로젝트 작성저장 : 선물구성
 	@PostMapping("save/reword")
 	public void saveReword() {}

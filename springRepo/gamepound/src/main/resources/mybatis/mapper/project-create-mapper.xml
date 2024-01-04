@@ -62,7 +62,10 @@
 	
 	<!-- 프로젝트 작성조회 : 펀딩계획 -->
 	<select id="getPlan" resultType="ProjectVo">
-		SELECT TO_CHAR(GOAL_AMOUNT, '999,999,999') AS GOAL_AMOUNT, TO_CHAR(START_DATE, 'YYYY-MM-DD') AS START_DATE, TO_CHAR(END_DATE, 'YYYY-MM-DD') AS END_DATE
+		SELECT 
+			, REGEXP_REPLACE(REVERSE(REGEXP_REPLACE(REVERSE(TO_CHAR(GOAL_AMOUNT)), '(\d{3})', '\1,')), '^,', '') AS GOAL_AMOUNT
+			, TO_CHAR(START_DATE, 'YYYY-MM-DD') AS START_DATE
+			, TO_CHAR(END_DATE, 'YYYY-MM-DD') AS END_DATE
 		FROM PROJECT
 		WHERE NO = #{no}
 		AND DELETE_YN = 'N'
@@ -85,6 +88,16 @@
 		    CATEGORY_NO = #{categoryNo}
 		    , TITLE = #{title}
 		    , IMAGE_URL = #{imageUrl}
+		WHERE NO = #{no}
+	</update>
+	
+	<!-- 프로젝트 작성저장 : 펀딩계획 -->
+	<update id="savePlan">
+		UPDATE PROJECT
+		    SET 
+		    GOAL_AMOUNT = #{goalAmount}
+		    , START_DATE = #{startDate}
+		    , END_DATE = #{endDate}
 		WHERE NO = #{no}
 	</update>
 	

@@ -53,4 +53,9 @@ public class ProjectDaoHJY {
 		return sst.update("ProjectCreateMapper.saveBasic", vo);
 	}
 
+	// 프로젝트 작성저장 : 펀딩계획
+	public int savePlan(SqlSessionTemplate sst, ProjectVo vo) {
+		return sst.update("ProjectCreateMapper.savePlan", vo);
+	}
+
 }
