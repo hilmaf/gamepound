@@ -68,4 +68,9 @@ public class ProjectDaoHJY {
 		return sst.update("ProjectCreateMapper.saveReword", vo);
 	}
 
+	// 프로젝트 선물삭제 : 선물구성
+	public int deleteReword(SqlSessionTemplate sst, RewardVo vo) {
+		return sst.delete("ProjectCreateMapper.deleteReword", vo);
+	}
+
 }

@@ -113,7 +113,13 @@
 		    SET 
 		        AMOUNT = #{amount}
 		        , NAME = #{name}
-		WHERE PROJECT_NO = #{projectNo}
+		WHERE NO = #{no}
 	</update>
+	
+	<!-- 프로젝트 선물삭제 : 선물구성 -->
+	<delete id="deleteReword">
+		DELETE FROM REWARD
+		WHERE NO = #{no}
+	</delete>
 	
 </mapper>

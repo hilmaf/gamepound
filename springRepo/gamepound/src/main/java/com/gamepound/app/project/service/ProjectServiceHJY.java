@@ -161,5 +161,10 @@ public class ProjectServiceHJY {
 	public int saveReword(RewardVo vo) {
 		return dao.saveReword(sst, vo);
 	}
+
+	// 프로젝트 선물삭제 : 선물구성
+	public int deleteReword(RewardVo vo) {
+		return dao.deleteReword(sst, vo);
+	}
 	
 }
