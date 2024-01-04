@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import com.gamepound.app.member.vo.MemberVo;
 import com.gamepound.app.project.vo.ProjectVo;
 import com.gamepound.app.reward.vo.RewardVo;
+import com.gamepound.app.settlement.vo.SettlementVo;
 
 @Repository
 public class ProjectDaoHJY {
@@ -76,6 +77,11 @@ public class ProjectDaoHJY {
 	// 프로젝트 작성저장 : 프로젝트 계획
 	public int saveDateplan(SqlSessionTemplate sst, ProjectVo vo) {
 		return sst.update("ProjectCreateMapper.saveDateplan", vo);
+	}
+
+	// 프로젝트 작성저장 : 창작자 정보
+	public int saveUserinfo(SqlSessionTemplate sst, SettlementVo vo) {
+		return sst.update("ProjectCreateMapper.saveUserinfo", vo);
 	}
 
 }

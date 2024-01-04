@@ -182,6 +182,14 @@ public class ProjectControllerHJY {
 	}
 	// 프로젝트 작성저장 : 창작자 정보
 	@PostMapping("save/userinfo")
-	public void saveUserinfo() {}
+	public void saveUserinfo(SettlementVo vo) throws Exception {
+		
+		int result = service.saveUserinfo(vo);
+		if(result != 1) {
+			throw new Exception("창작자 정보 작성(저장)에 실패했습니다.");
+		}
+		System.out.println("창작자 정보 작성(저장) 결과 : " + result);
+		
+	}
 	
 }

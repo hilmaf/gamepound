@@ -171,5 +171,10 @@ public class ProjectServiceHJY {
 	public int saveDateplan(ProjectVo vo) {
 		return dao.saveDateplan(sst, vo);
 	}
+
+	// 프로젝트 작성저장 : 창작자 정보
+	public int saveUserinfo(SettlementVo vo) {
+		return dao.saveUserinfo(sst, vo);
+	}
 	
 }
