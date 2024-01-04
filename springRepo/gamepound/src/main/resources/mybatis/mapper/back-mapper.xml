@@ -35,4 +35,8 @@
 	WHERE NO = #{backNo}
   </update>
   
+  <select id="detail" resultType="com.gamepound.app.back.vo.BackDetailVo">
+  
+  </select>
+  
 </mapper>

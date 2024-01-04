@@ -35,5 +35,10 @@ public class BackServiceLKM {
 	public int cancel(String backNo) {
 		return dao.cancel(sst, backNo);
 	}
+	
+	// 후원 상세 조회
+	public BackVo detail(String backNo) {
+		return dao.detail(sst, backNo);
+	}
 
 }
