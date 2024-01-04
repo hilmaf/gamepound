@@ -2,9 +2,9 @@
 <!DOCTYPE mapper
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="ReviewMapper">
-
-<!-- 리뷰 목록 조회 -->
+<mapper namespace="UserPageMapper">
+  
+  <!-- 리뷰 목록 조회 -->
 <select id="listReview" resultType="com.gamepound.app.review.vo.ReviewVo">
 	SELECT
 	    R.NO
@@ -20,7 +20,7 @@
 	WHERE P.MEMBER_NO = #{memberNo}
 </select>
 
-<select id="getStat" resultType="com.gamepound.app.review.vo.ReviewStatVo">
+<select id="getReviewStat" resultType="com.gamepound.app.review.vo.ReviewStatVo">
 	SELECT
 	    AVG(R.RATING)   RATING_AVG
 	    , COUNT(R.RATING) TOTAL_COUNT
@@ -35,7 +35,7 @@
 </select>
 
 <!-- 리뷰 작성 -->
-<insert id="write">
+<insert id="writeReview">
 	INSERT INTO REVIEW(
 	    NO
 	    , MEMBER_NO
@@ -55,5 +55,20 @@
 	    , #{rating}
 	)
 </insert>
+
+<!-- 내가 올린 프로젝트 목록 조회 -->
+<select id="listMyProjects" resultType="ProjectVo">
+	SELECT
+	    C.MAIN_CATEGORY
+	    , C.SUB_CATEGORY
+	    , M.NAME
+	    , P.TITLE
+	    , REGEXP_REPLACE(REVERSE(REGEXP_REPLACE(REVERSE(TO_CHAR(P.CURRENT_AMOUNT)), '(\d{3})', '\1,')), '^,', '') AS CURRENT_AMOUNT
+	    , REGEXP_REPLACE(REVERSE(REGEXP_REPLACE(REVERSE(TO_CHAR(P.GOAL_AMOUNT)), '(\d{3})', '\1,')), '^,', '') AS GOAL_AMOUNT
+	FROM PROJECT P
+	JOIN CATEGORY C ON P.CATEGORY_NO = C.NO
+	JOIN MEMBER M ON P.MEMBER_NO = M.NO
+	WHERE P.MEMBER_NO = #{memberNo}
+</select>
   
 </mapper>

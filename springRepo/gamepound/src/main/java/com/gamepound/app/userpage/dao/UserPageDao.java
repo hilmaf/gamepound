@@ -6,6 +6,7 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.gamepound.app.project.vo.ProjectVo;
 import com.gamepound.app.review.vo.ReviewStatVo;
 import com.gamepound.app.review.vo.ReviewVo;
 
@@ -20,7 +21,17 @@ public class UserPageDao {
 
 	// 리뷰 통계 정보
 	public ReviewStatVo getStat(SqlSessionTemplate sst, String memberNo) {
-		return sst.selectOne("ReviewMapper.getStat", memberNo);
+		return sst.selectOne("ReviewMapper.getReviewStat", memberNo);
+	}
+	
+	// 리뷰 작성
+	public int write(SqlSessionTemplate sst, ReviewVo vo) {
+		return sst.insert("UserPageMapper.writeReview", vo);
+	}
+
+
+	public List<ProjectVo> listMyProjects(SqlSessionTemplate sst, String memberNo) {
+		return sst.selectList("ProjectMapper.listMyProjects", memberNo);
 	}
 	
 
