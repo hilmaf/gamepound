@@ -107,4 +107,13 @@
 		VALUES(SEQ_REWARD_NO.NEXTVAL, #{projectNo}, #{amount}, #{name})
 	</insert>
 	
+	<!-- 프로젝트 작성저장 : 선물구성 -->
+	<update id="saveReword">
+		UPDATE REWARD
+		    SET 
+		        AMOUNT = #{amount}
+		        , NAME = #{name}
+		WHERE PROJECT_NO = #{projectNo}
+	</update>
+	
 </mapper>

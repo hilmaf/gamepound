@@ -130,7 +130,15 @@ public class ProjectControllerHJY {
 	}
 	// 프로젝트 작성저장 : 선물구성
 	@PostMapping("save/reword")
-	public void saveReword() {}
+	public void saveReword(RewardVo vo) throws Exception {
+		
+		int result = service.saveReword(vo);
+		if(result != 1) {
+			throw new Exception("선물저장에 실패했습니다.");
+		}
+		System.out.println("선물저장 결과 : " + result);
+		
+	}
 	// 프로젝트 선물삭제 : 선물구성
 	@GetMapping("delete/reword")
 	public void deleteReword() {}
