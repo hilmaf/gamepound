@@ -18,8 +18,13 @@ public class ProjectDaoHYJ {
 
 	//목록 조회 - 인기순
 	public List<ProjectVo> projectListPopular(SqlSessionTemplate sst, ProjectListVo vo) {
-		//TODO-HYJ : mapper작성해야함
+		//TODO-HYJ : [list-popular] mapper작성해야함
 		return sst.selectList("ProjectMapper.ListPopular", vo);
+	}
+
+	//목록 조회 - 신규
+	public List<ProjectVo> projectListNew(SqlSessionTemplate sst, ProjectListVo vo) {
+		return sst.selectList("ProjectMapper.ListNew", vo);
 	}
 
 }

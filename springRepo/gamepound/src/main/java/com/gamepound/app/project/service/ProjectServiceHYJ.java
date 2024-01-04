@@ -26,4 +26,9 @@ public class ProjectServiceHYJ {
 	public List<ProjectVo> projectListPopular(ProjectListVo vo) {
 		return dao.projectListPopular(sst, vo);
 	}
+
+	//목록 조회 - 신규
+	public List<ProjectVo> projectListNew(ProjectListVo vo) {
+		return dao.projectListNew(sst, vo);
+	}
 }

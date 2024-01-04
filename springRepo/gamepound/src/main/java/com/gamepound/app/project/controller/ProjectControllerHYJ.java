@@ -24,7 +24,7 @@ public class ProjectControllerHYJ {
 	public void projectListCategory(ProjectListVo vo) {
 		List<ProjectVo> voList = service.projectListCategory(vo);
 		
-		//TODO-HYJ : ajaxㄱㄱ (화면에서 받을때 : 달성률 시작 + 끝, 카테고리번호(필수) , 프로젝트 상태 받을수있음)
+		//TODO-HYJ : [list-category] ajaxㄱㄱ (화면에서 받을때 : 달성률 시작 + 끝, 카테고리번호(필수) , 프로젝트 상태 받을수있음)
 		for (ProjectVo projectVo : voList) {
 			System.out.println(projectVo);
 		}
@@ -35,13 +35,22 @@ public class ProjectControllerHYJ {
 	public void projectListPopular(ProjectListVo vo) {
 		List<ProjectVo> voList = service.projectListPopular(vo);
 		
-		//TODO-HYJ : ajax.....(화면에서 받을때 : 달성률 시작 + 끝 받을수있음)
+		//TODO-HYJ : [list-popular] ajax.....(화면에서 받을때 : 달성률 시작 + 끝 받을수있음)
 		for (ProjectVo projectVo : voList) {
 			System.out.println(projectVo);
 		}
 	}
 	
 	//목록 조회 - 신규
+	@GetMapping("list/new")
+	public void projectListNew(ProjectListVo vo) {
+		List<ProjectVo> voList = service.projectListNew(vo);
+		
+		//TODO-HYJ : [list-new] ajax (화면에서 받을때 : 달성률 시작 + 끝)
+		for (ProjectVo projectVo : voList) {
+			System.out.println(projectVo);
+		}
+	}
 	
 	
 	//목록 조회 - 마감임박
