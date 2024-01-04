@@ -146,5 +146,10 @@ public class ProjectServiceHJY {
 	public int saveBasic(ProjectVo vo) {
 		return dao.saveBasic(sst, vo);
 	}
+
+	// 프로젝트 작성저장 : 펀딩계획
+	public int savePlan(ProjectVo vo) {
+		return dao.savePlan(sst, vo);
+	}
 	
 }

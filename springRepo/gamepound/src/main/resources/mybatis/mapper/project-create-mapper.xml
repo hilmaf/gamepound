@@ -91,5 +91,15 @@
 		WHERE NO = #{no}
 	</update>
 	
+	<!-- 프로젝트 작성저장 : 펀딩계획 -->
+	<update id="savePlan">
+		UPDATE PROJECT
+		    SET 
+		    GOAL_AMOUNT = #{goalAmount}
+		    , START_DATE = #{startDate}
+		    , END_DATE = #{endDate}
+		WHERE NO = #{no}
+	</update>
+	
 	
 </mapper>
