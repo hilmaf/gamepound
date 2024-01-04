@@ -18,7 +18,7 @@ import lombok.RequiredArgsConstructor;
 public class ProjectControllerHYJ {
 	private final ProjectServiceHYJ service;
 	
-	//목록 조회 - 카테고리(대분류)
+	//목록 조회 - 카테고리(소분류)
 	@GetMapping("list/category")
 	public void projectListCategory() {
 		List<ProjectVo> voList = service.projectListCategory();
@@ -29,7 +29,6 @@ public class ProjectControllerHYJ {
 		}
 	}
 	
-	//목록 조회 - 카테고리(소분류)
 	
 	//목록 조회 - 인기순
 	
