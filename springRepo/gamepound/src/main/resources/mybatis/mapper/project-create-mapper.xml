@@ -51,6 +51,42 @@
 		AND P.DELETE_YN = 'N'
 	</select>
 	
+	<!-- 프로젝트 작성조회 : 기본정보 -->
+	<select id="getBasic" resultType="ProjectVo">
+		SELECT C.MAIN_CATEGORY, C.SUB_CATEGORY, P.TITLE, P.IMAGE_URL
+		FROM PROJECT P
+		JOIN CATEGORY C ON C.NO = P.CATEGORY_NO
+		WHERE P.NO = ${no}
+		AND DELETE_YN = 'N'
+	</select>
+	
+	<!-- 프로젝트 작성조회 : 펀딩계획 -->
+	<select id="getPlan" resultType="ProjectVo">
+		SELECT TO_CHAR(GOAL_AMOUNT, '999,999,999') AS GOAL_AMOUNT, TO_CHAR(START_DATE, 'YYYY-MM-DD') AS START_DATE, TO_CHAR(END_DATE, 'YYYY-MM-DD') AS END_DATE
+		FROM PROJECT
+		WHERE NO = #{no}
+		AND DELETE_YN = 'N'
+	</select>
+	
+	<!-- 프로젝트 작성조회 : 프로젝트 계획 -->
+	<select id="getDateplan" resultType="ProjectVo">
+		SELECT TXT_DESCRIPTION, TXT_BUDGET, TXT_SCHEDULE, TXT_TEAM, TXT_ITEM
+		FROM PROJECT
+		WHERE NO = #{no}
+		AND DELETE_YN = 'N'
+	</select>
+	
+	
+	
+	<!-- 프로젝트 작성저장 : 기본정보 -->
+	<update id="saveBasic">
+		UPDATE PROJECT
+		    SET 
+		    CATEGORY_NO = #{categoryNo}
+		    , TITLE = #{title}
+		    , IMAGE_URL = #{imageUrl}
+		WHERE NO = #{no}
+	</update>
 	
 	
 </mapper>
