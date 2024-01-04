@@ -15,17 +15,6 @@ public class BackVo {
 
 	// 프로젝트 정보
 	private String projectNo;
-	private String projectImg;
-	private String projectCategory;
-	private String projectSubCategory;
-	private String projectName;
-	private String goalAmount;
-	private String currentAmount;
-	// 달성률
-	private String achievedRate;
-	// 마감기한까지 D-N
-	private String endDate;
-	private String remainPeriod;
 	
 	// 선물 정보
 	private String rewardNo;

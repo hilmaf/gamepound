@@ -17,8 +17,11 @@ public class BackServiceLKM {
 	private final SqlSessionTemplate sst;
 	
 	// 후원하기
-	public int back(BackVo vo) {
-		// TODO: 후원 business logic
+	public int back(BackVo vo) throws Exception {
+		// NullCheck
+		if(vo.getPaymentType() == null) {
+			throw new Exception("결제수단 선택 필요");
+		}
 		
 		return dao.back(sst, vo);
 	}
@@ -31,6 +34,11 @@ public class BackServiceLKM {
 	// 후원취소
 	public int cancel(String backNo) {
 		return dao.cancel(sst, backNo);
+	}
+	
+	// 후원 상세 조회
+	public BackVo detail(String backNo) {
+		return dao.detail(sst, backNo);
 	}
 
 }
