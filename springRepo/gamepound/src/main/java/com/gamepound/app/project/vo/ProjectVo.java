@@ -10,7 +10,9 @@ public class ProjectVo {
 	
 	//프로젝트 카테고리
 	private String categoryNo;
+	private String mainCategoryNo;	//대분류번호
 	private String mainCategory;	//대분류
+	private String subCategoryNo;	//소분류번호
 	private String subCategory;		//소분류
 	
 	//프로젝트 작성자
@@ -21,13 +23,15 @@ public class ProjectVo {
 	private String no;
 	private String title;
 	private String goalAmount;
+	private String goalAmountNo;
+	private String currentAmount;
+	private String currentAmountNo;
 	private String imageUrl;
 	private String txtDescription;
 	private String txtBudget;
 	private String txtSchedule;
 	private String txtTeam;
 	private String txtItem;
-	private String currentAmount;
 	
 	//프로젝트 기간
 	private String okDate;
@@ -39,4 +43,11 @@ public class ProjectVo {
 	//프로젝트 승인*삭제 여부
 	private String okYn;
 	private String deleteYn;
+	
+	//프로젝트 달성률
+	private String achievementRate;
+	
+	//프로젝트 남은 기간
+	private String remainingPeriod;
+	
 }
