@@ -22,10 +22,10 @@ public class ProjectVo {
 	//프로젝트 내용
 	private String no;
 	private String title;
-	private String goalAmount;
-	private String goalAmountNo;
-	private String currentAmount;
-	private String currentAmountNo;
+	private String goalAmount;		//999,999,999
+	private String goalAmountNo;	//999999999
+	private String currentAmount;	//999,999,999
+	private String currentAmountNo;	//999999999
 	private String imageUrl;
 	private String txtDescription;
 	private String txtBudget;
