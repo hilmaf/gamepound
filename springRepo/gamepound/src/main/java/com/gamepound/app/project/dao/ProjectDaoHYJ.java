@@ -18,7 +18,7 @@ public class ProjectDaoHYJ {
 
 	//목록 조회 - 인기순
 	public List<ProjectVo> projectListPopular(SqlSessionTemplate sst, ProjectListVo vo) {
-		//TODO-HYJ : [list-popular] mapper작성해야함
+		//TODO-HYJ : [list-popular] 달성률 순으로 작성
 		return sst.selectList("ProjectMapper.ListPopular", vo);
 	}
 
@@ -32,6 +32,12 @@ public class ProjectDaoHYJ {
 	public List<ProjectVo> projectListImminent(SqlSessionTemplate sst, ProjectListVo vo) {
 		//TODO-HYJ : [list-imminent] 현재 날짜보다 이전인거 제외 시키는 구문 추가해야함 (현재 1월 2일이면 1월 1일에 마감된거 제외시켜야함)
 		return sst.selectList("ProjectMapper.ListImminent", vo);
+	}
+
+	//목록 조회 - 공개예정
+	public List<ProjectVo> projectListPrelaunch(SqlSessionTemplate sst) {
+		// TODO-HYJ : [list-prelaunch] vo에서 가져올때 오픈일이 현재 시간보다 늦어야함
+		return sst.selectList("ProjectMapper.ListPrelaunch");
 	}
 
 }

@@ -66,6 +66,15 @@ public class ProjectControllerHYJ {
 	
 	
 	//목록 조회 - 공개예정
+	@GetMapping("list/prelaunch")
+	public void projectListPrelaunch() {
+		List<ProjectVo> voList = service.projectListPrelaunch();
+		
+		//TODO-HYJ : [list-prelaunch] ajax처리
+		for (ProjectVo projectVo : voList) {
+			System.out.println(projectVo);
+		}
+	}
 	
 	
 	
