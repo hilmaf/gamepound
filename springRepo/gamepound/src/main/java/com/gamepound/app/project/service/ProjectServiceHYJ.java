@@ -40,4 +40,10 @@ public class ProjectServiceHYJ {
 		//TODO-HYJ : [list-imminent] vo에 달성률 남은 기간 너어야함
 		return dao.projectListImminent(sst, vo);
 	}
+
+	//목록 조회 - 공개예정
+	public List<ProjectVo> projectListPrelaunch() {
+		
+		return dao.projectListPrelaunch(sst);
+	}
 }
