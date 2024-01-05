@@ -4,6 +4,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
 
 import com.gamepound.app.back.dao.BackDaoLKM;
+import com.gamepound.app.back.vo.BackDetailVo;
 import com.gamepound.app.back.vo.BackVo;
 
 import lombok.RequiredArgsConstructor;
@@ -17,13 +18,25 @@ public class BackServiceLKM {
 	private final SqlSessionTemplate sst;
 	
 	// 후원하기
-	public int back(BackVo vo) throws Exception {
+	public boolean back(BackDetailVo vo) throws Exception {
 		// NullCheck
 		if(vo.getPaymentType() == null) {
 			throw new Exception("결제수단 선택 필요");
 		}
 		
-		return dao.back(sst, vo);
+		// 후원정보에 insert
+		int result1 = dao.insertBack(sst, vo);
+		
+		// 결제정보에 insert
+		int result2 = dao.insertPayment(sst, vo);
+		
+		if(result1 != 1 && result2 != 1) {
+			throw new Exception("후원 등록에 실패함");
+		}
+
+		boolean backed = true;
+		
+		return backed;
 	}
 
 	// 후원완료(n번째 후원자)
@@ -32,8 +45,20 @@ public class BackServiceLKM {
 	}
 
 	// 후원취소
-	public int cancel(String backNo) {
-		return dao.cancel(sst, backNo);
+	public boolean cancel(String backNo) throws Exception {
+		
+		// 후원정보 update
+		int result1 = dao.updateRetractYn(sst, backNo);
+		// 결제정보 delete
+		int result2 = dao.deletePayment(sst, backNo);
+		
+		if(result1 != 1 && result2 != 1) {
+			throw new Exception("후원 취소에 실패함");
+		}
+		
+		boolean canceled = true;
+		
+		return canceled;
 	}
 	
 	// 후원 상세 조회

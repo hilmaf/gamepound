@@ -1,8 +1,10 @@
 package com.gamepound.app.back.vo;
 
-import com.gamepound.app.project.ProjectAchievementRate;
-import com.gamepound.app.project.ProjectRemainingPeriod;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
+@Data
+@RequiredArgsConstructor
 public class BackDetailVo {
 
 	// 프로젝트 정보
@@ -16,6 +18,7 @@ public class BackDetailVo {
 	private String endDate;
 	
 	// 후원 정보
+	private String backNo;
 	private String backingDate;
 
 	// 선물 정보
@@ -28,20 +31,10 @@ public class BackDetailVo {
 	private String memberEmail;
 	
 	// 결제 수단
+	private String paymentTypeNo;
 	private String paymentType;
 	private String paymentDate;
 	private String paymentAmount; // == 최종 후원 금액
 	private String paymentStatus;
-	
-	
-	// 달성률 getter
-	public String getAchievedRate() {
-		return ProjectAchievementRate.achievementRate(this.goalAmount, this.currentAmount);
-	}
-	
-	// 마감기한 getter
-	public String getRemainingPeriod() {
-		return ProjectRemainingPeriod.getRemainingPeriod(this.endDate);
-	}
 	
 }

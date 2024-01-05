@@ -3,6 +3,7 @@ package com.gamepound.app.back.dao;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.gamepound.app.back.vo.BackDetailVo;
 import com.gamepound.app.back.vo.BackVo;
 
 @Repository
@@ -10,8 +11,13 @@ import com.gamepound.app.back.vo.BackVo;
 public class BackDaoLKM {
 
 	// 후원 insert 작업
-	public int back(SqlSessionTemplate sst, BackVo vo) {
-		return sst.insert("BackMapper.back", vo);
+	public int insertBack(SqlSessionTemplate sst, BackDetailVo vo) {
+		return sst.insert("BackMapper.insertBack", vo);
+	}
+	
+	// 결제정보 insert 작업
+	public int insertPayment(SqlSessionTemplate sst, BackDetailVo vo) {
+		return sst.insert("BackMapper.insertPayment", vo);
 	}
 
 	// 후원완료(nth 후원)
@@ -19,14 +25,23 @@ public class BackDaoLKM {
 		return sst.selectOne("BackMapper.cntBacker", projectNo);
 	}
 
-	// 후원 취소
-	public int cancel(SqlSessionTemplate sst, String backNo) {
-		return sst.update("BackMapper.cancel", backNo);
+	// 후원 취소(후원정보 update)
+	public int updateRetractYn(SqlSessionTemplate sst, String backNo) {
+		return sst.update("BackMapper.updateRetractYn", backNo);
+	}
+	
+	// 후원 취소(결제정보 delete)
+	public int deletePayment(SqlSessionTemplate sst, String backNo) {
+		return sst.delete("BackMapper.deletePayment", backNo);
 	}
 
 	// 후원 상세 조회
 	public BackVo detail(SqlSessionTemplate sst, String backNo) {
 		return sst.selectOne("BackMapper.detail", backNo);
 	}
+
+	
+
+	
 
 }
