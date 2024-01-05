@@ -5,14 +5,33 @@ import java.util.List;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.gamepound.app.project.vo.ProjectListVo;
 import com.gamepound.app.project.vo.ProjectVo;
 
 @Repository
 public class ProjectDaoHYJ {
 
 	//목록 조회 - 카테고리
-	public List<ProjectVo> projectListCategory(SqlSessionTemplate sst) {
-		return sst.selectList("ProjectMapper.ListCategory");
+	public List<ProjectVo> projectListCategory(SqlSessionTemplate sst, ProjectListVo vo) {
+		return sst.selectList("ProjectMapper.ListCategory", vo);
+	}
+
+	//목록 조회 - 인기순
+	public List<ProjectVo> projectListPopular(SqlSessionTemplate sst, ProjectListVo vo) {
+		//TODO-HYJ : [list-popular] mapper작성해야함
+		return sst.selectList("ProjectMapper.ListPopular", vo);
+	}
+
+	//목록 조회 - 신규
+	public List<ProjectVo> projectListNew(SqlSessionTemplate sst, ProjectListVo vo) {
+		//TODO-HYJ : [list-new] 현재 날짜 이후 날짜 제외 시키는구문 추가해야함 (현재 1월1일이면 1월 2일 예정인거 제외시켜야함)
+		return sst.selectList("ProjectMapper.ListNew", vo);
+	}
+
+	//목록 조회 - 마감임박
+	public List<ProjectVo> projectListImminent(SqlSessionTemplate sst, ProjectListVo vo) {
+		//TODO-HYJ : [list-imminent] 현재 날짜보다 이전인거 제외 시키는 구문 추가해야함 (현재 1월 2일이면 1월 1일에 마감된거 제외시켜야함)
+		return sst.selectList("ProjectMapper.ListImminent", vo);
 	}
 
 }
