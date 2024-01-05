@@ -140,7 +140,7 @@
 				</if>
 			</trim>
 	    </if>
-		ORDER BY CURRENT_AMOUNT/GOAL_AMOUNT DESC
+		ORDER BY CURRENT_AMOUNT_NO/GOAL_AMOUNT_NO DESC
   </select>
   
   <!-- 프로젝트 최신순 목록 가져오기 -->
