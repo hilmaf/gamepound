@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.gamepound.app.back.service.BackServiceLKM;
+import com.gamepound.app.back.vo.BackDetailVo;
 import com.gamepound.app.back.vo.BackVo;
 
 import lombok.RequiredArgsConstructor;
@@ -33,15 +34,15 @@ public class BackControllerLKM {
 	
 	// 후원하기
 	@PostMapping("process")
-	public void back(BackVo vo) throws Exception {
-		int result = service.back(vo);
+	public void back(BackDetailVo vo) throws Exception {
+		boolean backed = service.back(vo);
 		
-		if(result != 1) {
+		if(backed == false) {
 			System.out.println("후원 실패");
 			throw new Exception();
 		}
 		
-		System.out.println(result);
+		System.out.println(backed);
 		System.out.println("후원 완료");
 	}
 	
@@ -54,14 +55,12 @@ public class BackControllerLKM {
 		System.out.println(nthBacker);
 	}
 	
-	// 후원 취소(화면) - 불필요
-	
 	// 후원 취소
 	@PostMapping("canceled")
-	public void cancel(String backNo) {
-		int result = service.cancel(backNo);
+	public void cancel(String backNo) throws Exception {
+		boolean canceled = service.cancel(backNo);
 	
-		System.out.println(result);
+		System.out.println(canceled);
 	}
 	
 	// 후원 상세 조회

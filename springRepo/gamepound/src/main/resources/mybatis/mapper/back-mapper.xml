@@ -4,8 +4,8 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="BackMapper">
   
-<!--   후원하기 -->
-  <insert id="back">
+<!--   후원하기(후원 테이블 insert) -->
+  <insert id="insertBack">
   	INSERT INTO BACKER(
   		NO
   		, PROJECT_NO
@@ -20,6 +20,23 @@
   		, SYSDATE)
   </insert>
   
+<!--   후원하기(결제정보 테이블 insert) -->
+	<insert id="insertPayment">
+		INSERT INTO PAYMENT(
+			NO
+			, BACKER_NO
+			, PROJECT_NO
+			, PAYMENT_TYPE_NO
+			, AMOUNT
+		) VALUES(
+			SEQ_PAYMENT_NO.NEXTVAL
+			, SEQ_BACKER_NO.CURRVAL
+			, #{projectNo}
+			, #{paymentTypeNo}
+			, #{paymentAmount}
+		)
+	</insert>
+  
 <!--   후원완료 -->
   <select id="cntBacker" resultType="java.lang.String">
   	SELECT
@@ -28,13 +45,20 @@
 	WHERE PROJECT_NO = #{projectNo}
   </select>
   
-<!--   후원취소 -->
-  <update id="cancel">
+<!--   후원취소(후원정보 update) -->
+  <update id="updateRetractYn">
   	UPDATE BACKER
     	SET RETRACT_YN='Y'
 	WHERE NO = #{backNo}
   </update>
   
+<!--   후원취소(결제정보 delete) -->
+	<delete id="deletePayment">
+		DELETE FROM PAYMENT
+		WHERE BACKER_NO = #{backNo}
+	</delete>
+  
+<!--   후원 상세 조회 -->
   <select id="detail" resultType="com.gamepound.app.back.vo.BackDetailVo">
   
   </select>
