@@ -151,5 +151,30 @@ public class ProjectServiceHJY {
 	public int savePlan(ProjectVo vo) {
 		return dao.savePlan(sst, vo);
 	}
+
+	// 프로젝트 작성 : 선물구성
+	public int createReword(RewardVo vo) {
+		return dao.createReword(sst, vo);
+	}
+
+	// 프로젝트 작성저장 : 선물구성
+	public int saveReword(RewardVo vo) {
+		return dao.saveReword(sst, vo);
+	}
+
+	// 프로젝트 선물삭제 : 선물구성
+	public int deleteReword(RewardVo vo) {
+		return dao.deleteReword(sst, vo);
+	}
+
+	// 프로젝트 작성저장 : 프로젝트 계획
+	public int saveDateplan(ProjectVo vo) {
+		return dao.saveDateplan(sst, vo);
+	}
+
+	// 프로젝트 작성저장 : 창작자 정보
+	public int saveUserinfo(SettlementVo vo) {
+		return dao.saveUserinfo(sst, vo);
+	}
 	
 }

@@ -119,13 +119,37 @@ public class ProjectControllerHJY {
 	}
 	// 프로젝트 작성 : 선물구성
 	@PostMapping("create/reword")
-	public void createReword() {}
+	public void createReword(RewardVo vo) throws Exception {
+		
+		int result = service.createReword(vo);
+		if(result != 1) {
+			throw new Exception("선물추가에 실패했습니다.");
+		}
+		System.out.println("선물추가 결과 : " + result);
+		
+	}
 	// 프로젝트 작성저장 : 선물구성
 	@PostMapping("save/reword")
-	public void saveReword() {}
+	public void saveReword(RewardVo vo) throws Exception {
+		
+		int result = service.saveReword(vo);
+		if(result != 1) {
+			throw new Exception("선물저장에 실패했습니다.");
+		}
+		System.out.println("선물저장 결과 : " + result);
+		
+	}
 	// 프로젝트 선물삭제 : 선물구성
-	@GetMapping("delete/reword")
-	public void deleteReword() {}
+	@PostMapping("delete/reword")
+	public void deleteReword(RewardVo vo) throws Exception {
+		
+		int result = service.deleteReword(vo);
+		if(result != 1) {
+			throw new Exception("선물삭제에 실패했습니다.");
+		}
+		System.out.println("선물삭제 결과 : " + result);
+		
+	}
 	
 	
 	// 프로젝트 작성조회 : 프로젝트 계획 프로젝트 넘버필요
@@ -136,10 +160,18 @@ public class ProjectControllerHJY {
 		System.out.println("프로젝트 계획 : " + projectVo);
 		
 	}
-	// 프로젝트 작성저장 : 프로젝트 계획 작성시 이미지 업로드 메소드 추가 TODO-현지연 : 선생님이 갤러리 할 시 만들어야함
+	// 프로젝트 작성저장 : 프로젝트 계획 작성시 TODO-현지연 : 이미지 업로드 메소드 추가 : 선생님이 갤러리 할 시 만들어야함
 	// 프로젝트 작성저장 : 프로젝트 계획
 	@PostMapping("save/dateplan")
-	public void saveDateplan() {}
+	public void saveDateplan(ProjectVo vo) throws Exception {
+		
+		int result = service.saveDateplan(vo);
+		if(result != 1) {
+			throw new Exception("프로젝트 계획 작성에 실패했습니다.");
+		}
+		System.out.println("프로젝트 계획 작성 결과 : " + result);
+		
+	}
 	
 	
 	// 프로젝트 작성조회 : 창작자 정보 프로젝트 넘버필요
@@ -150,6 +182,14 @@ public class ProjectControllerHJY {
 	}
 	// 프로젝트 작성저장 : 창작자 정보
 	@PostMapping("save/userinfo")
-	public void saveUserinfo() {}
+	public void saveUserinfo(SettlementVo vo) throws Exception {
+		
+		int result = service.saveUserinfo(vo);
+		if(result != 1) {
+			throw new Exception("창작자 정보 작성(저장)에 실패했습니다.");
+		}
+		System.out.println("창작자 정보 작성(저장) 결과 : " + result);
+		
+	}
 	
 }

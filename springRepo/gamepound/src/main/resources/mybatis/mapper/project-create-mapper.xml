@@ -101,5 +101,70 @@
 		WHERE NO = #{no}
 	</update>
 	
+	<!-- 프로젝트 작성 : 선물구성 -->
+	<insert id="createReword">
+		INSERT INTO REWARD(NO, PROJECT_NO, AMOUNT, NAME)
+		VALUES(SEQ_REWARD_NO.NEXTVAL, #{projectNo}, #{amount}, #{name})
+	</insert>
+	
+	<!-- 프로젝트 작성저장 : 선물구성 -->
+	<update id="saveReword">
+		UPDATE REWARD
+		    SET 
+		        AMOUNT = #{amount}
+		        , NAME = #{name}
+		WHERE NO = #{no}
+	</update>
+	
+	<!-- 프로젝트 선물삭제 : 선물구성 -->
+	<delete id="deleteReword">
+		DELETE FROM REWARD
+		WHERE NO = #{no}
+	</delete>
+	
+	<!-- 프로젝트 작성저장 : 프로젝트 계획 -->
+	<update id="saveDateplan">
+		UPDATE PROJECT
+		    SET
+		        TXT_DESCRIPTION = #{txtDescription}
+		        , TXT_BUDGET = #{txtBudget}
+		        , TXT_SCHEDULE = #{txtSchedule}
+		        , TXT_TEAM = #{txtTeam}
+		        , TXT_ITEM = #{txtItem}
+		WHERE NO = #{no}
+	</update>
+	
+	<!-- 프로젝트 작성저장 : 창작자 정보 -->
+	<update id="saveUserinfo">
+		MERGE INTO SETTLEMENT_INFO target
+		USING (
+		    SELECT
+		        #{projectNo} AS PROJECT_NO
+		        , #{bankName} AS BANK_NAME
+		        , #{name} AS NAME
+		        , #{accountNum} AS ACCOUNT_NUM
+		    FROM dual
+		) source
+		ON (target.PROJECT_NO = source.PROJECT_NO)
+		WHEN MATCHED THEN
+		    UPDATE SET
+		        target.BANK_NAME = source.BANK_NAME
+		        , target.NAME = source.NAME
+		        , target.ACCOUNT_NUM = source.ACCOUNT_NUM
+		WHEN NOT MATCHED THEN
+		    INSERT (
+		    	NO
+		        , PROJECT_NO
+		        , BANK_NAME
+		        , NAME
+		        , ACCOUNT_NUM
+		    ) VALUES (
+		    	SEQ_SETTLEMENT_INFO_NO.NEXTVAL
+		        , source.PROJECT_NO
+		        , source.BANK_NAME
+		        , source.NAME
+		        , source.ACCOUNT_NUM
+		    )
+	</update>
 	
 </mapper>
