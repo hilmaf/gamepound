@@ -4,6 +4,7 @@ import { Route, Routes } from 'react-router-dom';
 import ProjectMain from '../../../pages/projectpage/ProjectMain';
 import UserPageMain from '../../../pages/userpage/UserPageMain';
 import BackMain from '../../../pages/backingpage/BackMain';
+import CreateMain from '../../../pages/projectpage/create/CreateMain';
 
 const StyledMainDiv = styled.div`
 `;
@@ -16,6 +17,7 @@ const Main = () => {
                 <Route path='/project/*' element={<ProjectMain />}></Route>
                 <Route path='/userpage/*' element={<UserPageMain />}></Route>
                 <Route path='/back/*' element={<BackMain />}></Route>
+                <Route path='/projectCreate/*' element={<CreateMain />}></Route>
             </Routes>
         </StyledMainDiv>
     );
