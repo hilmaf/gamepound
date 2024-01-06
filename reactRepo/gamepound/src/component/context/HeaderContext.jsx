@@ -21,7 +21,7 @@ const HeaderMemoryProvider = ({ children }) => {
     
         // 현재 경로를 이전 경로로 업데이트
         prevPathname = location.pathname;
-    }, [location.pathname, pageType]);
+    }, [location, pageType]);
 
     return (
         <HeaderMemory.Provider value={{ pageType, updatePageType }}>

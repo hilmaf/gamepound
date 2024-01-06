@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Nav from './nav/Nav';
 import LoginArea from './LoginArea';
+import { useHeaderMemory } from '../../context/HeaderContext';
 
 const StyledHeaderDiv = styled.header`
     display: flex;
@@ -114,9 +115,22 @@ const handleSearchBlur = (e) => {
 }
 
 const Header = () => {
+
+    const {pageType} = useHeaderMemory();
+
     return (
-        <StyledHeaderDiv>
+        <StyledHeaderDiv className={pageType}>
             <div className="inner">
+
+                { // 후원 헤더
+                    pageType === 'payment' ?  <button className='paymentBtn'>프로젝트 후원하기</button> : ''
+                }
+                { // 프로젝트 create 헤더
+                    pageType === 'create' ?  <button className='createBtn'>내가 만든 프로젝트</button> : ''
+                }
+                { // createMain 헤더
+                    pageType === 'createMain' ?  <button className='createMainBtn'></button> : ''
+                }
 
                 <div className='topArea'>
                     <h1><Link to='/'></Link></h1>
