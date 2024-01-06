@@ -40,6 +40,18 @@ public class BackDaoLKM {
 		return sst.selectOne("BackMapper.detail", backNo);
 	}
 
+	// 후원 내용 변경 - 선물 변경
+	public int changeReward(SqlSessionTemplate sst, BackVo vo) {
+		return sst.update("BackMapper.changeReward", vo);
+	}
+
+	// 후원 내용 변경 - 결제 수단 변경
+	public int changePayment(SqlSessionTemplate sst, BackVo vo) {
+		return sst.update("BackMapper.changePayment", vo);
+	}
+	
+	
+
 	
 
 	

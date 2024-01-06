@@ -69,4 +69,16 @@ public class BackControllerLKM {
 		BackVo vo = service.detail(backNo);
 		
 	}
+	
+	// 후원 내용 변경 - 선물 변경
+	@PostMapping("change/reward")
+	public void changeReward(BackVo vo) {
+		int result = service.changeReward(vo);
+	}
+	
+	// 후원 내용 변경 - 결제 수단 변경
+	@PostMapping("change/paymentType")
+	public void changePaymentType(BackVo vo) {
+		int result = service.changePaymentType(vo);
+	}
 }
