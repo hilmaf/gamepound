@@ -4,7 +4,13 @@ import styled from 'styled-components';
 const StyledPaymentCheckDiv = styled.div`
     width: 380px;
     height: 350px;
-    border: 1px solid #3d3d3d;
+    margin-top: 20px;
+    padding-bottom: 20px;
+    
+    & > .final_amount {
+        height: 60px;
+        border: 1px solid #3d3d3d;
+    }
 `;
 
 const PaymentCheck = () => {
@@ -25,7 +31,7 @@ const PaymentCheck = () => {
             </div>
             
             <div className="checkbox_area">
-                <input type="checkbox" name="check">개인정보 제3자 제공 동의</input>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    "/>
+                <input type="checkbox" name="check"></input>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    "/>
             </div>
             
             <button onClick={handleBackBtnClick}>후원하기</button>

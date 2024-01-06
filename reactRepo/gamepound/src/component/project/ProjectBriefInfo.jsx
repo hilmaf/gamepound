@@ -7,16 +7,55 @@ const StyledProjectBriefInfoDiv = styled.div`
     display: flex;
     justify-content: start;
     align-items: center;
+    border-bottom: 1px solid #3d3d3d;
+    padding-bottom: 20px;
+    background-color: beige;
+
+    & > img {
+        width: 180px;
+        height: 120px;
+        object-fit: cover;
+        padding-left: 10px;
+    }
+
+    & > .project_summary {
+        margin-left: 20px;
+
+        & > .category {
+            font-size: 12px;
+            color: #3d3d3d;
+            opacity: 0.7;
+        }
+
+        & > .title {
+            font-size: 28px;
+            color: #3d3d3d;
+        }
+
+        & > .achievement {
+            font-size: 13px;
+            color: #3d3d3d;
+            
+            & > span {
+                margin-right: 10px;
+            }
+        }
+    }
+    
 `;
 
 const ProjectBriefInfo = () => {
     return (
         <StyledProjectBriefInfoDiv>
-            <img />
+            <img src='https://cdn.akamai.steamstatic.com/steam/apps/416600/capsule_616x353.jpg?t=1689347261' alt='프로젝트 이미지'/>
             <div className='project_summary'>
-                <div className='category'>카테고리 카테고리</div>
+                <div className='category'>카테고리 | 카테고리</div>
                 <div className='title'>프로젝트 제목</div>
-                <div className='achievement'>모인 금액 달성률 마감기한 D-</div>
+                <div className='achievement'>
+                    <span>모인 금액</span>
+                    <span>달성률</span> 
+                    <span>마감기한 D-</span>
+                </div>
             </div>
         </StyledProjectBriefInfoDiv>
     );
