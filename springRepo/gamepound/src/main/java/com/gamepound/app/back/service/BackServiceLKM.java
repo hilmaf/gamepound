@@ -66,4 +66,13 @@ public class BackServiceLKM {
 		return dao.detail(sst, backNo);
 	}
 
+	// 후원 내용 변경 - 선물 변경
+	public int changeReward(BackVo vo) {
+		return dao.changeReward(sst, vo);
+	}
+
+	public int changePaymentType(BackVo vo) {
+		return dao.changePayment(sst, vo);
+	}
+
 }
