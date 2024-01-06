@@ -18,14 +18,12 @@ public class PaymentDaoLKM {
 	
 	// 결제 상태 업데이트 - 결제성공
 	public int updatePaymentStatusToPaid(SqlSessionTemplate sst) {
-		// TODO Auto-generated method stub
-		return 0;
+		return sst.update("PaymentMapper.updatePaymentStatusToPaid");
 	}
 
 	// 결제 상태 업데이트 - 결제실패
 	public int updatePaymentStatusToDeclined(SqlSessionTemplate sst) {
-		// TODO Auto-generated method stub
-		return 0;
+		return sst.update("PaymentMapper.updatePaymentStatusToDeclined");
 	}
 
 	

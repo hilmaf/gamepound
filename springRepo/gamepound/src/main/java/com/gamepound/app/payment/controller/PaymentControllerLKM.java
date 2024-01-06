@@ -22,7 +22,7 @@ public class PaymentControllerLKM {
 	@PostMapping("")
 	public void pay(PaymentVo vo) {
 		
-		service.pay(vo);
+//		service.pay(vo);
 		
 	}
 }

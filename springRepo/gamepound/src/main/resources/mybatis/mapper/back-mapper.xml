@@ -87,4 +87,18 @@
 	WHERE B.NO = #{backNo}
   </select>
   
+<!--   후원 내용 변경 - 선물 변경 -->
+  <update id="changeReward">
+	UPDATE BACKER
+		SET REWARD_NO = #{rewardNo}
+	WHERE NO = #{backNo}
+  </update>
+  
+<!--   후원 내용 변경 - 결제 수단 변경 -->
+  <update id="changePayment">
+  	UPDATE BACKER
+	    SET PAYMENT_TYPE_NO = #{paymentTypeNo}
+	WHERE NO = #{backNo}
+  </update>
+  
 </mapper>
