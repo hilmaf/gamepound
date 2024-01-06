@@ -1,21 +1,17 @@
 import React from 'react';
-import {styled} from 'styled-components';
-import ProjectBriefInfo from '../../component/project/ProjectBriefInfo';
-import BackingProcess from '../backingpage/BackingProcess';
+import BackingProcess from './BackingProcess';
+import { Route, Routes } from 'react-router-dom';
 
-const StyledBackMainDiv = styled.div`
-    width: 1200px;
-    display: flex;
-    justify-content: start;
-    align-items: center;
-`;
 
 const BackMain = () => {
     return (
-        <StyledBackMainDiv>
-            <ProjectBriefInfo />
-            <BackingProcess />
-        </StyledBackMainDiv>
+        <Routes>
+            <Route path='process' element={<BackingProcess />}/>
+            <Route path='completed' element={<BackingProcess />}/>
+            <Route path='canceled' element={<BackingProcess />}/>
+            <Route path='detail' element={<BackingProcess />}/>
+        </Routes>
+
     );
 };
 

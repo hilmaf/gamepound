@@ -1,21 +1,23 @@
 import React from 'react';
-import styled from 'styled-components';
-import BackingDetails from './BackingDetails';
-import PaymentCheck from './PaymentCheck';
+import {styled} from 'styled-components';
+import ProjectBriefInfo from '../../component/project/ProjectBriefInfo';
+import BackingForm from '../backingpage/BackingForm';
 
-const StyledBackingProcessDiv = styled.div`
+const StyledBackingFormDiv = styled.div`
     width: 1200px;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
 `;
 
-const BackingProcessDetails = () => {
+const BackingProcess = () => {
     return (
-        <StyledBackingProcessDiv>
-            <BackingDetails />
-            <PaymentCheck />
-        </StyledBackingProcessDiv>
+        <StyledBackingFormDiv>
+            <ProjectBriefInfo />
+            <BackingForm />
+        </StyledBackingFormDiv>
     );
 };
 
-export default BackingProcessDetails;
+export default BackingProcess;

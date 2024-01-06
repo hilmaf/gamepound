@@ -3,24 +3,61 @@ import styled from 'styled-components';
 
 const StyledBackingDetailsDiv = styled.div`
     width: 800px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    & > .detail_box {
+        width: 780px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+
+        & > .title {
+            font-size: 16px;
+            color: #3d3d3d;
+            padding: 5px;
+            padding-bottom: 15px;
+        }
+
+        & > .detail {
+            border: 1px solid #3d3d3d;
+            padding: 5px;
+
+            & > .detail_1 {
+                font-size: 14px; 
+                color: #3d3d3d;
+                padding-left: 12px;
+                padding-top: 15px;
+                padding-bottom: 15px;
+
+                & > .span {
+                }
+            }
+            
+            & > .detail_2 {
+                font-size: 14px;                
+                color: #3d3d3d;               
+                padding-left: 12px;
+                padding-top: 15px;
+                padding-bottom: 15px;
+            }
+        }
+
+        & > .paymentType {
+            border: 1px solid #3d3d3d;
+        }
+    }
+
+
 `;
 
 const BackingDetails = () => {
 
     const handleCardClick = () => {
-        return (
-            <div className="card">
-
-            </div>
-        )
     }
 
     const handleKakaoPayClick = () => {
-        return (
-            <div className="kakaopay">
-
-            </div>
-        )
     }
 
     return (
@@ -46,7 +83,7 @@ const BackingDetails = () => {
                         <span>glee1470@naver.com</span>
                     </div>
                     <div className='detail_2'>
-                        <p>* 위 이메일로 후원 관련 소식이 전달됩니다.
+                        <p>* 위 이메일로 후원 관련 소식이 전달됩니다.<br />
                            * 이메일은 가입 시 등록한 이메일로 자동 설정됩니다.</p>
                     </div>
                 </div>
@@ -54,8 +91,8 @@ const BackingDetails = () => {
             <div className='detail_box' id='paymentType_info'>
                 <div className='title'>결제 수단</div>
                 <div className='paymentType'>
-                    <input type='radio' name='paymentType' value='card' onClick={handleCardClick}>카드 결제</input>
-                    <input type='radio' name='paymentType' value='kakaopay' onClick={handleKakaoPayClick}>카카오페이</input>
+                    <input type='radio' name='paymentType' value='card' onClick={handleCardClick}/>
+                    <input type='radio' name='paymentType' value='kakaopay' onClick={handleKakaoPayClick}/>
                 </div>
             </div>
         </StyledBackingDetailsDiv>
