@@ -8,6 +8,12 @@ const StyledFooterDiv = styled.div`
     justify-content: center;
     align-items: center;
     border-top: 1px solid #3d3d3d;
+    opacity: 0.7;
+    
+    & > div {
+        font-size: 12px;
+        color: #3d3d3d;
+    }
 `;
 
 const Footer = () => {
