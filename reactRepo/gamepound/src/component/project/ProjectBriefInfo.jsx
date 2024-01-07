@@ -7,9 +7,8 @@ const StyledProjectBriefInfoDiv = styled.div`
     display: flex;
     justify-content: start;
     align-items: center;
-    border-bottom: 1px solid #3d3d3d;
-    padding-bottom: 20px;
-    background-color: beige;
+    padding-top: 30px;
+    padding-bottom: 30px;
 
     & > img {
         width: 180px;
