@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
@@ -45,13 +45,13 @@ const StyledNavDiv = styled.nav`
                 box-sizing: border-box;
                 & > li { 
                     display: flex;
-                    max-width: 100px;
+                    max-width: 150px;
                     gap: 40px;
                     &::after {
                         content: "";
                         display: block;
                         position: absolute;
-                        left: 120px;
+                        left: 170px;
                         top: -5px;
                         width: 1px;
                         height: calc(100% + 10px);
@@ -74,7 +74,7 @@ const StyledNavDiv = styled.nav`
                         gap: 10px;
                         position: absolute;
                         top: 0;
-                        left: 100px;
+                        left: 160px;
                         width: calc(100% - 100px);
                         height: 100%;
                         padding-left: 50px;
@@ -106,6 +106,22 @@ const StyledNavDiv = styled.nav`
 `;
 
 const Nav = () => {
+
+    const [navVoList, setNavVoList] = useState([]);
+
+    const loadNavVoList = () => {
+        fetch('http://localhost:8889/app/category/list')
+        .then(resp => resp.json())
+        .then((data) => {
+            console.log(data);
+            setNavVoList(data);
+        });
+    };
+
+    useEffect(() => {
+        loadNavVoList();
+    }, []);
+
     return (
         <StyledNavDiv>
 
@@ -116,28 +132,21 @@ const Nav = () => {
                         <li>
                             <Link to=''>전체</Link>
                         </li>
-                        <li>
-                            <Link to=''>비디오</Link>
-                            <ul>
-                                <li><Link to=''>비디오</Link></li>
-                                <li><Link to=''>비디오</Link></li>
-                                <li><Link to=''>비디오</Link></li>
-                                <li><Link to=''>비디오</Link></li>
-                                <li><Link to=''>비디오</Link></li>
-                                <li><Link to=''>비디오</Link></li>
-                            </ul>
-                        </li>
-                        <li>
-                            <Link to=''>모바일</Link>
-                            <ul>
-                                <li><Link to=''>비디오</Link></li>
-                                <li><Link to=''>비디오</Link></li>
-                                <li><Link to=''>비디오</Link></li>
-                                <li><Link to=''>비디오</Link></li>
-                                <li><Link to=''>비디오</Link></li>
-                                <li><Link to=''>비디오</Link></li>
-                            </ul>
-                        </li>
+                        {
+                            navVoList.length === 0 ?
+                            ''
+                            :
+                            navVoList.map(vo => (
+                                <li key={vo.no}>
+                                    <Link to=''>{vo.mainCategory}</Link>
+                                    <ul>
+                                        {vo.subCategoryList.map(sub => (
+                                            <li key={sub.no}><Link to=''>{sub.subCategory}</Link></li>
+                                        ))}
+                                    </ul>
+                                </li>
+                            ))
+                        }
                     </div>
                 </ul>
             </div>
