@@ -110,7 +110,7 @@ const Nav = () => {
     const [navVoList, setNavVoList] = useState([]);
 
     const loadNavVoList = () => {
-        fetch('http://localhost:8889/app/category/list')
+        fetch('http://localhost:8889/gamepound/category/list')
         .then(resp => resp.json())
         .then((data) => {
             console.log(data);

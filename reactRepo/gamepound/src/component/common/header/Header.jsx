@@ -9,10 +9,16 @@ import { useHeaderMemory } from '../../context/HeaderContext';
 
 const StyledHeaderDiv = styled.header`
     display: flex;
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
     flex-direction: column;
     align-items: center;
     width: 100%;
     box-shadow: 0 0 15px 3px rgba(0, 0, 0, .1);
+    background-color: #fff;
+    z-index: 9;
 
     &.payment {
         padding: 5px 0;
