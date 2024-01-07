@@ -1,12 +1,17 @@
 package com.gamepound.app.project.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
 
 import com.gamepound.app.project.dao.ProjectDaoHYJ;
+import com.gamepound.app.project.vo.ProjectCommunityVo;
+import com.gamepound.app.project.vo.ProjectDetailVo;
 import com.gamepound.app.project.vo.ProjectListVo;
+import com.gamepound.app.project.vo.ProjectUpdateVo;
 import com.gamepound.app.project.vo.ProjectVo;
 
 import lombok.RequiredArgsConstructor;
@@ -43,7 +48,26 @@ public class ProjectServiceHYJ {
 
 	//목록 조회 - 공개예정
 	public List<ProjectVo> projectListPrelaunch() {
-		
 		return dao.projectListPrelaunch(sst);
 	}
+
+	//프로젝트 상세 조회 - 프로젝트 계획
+	public Map<String, Object> projectDetailStory(ProjectDetailVo vo) {
+		Map<String, Object>map = new HashMap<String, Object>();
+		map.put("projectDetail", dao.projectDetail(sst, vo));
+		map.put("projectStory", dao.projectStory(sst, vo));
+		return map;
+	}
+
+	//프로젝트 상세 조회 - 업데이트
+	public List<ProjectUpdateVo> projectDetailUpdate(ProjectDetailVo vo) {
+		return dao.projectDetailUpdate(sst, vo);
+	}
+
+	//프로젝트 상세 조회 - 커뮤니티
+	public List<ProjectCommunityVo> projectDetailCommunity(ProjectDetailVo vo) {
+		return dao.projectDetailCommunity(sst, vo);
+	}
+
+
 }
