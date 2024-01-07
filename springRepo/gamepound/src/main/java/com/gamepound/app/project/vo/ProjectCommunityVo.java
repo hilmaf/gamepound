@@ -7,6 +7,7 @@ public class ProjectCommunityVo {
 	private String no;
 	private String projectNo;
 	private String memberNo;
+	private String memberName;
 	private String content;
 	private String contentEnrollDate;
 	private String reply;

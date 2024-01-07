@@ -1,11 +1,16 @@
 package com.gamepound.app.project.dao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.gamepound.app.project.vo.ProjectCommunityVo;
+import com.gamepound.app.project.vo.ProjectDetailVo;
 import com.gamepound.app.project.vo.ProjectListVo;
+import com.gamepound.app.project.vo.ProjectUpdateVo;
 import com.gamepound.app.project.vo.ProjectVo;
 
 @Repository
@@ -38,6 +43,32 @@ public class ProjectDaoHYJ {
 	public List<ProjectVo> projectListPrelaunch(SqlSessionTemplate sst) {
 		// TODO-HYJ : [list-prelaunch] vo에서 가져올때 오픈일이 현재 시간보다 늦어야함
 		return sst.selectList("ProjectMapper.ListPrelaunch");
+	}
+
+
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	//상세조회 - 타이틀 + 선물
+	public ProjectDetailVo projectDetail(SqlSessionTemplate sst, ProjectDetailVo vo) {
+		
+		ProjectDetailVo detailVo = sst.selectOne("ProjectMapper.DetailTitle", vo);
+		detailVo.setRewardVo(sst.selectList("ProjectMapper.DetailReward", vo));
+		return detailVo;
+	}
+
+	//상세조회 - 계획
+	public Object projectStory(SqlSessionTemplate sst, ProjectDetailVo vo) {
+		return sst.selectOne("ProjectMapper.DetailStory", vo);
+	}
+
+	//프로젝트 상세 조회 - 업데이트
+	public List<ProjectUpdateVo> projectDetailUpdate(SqlSessionTemplate sst, ProjectDetailVo vo) {
+		return sst.selectList("ProjectMapper.DetailUpdate", vo);
+	}
+
+	//프로젝트 상세 조회 - 커뮤니티
+	public List<ProjectCommunityVo> projectDetailCommunity(SqlSessionTemplate sst, ProjectDetailVo vo) {
+		return sst.selectList("ProjectMapper.DetailCommunity", vo);
 	}
 
 }

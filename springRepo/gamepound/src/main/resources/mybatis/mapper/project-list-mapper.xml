@@ -328,4 +328,93 @@
 	    )
 	ORDER BY START_DATE
   </select>
+  
+  <!-- 프로젝트 상세 타이틀 -->
+  <select id="DetailTitle" resultType="com.gamepound.app.project.vo.ProjectDetailVo">
+	SELECT 
+	  P.STATUS_NO
+	  , PS.STATUS AS STATUS_NAME
+	  , P.CATEGORY_NO
+	  , C.MAIN_CATEGORY
+	  , C.SUB_CATEGORY
+	  , P.MEMBER_NO
+	  , M.NAME AS MEMBER_NAME
+	  , P.NO
+	  , P.TITLE
+	  , P.IMAGE_URL
+	  , P.GOAL_AMOUNT
+	  , P.CURRENT_AMOUNT
+	  , P.OK_DATE
+	  , P.ENROLL_DATE
+	  , P.START_DATE
+	  , P.END_DATE
+	  , P.CAL_DATE
+	  , P.OK_YN
+	  , P.DELETE_YN
+	FROM PROJECT P
+	JOIN PROJECT_STATUS PS ON P.STATUS_NO = PS.NO
+	JOIN CATEGORY C ON P.CATEGORY_NO = C.NO
+	JOIN MEMBER M ON P.MEMBER_NO = M.NO
+	WHERE P.OK_YN = 'Y'  
+	  AND P.DELETE_YN = 'N'
+	  AND P.NO = #{no}
+  </select>
+  
+  <!-- 프로젝트 상세 리워드 -->
+  <select id="DetailReward" resultType="com.gamepound.app.reward.vo.RewardVo">
+	SELECT 
+	  NO
+	  , PROJECT_NO
+	  , AMOUNT
+	  , NAME
+	FROM REWARD
+	WHERE PROJECT_NO = #{no}
+  </select>
+  
+  <!-- 프로젝트 상세 계획 -->
+  <select id="DetailStory" resultType="com.gamepound.app.project.vo.ProjectStoryVo">
+	SELECT 
+	  TXT_DESCRIPTION
+	  , TXT_BUDGET
+	  , TXT_SCHEDULE
+	  , TXT_TEAM
+	  , TXT_ITEM
+	FROM PROJECT
+	WHERE DELETE_YN = 'N'
+	    AND OK_YN = 'Y'
+	    AND NO = #{no}
+  </select>
+  
+  <!-- 프로젝트 상세 업데이트 -->
+  <select id="DetailUpdate" resultType="com.gamepound.app.project.vo.ProjectUpdateVo">
+	SELECT 
+	  NO
+	  , PROJECT_NO
+	  , CONTENT
+	  , ENROLL_DATE
+	FROM PROJECT_UPDATE
+	WHERE PROJECT_NO = #{no}
+  </select>
+  
+  <!-- 프로젝트 상세 커뮤니티 -->
+  <select id="DetailCommunity" resultType="com.gamepound.app.project.vo.ProjectCommunityVo">
+	SELECT 
+	  C.NO
+	  , C.PROJECT_NO
+	  , C.MEMBER_NO
+	  , M.NAME AS MEMBER_NAME
+	  , C.CONTENT
+	  , C.CONTENT_ENROLL_DATE
+	  , C.REPLY
+	  , C.REPLY_ENROLL_DATE
+	FROM COMMUNITY C
+	JOIN MEMBER M ON C.MEMBER_NO = M.NO
+	WHERE C.PROJECT_NO = #{no}
+  </select>
+  
+  <!-- 프로젝트 상세 공개예정 타이틀 -->
+  <!-- 프로젝트 상세 공개예정 계획 -->
+  <!-- 프로젝트 상세 공개예정 업데이트 -->
+  
+  
 </mapper>
