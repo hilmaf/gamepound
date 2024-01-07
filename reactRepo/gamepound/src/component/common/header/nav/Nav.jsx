@@ -29,7 +29,7 @@ const StyledNavDiv = styled.nav`
             display: none;
             position: absolute;
             justify-content: center;
-            top: 133px;
+            top: 126px;
             left: 0;
             background-color: #fff;
             width: 100%;
