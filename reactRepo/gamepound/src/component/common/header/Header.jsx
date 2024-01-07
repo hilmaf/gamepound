@@ -5,16 +5,128 @@ import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Nav from './nav/Nav';
 import LoginArea from './LoginArea';
+import { useHeaderMemory } from '../../context/HeaderContext';
 
 const StyledHeaderDiv = styled.header`
     display: flex;
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
     flex-direction: column;
     align-items: center;
     width: 100%;
     box-shadow: 0 0 15px 3px rgba(0, 0, 0, .1);
+    background-color: #fff;
+    z-index: 9;
+
+    &.payment {
+        padding: 5px 0;
+        & .paymentBtn {
+            display: flex;
+            font-size: 14px;
+            background-color: #fff;
+            cursor: pointer;
+        }
+        & .topArea {
+            & .userArea {
+                & > a {
+                    display: none;
+                }
+            }
+        }
+        & .bottomArea {
+            display: none;
+        }
+    }
+    &.create {
+        padding: 5px 0;
+        & .createBtn {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            background-color: #fff;
+            cursor: pointer;
+            &::before {
+                content: "";
+                display: block;
+                width: 6px;
+                height: 6px;
+                border: 2px solid #333;
+                border-width: 2px 0 0 2px;
+                transform: rotate(-45deg);
+                margin: 2px 10px 0 0;
+            }
+        }
+        & .topArea {
+            & .userArea {
+                & > a {
+                    display: none;
+                }
+            }
+        }
+        & .bottomArea {
+            display: none;
+        }
+    }
+    &.createMain {
+        padding: 5px 0;
+        & .createMainBtn {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            background-color: #fff;
+            cursor: pointer;
+            &::before {
+                content: "";
+                display: block;
+                width: 6px;
+                height: 6px;
+                border: 2px solid #333;
+                border-width: 2px 0 0 2px;
+                transform: rotate(-45deg);
+                margin: 2px 10px 0 0;
+            }
+        }
+        & .topArea {
+            & h1 {
+                display: none;
+            }
+            & .userArea {
+                & > a {
+                    display: none;
+                }
+                & .createMainStateBtn {
+                    display: flex;
+                    align-items: center;
+                    font-size: 13px;
+                    background-color: #fff;
+                    border: 1px solid #ddd;
+                    padding: 10px 15px;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    &:disabled {
+                        background-color: #f5f5f5;
+                        color: #999;
+                        cursor: default;
+                    }
+                }
+            }
+        }
+        & .bottomArea {
+            display: none;
+        }
+    }
 
     & .inner {
         width: 1200px;
+    }
+    @media screen and (max-width: 1200px) {
+        & .inner {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 0 20px;
+        }
     }
 
     & .topArea {
@@ -35,7 +147,7 @@ const StyledHeaderDiv = styled.header`
             display: flex;
             gap: 10px;
             align-items: center;
-            a {
+            & > a {
                 display: flex;
                 padding: 10px;
                 font-size: 14px;
@@ -88,6 +200,7 @@ const StyledHeaderDiv = styled.header`
                 padding: 41px 30px;
                 box-sizing: border-box;
                 background-color: #fff;
+                z-index: 11;
                 & input {
                     width: 100%;
                     font-size: 20px;
@@ -114,16 +227,37 @@ const handleSearchBlur = (e) => {
 }
 
 const Header = () => {
+
+    const {pageType} = useHeaderMemory();
+
     return (
-        <StyledHeaderDiv>
+        <StyledHeaderDiv className={pageType}>
             <div className="inner">
 
                 <div className='topArea'>
+
+                    { // 후원 버튼
+                        pageType === 'payment' ?  <button className='paymentBtn'>프로젝트 후원하기</button> : ''
+                    }
+                    { // 프로젝트 create 버튼
+                        pageType === 'create' ?  <button className='createBtn'>내가 만든 프로젝트</button> : ''
+                    }
+                    { // createMain 버튼
+                        pageType === 'createMain' ?  <button className='createMainBtn'></button> : ''
+                    }
+
                     <h1><Link to='/'></Link></h1>
                     <div className='userArea'>
                         <Link to='' className='projectUploadBtn'>프로젝트 올리기</Link>
                         <Link to='' className=''>관심</Link>
                         <Link to='' className=''>알림</Link>
+                        
+                        { // createMain 버튼
+                            pageType === 'createMain' ?  
+                            <button className='createMainStateBtn' disabled>기획중 · 13% 완료</button> 
+                            :
+                            ''
+                        }
                         <LoginArea />
                     </div>
                 </div>
