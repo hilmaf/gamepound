@@ -6,10 +6,12 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.gamepound.app.member.service.MailSendService;
 import com.gamepound.app.member.service.MemberServiceHJY;
@@ -17,8 +19,9 @@ import com.gamepound.app.member.vo.MemberVo;
 
 import lombok.RequiredArgsConstructor;
 
-@Controller
 @RequiredArgsConstructor
+@CrossOrigin("*")
+@RestController
 public class MemberControllerHJY {
 
 	private final MemberServiceHJY service;
@@ -26,14 +29,18 @@ public class MemberControllerHJY {
 	
 	// 로그인 처리
 	@PostMapping("login")
-	public void login(MemberVo vo, HttpSession session) throws Exception {
+	public Map<String, Object> login(MemberVo vo) throws Exception {
 		MemberVo loginMember = service.login(vo);
-		if(loginMember == null) {
-			System.out.println("로그인 실패"); // TODO-현지연 : 로그인실패하면 실패 메세지 띄우기
-		}
-		session.setAttribute("loginMember", loginMember);
-		System.out.println(loginMember);
 		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("loginMember", loginMember);
+		if(loginMember == null) {
+			map.put("msg", "good");
+		} else {
+			map.put("msg", "bad");
+		}
+		
+		return map;
 	}
 	
 	// 회원가입 처리
