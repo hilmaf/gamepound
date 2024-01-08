@@ -52,21 +52,21 @@ public class ProjectServiceHYJ {
 	}
 
 	//프로젝트 상세 조회 - 프로젝트 계획
-	public Map<String, Object> projectDetailStory(ProjectDetailVo vo) {
+	public Map<String, Object> projectDetailStory(String no) {
 		Map<String, Object>map = new HashMap<String, Object>();
-		map.put("projectDetail", dao.projectDetail(sst, vo));
-		map.put("projectStory", dao.projectStory(sst, vo));
+		map.put("projectDetail", dao.projectDetail(sst, no));
+		map.put("projectStory", dao.projectStory(sst, no));
 		return map;
 	}
 
 	//프로젝트 상세 조회 - 업데이트
-	public List<ProjectUpdateVo> projectDetailUpdate(ProjectDetailVo vo) {
-		return dao.projectDetailUpdate(sst, vo);
+	public List<ProjectUpdateVo> projectDetailUpdate(String no) {
+		return dao.projectDetailUpdate(sst, no);
 	}
 
 	//프로젝트 상세 조회 - 커뮤니티
-	public List<ProjectCommunityVo> projectDetailCommunity(ProjectDetailVo vo) {
-		return dao.projectDetailCommunity(sst, vo);
+	public List<ProjectCommunityVo> projectDetailCommunity(String no) {
+		return dao.projectDetailCommunity(sst, no);
 	}
 
 
