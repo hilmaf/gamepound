@@ -20,7 +20,6 @@ import com.gamepound.app.member.vo.MemberVo;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-@CrossOrigin("*")
 @RestController
 public class MemberControllerHJY {
 
@@ -29,14 +28,17 @@ public class MemberControllerHJY {
 	
 	// 로그인 처리
 	@PostMapping("login")
-	public Map<String, Object> login(MemberVo vo) throws Exception {
+	public Map<String, Object> login(@RequestBody MemberVo vo) throws Exception {
+		System.out.println(vo);
 		MemberVo loginMember = service.login(vo);
+		System.out.println(loginMember);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
+
+		map.put("msg", "good");
 		map.put("loginMember", loginMember);
+		
 		if(loginMember == null) {
-			map.put("msg", "good");
-		} else {
 			map.put("msg", "bad");
 		}
 		

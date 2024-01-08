@@ -215,7 +215,6 @@ const StyledHeaderDiv = styled.header`
     }
 `;
 
-//
 const handleSearchActive = (e) => {
     const searchArea = e.target.parentNode;
     searchArea.classList.add('active');
