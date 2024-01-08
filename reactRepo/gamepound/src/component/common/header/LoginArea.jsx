@@ -1,12 +1,13 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { useUserMemory } from '../../context/UserContext';
 
 const StyledLoginAreaDiv = styled.ul`
     display: flex;
     & li {
         position: relative;
-        & button {
+        & > button {
             display: flex;
             align-items: center;
             justify-content: center;
@@ -56,10 +57,14 @@ const StyledLoginAreaDiv = styled.ul`
                 }
                 & li * {
                     display: flex;
+                    justify-content: flex-start;
+                    box-sizing: border-box;
+                    width: 100%;
                     padding: 8px 10px;
                     border-radius: 5px;
                     font-size: 14px;
                     transition: .2s;
+                    border: none;
                     &:hover {
                         background-color: #f5f5f5;
                     }
@@ -75,39 +80,60 @@ const StyledLoginAreaDiv = styled.ul`
 
 const LoginArea = () => {
 
+    const navigate = useNavigate();
+    const {setLoginMemberVo} = useUserMemory();
+    const sessionLoginMemberVo = JSON.parse(sessionStorage.getItem('loginMemberVo'));
+
     const handleUserInfo = (e) => {
         const target = e.currentTarget;
         target.parentNode.classList.toggle('active');
     }
 
+    const handleLogout = (e) => {
+        sessionStorage.setItem('loginMemberVo', null);
+        setLoginMemberVo(null);
+    }
+
     return (
         <StyledLoginAreaDiv>
-            <li>
-                <button>
-                    <span></span>
-                    <strong>로그인/회원가입</strong>
-                </button>
-            </li>
-            <li className='userInfo'>
-                <button onClick={handleUserInfo}>
-                    <span></span>
-                    <strong>유저이름</strong>
-                </button>
-                <div className="userInfoMenu">
-                    <ul>
-                        <li><Link to='/'>프로필</Link></li>
-                    </ul>
-                    <ul>
-                        <li><Link to='/'>후원한 프로젝트</Link></li>
-                        <li><Link to='/'>관심 프로젝트</Link></li>
-                    </ul>
-                    <ul>
-                        <li><Link to='/'>내가 만든 프로젝트</Link></li>
-                        <li><Link to='/'>설정</Link></li>
-                        <li><Link to='/'>로그아웃</Link></li>
-                    </ul>
-                </div>
-            </li>
+            {
+                sessionLoginMemberVo === null ?
+                (
+                <li>
+                    <button onClick={() => {
+                        navigate('/login');
+                    }}>
+                        <span></span>
+                        <strong>로그인/회원가입</strong>
+                    </button>
+                </li>
+                )
+                :
+                (
+                <li className='userInfo'>
+                    <button onClick={handleUserInfo}>
+                        <span><img src={sessionLoginMemberVo.pic} alt='유저이미지' /></span>
+                        <strong>{sessionLoginMemberVo.name}</strong>
+                    </button>
+                    <div className="userInfoMenu">
+                        <ul>
+                            <li><Link to='/'>프로필</Link></li>
+                        </ul>
+                        <ul>
+                            <li><Link to='/'>후원한 프로젝트</Link></li>
+                            <li><Link to='/'>관심 프로젝트</Link></li>
+                        </ul>
+                        <ul>
+                            <li><Link to='/'>내가 만든 프로젝트</Link></li>
+                            <li><Link to='/'>설정</Link></li>
+                            <li><button onClick={handleLogout}>로그아웃</button></li>
+                        </ul>
+                    </div>
+                </li>
+                )
+            }
+            
+            
         </StyledLoginAreaDiv>
     );
 };

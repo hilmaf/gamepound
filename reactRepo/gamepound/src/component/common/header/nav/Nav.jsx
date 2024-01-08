@@ -113,7 +113,6 @@ const Nav = () => {
         fetch('http://localhost:8889/gamepound/category/list')
         .then(resp => resp.json())
         .then((data) => {
-            console.log(data);
             setNavVoList(data);
         });
     };
