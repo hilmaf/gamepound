@@ -49,26 +49,26 @@ public class ProjectDaoHYJ {
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	//상세조회 - 타이틀 + 선물
-	public ProjectDetailVo projectDetail(SqlSessionTemplate sst, ProjectDetailVo vo) {
+	public ProjectDetailVo projectDetail(SqlSessionTemplate sst, String no) {
 		
-		ProjectDetailVo detailVo = sst.selectOne("ProjectMapper.DetailTitle", vo);
-		detailVo.setRewardVo(sst.selectList("ProjectMapper.DetailReward", vo));
+		ProjectDetailVo detailVo = sst.selectOne("ProjectMapper.DetailTitle", no);
+		detailVo.setRewardVo(sst.selectList("ProjectMapper.DetailReward", no));
 		return detailVo;
 	}
 
 	//상세조회 - 계획
-	public Object projectStory(SqlSessionTemplate sst, ProjectDetailVo vo) {
-		return sst.selectOne("ProjectMapper.DetailStory", vo);
+	public Object projectStory(SqlSessionTemplate sst, String no) {
+		return sst.selectOne("ProjectMapper.DetailStory", no);
 	}
 
 	//프로젝트 상세 조회 - 업데이트
-	public List<ProjectUpdateVo> projectDetailUpdate(SqlSessionTemplate sst, ProjectDetailVo vo) {
-		return sst.selectList("ProjectMapper.DetailUpdate", vo);
+	public List<ProjectUpdateVo> projectDetailUpdate(SqlSessionTemplate sst, String no) {
+		return sst.selectList("ProjectMapper.DetailUpdate", no);
 	}
 
 	//프로젝트 상세 조회 - 커뮤니티
-	public List<ProjectCommunityVo> projectDetailCommunity(SqlSessionTemplate sst, ProjectDetailVo vo) {
-		return sst.selectList("ProjectMapper.DetailCommunity", vo);
+	public List<ProjectCommunityVo> projectDetailCommunity(SqlSessionTemplate sst, String no) {
+		return sst.selectList("ProjectMapper.DetailCommunity", no);
 	}
 
 }
