@@ -39,10 +39,9 @@ public class BackControllerLKM {
 		projectVo.setProjectNo("1");
 		projectVo.setProjectTitle("풀 메탈 퓨리즈 액션 어드벤처");
 		projectVo.setCategoryName("비디오");
-		projectVo.setSubCategoryName("RPG");
 		projectVo.setAchievementAmnt("13950295");
 		projectVo.setAchievementRate("2222");
-		projectVo.setEndDate("2024-01-08");
+		projectVo.setRemainingPeriod("4");
 		
 		backVo.setMemberEmail("shicole@naver.com");
 		backVo.setRewardName("스팀 제품 키");
