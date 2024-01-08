@@ -61,11 +61,23 @@ public class ProjectDetailControllerHYJ {
 	
 	//프로젝트 상세 조회 - 업데이트 작성
 	@PostMapping("update")
-	public void projectDetailUpdate() {
-		
+	public void projectDetailUpdate(ProjectUpdateVo vo) throws Exception {
+		int result = service.projectDetailUpdate(vo);
+		if(result != 1) {
+			System.out.println("[프로젝트 업데이트 작성] 실패");
+		}
+		System.out.println("[프로젝트 업데이트 작성] 성공");
 	}
 	
-	
+	//프로젝트 상세 조회 - 커뮤니티 작성
+	@PostMapping("community")
+	public void projectDetailCommunity(ProjectCommunityVo vo) {
+		int result = service.projectDetailCommunity(vo);
+		if(result != 1) {
+			System.out.println("[프로젝트 커뮤니티 작성] 실패");
+		}
+		System.out.println("[프로젝트 커뮤니티 작성] 성공");
+	}
 	
 	
 	

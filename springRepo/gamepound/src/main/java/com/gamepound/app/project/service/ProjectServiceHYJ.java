@@ -69,5 +69,21 @@ public class ProjectServiceHYJ {
 		return dao.projectDetailCommunity(sst, no);
 	}
 
+	//프로젝트 상세 조회 - 업데이트 작성
+	public int projectDetailUpdate(ProjectUpdateVo vo) {
+		return dao.projectDetailUpdate(sst, vo);
+	}
+
+	//프로젝트 상세 조회 - 커뮤니티 작성
+	public int projectDetailCommunity(ProjectCommunityVo vo) {
+		int result = 0;
+		if(vo.getNo()!=null&&vo.getNo()!="") {
+			result = dao.projectDetailCommunityReply(sst, vo);
+		}else {
+			result = dao.projectDetailCommunity(sst, vo);
+		}
+		return result;
+	}
+
 
 }
