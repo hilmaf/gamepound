@@ -22,7 +22,7 @@ const Wrap = () => {
     return (
         <HeaderMemoryProvider>
             <Routes>
-                <Route path="/" element={
+                <Route path="/*" element={
                     <StyledWrapDiv>
                         <Header />
                         <Main />
