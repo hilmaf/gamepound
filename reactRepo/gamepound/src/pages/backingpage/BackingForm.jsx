@@ -9,13 +9,13 @@ const StyledBackingFormDiv = styled.div`
     justify-content: center;
 `;
 
-const BackingProcessDetails = () => {
+const BackingForm = () => {
     return (
         <StyledBackingFormDiv>
-            <BackingDetails />
-            <PaymentCheck />
+            <BackingDetails/>
+            <PaymentCheck/>
         </StyledBackingFormDiv>
     );
 };
 
-export default BackingProcessDetails;
+export default BackingForm;

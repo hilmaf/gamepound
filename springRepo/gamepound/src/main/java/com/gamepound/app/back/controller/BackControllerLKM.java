@@ -1,20 +1,25 @@
 package com.gamepound.app.back.controller;
 
-import org.springframework.stereotype.Controller;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.gamepound.app.back.service.BackServiceLKM;
 import com.gamepound.app.back.vo.BackDetailVo;
 import com.gamepound.app.back.vo.BackVo;
+import com.gamepound.app.project.vo.ProjectBriefVo;
 
 import lombok.RequiredArgsConstructor;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
-
 @RequestMapping("back")
+@CrossOrigin("*")
 public class BackControllerLKM {
 	
 	private final BackServiceLKM service;	
@@ -28,8 +33,25 @@ public class BackControllerLKM {
 	
 	// 후원하기(화면)
 	@GetMapping("process")
-	public BackVo viewBackPage(BackVo vo) throws Exception {
-		return vo;
+	public Map<String, Object> viewBackPage(ProjectBriefVo projectVo, BackVo backVo) throws Exception {
+		
+		// 임의로 정보 세팅(임시) TODO: 정보세팅 지우기
+		projectVo.setProjectNo("1");
+		projectVo.setProjectTitle("풀 메탈 퓨리즈 액션 어드벤처");
+		projectVo.setCategoryName("비디오");
+		projectVo.setSubCategoryName("RPG");
+		projectVo.setAchievementAmnt("13950295");
+		projectVo.setAchievementRate("2222");
+		projectVo.setEndDate("2024-01-08");
+		
+		backVo.setMemberEmail("shicole@naver.com");
+		backVo.setRewardName("스팀 제품 키");
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("ProjectBriefVo", projectVo);
+		map.put("BackVo", backVo);
+		
+		return map;
 	}
 	
 	// 후원하기
