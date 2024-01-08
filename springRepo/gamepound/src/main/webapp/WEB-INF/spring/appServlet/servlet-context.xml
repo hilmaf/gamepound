@@ -48,5 +48,13 @@
             </beans:props>
         </beans:property>
     </beans:bean>
+    
+<!--     CORS 설정 -->
+    <cors>
+		<mapping 
+			path="/**"
+			allowed-origins="*"
+		/>	
+	</cors>
 	
 </beans:beans>
