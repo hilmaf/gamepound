@@ -56,7 +56,8 @@ const ProjectBoxInfo = () => {
         <StyledProjectBoxInfoDiv>
             <img src='https://cdn.akamai.steamstatic.com/steam/apps/416600/capsule_616x353.jpg?t=1689347261'></img>
             <div className='category'>
-                대분류 | 소분류
+                <span>카테고리</span>
+                <span>창작자</span>
             </div>
             <div className='title'>
                 프로젝트 제목

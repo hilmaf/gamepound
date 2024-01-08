@@ -44,16 +44,19 @@ const StyledProjectBriefInfoDiv = styled.div`
 `;
 
 const ProjectBriefInfo = ({ProjectBriefInfo}) => {
+
+    const {categoryName, projectTitle, achievementAmnt, achievementRate, remainingPeriod} = ProjectBriefInfo;    
+
     return (
         <StyledProjectBriefInfoDiv>
             <img src='https://cdn.akamai.steamstatic.com/steam/apps/416600/capsule_616x353.jpg?t=1689347261' alt='프로젝트 이미지'/>
             <div className='project_summary'>
-                <div className='category'>카테고리</div>
-                <div className='title'>제목</div>
+                <div className='category'>{categoryName}</div>
+                <div className='title'>{projectTitle}</div>
                 <div className='achievement'>
-                    <span>모인 금액</span>
-                    <span>달성률</span> 
-                    <span>마감기한 D-</span>
+                    <span>{achievementAmnt}</span>
+                    <span>{achievementRate}%</span> 
+                    <span>{remainingPeriod}</span>
                 </div>
             </div>
         </StyledProjectBriefInfoDiv>

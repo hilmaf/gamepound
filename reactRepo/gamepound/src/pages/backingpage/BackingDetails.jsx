@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import EnrollCard from '../../component/payment/EnrollCard';
 
 const StyledBackingDetailsDiv = styled.div`
     width: 800px;
@@ -54,7 +55,9 @@ const StyledBackingDetailsDiv = styled.div`
 
 const BackingDetails = () => {
 
+    const [showCard, setShowCard] = useState(false);
     const handleCardClick = () => {
+        setShowCard(true);
     }
 
     const handleKakaoPayClick = () => {
@@ -91,9 +94,16 @@ const BackingDetails = () => {
             <div className='detail_box' id='paymentType_info'>
                 <div className='title'>결제 수단</div>
                 <div className='paymentType'>
-                    <input type='radio' name='paymentType' value='card' onClick={handleCardClick}/>
-                    <input type='radio' name='paymentType' value='kakaopay' onClick={handleKakaoPayClick}/>
+                    <label><input type='radio' name='paymentType' value='card' onClick={handleCardClick} />카드 결제</label>
+                    <label><input type='radio' name='paymentType' value='kakaopay' onClick={handleKakaoPayClick} />카카오페이</label>
                 </div>
+                {
+                    showCard===true
+                    ?
+                    <EnrollCard />
+                    :
+                    <div></div>
+                }
             </div>
         </StyledBackingDetailsDiv>
     );

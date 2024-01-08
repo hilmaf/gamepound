@@ -5,6 +5,7 @@ import ProfileNav from './ProfileNav';
 
 const StyledProfileMenuDiv = styled.div`
     width: 1200px;
+    display: block;
 `;
 
 const ProfileMenu = () => {
