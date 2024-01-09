@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Link, Route, Routes } from 'react-router-dom';
 import PrelaunchStoryPage from "./PrelaunchStoryPage";
 import PrelaunchUpdatePage from "./PrelaunchUpdatePage";
 import styled from 'styled-components';
@@ -18,29 +18,6 @@ const StyledProjectDetailDiv = styled.div`
     height: auto;
     margin-bottom: 40px;
     & .inner div:nth-child(1){
-        width: 100%;
-        margin-top: 50px;
-        & > div{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            & > div{
-                width: auto;
-                background-color: #a1a1a115;
-                border: 0.5px solid #8888886a;
-                border-radius: 4px;
-                padding: 7px;
-                font-size: 14px;
-            }
-        }
-        & > h1{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-top: 20px;
-        }
-    }
-    & .inner div:nth-child(2){
         padding-top: 50px;
         width: 100%;
         height: 100%;
@@ -52,37 +29,21 @@ const StyledProjectDetailDiv = styled.div`
         }
         & > ul{
             width: 100%;
+            height: 600px;
             margin-left: 30px;
-            & > li:nth-child(2n){
-                font-size: 40px;
+            & > li:nth-child(2){
+                font-size: 35px;
+                font-weight: 500;
                 margin-bottom: 20px;
-                & > span{
-                    font-size: 16px;
-                }
-                & > span:nth-child(2){
-                    font-size: 20px;
-                    margin-left: 13px;
-                }
-                
             }
             & > li > table{
-                width: 85%;
-                border-top: 1px solid #ececec;
-                
+                width: 100%;
+                & > tbody > tr > td:nth-child(1){
+                    width: 80px;
+                }
                 & > tbody > tr > td:nth-child(2){
-                    padding-left: 25px;
                     padding-top: 8px;
                 }
-            }
-            & > li > button{
-                width: 85%;
-                height: 60px;
-                font-size: 16px;
-                color: white;
-                background-color: #f05a5a;
-                font-weight: 500;
-                border-radius: 5px;
-                margin-top: 40px;
             }
             & > li:last-child{
                 margin: 0px;
@@ -94,46 +55,46 @@ const StyledProjectDetailNaviDiv = styled.div`
     width: 100%;
     border-top: 1px solid #ececec;
     border-bottom: 1px solid #ececec;
-    height: 40px;
+    height: 50px;
     display: flex;
     align-items: center;
     position: sticky;
     top: 126px;
     z-index: 9;
     background-color: #fff;
-    box-shadow: 0 8px 15px 1px rgba(0, 0, 0, .1);
     & > div > div{
         width: 100%;
         height: 100%;
-        display: grid;
-        grid-template-rows: 1fr;
-        grid-template-columns: 1fr 1fr 1fr 6fr;
-        grid-auto-flow: column;
-        place-items: center center;
+        display: flex;
+        place-items: left center;
         font-size: 16px;
+        & > span{
+            margin-left: 5px;
+            margin-right: 25px;
+            & > a{
+                color: lightgray;
+            }
+        }
     }
 `;
 
-const StyledProjectSelectDiv = styled.div``;
+const StyledProjectSelectDiv = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: center;
+`;
 
 
 const PrelaunchDetailMain = () => {
     return (<StyledAllDiv>
         <StyledProjectDetailDiv>
             <div className="inner">
-                <div>
-                    <div><div>카테고리 명</div></div>
-                    <h1>프로젝트 제목</h1>
-                </div>            
+                
                 <div>
                     <img src="" alt="프로젝트 대표 이미지" />
                     <ul>
-                        <li>모인금액</li>
-                        <li>100,000,000 <span>원</span><span>21476%</span></li>
-                        <li>남은시간</li>
-                        <li>22 <span>일</span></li>
-                        <li>후원자</li>
-                        <li>2,675 <span>명</span></li>
+                        <li>서브카테고리</li>
+                        <li>공개예정 프로젝트 타이틀</li>
                         <li>
                             <table>
                                 <tbody>
@@ -142,17 +103,12 @@ const PrelaunchDetailMain = () => {
                                         <td>500,000원</td>
                                     </tr>
                                     <tr>
-                                        <td>펀딩 기간</td>
-                                        <td>2024.01.03~2024.01.31 <span>22일 남음</span></td>
-                                    </tr>
-                                    <tr>
-                                        <td>결제</td>
-                                        <td>목표금액 달성시 2024.02.01에 결제 진행</td>
+                                        <td>공개예정</td>
+                                        <td>22024년 1월 15일</td>
                                     </tr>
                                 </tbody>
                             </table>
                         </li>
-                        <li><button>이 프로젝트 후원하기</button></li>
                     </ul>
                 </div>
             </div>
@@ -160,9 +116,8 @@ const PrelaunchDetailMain = () => {
         <StyledProjectDetailNaviDiv>
             <div className="inner">
                 <div>
-                    <span>프로젝트 계획</span>
-                    <span>업데이트</span>
-                    <span>커뮤니티</span>
+                    <span><Link to="/project/detail/prelaunch/story">프로젝트 계획</Link></span>
+                    <span><Link to="/project/detail/prelaunch/update">업데이트</Link></span>
                 </div>
             </div>
         </StyledProjectDetailNaviDiv>
@@ -171,9 +126,7 @@ const PrelaunchDetailMain = () => {
                 <Route path='/story' element={<PrelaunchStoryPage/>}></Route>
                 <Route path='/update' element={<PrelaunchUpdatePage/>}></Route>
             </Routes>   
-              
         </StyledProjectSelectDiv>
-        <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
     </StyledAllDiv>);
 };
 
