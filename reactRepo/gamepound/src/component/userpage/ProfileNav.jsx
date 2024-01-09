@@ -9,24 +9,29 @@ const StyledProfileNavDiv = styled.div`
     padding-left: 20px;
     padding-top: 10px;
 
-    & > div {
+    & > a {
         width: 150px;
         font-size: 18px;
         cursor: pointer;
         display: flex;
         align-items: center;
+
+        &.active span {
+            display: block;
+            padding: 15px;
+            font-weight: 500;
+            border-bottom: 2px solid #F05A5A;
+        }
     }
 `;
 
 const ProfileNav = () => {
 
-    const navigate = useNavigate();
-
     return (
         <StyledProfileNavDiv>
-            <div onClick={() => {navigate('/userpage/created')}}>올린 프로젝트</div>
-            <div onClick={() => {navigate('/userpage/backed')}}>후원한 프로젝트</div>
-            <div onClick={() => {navigate('/userpage/review')}}>프로젝트 후기</div>
+            <NavLink to='/userpage/created'><span>올린 프로젝트</span></NavLink>
+            <NavLink to='/userpage/backed'><span>후원한 프로젝트</span></NavLink>
+            <NavLink to='/userpage/review'><span>프로젝트 후기</span></NavLink>
         </StyledProfileNavDiv>
     );
 };
