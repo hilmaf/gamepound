@@ -4,15 +4,16 @@ import styled from 'styled-components';
 import UserCreated from './UserCreated';
 import UserBacked from './UserBacked';
 import UserReview from './UserReview';
+import ProfileMenu from '../../component/userpage/ProfileMenu';
 
 const SytledUserPageMainDiv = styled.div`
     width: 1200px;
-    background-color: aliceblue;
 `;
 
 const UserPageMain = () => {
     return (
         <SytledUserPageMainDiv>
+            <ProfileMenu />
             <Routes>
                 <Route path='created' element={<UserCreated />}></Route>
                 <Route path='backed' element={<UserBacked />}></Route>

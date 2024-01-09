@@ -2,11 +2,12 @@ import React from 'react';
 import styled from 'styled-components';
 
 const StyledProjectBoxInfoDiv = styled.div`
-    width: 320px;
+    width: calc(100% / 3 - 30px);
     height: 410px;
+    padding-right: 25px;
 
     & > img {
-        width: 320px;
+        width: 100%;
         height: 300px;
         background-size: cover;
         object-fit: cover;
