@@ -78,6 +78,11 @@ const StyledJoinPageDiv = styled.div`
                         font-weight: 500;
                         color: #fff;
                         cursor: pointer;
+                        &:disabled {
+                            background-color: #ddd;
+                            color: #aaa;
+                            cursor: default;
+                        }
                     }
                 }
                 & .msg {
@@ -159,6 +164,9 @@ const JoinPage = () => {
 
     // 인증메일 보내기
     const handleSendEmail = () => {
+        if(formVo.email === ''){
+            alert('빈값입ㄴ디ㅏ');
+        }
         // fetch('', {
 
         // })
@@ -191,7 +199,7 @@ const JoinPage = () => {
                             <label htmlFor="email">이메일 주소</label>
                             <span>
                                 <input type="text" name="email" id="email" placeholder='이메일 주소를 입력해주세요.' onChange={handleEmailInputChange}/>
-                                <button type='button' onClick={handleSendEmail}>인증메일 보내기</button>
+                                <button type='button' onClick={handleSendEmail} disabled={!isValidEmail}>인증메일 보내기</button>
                             </span>
                             <div className={`msg ${isValidEmail ? '' : 'error'}`}>{isValidEmail ? '' : '유효하지 않은 이메일 주소입니다.'}</div>
                         </div>
