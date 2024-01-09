@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gamepound.app.member.service.MailSendService;
 import com.gamepound.app.member.service.MemberServiceHJY;
 import com.gamepound.app.member.vo.MemberVo;
+import com.gamepound.app.member.vo.UserCodeVo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,6 +26,8 @@ public class MemberControllerHJY {
 
 	private final MemberServiceHJY service;
 	private final MailSendService mailService;
+	
+	private int userCode = 0;
 	
 	// 로그인 처리
 	@PostMapping("login")
@@ -56,54 +59,40 @@ public class MemberControllerHJY {
 	}
 	
 	// 이메일 인증번호 발송
-	@GetMapping("mailCheck")
-	public void mailCheck(MemberVo vo, HttpSession session) {
-		System.out.println(vo);
-		int verificationCode = mailService.joinEmail(vo.getEmail());
-		session.setAttribute("verificationCode", verificationCode); // 인증번호 세션에 저장
-		System.out.println(session.getAttribute("verificationCode"));
+	@PostMapping("mailCheck")
+	public Map<String, Object> mailCheck(@RequestBody MemberVo vo, HttpSession session) {
+		Map<String, Object> resultMap = mailService.joinEmail(vo.getEmail());
+		userCode = (int) resultMap.get("verificationCode");
+		return resultMap;
 	}
 	
 	// 인증번호 입력
 	@PostMapping("mailauthCheck")
-    public void AuthCheck(String userCode, HttpSession session){
+    public Map<String, String> AuthCheck(@RequestBody UserCodeVo userCode, HttpSession session){
 		
-		int verificationCode = (int) session.getAttribute("verificationCode");
-		
-		// 세션에서 실패 횟수 가져오기
-	    Integer failureCount = (Integer) session.getAttribute("failureCount");
-	    if (failureCount == null) {
-	        failureCount = 0;
-	    }
-		
-		if(verificationCode == Integer.parseInt(userCode)) {
-			System.out.println("인증성공");
-	        session.removeAttribute("failureCount"); // 인증 성공 시 실패 횟수 초기화
-			session.invalidate();
+		Map<String, String> map = new HashMap<>();
+		if(this.userCode == Integer.parseInt(userCode.getUserCode())) {
+			map.put("msg", "good");
 		} else {
-			System.out.println("인증실패");
-			
-			// 실패 횟수 증가
-	        failureCount++;
-	        session.setAttribute("failureCount", failureCount);
-
-	        // 일정 횟수 이상 실패하면 세션 무효화
-	        if (failureCount >= 3) {
-	            System.out.println("세션 무효화 (연속 3회 실패)");
-	            session.invalidate();
-	        }
+			map.put("msg", "bad");
 		}
+		
+		return map;
     }
 	
 	// 아이디 중복검사
 	@PostMapping("emailUnique")
-	public void isEmailUnique(MemberVo vo) throws Exception {
+	public Map<String, String> isEmailUnique(@RequestBody MemberVo vo) throws Exception {
 		int result = service.isEmailUnique(vo);
+		
+		Map<String, String> map = new HashMap<>();
+		
+		map.put("msg", "good");
 		if(result >= 1) {
-			System.out.println("이미 가입된 이메일입니다.");
-			throw new Exception("이미 가입된 이메일입니다.");// TODO-현지연 : 가입된 이메일 메세지 띄우기
+			map.put("msg", "bad");
 		}
-		System.out.println("이 계정으로 가입하실 수 있습니다.");
+		
+		return map;
 	}
 	
 	// 비밀번호 찾기 : 이메일, 비밀번호 재확인

@@ -28,7 +28,7 @@ const StyledLoginPageDiv = styled.div`
                 width: 100%;
                 height: 50px;
                 border-radius: 5px;
-                background-color: #FF914D;
+                background-color: var(--red-color);
                 font-size: 16px;
                 font-weight: 500;
                 color: #fff;
@@ -61,7 +61,7 @@ const StyledLoginPageDiv = styled.div`
             color: #666;
             margin-top: 20px;
             & span a {
-                color: #FF914D;
+                color: var(--red-color);
                 margin-left: 5px;
                 &:hover {
                     text-decoration: underline;
