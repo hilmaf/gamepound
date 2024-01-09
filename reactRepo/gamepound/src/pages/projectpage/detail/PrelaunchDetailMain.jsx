@@ -5,9 +5,19 @@ import PrelaunchUpdatePage from "./PrelaunchUpdatePage";
 import styled from 'styled-components';
 
 const StyledProjectDetailDiv = styled.div`
-    width: 100%;
+    width: 1100px;
     height: auto;
+    & > div:nth-child(1){
+        width: 100%;
+        margin-top: 20px;
+        & > div, h1{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
     & > div:nth-child(2){
+        margin-top: 30px;
         width: 100%;
         height: 100%;
         display: grid;
