@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import logoImage from '../../assets/images/logo_big.svg';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import InpText from './input/InpText';
 import InpTextNon from './input/InpTextNon';
 
@@ -94,15 +94,6 @@ const StyledJoinPageDiv = styled.div`
                         display: none;
                     }
                 }
-                & .msg {
-                    font-size: 13px;
-                    &.complete {
-                        color: #4EB56B;
-                    }
-                    &.error {
-                        color: #F05A5A;
-                    }
-                }
             }
             & .inpBtnGroup + .inpBtnGroup {
                 margin-top: 5px;
@@ -143,6 +134,15 @@ const StyledJoinPageDiv = styled.div`
                 }
             }
         }
+        & .msg {
+            font-size: 13px;
+            &.complete {
+                color: #4EB56B;
+            }
+            &.error {
+                color: #F05A5A;
+            }
+        }
     }
 
 `;
@@ -151,30 +151,48 @@ const JoinPage = () => {
 
     const [formVo, setFormVo] = useState({});
     const [isValidEmail, setIsValidEmail] = useState(true); // 이메일 검증 상태
+    const [isValidPwd, setIsValidPwd] = useState(true); // 비밀번호 검증 상태
+    const [isValidConfirmPwd, setIsValidConfirmPwd] = useState(true); // 비밀번호 확인 검증 상태
+    const [isValidName, setIsValidName] = useState(true); // 이름 검증 상태
     const [isSendEmail, setIsSendEmail] = useState(false); // 인증메일 보내기 상태
     const [isAuthentication, setIsAuthentication] = useState(false); // 인증번호 인증 상태
     const [userCode, setUserCode] = useState({}); // 인증번호Vo
 
+    const navigate = useNavigate();
+
     // 가입하기
     const handleJoin = (e) => {
         e.preventDefault();
-        // 가입 버튼을 눌렀을 때 필요한 로직 추가 calc(100% / ${4})
+        // 검증로직
         if(!isAuthentication){ // 인증완료 안할시
-            alert('인증을 완료해주세요.');
+            alert('이메일 인증을 완료해주세요.');
         }
+        if(!isValidPwd){ // 비밀번호 검증 안할 시
+            alert('비밀번호가 유효하지 않습니다.');
+        }
+        if(!isValidConfirmPwd){ // 비밀번호 확인 검증 안할시
+            alert('비밀번호가 일치하지 않습니다.');
+        }
+    
+        // 가입진행
+        fetch('http://localhost:8889/gamepound/join', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formVo),
+        })
+        .then(resp => resp.json())
+        .then(data => {
+            if(data.msg === 'good'){
+                alert('가입 완료되었습니다.');
+                navigate('/login')
+            } else {
+                alert('가입 실패되었습니다. 입력하신 정보를 확인해주세요.');
+            }
+        })
+        ;
     }
-
-    // 이메일 검사
-    useEffect(() => {
-        if (formVo.email) {
-            // 이메일 정규식 검사
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            const isValid = emailRegex.test(formVo.email);
-
-            // 결과에 따라 메시지 업데이트
-            setIsValidEmail(isValid);
-        }
-    }, [formVo.email]);
 
     // 중복확인
     const handleSameEmail = () => {
@@ -215,21 +233,23 @@ const JoinPage = () => {
 
     // 인증메일 보내기
     const handleSendEmail = () => {
-        
-        fetch('http://localhost:8889/gamepound/mailCheck', {
-            method: 'post',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(formVo),
-        })
-        .then(resp => resp.json())
-        .then(data => {
-            console.log(data.msg);
-            console.log(data.verificationCode);
-        })
-        ;
-        setIsSendEmail(true);
+        if(!isSendEmail){
+
+            fetch('http://localhost:8889/gamepound/mailCheck', {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formVo),
+            })
+            .then(resp => resp.json())
+            .then(data => {
+                console.log(data.msg);
+                console.log(data.verificationCode);
+            })
+            ;
+            setIsSendEmail(true);
+        }
     }
 
     // 인증하기
@@ -243,30 +263,91 @@ const JoinPage = () => {
         })
         .then(resp => resp.json())
         .then(data => {
-            if(data.msg === 'good'){
+            const authenticationBtn = document.querySelector('.authentication');
+            const sendBtn = document.querySelector('.send');
+            const msg = document.querySelector('.email.msg');
+
+            if (data.msg === 'good') {
                 alert('인증이 성공했습니다.');
-                const authenticationBtn = document.querySelector('.authentication');
                 authenticationBtn.disabled = true;
                 authenticationBtn.innerHTML = '인증완료';
                 setIsAuthentication(true);
-                const sendBtn = document.querySelector('.send');
                 sendBtn.disabled = true;
-                const msg = document.querySelector('.email.msg');
                 msg.innerHTML = '인증완료 되었습니다.';
             } else {
                 alert('인증번호가 틀렸습니다.');
-                const sendBtn = document.querySelector('.send');
                 sendBtn.innerHTML = '다시보내기';
                 sendBtn.disabled = false;
-                const msg = document.querySelector('.email.msg');
-                msg.innerHTML = '인증실패하였습니다. 인증메일을 다시보내주세요.';
+                msg.innerHTML = '인증실패하였습니다.';
             }
         })
         ;
     }
 
+    // 이메일 검사
+    useEffect(() => {
+        if (formVo.email) {
+            // 이메일 정규식 검사
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            const isValid = emailRegex.test(formVo.email);
+
+            // 결과에 따라 메시지 업데이트
+            setIsValidEmail(isValid);
+        }
+    }, [formVo.email]);
+
+    // 이름검사
+    useEffect(() => {
+        if (formVo.name) {
+            // 이름 검증
+            const nameRegex = /^[A-Za-z가-힣ㄱ-ㅎㅏ-ㅣ0-9\x20()_[\]]{2,14}$/;
+            const isValid = nameRegex.test(formVo.name);
+
+            // 결과에 따라 메시지 업데이트
+            setIsValidName(isValid);
+            const msg = document.querySelector('.name.msg');
+            if(!isValid){
+                msg.innerHTML = '이름이 유효하지 않습니다. (2자 이상 14자 이하)';
+            } else {
+                msg.innerHTML = '';
+            }
+        }
+    }, [formVo.name]);
+
+    // 비밀번호 검사
+    useEffect(() => {
+        if (formVo.pwd) {
+            // 비밀번호 검증
+            const pwdRegex = /^.{4,}$/;
+            const isValid = pwdRegex.test(formVo.pwd);
+
+            // 결과에 따라 메시지 업데이트
+            setIsValidPwd(isValid);
+            const msg = document.querySelector('.pwd.msg');
+            if(!isValid){
+                msg.innerHTML = '비밀번호가 유효하지 않습니다. (4자 이상 32자 이하)';
+            } else {
+                msg.innerHTML = '';
+            }
+        }
+    }, [formVo.pwd]);
+    useEffect(() => {
+        if (formVo.confirmPwd) {
+            
+            const msg = document.querySelector('.confirmPwd.msg');
+            if(formVo.confirmPwd === formVo.pwd){
+                setIsValidConfirmPwd(true);
+                msg.innerHTML = '';
+            } else {
+                setIsValidConfirmPwd(false);
+                msg.innerHTML = '비밀번호와 일치하지 않습니다.';
+            }
+            
+        }
+    }, [formVo.confirmPwd]);
+
     // formVo에 값 저장
-    const handleEmailInputChange = (e) => {
+    const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormVo({
             ...formVo,
@@ -289,13 +370,17 @@ const JoinPage = () => {
                     <h1>로고</h1>
                     <h2>이메일로 가입하기</h2>
                 </div>
-                <form onSubmit={handleJoin}>
+                <form>
+                    <div className="nameBox">
+                        <InpText name='name' text='이름' label='사용하실 이름을 입력해주세요.' type='text' onChange={handleInputChange}/>
+                        <div className={`name msg ${isValidName ? 'complete' : 'error'}`}></div>
+                    </div>
 
                     <div className="emailBox">
                         <div className='inpBtnGroup'>
                             <label htmlFor="email">이메일 주소</label>
                             <span>
-                                <input type="text" name="email" id="email" placeholder='이메일 주소를 입력해주세요.' onChange={handleEmailInputChange}/>
+                                <input type="text" name="email" id="email" placeholder='이메일 주소를 입력해주세요.' onChange={handleInputChange}/>
                                 <button type='button' className='same' onClick={handleSameEmail}>중복확인</button>
                                 <button type='button' className='send' onClick={handleSendEmail}>인증메일 보내기</button>
                             </span>
@@ -316,11 +401,13 @@ const JoinPage = () => {
                     </div>
 
                     <div className="pwdBox">
-                        <InpText name='pwd' text='비밀번호' label='비밀번호를 입력해주세요.' type='password'/>
-                        <InpTextNon name='confirmPwd' text='비밀번호를 다시 입력해주세요.' type='password'/>
+                        <InpText name='pwd' text='비밀번호' label='비밀번호를 입력해주세요.' type='password' onChange={handleInputChange}/>
+                        <div className={`pwd msg ${isValidPwd ? 'complete' : 'error'}`}></div>
+                        <InpTextNon name='confirmPwd' text='비밀번호를 다시 입력해주세요.' type='password' onChange={handleInputChange}/>
+                        <div className={`confirmPwd msg ${isValidConfirmPwd ? 'complete' : 'error'}`}></div>
                     </div>
 
-                    <button>가입하기</button>
+                    <button onClick={handleJoin}>가입하기</button>
                 </form>
                 <div className="otherLink">
                     <span>이미 게임파운드 계정이 있으신가요? <Link to='/login'>기존계정으로 로그인하기</Link></span>
