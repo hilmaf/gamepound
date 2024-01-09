@@ -7,6 +7,7 @@ import BackMain from '../../../pages/backingpage/BackMain';
 import CreateMain from '../../../pages/projectpage/create/CreateMain';
 
 const StyledMainDiv = styled.div`
+    width: 100%;
 `;
 
 const Main = () => {
