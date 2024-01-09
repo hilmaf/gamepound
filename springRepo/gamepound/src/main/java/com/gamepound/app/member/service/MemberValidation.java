@@ -7,7 +7,7 @@ public class MemberValidation {
 	
 	private static final Pattern EMAIL_REGEX_PATTERN = Pattern.compile("^[_A-Za-z0-9_\\-]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");
 	private static final Pattern PWD_REGEX_PATTERN = Pattern.compile("^.{4,}$");
-	private static final Pattern NAME_REGEX_PATTERN = Pattern.compile("^[A-Za-z가-힣()_-ㄱ-ㅎㅏ-ㅣ]{2,14}$");
+	private static final Pattern NAME_REGEX_PATTERN = Pattern.compile("^[A-Za-z가-힣ㄱ-ㅎㅏ-ㅣ0-9\\x20()_\\[\\]]{2,14}$");
 
 	// 이메일 검사
     public static boolean isValidEmail(String email) {

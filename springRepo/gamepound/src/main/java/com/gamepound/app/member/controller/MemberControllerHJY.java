@@ -32,9 +32,8 @@ public class MemberControllerHJY {
 	// 로그인 처리
 	@PostMapping("login")
 	public Map<String, Object> login(@RequestBody MemberVo vo) throws Exception {
-		System.out.println(vo);
+		
 		MemberVo loginMember = service.login(vo);
-		System.out.println(loginMember);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 
@@ -50,12 +49,17 @@ public class MemberControllerHJY {
 	
 	// 회원가입 처리
 	@PostMapping("join")
-	public void join(MemberVo vo) throws Exception {
+	public Map<String, String> join(@RequestBody MemberVo vo) throws Exception {
+
 		int result = service.join(vo);
+		
+		Map<String, String> map = new HashMap<>();
+		map.put("msg", "good");
 		if(result != 1) {
-			// TODO-현지연 : 회원가입 검증로직 실패 메세지 띄우기
+			map.put("msg", "bad");
 		}
-		System.out.println("회원가입 성공");
+		
+		return map;
 	}
 	
 	// 이메일 인증번호 발송

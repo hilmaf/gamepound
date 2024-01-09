@@ -27,7 +27,7 @@ public class MemberServiceHJY {
 	// 회원가입 처리
 	public int join(MemberVo vo) throws Exception {
 		
-		// TODO-현지연 : 이메일 검증확인으로 변경 필요
+		// 이메일 검증
 		if(!MemberValidation.isValidEmail(vo.getEmail())) {
 			throw new Exception("이메일이 유효하지 않습니다.");
 		}

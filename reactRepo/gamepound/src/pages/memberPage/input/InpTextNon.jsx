@@ -26,10 +26,10 @@ const StyledInpDiv = styled.div`
     }
 `;
 
-const InpTextNon = ( {name, type, text} ) => {
+const InpTextNon = ( {name, type, text, onChange} ) => {
     return (
         <StyledInpDiv>
-            <input id={name} name={name} placeholder={text} type={type} />
+            <input id={name} name={name} placeholder={text} type={type} onChange={onChange} />
         </StyledInpDiv>
     );
 };
