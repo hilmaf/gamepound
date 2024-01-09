@@ -121,8 +121,8 @@ const LoginPage = () => {
                     <h2>이메일로 로그인</h2>
                 </div>
                 <form onSubmit={handleLogin}>
-                    <InpText name='email' text='이메일 주소' type='text' onChange={handleInputChange}/>
-                    <InpText name='pwd' text='비밀번호' type='password' onChange={handleInputChange} />
+                    <InpText name='email' text='이메일 주소' type='text' label='이메일 주소를 입력해주세요.' onChange={handleInputChange}/>
+                    <InpText name='pwd' text='비밀번호' type='password' label='비밀번호를 입력해주세요.' onChange={handleInputChange} />
                     <button>로그인</button>
                 </form>
                 <div className="otherLink">

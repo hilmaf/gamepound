@@ -10,8 +10,8 @@ const StyledInpDiv = styled.div`
     & input {
         display: flex;
         width: 100%;
-        padding: 10px 15px;
-        font-size: 15px;
+        padding: 8px 15px;
+        font-size: 14px;
         box-sizing: border-box;
         border-radius: 5px;
         border: 1px solid #ddd;
@@ -26,10 +26,10 @@ const StyledInpDiv = styled.div`
     }
 `;
 
-const InpTextNon = ( {name, type} ) => {
+const InpTextNon = ( {name, type, text} ) => {
     return (
         <StyledInpDiv>
-            <input id={name} name={name} type={type} />
+            <input id={name} name={name} placeholder={text} type={type} />
         </StyledInpDiv>
     );
 };
