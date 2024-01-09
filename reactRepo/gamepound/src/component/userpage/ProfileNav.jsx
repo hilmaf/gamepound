@@ -1,12 +1,12 @@
 import React from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
 const StyledProfileNavDiv = styled.div`
     width: 1200px;
     height: 56px;
     display: flex;
-    padding-left: 20px;
+    margin-left: 20px;
     padding-top: 10px;
 
     & > a {
@@ -17,15 +17,17 @@ const StyledProfileNavDiv = styled.div`
         align-items: center;
 
         &.active span {
-            display: block;
-            padding: 15px;
             font-weight: 500;
-            border-bottom: 2px solid #F05A5A;
+            height: 56px;
+            line-height: 56px;
+            color: var(--black-color);
+            border-bottom: 2px solid var(--red-color);
         }
     }
 `;
 
 const ProfileNav = () => {
+
 
     return (
         <StyledProfileNavDiv>

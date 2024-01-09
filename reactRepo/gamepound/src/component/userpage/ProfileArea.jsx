@@ -25,7 +25,7 @@ const StyledProfileAreaDiv = styled.div`
         }
 
         & > button {
-            background-color: rgba(255, 145, 77, 0.4);
+            background-color: var(--red-color);
             padding: 5px 8px;
             margin-top: 8px;
             cursor: pointer;
