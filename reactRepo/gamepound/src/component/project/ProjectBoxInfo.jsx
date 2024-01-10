@@ -1,16 +1,19 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const StyledProjectBoxInfoDiv = styled.div`
     width: calc(100% / 3 - 30px);
     height: 410px;
-    padding-right: 25px;
+    cursor: pointer;
+    margin-right: 25px;
 
     & > img {
         width: 100%;
         height: 300px;
         background-size: cover;
         object-fit: cover;
+        background-color: aliceblue;
     }
 
     & > div {
@@ -20,13 +23,20 @@ const StyledProjectBoxInfoDiv = styled.div`
     & > .category {
         padding-top: 10px;
         font-size: 12px;
-        opacity: 0.8
+        
+        & > span {
+            opacity: 0.95;
+            padding-right: 10px;
+        }
     }
 
     & > .title {
         height: 30px;
         line-height: 30px;
         font-size: 16px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
     }
 
     & > .progress {
@@ -52,24 +62,31 @@ const StyledProjectBoxInfoDiv = styled.div`
     }
 `;
 
-const ProjectBoxInfo = () => {
+const ProjectBoxInfo = ({no, project}) => {
+
+    const navigate = useNavigate();
+
+    const handleBoxClick= () => {
+        navigate("/project/detail?no=" + project.projectNo);
+    }
+
     return (
-        <StyledProjectBoxInfoDiv>
-            <img src='https://cdn.akamai.steamstatic.com/steam/apps/416600/capsule_616x353.jpg?t=1689347261'></img>
+        <StyledProjectBoxInfoDiv onClick={handleBoxClick}>
+            <img src={project.projectImg}></img>
             <div className='category'>
-                <span>카테고리</span>
-                <span>창작자</span>
+                <span>{project.categoryName} | {project.subCategoryName}</span>
+                <span>{project.memberName}</span>
             </div>
-            <div className='title'>
-                프로젝트 제목
+            <div className='title' key={no}>
+                {project.projectTitle}
             </div>
             <div className='progress'>
                 <div className='achievement'>
-                    <span id='achievement_rate'>3812%</span>
-                    <span id='achievement_amnt'>24975023원</span>
+                    <span id='achievement_rate'>{project.achievementRate}%</span>
+                    <span id='achievement_amnt'>{project.currentAmount}원</span>
                 </div>
                 <div className='status'>
-                    펀딩성공
+                    {project.projectStatus}
                 </div>
             </div>
         </StyledProjectBoxInfoDiv>

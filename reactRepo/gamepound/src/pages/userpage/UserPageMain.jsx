@@ -8,6 +8,7 @@ import ProfileMenu from '../../component/userpage/ProfileMenu';
 
 const SytledUserPageMainDiv = styled.div`
     width: 1200px;
+    margin: 0 auto;
 `;
 
 const UserPageMain = () => {

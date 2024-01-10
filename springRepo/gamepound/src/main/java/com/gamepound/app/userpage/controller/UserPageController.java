@@ -1,23 +1,22 @@
 package com.gamepound.app.userpage.controller;
 
-import java.util.List;
 import java.util.Map;
 
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import com.gamepound.app.back.vo.BackVo;
-import com.gamepound.app.project.vo.ProjectVo;
 import com.gamepound.app.review.vo.ReviewVo;
 import com.gamepound.app.userpage.service.UserPageService;
 
 import lombok.RequiredArgsConstructor;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("userpage")
+@CrossOrigin("*")
 public class UserPageController {
 	
 	private final UserPageService service;
@@ -45,11 +44,14 @@ public class UserPageController {
 	}
 	
 	// 유저페이지 - 내가 올린 프로젝트 목록 조회
-	@GetMapping("project")
-	public void listMyProjects(String memberNo) {
-		List<ProjectVo> myProjectList = service.listMyProjects(memberNo);
+	@GetMapping("created")
+	public Map<String, Object> listMyProjects(String memberNo) {
 		
-		System.out.println(myProjectList);
+		memberNo = "1";
+		
+		Map<String, Object> listMap = service.listMyProjects(memberNo);
+		
+		return listMap;
 	}
 	
 	// 유저페이지 - 내 후원 목록 조회

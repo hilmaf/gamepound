@@ -6,14 +6,26 @@ import lombok.RequiredArgsConstructor;
 @Data
 public class ProjectBriefVo {
 
+	// 프로젝트 정보
 	private String projectNo;
 	private String projectTitle;
 	private String projectImg;
+	private String projectStatus;
+	
+	// 카테고리 정보
 	private String categoryNo;
 	private String categoryName;
 	private String subCategoryName;
-	private String achievementAmnt;
+	
+	// 창작자 정보
+	private String memberName;
+	
+	// 달성 정보
+	private String currentAmount;
+	private String goalAmount;
 	private String achievementRate;
+	
+	// 기한 정보
 	private String endDate;
 	private String remainingPeriod;
 	
