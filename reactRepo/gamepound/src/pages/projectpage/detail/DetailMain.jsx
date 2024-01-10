@@ -3,16 +3,40 @@ import CommunityPage from "./CommunityPage";
 import StoryPage from "./StoryPage";
 import UpdatePage from "./UpdatePage";
 import { Route, Routes } from 'react-router-dom';
-import PrelaunchDetailMain from './PrelaunchDetailMain';
 
 const DetailMain = () => {
     return (<>
+        <h1>하하</h1>
+
+
+
+
         <Routes>
             <Route path='/community' element={<CommunityPage/>}></Route>
             <Route path='/story' element={<StoryPage/>}></Route>
             <Route path='/update' element={<UpdatePage/>}></Route>
-            <Route path='/prelaunch/*' element={<PrelaunchDetailMain/>}></Route>
-        </Routes>              
+            
+        </Routes>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     </>);
 };
 
