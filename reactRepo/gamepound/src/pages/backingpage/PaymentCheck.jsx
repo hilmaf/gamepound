@@ -26,6 +26,11 @@ const StyledPaymentCheckDiv = styled.div`
     & > .payment_due {
         font-size: 13px;
         padding: 10px;
+
+        & > span {
+            font-weight: 600;
+            color: var(--red-color);
+        }
     }
 
     & > .checkbox_area {
@@ -49,24 +54,33 @@ const StyledPaymentCheckDiv = styled.div`
         font-size: 16px;
         color: white;
         font-weight: 400;
-        letter-spacing: 0.9px;
+        letter-spacing: 0.4px;
     }
 `;
 
-const PaymentCheck = () => {
+const PaymentCheck = ({backingDetails}) => {
 
     const handleBackBtnClick = () => {
         
+        fetch("http://127.0.0.1:8889/gamepound/back/process", {
+            method: "post",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        .then()
+        .then()
+        ;
     }
 
     return (
         <StyledPaymentCheckDiv>
             <div className="final_amount">
                 <span>최종 후원 금액</span>
-                <span>29,000원</span>
+                <span>{backingDetails.rewardAmount} 원</span>
             </div>
 
-            <div className="payment_due">프로젝트 성공 시, 결제는 2024.01.06 에 진행됩니다.<br/> 
+            <div className="payment_due">프로젝트 성공 시, 결제는 <span>{backingDetails.endDate}</span> 에 진행됩니다.<br/> 
                 프로젝트가 무산 또는 중단된 경우, 예약된 결제는 자동으로 취소됩니다.
             </div>
             

@@ -5,16 +5,21 @@ import PaymentCheck from './PaymentCheck';
 
 const StyledBackingFormDiv = styled.div`
     width: 1200px;
-    display: flex;
-    justify-content: center;
-    color: var(--black-color);
+    
+    & > form {
+        display: flex;
+        justify-content: center;
+        color: var(--black-color);
+    }
 `;
 
 const BackingForm = ({BackingInfo}) => {
     return (
         <StyledBackingFormDiv>
-            <BackingDetails backingDetails={BackingInfo}/>
-            <PaymentCheck/>
+            <form>
+                <BackingDetails backingDetails={BackingInfo}/>
+                <PaymentCheck backingDetails={BackingInfo}/>
+            </form>
         </StyledBackingFormDiv>
     );
 };

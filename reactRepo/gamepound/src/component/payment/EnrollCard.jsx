@@ -71,22 +71,22 @@ const StyledEnrollCardDiv = styled.div`
 const EnrollCard = () => {
     return (
         <StyledEnrollCardDiv>
-            <div class='card_number'>
+            <div className='card_number'>
                 <div>카드번호</div>
                 <input type='text'/> - <input type='text'/> - <input type='text'/> - <input type='text'/>
             </div>
-            <div class='avail_period'>
+            <div className='avail_period'>
                 <div>카드 유효기간</div>
                 <input type='text'/>
                 /
                 <input type='text'/>
             </div>
-            <div class='owner_info'>
-                <div class='pwd'>
+            <div className='owner_info'>
+                <div className='pwd'>
                     <div>카드 비밀번호 앞 2자리</div>
                     <input type='text'/>
                 </div>
-                <div class='birth_date'>
+                <div className='birth_date'>
                     <div>생년월일 6자리</div>
                     <input type='text'/>
                 </div>

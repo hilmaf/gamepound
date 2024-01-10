@@ -35,6 +35,7 @@ const BackingProcess = () => {
         loadBackingFormInfo();
     }, [])
 
+
     return (
         <StyledBackingFormDiv>
             <ProjectBriefInfo ProjectBriefInfo={dataProjectVo}/>
