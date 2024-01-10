@@ -22,6 +22,7 @@ public class ProjectControllerHYJ {
 	//목록 조회 - 카테고리(소분류)
 	@GetMapping("list/category")
 	public void projectListCategory(ProjectListVo vo) {
+		System.out.println("카테고리 목록 조회 시작");
 		List<ProjectVo> voList = service.projectListCategory(vo);
 		
 		//TODO-HYJ : [list-category] ajaxㄱㄱ (화면에서 받을때 : 달성률 시작 + 끝, 카테고리번호(필수) , 프로젝트 상태 받을수있음)

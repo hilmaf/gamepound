@@ -1,9 +1,10 @@
-import React from 'react';
-import { Link, Route, Routes } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { NavLink, Route, Routes } from 'react-router-dom';
 import PrelaunchStoryPage from "./PrelaunchStoryPage";
 import PrelaunchUpdatePage from "./PrelaunchUpdatePage";
 import styled from 'styled-components';
 
+//////////////////////////////////////////////////
 const StyledAllDiv = styled.div`
     width: 100%;
     .inner {
@@ -11,7 +12,6 @@ const StyledAllDiv = styled.div`
         margin: 0 auto;
     }
 `;
-
 const StyledProjectDetailDiv = styled.div`
     display: flex;
     flex-direction: column;
@@ -62,30 +62,86 @@ const StyledProjectDetailNaviDiv = styled.div`
     top: 126px;
     z-index: 9;
     background-color: #fff;
-    & > div > div{
-        width: 100%;
-        height: 100%;
-        display: flex;
-        place-items: left center;
-        font-size: 16px;
-        & > span{
-            margin-left: 5px;
-            margin-right: 25px;
-            & > a{
-                color: lightgray;
+    & > div {
+        & > div{
+            width: 100%;
+            display: flex;
+            place-items: left center;
+            font-size: 16px;
+            & > span{
+                padding-left: 5px;
+                padding-right: 25px;
+                & > a{
+                    color: lightgray;
+                    &.active{
+                        font-weight: 500;
+                        color: #333;
+                    }
+                }
             }
+
         }
     }
 `;
-
 const StyledProjectSelectDiv = styled.div`
     width: 100%;
     display: flex;
     justify-content: center;
+    & > div{
+        width: 1200px;
+        display: grid;
+        grid-template-rows: 1fr;
+        grid-template-columns: 7fr 3fr;
+        & > div:last-child{
+            border: 1px solid #d6d6d6;
+            border-radius: 5px;
+            padding: 25px;
+            margin-top: 60px;
+            height: fit-content;
+            & > div:first-child{
+                font-size: 18px;
+                font-weight: 500;
+                margin-bottom: 20px;
+            }
+            & > div:nth-child(2){
+                display: flex;
+                align-items: center;
+                margin-bottom: 10px;
+                & > div{
+                    width: 40px;
+                    height: 40px;
+                    font-size: 5px;
+                }
+                & > span{
+                    font-weight: 500;
+                    margin-left: 40px;
+                }
+            }
+        }
+    }
 `;
-
+//////////////////////////////////////////////////
 
 const PrelaunchDetailMain = () => {
+    
+    const [detailPrelaunchVo, setDetailPrelaunchVo] = useState([]);
+
+
+    useEffect(()=>{
+        fetch("http://127.0.0.1:8889/gamepound/project/detail/prelaunch?no=1")
+        .then((resp)=>{return resp.json()})
+        .then((data)=>{
+            setDetailPrelaunchVo(data);
+        })
+        .catch((e)=>{console.log("오류 : " + e);})
+        ;
+    }, []);
+
+
+
+
+
+
     return (<StyledAllDiv>
         <StyledProjectDetailDiv>
             <div className="inner">
@@ -93,18 +149,18 @@ const PrelaunchDetailMain = () => {
                 <div>
                     <img src="" alt="프로젝트 대표 이미지" />
                     <ul>
-                        <li>서브카테고리</li>
-                        <li>공개예정 프로젝트 타이틀</li>
+                        <li>{detailPrelaunchVo.subCategory}</li>
+                        <li>{detailPrelaunchVo.title}</li>
                         <li>
                             <table>
                                 <tbody>
                                     <tr>
                                         <td>목표금액</td>
-                                        <td>500,000원</td>
+                                        <td>{detailPrelaunchVo.goalAmount}원</td>
                                     </tr>
                                     <tr>
                                         <td>공개예정</td>
-                                        <td>22024년 1월 15일</td>
+                                        <td>{detailPrelaunchVo.startDate}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -116,16 +172,28 @@ const PrelaunchDetailMain = () => {
         <StyledProjectDetailNaviDiv>
             <div className="inner">
                 <div>
-                    <span><Link to="/project/detail/prelaunch/story">프로젝트 계획</Link></span>
-                    <span><Link to="/project/detail/prelaunch/update">업데이트</Link></span>
+                    <span><NavLink to="/project/detail/prelaunch/story">프로젝트 계획</NavLink></span>
+                    <span><NavLink to="/project/detail/prelaunch/update">업데이트</NavLink></span>
                 </div>
             </div>
         </StyledProjectDetailNaviDiv>
         <StyledProjectSelectDiv>
-            <Routes>
-                <Route path='/story' element={<PrelaunchStoryPage/>}></Route>
-                <Route path='/update' element={<PrelaunchUpdatePage/>}></Route>
-            </Routes>   
+            <div>
+                <Routes>
+                    <Route path='/story' element={<PrelaunchStoryPage/>}></Route>
+                    <Route path='/update' element={<PrelaunchUpdatePage/>}></Route>
+                </Routes>  
+                <div>
+                    <div>창작자 소개</div>
+                    <div>
+                        <div><img src="" alt="창작자 프로필 이미지" /></div>
+                        <span>창작자 명</span>
+                    </div>
+                    <div>
+                        db에서 가져온 창작자 소개
+                    </div>
+                </div>
+            </div>
         </StyledProjectSelectDiv>
     </StyledAllDiv>);
 };

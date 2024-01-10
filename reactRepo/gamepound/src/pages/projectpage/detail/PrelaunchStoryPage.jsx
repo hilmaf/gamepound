@@ -2,13 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 
 const StyledAllDiv = styled.div`
-    width: 1200px;
+    width: 100%;
 `;
 const StyledNaviDiv = styled.div`
     width: 100%;
     height: 60px;
     position: sticky;
-    top: 179px;
+    top: 180px;
     z-index: 9;
     background-color: white;
     display: flex;
@@ -28,10 +28,7 @@ const StyledNaviDiv = styled.div`
     }
 `;
 const StyledStoryDiv = styled.div`
-    display: grid;
-    grid-template-columns: 7fr 3fr;
-    grid-template-rows: 1fr;
-
+    width: 100%;
     & > ul{
         & > li:nth-child(2n){
             font-size: 19px;
@@ -75,15 +72,6 @@ const StyledStoryDiv = styled.div`
                 margin-left: 40px;
             }
         }
-        & > button{
-                padding: 10px;
-                font-size: 15px;
-                border: 1px solid #d6d6d6;
-                border-radius: 5px;
-                background-color: white;
-                width: 100%;
-                cursor: pointer;
-            }
     }
 
 `;
@@ -107,14 +95,6 @@ const PrelaunchStoryPage = () => {
                 <li>| 선물 설명</li>
                 <li>받아온 프로젝트 선물 설명 내용</li>
             </ul>
-            <div>
-                <div>창작자 소개</div>
-                <div>
-                    <div><img src="" alt="창작자 프로필 이미지" /></div>
-                    <span>창작자 명</span>
-                </div>
-                <button>창작자 문의</button>
-            </div>
         </StyledStoryDiv>
     </StyledAllDiv>);
 };
