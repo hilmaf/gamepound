@@ -21,6 +21,16 @@ public class TokenUtil {
                 .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
                 .compact();
     }
+    
+    // 토큰 검증
+    public static boolean validateToken(String token) {
+        try {
+            Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
     // 받아온 토큰으로 결과 반환
     public static String getFromToken(String token) {
