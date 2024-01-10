@@ -1,10 +1,14 @@
 package com.gamepound.app.member.controller;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.servlet.http.HttpSession;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -99,40 +103,23 @@ public class MemberControllerHJY {
 		return map;
 	}
 	
-	// 비밀번호 찾기 : 이메일, 비밀번호 재확인
+	// 비밀번호 찾기
 	@PostMapping("confirmPassword")
-	public String confirmPassword(MemberVo vo, HttpSession session) {
-		int result = service.confirmPassword(vo);
-		if(result != 1) {
-			System.out.println("아이디, 비밀번호 확인 실패");
-		}
-		
-		System.out.println("새 비밀번호 입력창으로 통과");
-		// 이메일, 비밀번호 세션에 저장
-		Map<String, String> confirmInfo = new HashMap<String, String>();
-		confirmInfo.put("confirmEmail", vo.getEmail());
-		confirmInfo.put("confirmPwd", vo.getPwd());
-		session.setAttribute("confirmInfo", confirmInfo);
-		System.out.println(confirmInfo);
-		return "redirect:/member/resetPassword";
+	public Map<String, Object> confirmPassword(@RequestBody MemberVo vo) throws Exception {
+		System.out.println(vo);
+		Map<String, Object> resultMap = mailService.newPwdEmail(vo.getEmail());
+        
+		return resultMap;
 	}
 		
 	// 비밀번호 재설정 처리
 	@PostMapping("resetPassword")
-	public String resetPassword(MemberVo vo, HttpSession session) throws Exception {
-		Map<String, String> confirmInfo = (Map<String, String>) session.getAttribute("confirmInfo");
-		if(confirmInfo != null) {
-			vo.setEmail(confirmInfo.get("confirmEmail"));			
-		}
+	public Map<String, String> resetPassword(@RequestBody MemberVo vo) throws Exception {
 		
-		int result = service.resetPassword(vo);
-		if(result != 1) {
-			System.out.println("비밀번호 재설정 실패");
-			throw new Exception("비밀번호 재설정 실패");
-		} 
-		System.out.println("비밀번호 재설정 완료");
-		session.invalidate();
-		return "redirect:/member/login";
+		// vo받아서 service
+		Map<String, String> resultMap = service.resetPassword(vo);
+		
+		return resultMap;
 	}
 	
 	// 회원탈퇴 처리

@@ -25,10 +25,10 @@ public class MemberDaoHJY {
 		return sst.selectOne("MemberMapper.isEmailUnique", vo);
 	}
 
-	// 비밀번호 찾기 : 이메일, 비밀번호 재확인
-	public int confirmPassword(SqlSessionTemplate sst, MemberVo vo) {
-		return sst.selectOne("MemberMapper.confirmPassword", vo);
-	}
+	// 비밀번호 찾기 : 이메일, 비밀번호 재확인 01.10 메일바로보내기로 삭제
+//	public int confirmPassword(SqlSessionTemplate sst, MemberVo vo) {
+//		return sst.selectOne("MemberMapper.confirmPassword", vo);
+//	}
 
 	// 비밀번호 재설정 처리
 	public int resetPassword(SqlSessionTemplate sst, MemberVo vo) {
