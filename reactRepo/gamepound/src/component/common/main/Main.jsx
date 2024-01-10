@@ -8,6 +8,7 @@ import CreateMain from '../../../pages/projectpage/create/CreateMain';
 
 const StyledMainDiv = styled.div`
     width: 100%;
+    padding: 30px 0 50px;
 `;
 
 const Main = () => {
