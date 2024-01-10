@@ -138,7 +138,6 @@ const FindPwdPage = () => {
             ...formVo,
             [name]: value
         });
-        console.log(formVo);
     }
 
     return (

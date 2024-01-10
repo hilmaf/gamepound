@@ -6,7 +6,7 @@ import InpText from './input/InpText';
 import InpTextNon from './input/InpTextNon';
 
 const StyledNewPwdPageDiv = styled.div`
-     display: flex;
+    display: flex;
     align-items: center;
     justify-content: center;
     height: 100vh;

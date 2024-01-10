@@ -75,7 +75,7 @@ const StyledLoginPageDiv = styled.div`
 const LoginPage = () => {
 
     const [formVo, setFormVo] = useState({});
-    const {setLoginMemberVo} = useUserMemory();
+    const {loginMemberVo, setLoginMemberVo} = useUserMemory();
     const navigate = useNavigate();
 
 
@@ -98,10 +98,10 @@ const LoginPage = () => {
         })
         .then(resp => resp.json())
         .then((data) => {
-            console.log();
             if(data.msg === 'good'){
                 sessionStorage.setItem("loginMemberVo" , JSON.stringify(data.loginMember));
-                setLoginMemberVo(sessionStorage.getItem('loginMemberVo'));
+                
+                setLoginMemberVo(JSON.parse(sessionStorage.getItem('loginMemberVo')));
                 navigate('/')
             } else {
                 alert('로그인에 실패했습니다.');

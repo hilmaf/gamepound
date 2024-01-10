@@ -1,9 +1,13 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 
 const UserMemory = createContext();
 
 const UserMemoryProvider = ({ children }) => {
     const [loginMemberVo, setLoginMemberVo] = useState();
+    
+    useEffect(() => {
+        setLoginMemberVo(JSON.parse(sessionStorage.getItem('loginMemberVo')));
+    }, [setLoginMemberVo]);
 
     return (
         <UserMemory.Provider value={{ loginMemberVo, setLoginMemberVo }}>
