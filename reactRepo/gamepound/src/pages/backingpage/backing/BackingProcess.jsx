@@ -1,8 +1,8 @@
 import React from 'react';
 import {styled} from 'styled-components';
-import ProjectBriefInfo from '../../component/project/ProjectBriefInfo';
-import BackingForm from '../backingpage/BackingForm';
-import {BackingMemoryProvider, useBackingMemory} from '../../component/context/BackingContext';
+import ProjectBriefInfo from '../../../component/project/ProjectBriefInfo';
+import BackingForm from './BackingForm';
+import {BackingMemoryProvider, useBackingMemory} from '../../../component/context/BackingContext';
 
 const StyledBackingFormDiv = styled.div`
     display: flex;

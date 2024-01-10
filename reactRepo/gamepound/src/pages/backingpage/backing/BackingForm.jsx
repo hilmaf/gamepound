@@ -2,7 +2,6 @@ import React from 'react';
 import styled from 'styled-components';
 import BackingDetails from './BackingDetails';
 import PaymentCheck from './PaymentCheck';
-import { useBackingMemory } from '../../component/context/BackingContext';
 
 const StyledBackingFormDiv = styled.div`
     width: 1200px;

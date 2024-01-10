@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useBackingMemory } from '../../component/context/BackingContext';
+import { useBackingMemory } from '../../../component/context/BackingContext';
 
 const StyledPaymentCheckDiv = styled.div`
     width: 380px;
@@ -61,9 +61,15 @@ const StyledPaymentCheckDiv = styled.div`
 
 const PaymentCheck = () => {
 
-    const back = useBackingMemory();
+    const dataSet = useBackingMemory();
+    const back = dataSet.dataVo;
 
     const handleBackBtnClick = () => {
+        // 유효성 체크
+        // PaymentType이 카드 결제일 시 카드정보 null체크
+        // PaymentType undefined체크
+        // 체크박스 체크 여부
+
         
         fetch("http://127.0.0.1:8889/gamepound/back/process", {
             method: "post",

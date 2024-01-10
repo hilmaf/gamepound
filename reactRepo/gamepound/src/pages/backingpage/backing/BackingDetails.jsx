@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import EnrollCard from '../../component/payment/EnrollCard';
-import { useBackingMemory } from '../../component/context/BackingContext';
+import EnrollCard from '../../../component/payment/EnrollCard';
+import { useBackingMemory } from '../../../component/context/BackingContext';
 
 const StyledBackingDetailsDiv = styled.div`
     width: 800px;
@@ -95,7 +95,8 @@ const BackingDetails = () => {
         setShowCard(false);
     }
 
-    const back = useBackingMemory();
+    const dataSet = useBackingMemory();
+    const back = dataSet.dataVo;
 
     return (
         <StyledBackingDetailsDiv>
