@@ -12,17 +12,20 @@ const StyledBackingFormDiv = styled.div`
 
 const BackingProcess = () => {
 
-    const [ProjectBriefVo, setProjectBriefVo] = useState({});
-    const [BackVo, setBackVo] = useState({});
+    const [dataProjectVo, setDataProjectVo] = useState({});
+    const [dataBackVo, setDataBackVo] = useState({});
 
     // 프로젝트 정보, 후원 정보 fetch
     const loadBackingFormInfo = () => {
         fetch("http://127.0.0.1:8889/gamepound/back/process")
         .then(resp => {return resp.json()})
         .then(data => {
-            console.log(data.ProjectBriefInfo);
-            setProjectBriefVo(data.ProjectBriefVo);
-            setBackVo(data.BackVo);
+            setDataProjectVo(data);
+
+            // 후원자 이메일 정보 채우기
+            // 세션스토리지에서 로그인 멤버 값 가져와서 dataVo에 넣기
+            data.memberEmail = sessionStorage.getItem("loginMemberVo");
+            setDataBackVo(data);
         })
         ;
     }
@@ -32,10 +35,11 @@ const BackingProcess = () => {
         loadBackingFormInfo();
     }, [])
 
+
     return (
         <StyledBackingFormDiv>
-            <ProjectBriefInfo ProjectBriefInfo={ProjectBriefVo}/>
-            <BackingForm BackingInfo={BackVo}/>
+            <ProjectBriefInfo ProjectBriefInfo={dataProjectVo}/>
+            <BackingForm BackingInfo={dataBackVo}/>
         </StyledBackingFormDiv>
     );
 };

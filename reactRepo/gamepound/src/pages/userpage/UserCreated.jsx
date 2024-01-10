@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import ProjectBoxInfo from '../../component/project/ProjectBoxInfo';
 import styled from 'styled-components';
 
@@ -8,6 +8,14 @@ const StyledUserCreatedDiv = styled.div`
         & > #cnt {
             height: 80px;
             line-height: 80px;
+            color: var(--black-color);
+            
+            & > span {
+                color: var(--red-color);
+                font-weight: 500;
+                margin-right: 3px;
+                margin-left: 3px;
+            }
         }
 
         & > #project_items {
@@ -18,14 +26,30 @@ const StyledUserCreatedDiv = styled.div`
 `;
 
 const UserCreated = () => {
+
+    const [projectsCnt, setProjectsCnt] = useState(0);
+    const [myProjectsList, setMyProjectsList] = useState([]);
+
+    useEffect(()=>{
+        fetch("http://127.0.0.1:8889/gamepound/userpage/created")
+        .then(resp => resp.json())
+        .then(data => {
+            console.log(data);
+            setMyProjectsList(data.myProjectsList);
+            console.log(myProjectsList);
+            setProjectsCnt(data.projectsCnt);
+        });    
+    }, [])
+
     return (
         <StyledUserCreatedDiv>
-            <div id="cnt">프로젝트가 --n--개 있습니다.</div>
+            <div id="cnt">프로젝트가 <span>{projectsCnt}</span>개 있습니다.</div>
             <div id="project_items">
-                <ProjectBoxInfo />
-                <ProjectBoxInfo />
-                <ProjectBoxInfo />
-                <ProjectBoxInfo />
+                {
+                    myProjectsList.map((vo) => {
+                        return <ProjectBoxInfo key={vo.projectNo} project={vo}/>
+                    })
+                }
             </div>
         </StyledUserCreatedDiv>
     );

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const StyledProjectBriefInfoDiv = styled.div`
@@ -9,6 +9,7 @@ const StyledProjectBriefInfoDiv = styled.div`
     align-items: center;
     padding-top: 30px;
     padding-bottom: 30px;
+    color: var(--black-color);
 
     & > img {
         width: 180px;
@@ -22,18 +23,15 @@ const StyledProjectBriefInfoDiv = styled.div`
 
         & > .category {
             font-size: 12px;
-            color: #3d3d3d;
             opacity: 0.7;
         }
 
         & > .title {
             font-size: 28px;
-            color: #3d3d3d;
         }
 
         & > .achievement {
             font-size: 13px;
-            color: #3d3d3d;
             
             & > span {
                 margin-right: 10px;
@@ -43,20 +41,18 @@ const StyledProjectBriefInfoDiv = styled.div`
     
 `;
 
-const ProjectBriefInfo = ({ProjectBriefInfo}) => {
-
-    const {categoryName, projectTitle, achievementAmnt, achievementRate, remainingPeriod} = ProjectBriefInfo;    
+const ProjectBriefInfo = ({ProjectBriefInfo}) => {  
 
     return (
         <StyledProjectBriefInfoDiv>
-            <img src='https://cdn.akamai.steamstatic.com/steam/apps/416600/capsule_616x353.jpg?t=1689347261' alt='프로젝트 이미지'/>
+            <img src={ProjectBriefInfo.projectImg}/>
             <div className='project_summary'>
-                <div className='category'>{categoryName}</div>
-                <div className='title'>{projectTitle}</div>
+                <div className='category'>{ProjectBriefInfo.categoryName}</div>
+                <div className='title'>{ProjectBriefInfo.projectTitle}</div>
                 <div className='achievement'>
-                    <span>{achievementAmnt}</span>
-                    <span>{achievementRate}%</span> 
-                    <span>{remainingPeriod}</span>
+                    <span>{ProjectBriefInfo.currentAmount}</span>
+                    <span>{ProjectBriefInfo.achievementRate}%</span> 
+                    <span>{ProjectBriefInfo.remainingPeriod}일 남음</span>
                 </div>
             </div>
         </StyledProjectBriefInfoDiv>

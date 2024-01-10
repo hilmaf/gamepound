@@ -11,13 +11,22 @@ public class ProjectRemainingPeriod {
 		String diff = null;
 	    try {
 	    	// 날짜 객체
-	    	DateFormat df = new SimpleDateFormat("yy/MM/dd");
+	    	String format = "yyyy년 MM월 dd일";
+	    	DateFormat df = new SimpleDateFormat(format);
+	    	
+	    	// endDate 가공
+	    	String endDate_ = endDate.substring(0, format.length());
 	    	
 	    	// 마감일, sysdate 간 차이
 	    	Date currentDate = new Date();
-		    Date endDate_ = df.parse(endDate);
+		    Date parsedEndDate = df.parse(endDate_);
 		    
-		    diff = Integer.toString((int) ((endDate_.getTime() - currentDate.getTime()) / (24*60*60*1000)));
+		    // int 형변환 이전에 반올림
+		    int gap = (int) Math.round((parsedEndDate.getTime() - currentDate.getTime()) / (24*60*60*1000));
+		    // gap 절대값
+		    int absoluteGap = Math.abs(gap);
+		    
+		    diff = String.valueOf(absoluteGap);
 		    
 	    } catch(Exception e) {
 	    	e.printStackTrace();

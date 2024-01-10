@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SearchMapper">
+
+<select id="searchProject" resultType="com.gamepound.app.project.vo.ProjectBriefVo">
+	SELECT
+	    P.NO AS PROJECT_NO
+	    , C.MAIN_CATEGORY AS MAIN_CATEGORY
+	    , C.SUB_CATEGORY AS SUB_CATEGORY
+	    , M.NAME AS MEMBER_NAME
+	    , P.TITLE AS PROJECT_TITLE
+	    , P.CURRENT_AMOUNT AS CURRENT_AMOUNT
+	    , P.GOAL_AMOUNT AS GOAL_AMOUNT
+	    , P.START_DATE AS START_DATE
+	    , PS.STATUS AS PROJECT_STATUS
+	FROM PROJECT P
+	JOIN CATEGORY C ON P.CATEGORY_NO = C.NO
+	JOIN MEMBER M ON P.MEMBER_NO = M.NO
+	JOIN PROJECT_STATUS PS ON P.STATUS_NO = PS.NO
+	WHERE P.STATUS_NO NOT IN(1, 2, 4) AND (P.TITLE LIKE '%' || #{keyword} || '%' OR P.TXT_DESCRIPTION LIKE '%' || #{keyword} || '%')
+	ORDER BY DECODE(P.STATUS_NO, 5, 1), PS.NO;
+</select>
+  
+</mapper>

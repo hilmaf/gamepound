@@ -1,13 +1,12 @@
 package com.gamepound.app.userpage.dao;
 
 import java.util.List;
-import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.gamepound.app.back.vo.BackVo;
-import com.gamepound.app.project.vo.ProjectVo;
+import com.gamepound.app.project.vo.ProjectBriefVo;
 import com.gamepound.app.review.vo.ReviewStatVo;
 import com.gamepound.app.review.vo.ReviewVo;
 
@@ -31,8 +30,13 @@ public class UserPageDao {
 	}
 
 	// 내가 올린 프로젝트 목록 조회
-	public List<ProjectVo> listMyProjects(SqlSessionTemplate sst, String memberNo) {
+	public List<ProjectBriefVo> listMyProjects(SqlSessionTemplate sst, String memberNo) {
 		return sst.selectList("UserPageMapper.listMyProjects", memberNo);
+	}
+	
+	// 내가 올린 프로젝트 목록 cnt
+	public String myProjectsCnt(SqlSessionTemplate sst, String memberNo) {
+		return sst.selectOne("UserPageMapper.myProjectCnt", memberNo);
 	}
 
 	// 내 후원 목록 - 후원 성공

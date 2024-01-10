@@ -5,8 +5,7 @@ import EnrollCard from '../../component/payment/EnrollCard';
 const StyledBackingDetailsDiv = styled.div`
     width: 800px;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    align-items: start;
     flex-direction: column;
 
     & > .detail_box {
@@ -16,44 +15,75 @@ const StyledBackingDetailsDiv = styled.div`
 
         & > .title {
             font-size: 16px;
-            color: #3d3d3d;
             padding: 5px;
             padding-bottom: 15px;
+            font-weight: 500;
         }
 
         & > .detail {
-            border: 1px solid #3d3d3d;
+            border: 1px solid #3d3d3d22;
+            border-radius: 5px;
             padding: 5px;
 
             & > .detail_1 {
                 font-size: 14px; 
-                color: #3d3d3d;
                 padding-left: 12px;
                 padding-top: 15px;
                 padding-bottom: 15px;
+                display: flex;
+                
+                & > :nth-child(1) {
+                    width: 120px;
+                    display: block;
 
-                & > .span {
                 }
             }
             
             & > .detail_2 {
                 font-size: 14px;                
-                color: #3d3d3d;               
                 padding-left: 12px;
                 padding-top: 15px;
                 padding-bottom: 15px;
+                display: flex;
+
+                & > :nth-child(1) {
+                    width: 120px;
+                    display: block;
+                    
+                }
+            }
+
+            & > #email_guide {
+                font-size: 14px;                
+                padding-left: 12px;
+                padding-top: 15px;
+                padding-bottom: 15px;
+                width: 350px;
             }
         }
 
         & > .paymentType {
-            border: 1px solid #3d3d3d;
+            border: 1px solid #3d3d3d22;
+            border-radius: 5px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+
+            & > label {
+                margin-left: 30px;
+                cursor: pointer;
+
+                & > input {
+                    margin-right: 7.5px;
+                }
+            }
         }
     }
 
 
 `;
 
-const BackingDetails = () => {
+const BackingDetails = ({backingDetails}) => {
 
     const [showCard, setShowCard] = useState(false);
     const handleCardClick = () => {
@@ -61,6 +91,7 @@ const BackingDetails = () => {
     }
 
     const handleKakaoPayClick = () => {
+        setShowCard(false);
     }
 
     return (
@@ -70,11 +101,11 @@ const BackingDetails = () => {
                 <div className='detail'>
                     <div className='detail_1'>
                         <span>선물 구성</span>
-                        <span>어쩌고저쩌고</span>
+                        <span>{backingDetails.rewardName}</span>
                     </div>
                     <div className='detail_2'>
                         <span>선물 금액</span>
-                        <span>21,000원</span>
+                        <span>{backingDetails.rewardAmount} 원</span>
                     </div>
                 </div>
             </div>
@@ -83,9 +114,9 @@ const BackingDetails = () => {
                 <div className='detail'>
                     <div className='detail_1'>
                         <span>이메일</span>
-                        <span>glee1470@naver.com</span>
+                        <span>{backingDetails.memberEmail}</span>
                     </div>
-                    <div className='detail_2'>
+                    <div id="email_guide">
                         <p>* 위 이메일로 후원 관련 소식이 전달됩니다.<br />
                            * 이메일은 가입 시 등록한 이메일로 자동 설정됩니다.</p>
                     </div>

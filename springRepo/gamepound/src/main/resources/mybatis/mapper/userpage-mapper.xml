@@ -56,19 +56,33 @@
 	)
 </insert>
 
-<!-- 내가 올린 프로젝트 목록 조회 -->
-<select id="listMyProjects" resultType="ProjectVo">
+<!-- 내가 올린 프로젝트 (cnt) -->
+<select id="myProjectCnt" resultType="java.lang.String">
 	SELECT
-	    C.MAIN_CATEGORY
-	    , C.SUB_CATEGORY
-	    , M.NAME
-	    , P.TITLE
+	    COUNT(*)
+	FROM PROJECT P
+	WHERE P.MEMBER_NO = #{memberNo}
+</select>
+
+<!-- 내가 올린 프로젝트 목록 조회 -->
+<select id="listMyProjects" resultType="com.gamepound.app.project.vo.ProjectBriefVo">
+	SELECT
+		P.NO AS PROJECT_NO
+	    , C.MAIN_CATEGORY AS CATEGORY_NAME
+	    , C.SUB_CATEGORY AS SUBCATEGORY_NAME
+	    , M.NAME AS MEMBER_NAME
+	    , P.TITLE AS PROJECT_TITLE
+	    , P.IMAGE_URL AS PROJECT_IMG
+	    , PS.STATUS AS PROJECT_STATUS
 	    , REGEXP_REPLACE(REVERSE(REGEXP_REPLACE(REVERSE(TO_CHAR(P.CURRENT_AMOUNT)), '(\d{3})', '\1,')), '^,', '') AS CURRENT_AMOUNT
 	    , REGEXP_REPLACE(REVERSE(REGEXP_REPLACE(REVERSE(TO_CHAR(P.GOAL_AMOUNT)), '(\d{3})', '\1,')), '^,', '') AS GOAL_AMOUNT
+	    , P.END_DATE AS END_DATE
 	FROM PROJECT P
 	JOIN CATEGORY C ON P.CATEGORY_NO = C.NO
 	JOIN MEMBER M ON P.MEMBER_NO = M.NO
+	JOIN PROJECT_STATUS PS ON P.STATUS_NO = PS.NO
 	WHERE P.MEMBER_NO = #{memberNo}
+	ORDER BY P.ENROLL_DATE DESC
 </select>
 
 <select id="backedSuccessfully" resultType="BackVo">

@@ -4,6 +4,31 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="BackMapper">
   
+  
+<!--   후원하기(화면) - 프로젝트 정보 갖고 오기 -->
+<select id="viewBackingInfo" resultType="BackVo">
+	SELECT
+	    P.NO AS PROJECT_NO
+	    , C.MAIN_CATEGORY AS CATEGORY_NAME
+	    , C.SUB_CATEGORY AS SUBCATEGORY_NAME
+	    , M.NAME AS MEMBER_NAME
+	    , M.EMAIL AS MEMBER_EMAIL
+	    , P.TITLE AS PROJECT_TITLE
+	    , P.IMAGE_URL AS PROJECT_IMG
+	    , REGEXP_REPLACE(REVERSE(REGEXP_REPLACE(REVERSE(TO_CHAR(P.CURRENT_AMOUNT)), '(\d{3})', '\1,')), '^,', '') AS CURRENT_AMOUNT
+	    , REGEXP_REPLACE(REVERSE(REGEXP_REPLACE(REVERSE(TO_CHAR(P.GOAL_AMOUNT)), '(\d{3})', '\1,')), '^,', '') AS GOAL_AMOUNT
+	    , TO_CHAR(P.END_DATE, 'YYYY"년" MM"월" DD"일"') AS END_DATE
+	    , R.NO AS REWARD_NO
+	    , REGEXP_REPLACE(REVERSE(REGEXP_REPLACE(REVERSE(TO_CHAR(R.AMOUNT)), '(\d{3})', '\1,')), '^,', '') AS REWARD_AMOUNT
+	    , R.NAME AS REWARD_NAME
+	FROM PROJECT P
+	JOIN CATEGORY C ON P.CATEGORY_NO = C.NO
+	JOIN MEMBER M ON P.MEMBER_NO = M.NO
+	JOIN PROJECT_STATUS PS ON P.STATUS_NO = PS.NO
+	JOIN REWARD R ON P.NO = R.PROJECT_NO
+	WHERE P.NO = #{projectNo} AND R.NO = #{rewardNo}
+</select>
+
 <!--   후원하기(후원 테이블 insert) -->
   <insert id="insertBack">
   	INSERT INTO BACKER(
