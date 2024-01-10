@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useHeaderMemory } from '../../../component/context/HeaderContext';
 
 const ProjectNewCreate = () => {
 
     const { updatePageType } = useHeaderMemory();
 
-    updatePageType('createMain');
+    useEffect(() => {
+        updatePageType('createMain');
+    }, [updatePageType]);
 
     return (
         <div>민민</div>
