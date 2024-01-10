@@ -81,7 +81,7 @@ const StyledLoginAreaDiv = styled.ul`
 const LoginArea = () => {
 
     const navigate = useNavigate();
-    const {setLoginMemberVo} = useUserMemory();
+    const {loginMemberVo, setLoginMemberVo} = useUserMemory();
     const sessionLoginMemberVo = JSON.parse(sessionStorage.getItem('loginMemberVo'));
 
     const handleUserInfo = (e) => {

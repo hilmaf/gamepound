@@ -12,6 +12,8 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
+import com.gamepound.app.member.controller.TokenUtil;
+
 @Service
 public class MailSendService {
 
@@ -43,6 +45,25 @@ public class MailSendService {
 		Map<String, Object> resultMap = mailSend(setFrom, toMail, title, content);
 		
 		resultMap.put("verificationCode", verificationCode);
+		
+		return resultMap;
+	}
+	
+	// 새 비밀번호 작성페이지 이메일로 보내기
+	public Map<String, Object> newPwdEmail(String email) {
+
+		// 이메일 토큰으로 변환
+        TokenUtil tokenUtil = new TokenUtil();
+        String emailToken = TokenUtil.generateToken(email);
+		
+		String setFrom = "guswlsrl12@gmail.com"; // email-config에 설정한 자신의 이메일 주소
+		String toMail = email;
+		String title = "[gamepound] 새로운 비밀번호 설정 안내"; // 이메일 제목
+		// 이메일 내용
+		String content = "[인증번호] "
+				+ "url : http://localhost:3001/newPwd?token=" + emailToken; 
+		
+		Map<String, Object> resultMap = mailSend(setFrom, toMail, title, content);
 		
 		return resultMap;
 	}

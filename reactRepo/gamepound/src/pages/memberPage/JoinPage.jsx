@@ -344,7 +344,7 @@ const JoinPage = () => {
             }
             
         }
-    }, [formVo.confirmPwd]);
+    }, [formVo.confirmPwd, formVo.pwd]);
 
     // formVo에 값 저장
     const handleInputChange = (e) => {
@@ -367,7 +367,7 @@ const JoinPage = () => {
         <StyledJoinPageDiv>
             <div className='wrap'>
                 <div className='title'>
-                    <h1>로고</h1>
+                    <Link to='/'><h1>로고</h1></Link>
                     <h2>이메일로 가입하기</h2>
                 </div>
                 <form>
