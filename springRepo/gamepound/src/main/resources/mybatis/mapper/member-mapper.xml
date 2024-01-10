@@ -41,7 +41,7 @@
 	<update id="quit">
 		UPDATE MEMBER
 		    SET QUIT_YN = 'Y'
-		WHERE EMAIL = #{email}
+		WHERE NO = #{no}
 		AND PWD = #{pwd}
 		AND QUIT_YN = 'N'
 	</update>

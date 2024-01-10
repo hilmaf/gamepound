@@ -124,14 +124,18 @@ public class MemberControllerHJY {
 	}
 	
 	// 회원탈퇴 처리
-	@DeleteMapping("quit")
-	public void quit(@RequestBody MemberVo vo) {
+	@PostMapping("quit")
+	public Map<String, String> quit(@RequestBody MemberVo vo) {
+		
 		int result = service.quit(vo);
+		System.out.println(result);
 		Map<String, String> map = new HashMap<>();
 		map.put("msg", "good");
 		if(result != 1) {
 			map.put("msg", "bad");
 		}
+		
+		return map;
 	}
 	
 }
