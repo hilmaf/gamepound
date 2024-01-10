@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import com.gamepound.app.project.vo.ProjectCommunityVo;
 import com.gamepound.app.project.vo.ProjectDetailVo;
 import com.gamepound.app.project.vo.ProjectListVo;
+import com.gamepound.app.project.vo.ProjectStoryVo;
 import com.gamepound.app.project.vo.ProjectUpdateVo;
 import com.gamepound.app.project.vo.ProjectVo;
 
@@ -50,14 +51,13 @@ public class ProjectDaoHYJ {
 	
 	//상세조회 - 타이틀 + 선물
 	public ProjectDetailVo projectDetail(SqlSessionTemplate sst, String no) {
-		
 		ProjectDetailVo detailVo = sst.selectOne("ProjectMapper.DetailTitle", no);
 		detailVo.setRewardVo(sst.selectList("ProjectMapper.DetailReward", no));
 		return detailVo;
 	}
 
 	//상세조회 - 계획
-	public Object projectStory(SqlSessionTemplate sst, String no) {
+	public ProjectStoryVo projectDetailStory(SqlSessionTemplate sst, String no) {
 		return sst.selectOne("ProjectMapper.DetailStory", no);
 	}
 

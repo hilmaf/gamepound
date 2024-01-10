@@ -7,27 +7,35 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.gamepound.app.project.service.ProjectServiceHYJ;
 import com.gamepound.app.project.vo.ProjectCommunityVo;
 import com.gamepound.app.project.vo.ProjectDetailVo;
+import com.gamepound.app.project.vo.ProjectStoryVo;
 import com.gamepound.app.project.vo.ProjectUpdateVo;
 
 import lombok.RequiredArgsConstructor;
 
-@Controller
+@RestController
 @RequestMapping("project/detail")
 @RequiredArgsConstructor
 public class ProjectDetailControllerHYJ {
 	
 	private final ProjectServiceHYJ service;
 	
+	//프로젝트 상세 조회 - 타이틀
+	@GetMapping
+	public void projectDetail(String no) {
+		ProjectDetailVo detailVo = service.projectDetail(no);
+		System.out.println("detailVo : " + detailVo);
+	}
+	
 	//프로젝트 상세 조회 - 프로젝트 계획
 	@GetMapping("story")
 	public void projectDetailStory(String no) {
-		Map<String, Object> map = service.projectDetailStory(no);
-		System.out.println(map.get("projectDetail"));
-		System.out.println(map.get("projectStory"));
+		ProjectStoryVo detailStoryVo = service.projectDetailStory(no);
+		System.out.println("detailStory : " + detailStoryVo);
 	}
 	
 	//프로젝트 상세 조회 - 업데이트
@@ -44,12 +52,19 @@ public class ProjectDetailControllerHYJ {
 		System.out.println(voList);
 	}
 	
+	//공개예정 프로젝트 상세 조회 - 타이틀
+	@GetMapping("prelaunch")
+	public ProjectDetailVo projectDetailPrelaunch(String no) {
+		ProjectDetailVo detailPrelaunchVo = service.projectDetail(no);
+		return detailPrelaunchVo;
+	}
+	
 	//공개예정 프로젝트 상세 조회 - 프로젝트 계획
 	@GetMapping("prelaunch/story")
 	public void projectDetailPrelaunchStory(String no) {
-		Map<String, Object>map = service.projectDetailStory(no);
-		System.out.println(map.get("projectDetail"));
-		System.out.println(map.get("projectStory"));
+		System.out.println("프로젝트 상세 조회 - 계획 도착");
+		ProjectStoryVo detailPrelaunchStoryVo = service.projectDetailStory(no);
+		System.out.println(detailPrelaunchStoryVo);
 	}
 	
 	//공개예정 프로젝트 상세 조회 - 업데이트

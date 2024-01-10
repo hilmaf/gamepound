@@ -11,6 +11,7 @@ import com.gamepound.app.project.dao.ProjectDaoHYJ;
 import com.gamepound.app.project.vo.ProjectCommunityVo;
 import com.gamepound.app.project.vo.ProjectDetailVo;
 import com.gamepound.app.project.vo.ProjectListVo;
+import com.gamepound.app.project.vo.ProjectStoryVo;
 import com.gamepound.app.project.vo.ProjectUpdateVo;
 import com.gamepound.app.project.vo.ProjectVo;
 
@@ -50,13 +51,15 @@ public class ProjectServiceHYJ {
 	public List<ProjectVo> projectListPrelaunch() {
 		return dao.projectListPrelaunch(sst);
 	}
+	
+	//프로젝트 상세 조회 - 타이틀
+	public ProjectDetailVo projectDetail(String no) {
+		return dao.projectDetail(sst, no);
+	}
 
 	//프로젝트 상세 조회 - 프로젝트 계획
-	public Map<String, Object> projectDetailStory(String no) {
-		Map<String, Object>map = new HashMap<String, Object>();
-		map.put("projectDetail", dao.projectDetail(sst, no));
-		map.put("projectStory", dao.projectStory(sst, no));
-		return map;
+	public ProjectStoryVo projectDetailStory(String no) {
+		return dao.projectDetailStory(sst, no);
 	}
 
 	//프로젝트 상세 조회 - 업데이트
@@ -84,6 +87,10 @@ public class ProjectServiceHYJ {
 		}
 		return result;
 	}
+
+
+
+
 
 
 }
