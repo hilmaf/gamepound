@@ -1,8 +1,5 @@
 package com.gamepound.app.back.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -12,7 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.gamepound.app.back.service.BackServiceLKM;
 import com.gamepound.app.back.vo.BackDetailVo;
 import com.gamepound.app.back.vo.BackVo;
-import com.gamepound.app.project.vo.ProjectBriefVo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -33,24 +29,15 @@ public class BackControllerLKM {
 	
 	// 후원하기(화면)
 	@GetMapping("process")
-	public Map<String, Object> viewBackPage(ProjectBriefVo projectVo, BackVo backVo) throws Exception {
+	public BackVo viewBackPage(BackVo backVo) throws Exception {
 		
 		// 임의로 정보 세팅(임시) TODO: 정보세팅 지우기
-		projectVo.setProjectNo("1");
-		projectVo.setProjectTitle("풀 메탈 퓨리즈 액션 어드벤처");
-		projectVo.setCategoryName("비디오");
-		projectVo.setAchievementAmnt("13950295");
-		projectVo.setAchievementRate("2222");
-		projectVo.setRemainingPeriod("4");
+		backVo.setProjectNo("1");
+		backVo.setRewardNo("1");
 		
-		backVo.setMemberEmail("shicole@naver.com");
-		backVo.setRewardName("스팀 제품 키");
-		
-		Map<String, Object> map = new HashMap<>();
-		map.put("ProjectBriefVo", projectVo);
-		map.put("BackVo", backVo);
-		
-		return map;
+		BackVo bvo = service.viewBackingPage(backVo);
+		System.out.println(bvo);
+		return bvo;
 	}
 	
 	// 후원하기

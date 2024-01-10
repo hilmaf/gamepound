@@ -6,6 +6,9 @@ import org.springframework.stereotype.Service;
 import com.gamepound.app.back.dao.BackDaoLKM;
 import com.gamepound.app.back.vo.BackDetailVo;
 import com.gamepound.app.back.vo.BackVo;
+import com.gamepound.app.project.ProjectAchievementRate;
+import com.gamepound.app.project.ProjectRemainingPeriod;
+import com.gamepound.app.project.vo.ProjectBriefVo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -16,6 +19,21 @@ public class BackServiceLKM {
 
 	private final BackDaoLKM dao;
 	private final SqlSessionTemplate sst;
+	
+	// 후원하기(화면) - 프로젝트 정보 가져오기
+	public BackVo viewBackingPage(BackVo vo) {
+		BackVo bvo = dao.viewBackingPage(sst, vo);
+		
+		// 달성률, 마감기한 d- setting
+		// TODO: 성능 개선
+		String achievementRate = ProjectAchievementRate.achievementRate(bvo.getGoalAmount(), bvo.getCurrentAmount());
+		String remainingPeriod = ProjectRemainingPeriod.getRemainingPeriod(bvo.getEndDate());
+		bvo.setAchievementRate(achievementRate);
+		bvo.setRemainingPeriod(remainingPeriod);
+		
+		return bvo;
+		
+	}
 	
 	// 후원하기
 	public boolean back(BackDetailVo vo) throws Exception {

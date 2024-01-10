@@ -7,12 +7,13 @@ const StyledBackingFormDiv = styled.div`
     width: 1200px;
     display: flex;
     justify-content: center;
+    color: var(--black-color);
 `;
 
-const BackingForm = () => {
+const BackingForm = ({BackingInfo}) => {
     return (
         <StyledBackingFormDiv>
-            <BackingDetails/>
+            <BackingDetails backingDetails={BackingInfo}/>
             <PaymentCheck/>
         </StyledBackingFormDiv>
     );

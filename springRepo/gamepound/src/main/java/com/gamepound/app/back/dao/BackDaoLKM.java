@@ -5,11 +5,17 @@ import org.springframework.stereotype.Repository;
 
 import com.gamepound.app.back.vo.BackDetailVo;
 import com.gamepound.app.back.vo.BackVo;
+import com.gamepound.app.project.vo.ProjectBriefVo;
 
 @Repository
 
 public class BackDaoLKM {
 
+	// 후원하기(화면)
+	public BackVo viewBackingPage(SqlSessionTemplate sst, BackVo vo) {
+		return sst.selectOne("BackMapper.viewBackingInfo", vo);
+	}
+	
 	// 후원 insert 작업
 	public int insertBack(SqlSessionTemplate sst, BackDetailVo vo) {
 		return sst.insert("BackMapper.insertBack", vo);

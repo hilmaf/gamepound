@@ -4,6 +4,30 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="BackMapper">
   
+  
+<!--   후원하기(화면) - 프로젝트 정보 갖고 오기 -->
+<select id="viewBackingInfo" resultType="BackVo">
+	SELECT
+	    P.NO AS PROJECT_NO
+	    , C.MAIN_CATEGORY AS CATEGORY_NAME
+	    , C.SUB_CATEGORY AS SUBCATEGORY_NAME
+	    , M.NAME AS MEMBER_NAME
+	    , P.TITLE AS PROJECT_TITLE
+	    , P.IMAGE_URL AS PROJECT_IMG
+	    , P.CURRENT_AMOUNT AS CURRENT_AMOUNT
+	    , P.GOAL_AMOUNT AS GOAL_AMOUNT
+	    , P.END_DATE AS END_DATE
+	    , R.NO AS REWARD_NO
+	    , R.AMOUNT AS REWARD_AMOUNT
+	    , R.NAME AS REWARD_NAME
+	FROM PROJECT P
+	JOIN CATEGORY C ON P.CATEGORY_NO = C.NO
+	JOIN MEMBER M ON P.MEMBER_NO = M.NO
+	JOIN PROJECT_STATUS PS ON P.STATUS_NO = PS.NO
+	JOIN REWARD R ON P.NO = R.PROJECT_NO
+	WHERE P.NO = #{projectNo} AND R.NO = #{rewardNo}
+</select>
+
 <!--   후원하기(후원 테이블 insert) -->
   <insert id="insertBack">
   	INSERT INTO BACKER(
