@@ -24,8 +24,14 @@ const StyledProjectDetailDiv = styled.div`
         display: grid;
         grid-template-columns: 3fr 2fr;
         grid-template-rows: 1fr;
-        & > img{
-            background-color: black;
+        & > span {
+            width: 100%;
+            height: 100%;
+            & > img{
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
         }
         & > ul{
             width: 100%;
@@ -111,6 +117,11 @@ const StyledProjectSelectDiv = styled.div`
                     width: 40px;
                     height: 40px;
                     font-size: 5px;
+                    & > img{
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                    }
                 }
                 & > span{
                     font-weight: 500;
@@ -147,7 +158,9 @@ const PrelaunchDetailMain = () => {
             <div className="inner">
                 
                 <div>
-                    <img src="" alt="프로젝트 대표 이미지" />
+                    <span>
+                        <img src={detailPrelaunchVo.imageUrl} alt="프로젝트 대표 이미지" />
+                    </span>
                     <ul>
                         <li>{detailPrelaunchVo.subCategory}</li>
                         <li>{detailPrelaunchVo.title}</li>
@@ -186,11 +199,11 @@ const PrelaunchDetailMain = () => {
                 <div>
                     <div>창작자 소개</div>
                     <div>
-                        <div><img src="" alt="창작자 프로필 이미지" /></div>
-                        <span>창작자 명</span>
+                        <div><img src={detailPrelaunchVo.memberPic} alt="창작자 프로필 이미지" /></div>
+                        <span>{detailPrelaunchVo.memberName}</span>
                     </div>
                     <div>
-                        db에서 가져온 창작자 소개
+                        {detailPrelaunchVo.memberIntro}
                     </div>
                 </div>
             </div>

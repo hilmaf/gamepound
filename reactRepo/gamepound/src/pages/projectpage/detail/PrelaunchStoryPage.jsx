@@ -1,31 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const StyledAllDiv = styled.div`
     width: 100%;
-`;
-const StyledNaviDiv = styled.div`
-    width: 100%;
-    height: 60px;
-    position: sticky;
-    top: 180px;
-    z-index: 9;
-    background-color: white;
-    display: flex;
-    place-items: center start;
-    font-size: 16px;
-    & > div{
-        cursor: pointer;
-        font-size: 14px;
-        font-weight: 400;
-        border: 1px solid #cfcfcf;
-        padding: 6px;
-        padding-left: 15px;
-        padding-right: 15px;
-        border-radius: 50px;
-        margin-left: 5px;
-        margin-right: 15px;
-    }
 `;
 const StyledStoryDiv = styled.div`
     width: 100%;
@@ -79,21 +56,37 @@ const StyledStoryDiv = styled.div`
 
 
 const PrelaunchStoryPage = () => {
+
+    const [detailPrelaunchStoryVo, setDetailPrelaunchStoryVo] = useState([]);
+
+
+    useEffect(()=>{
+        fetch("http://127.0.0.1:8889/gamepound/project/detail/prelaunch/story?no=1")
+        .then((resp)=>{return resp.json()})
+        .then((data)=>{
+            setDetailPrelaunchStoryVo(data);
+        })
+        .catch((e)=>{console.log("오류 : " + e);})
+        ;
+    }, []);
+
+
+
+
+
+
+
+
     return (<StyledAllDiv>
-        <StyledNaviDiv>
-            <div>소개</div>
-            <div>팀 소개</div>
-            <div>선물 설명</div>
-        </StyledNaviDiv>
         <StyledStoryDiv>
             <ul>
                 <li>❗ 해당 프로젝트 정보는 미리 보기 용으로 상세 내용은 펀딩 시작 전 변경될 수 있습니다.</li>
                 <li>| 프로젝트 소개</li>
-                <li>받아온 프로젝트 소개 내용</li>
+                <li>{detailPrelaunchStoryVo.txtDescription}</li>
                 <li>| 팀 소개</li>
-                <li>받아온 프로젝트 팀 소개 내용</li>
+                <li>{detailPrelaunchStoryVo.txtTeam}</li>
                 <li>| 선물 설명</li>
-                <li>받아온 프로젝트 선물 설명 내용</li>
+                <li>{detailPrelaunchStoryVo.txtItem}</li>
             </ul>
         </StyledStoryDiv>
     </StyledAllDiv>);

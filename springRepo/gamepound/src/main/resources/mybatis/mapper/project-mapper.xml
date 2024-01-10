@@ -338,6 +338,8 @@
 	  , C.SUB_CATEGORY
 	  , P.MEMBER_NO
 	  , M.NAME AS MEMBER_NAME
+	  , M.PIC AS MEMBER_PIC
+	  , M.INTRO AS MEMBER_INTRO
 	  , P.NO
 	  , P.TITLE
 	  , P.IMAGE_URL
@@ -387,11 +389,15 @@
   <!-- 프로젝트 상세 업데이트 -->
   <select id="DetailUpdate" resultType="com.gamepound.app.project.vo.ProjectUpdateVo">
 	SELECT 
-	  NO
-	  , PROJECT_NO
-	  , CONTENT
-	  , ENROLL_DATE
-	FROM PROJECT_UPDATE
+	  PU.NO
+	  , PU.PROJECT_NO
+	  , PU.CONTENT
+	  , TO_CHAR(PU.ENROLL_DATE, 'YYYY"년 "MM"월 "DD"일"') AS ENROLL_DATE
+	  , M.NAME AS MEMBER_NAME
+	  , M.PIC AS MEMBER_PIC
+	FROM PROJECT_UPDATE PU
+	JOIN PROJECT P ON P.NO = PU.PROJECT_NO
+	JOIN MEMBER M ON M.NO = P.MEMBER_NO
 	WHERE PROJECT_NO = #{no}
   </select>
   

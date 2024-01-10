@@ -20,6 +20,8 @@ public class ProjectDetailVo {
 	//프로젝트 작성자
 	private String memberNo;
 	private String memberName;
+	private String memberPic;
+	private String memberIntro;
 
 	//프로젝트 내용
 	private String no;

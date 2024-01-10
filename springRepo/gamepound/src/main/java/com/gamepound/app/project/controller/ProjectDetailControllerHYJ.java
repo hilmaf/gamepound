@@ -61,17 +61,17 @@ public class ProjectDetailControllerHYJ {
 	
 	//공개예정 프로젝트 상세 조회 - 프로젝트 계획
 	@GetMapping("prelaunch/story")
-	public void projectDetailPrelaunchStory(String no) {
+	public ProjectStoryVo projectDetailPrelaunchStory(String no) {
 		System.out.println("프로젝트 상세 조회 - 계획 도착");
 		ProjectStoryVo detailPrelaunchStoryVo = service.projectDetailStory(no);
-		System.out.println(detailPrelaunchStoryVo);
+		return detailPrelaunchStoryVo;
 	}
 	
 	//공개예정 프로젝트 상세 조회 - 업데이트
 	@GetMapping("prelaunch/update")
-	public void projectDetailPrelaunchUpdate(String no) {
+	public List<ProjectUpdateVo> projectDetailPrelaunchUpdate(String no) {
 		List<ProjectUpdateVo>voList = service.projectDetailUpdate(no);
-		System.out.println(voList);
+		return voList;
 	}
 	
 	//프로젝트 상세 조회 - 업데이트 작성
