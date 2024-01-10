@@ -344,7 +344,7 @@ const JoinPage = () => {
             }
             
         }
-    }, [formVo.confirmPwd]);
+    }, [formVo.confirmPwd, formVo.pwd]);
 
     // formVo에 값 저장
     const handleInputChange = (e) => {
