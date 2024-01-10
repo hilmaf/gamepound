@@ -117,7 +117,7 @@ const LoginPage = () => {
         <StyledLoginPageDiv>
             <div className='wrap'>
                 <div className='title'>
-                    <h1>로고</h1>
+                    <Link to='/'><h1>로고</h1></Link>
                     <h2>이메일로 로그인</h2>
                 </div>
                 <form onSubmit={handleLogin}>
