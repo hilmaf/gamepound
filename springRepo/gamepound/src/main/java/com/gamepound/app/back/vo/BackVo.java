@@ -54,6 +54,17 @@ public class BackVo {
 	private String paymentType;
 	private String paymentDate;
 	private String paymentAmount; // == 최종 후원 금액
-	private String paymentStatus;
+	private String paymentStatus;	
 	
+	// 카드 정보
+	private String cardNo1;
+	private String cardNo2;
+	private String cardNo3;
+	private String cardNo4;
+	
+	private String validThru1;
+	private String validThru2;
+	
+	private String cardPwd;
+	private String birthDate;
 }

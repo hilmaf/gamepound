@@ -44,8 +44,9 @@ const StyledProjectBriefInfoDiv = styled.div`
 
 const ProjectBriefInfo = ({ProjectBriefInfo}) => {  
 
-    const contextValue = useBackingMemory();
-    const conditionalVo = ProjectBriefInfo===undefined ? contextValue : ProjectBriefInfo;
+    const dataSet = useBackingMemory();
+    const back = dataSet.dataVo;
+    const conditionalVo = ProjectBriefInfo===undefined ? back : ProjectBriefInfo;
 
     return (
         <StyledProjectBriefInfoDiv>
