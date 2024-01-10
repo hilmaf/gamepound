@@ -75,7 +75,7 @@ const StyledLoginPageDiv = styled.div`
 const LoginPage = () => {
 
     const [formVo, setFormVo] = useState({});
-    const {loginMemberVo, setLoginMemberVo} = useUserMemory();
+    const {setLoginMemberVo} = useUserMemory();
     const navigate = useNavigate();
 
 

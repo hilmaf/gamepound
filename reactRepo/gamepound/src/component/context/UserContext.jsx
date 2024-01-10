@@ -8,7 +8,7 @@ const UserMemoryProvider = ({ children }) => {
     useEffect(() => {
         setLoginMemberVo(JSON.parse(sessionStorage.getItem('loginMemberVo')));
     }, [setLoginMemberVo]);
-
+    
     return (
         <UserMemory.Provider value={{ loginMemberVo, setLoginMemberVo }}>
             {children}
