@@ -9,7 +9,7 @@ const StyledUpdateDiv = styled.div`
     margin-top: 40px;
     & > div{
         border-bottom: 1px solid #ebebeb;
-        padding: 20px;
+        padding-top: 20px;
         margin: 15px;
         & > ul{
             margin-right: 20px;
@@ -28,9 +28,7 @@ const StyledUpdateDiv = styled.div`
                     }
                 }
             }
-
         }
-
     }
 `;
 /////////////////////////////////////////////////////////////////////////////
