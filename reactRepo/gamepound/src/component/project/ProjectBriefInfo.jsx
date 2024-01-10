@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
+import { useBackingMemory } from '../context/BackingContext';
 
 const StyledProjectBriefInfoDiv = styled.div`
     width: 1200px;
@@ -43,16 +44,19 @@ const StyledProjectBriefInfoDiv = styled.div`
 
 const ProjectBriefInfo = ({ProjectBriefInfo}) => {  
 
+    const contextValue = useBackingMemory();
+    const conditionalVo = ProjectBriefInfo===undefined ? contextValue : ProjectBriefInfo;
+
     return (
         <StyledProjectBriefInfoDiv>
-            <img src={ProjectBriefInfo.projectImg}/>
+            <img src={conditionalVo.projectImg}/>
             <div className='project_summary'>
-                <div className='category'>{ProjectBriefInfo.categoryName}</div>
-                <div className='title'>{ProjectBriefInfo.projectTitle}</div>
+                <div className='category'>{conditionalVo.categoryName}</div>
+                <div className='title'>{conditionalVo.projectTitle}</div>
                 <div className='achievement'>
-                    <span>{ProjectBriefInfo.currentAmount}</span>
-                    <span>{ProjectBriefInfo.achievementRate}%</span> 
-                    <span>{ProjectBriefInfo.remainingPeriod}일 남음</span>
+                    <span>{conditionalVo.currentAmount}</span>
+                    <span>{conditionalVo.achievementRate}%</span> 
+                    <span>{conditionalVo.remainingPeriod}일 남음</span>
                 </div>
             </div>
         </StyledProjectBriefInfoDiv>

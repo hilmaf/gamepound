@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useBackingMemory } from '../../component/context/BackingContext';
 
 const StyledPaymentCheckDiv = styled.div`
     width: 380px;
@@ -58,7 +59,9 @@ const StyledPaymentCheckDiv = styled.div`
     }
 `;
 
-const PaymentCheck = ({backingDetails}) => {
+const PaymentCheck = () => {
+
+    const back = useBackingMemory();
 
     const handleBackBtnClick = () => {
         
@@ -77,10 +80,10 @@ const PaymentCheck = ({backingDetails}) => {
         <StyledPaymentCheckDiv>
             <div className="final_amount">
                 <span>최종 후원 금액</span>
-                <span>{backingDetails.rewardAmount} 원</span>
+                <span>{back.rewardAmount} 원</span>
             </div>
 
-            <div className="payment_due">프로젝트 성공 시, 결제는 <span>{backingDetails.endDate}</span> 에 진행됩니다.<br/> 
+            <div className="payment_due">프로젝트 성공 시, 결제는 <span>{back.endDate}</span> 에 진행됩니다.<br/> 
                 프로젝트가 무산 또는 중단된 경우, 예약된 결제는 자동으로 취소됩니다.
             </div>
             

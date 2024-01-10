@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import BackingDetails from './BackingDetails';
 import PaymentCheck from './PaymentCheck';
+import { useBackingMemory } from '../../component/context/BackingContext';
 
 const StyledBackingFormDiv = styled.div`
     width: 1200px;
@@ -13,12 +14,13 @@ const StyledBackingFormDiv = styled.div`
     }
 `;
 
-const BackingForm = ({BackingInfo}) => {
+const BackingForm = () => {
+
     return (
         <StyledBackingFormDiv>
             <form>
-                <BackingDetails backingDetails={BackingInfo}/>
-                <PaymentCheck backingDetails={BackingInfo}/>
+                <BackingDetails />
+                <PaymentCheck />
             </form>
         </StyledBackingFormDiv>
     );
