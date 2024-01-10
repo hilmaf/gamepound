@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 const StyledAllDiv = styled.div`
@@ -6,39 +6,73 @@ const StyledAllDiv = styled.div`
 `;
 const StyledUpdateDiv = styled.div`
     height: 700px;
-    & > ul{
-        margin-right: 20px;
-        padding-top: 70px;
-        & > li:nth-child(1){
-            display: flex;
-            margin-bottom: 20px;
-            & > div:nth-child(1){
-                width: 40px;
-                height: 40px;
-                font-size: 5px;
-                margin-right: 20px;
+    margin-top: 40px;
+    & > div{
+        border-bottom: 1px solid #ebebeb;
+        padding: 20px;
+        margin: 15px;
+        & > ul{
+            margin-right: 20px;
+            & > li:nth-child(1){
+                display: flex;
+                margin-bottom: 20px;
+                & > div:nth-child(1){
+                    width: 40px;
+                    height: 40px;
+                    font-size: 5px;
+                    margin-right: 20px;
+                    & > img{
+                        width: 100%;
+                        height: 100%;
+                        object-fit: cover;
+                    }
+                }
             }
+
         }
+
     }
 `;
-
-
-
+/////////////////////////////////////////////////////////////////////////////
 const PrelaunchUpdatePage = () => {
+
+    const [detailPrelaunchUpdateVoList, setDetailPrelaunchUpdateVoList] = useState([]);
+
+    useEffect(()=>{
+        fetch("http://127.0.0.1:8889/gamepound/project/detail/prelaunch/update?no=1")
+        .then((resp)=>{return resp.json()})
+        .then((data)=>{
+            console.log(data[0]);
+            setDetailPrelaunchUpdateVoList(data);
+        })
+        .catch((e)=>{console.log("오류 : " + e);})
+        ;
+    }, []);
+
     return (<StyledAllDiv>
         <StyledUpdateDiv>
-            <ul>
-                <li>
-                    <div><img src="" alt="프로필 이미지" /></div>
+            {
+                detailPrelaunchUpdateVoList.map((vo)=>{
+                    return <>
                     <div>
-                        <div>창작자 명</div>
-                        <div>작성일자</div>
+                        <ul>
+                            <li>
+                                <div>
+                                    <img src={vo.memberPic} alt="프로필 이미지" />
+                                </div>
+                                <div>
+                                    <div>{vo.memberName}</div>
+                                    <div>{vo.enrollDate}</div>
+                                </div>
+                            </li>
+                            <li>
+                                <div>{vo.content}</div>
+                            </li>
+                        </ul>
                     </div>
-                </li>
-                <li>
-                    <div>업데이트 내용</div>
-                </li>
-            </ul>
+                    </>;
+                })
+            }
         </StyledUpdateDiv>
     </StyledAllDiv>);
 };
