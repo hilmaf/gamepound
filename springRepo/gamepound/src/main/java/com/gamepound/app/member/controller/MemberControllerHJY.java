@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -123,13 +124,14 @@ public class MemberControllerHJY {
 	}
 	
 	// 회원탈퇴 처리
-	@PostMapping("quit")
-	public void quit(MemberVo vo) {
+	@DeleteMapping("quit")
+	public void quit(@RequestBody MemberVo vo) {
 		int result = service.quit(vo);
+		Map<String, String> map = new HashMap<>();
+		map.put("msg", "good");
 		if(result != 1) {
-			System.out.println("회원탈퇴 실패");
+			map.put("msg", "bad");
 		}
-		System.out.println("회원탈퇴 성공");
 	}
 	
 }
