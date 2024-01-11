@@ -47,8 +47,6 @@ public class UserPageController {
 	@GetMapping("created")
 	public Map<String, Object> listMyProjects(String memberNo) {
 		
-		memberNo = "1";
-		
 		Map<String, Object> listMap = service.listMyProjects(memberNo);
 		
 		return listMap;

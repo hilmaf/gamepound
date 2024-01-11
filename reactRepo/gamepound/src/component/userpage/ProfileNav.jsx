@@ -8,13 +8,15 @@ const StyledProfileNavDiv = styled.div`
     display: flex;
     margin-left: 20px;
     padding-top: 10px;
+    gap: 40px;
 
     & > a {
-        width: 150px;
         font-size: 18px;
         cursor: pointer;
         display: flex;
         align-items: center;
+        box-sizing: border-box;
+        border-bottom: 2px solid transparent;
 
         &.active span {
             font-weight: 500;
