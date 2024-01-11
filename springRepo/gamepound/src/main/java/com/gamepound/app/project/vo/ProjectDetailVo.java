@@ -47,6 +47,6 @@ public class ProjectDetailVo {
 	private String deleteYn;
 	
 	//프로젝트 선물
-	private List<RewardVo> rewardVo;
+	private List<RewardVo> rewardVoList;
 	
 }
