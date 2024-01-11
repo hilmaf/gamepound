@@ -31,9 +31,9 @@ public class ProjectDetailControllerHYJ {
 	
 	//프로젝트 상세 조회 - 프로젝트 계획
 	@GetMapping("story")
-	public void projectDetailStory(String no) {
+	public ProjectStoryVo projectDetailStory(String no) {
 		ProjectStoryVo detailStoryVo = service.projectDetailStory(no);
-		System.out.println("detailStory : " + detailStoryVo);
+		return detailStoryVo;
 	}
 	
 	//프로젝트 상세 조회 - 업데이트
