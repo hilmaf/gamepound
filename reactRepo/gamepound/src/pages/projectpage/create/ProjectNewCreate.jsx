@@ -182,7 +182,7 @@ const ProjectNewCreate = () => {
                 </dl>
             </div>
             <button onClick={() => {
-                navigate('/projectCreate/main');
+                navigate('/projectCreate/main/index');
             }}>시작하기</button>
         </StyledNewCreateDiv>
     );
