@@ -24,36 +24,7 @@ const StyledStoryDiv = styled.div`
             margin-bottom: 40px;
         }
     }
-
-    & > div{
-        border: 1px solid #d6d6d6;
-        border-radius: 5px;
-        padding: 25px;
-        height: fit-content;
-        & > div:first-child{
-            font-size: 18px;
-            font-weight: 500;
-            margin-bottom: 20px;
-        }
-        & > div:nth-child(2){
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-            & > div{
-                width: 40px;
-                height: 40px;
-                font-size: 5px;
-            }
-            & > span{
-                font-weight: 500;
-                margin-left: 40px;
-            }
-        }
-    }
-
 `;
-
-
 
 const PrelaunchStoryPage = () => {
 
@@ -69,13 +40,6 @@ const PrelaunchStoryPage = () => {
         .catch((e)=>{console.log("오류 : " + e);})
         ;
     }, []);
-
-
-
-
-
-
-
 
     return (<StyledAllDiv>
         <StyledStoryDiv>

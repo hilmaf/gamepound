@@ -149,7 +149,7 @@ const StyledProjectSelectDiv = styled.div`
         display: grid;
         grid-template-rows: 1fr;
         grid-template-columns: 7fr 3fr;
-        & > div{
+        & > div:last-child{
             width: 100%;
             height: auto;
             & > div:first-child{
@@ -210,12 +210,14 @@ const StyledProjectSelectDiv = styled.div`
 const DetailMain = () => {
 
     const [detailVo, setDetailVo] = useState([]);
+    const [rewardVoList, setRewardVoList] = useState([]);
 
     useEffect(()=>{
         fetch("http://127.0.0.1:8889/gamepound/project/detail?no=1")
         .then((resp)=>{return resp.json()})
         .then((data)=>{
             setDetailVo(data);
+            setRewardVoList(data.rewardVoList)
         })
         .catch((e)=>{console.log("오류 : " + e);})
         ;
@@ -272,9 +274,9 @@ const DetailMain = () => {
         <StyledProjectSelectDiv>
             <div>
                 <Routes>
-                    <Route path='/community' element={<CommunityPage/>}></Route>
                     <Route path='/story' element={<StoryPage/>}></Route>
                     <Route path='/update' element={<UpdatePage/>}></Route>
+                    <Route path='/community' element={<CommunityPage/>}></Route>
                 </Routes> 
                 <div>
                     <div>
@@ -288,16 +290,16 @@ const DetailMain = () => {
                         </div>
                     </div>
                     <div>
-                        {
-                            detailVo.rewardVoList.map((vo)=>{
-                                return(<>
-                                <div>
-                                    <div>{vo.amount}원 + </div>
-                                    <div>{vo.name}</div>
-                                </div>
-                                </>);
-                            })
-                        }
+                    {
+                        rewardVoList.map((vo)=>{
+                            return(<>
+                            <div>
+                                <div>{vo.amount}원 + </div>
+                                <div>{vo.name}</div>
+                            </div>
+                            </>);
+                        })
+                    }
                     </div>
                 </div>
             </div>
