@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ProjectBoxInfo from '../../component/project/ProjectBoxInfo';
 import styled from 'styled-components';
+import {useUserMemory} from '../../component/context/UserContext';
 
 const StyledUserCreatedDiv = styled.div`
         padding-left: 20px;
@@ -27,11 +28,19 @@ const StyledUserCreatedDiv = styled.div`
 
 const UserCreated = () => {
 
+    const {loginMemberVo} = useUserMemory();
+
     const [projectsCnt, setProjectsCnt] = useState(0);
     const [myProjectsList, setMyProjectsList] = useState([]);
 
     useEffect(()=>{
-        fetch("http://127.0.0.1:8889/gamepound/userpage/created")
+        fetch("http://127.0.0.1:8889/gamepound/userpage/created", {
+            method: "post",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: loginMemberVo.no
+        })
         .then(resp => resp.json())
         .then(data => {
             console.log(data);
@@ -43,14 +52,24 @@ const UserCreated = () => {
 
     return (
         <StyledUserCreatedDiv>
-            <div id="cnt">프로젝트가 <span>{projectsCnt}</span>개 있습니다.</div>
-            <div id="project_items">
-                {
-                    myProjectsList.map((vo) => {
-                        return <ProjectBoxInfo key={vo.projectNo} project={vo}/>
-                    })
-                }
-            </div>
+            {
+                projectsCnt == 0
+                ?
+                <h2>올린 프로젝트가 없습니다.</h2>
+                :
+                <>
+                    <div id="cnt">프로젝트가 <span>{projectsCnt}</span>개 있습니다.</div>
+                    <div id="project_items">
+                        {
+                            myProjectsList.map((vo) => {
+                                return <ProjectBoxInfo key={vo.projectNo} project={vo}/>
+                            })
+                        }
+                    </div>
+                </>
+                
+            }
+            
         </StyledUserCreatedDiv>
     );
 };
