@@ -68,7 +68,7 @@ public class UserPageService {
 		return listMap;
 	}
 
-	// 유저페이지 - 내가 후원 목록 조회
+	// 유저페이지 - 내 후원 목록 조회
 	public Map<String, Object> listMyBackedProjects(String memberNo) {
 		// 후원 성공 목록 : 프로젝트 펀딩 성공
 		List<BackVo> successList = dao.backedSuccessfully(sst, memberNo);
