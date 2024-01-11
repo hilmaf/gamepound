@@ -6,7 +6,7 @@ const StyledProfileAreaDiv = styled.div`
     height: 80px;
     display: flex;
     align-items: center;
-    padding-top: 40px;
+    padding-top: 10px;
     padding-left: 30px;
     padding-bottom: 20px;
 
