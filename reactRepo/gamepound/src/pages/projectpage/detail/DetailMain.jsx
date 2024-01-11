@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import CommunityPage from "./CommunityPage";
 import StoryPage from "./StoryPage";
 import UpdatePage from "./UpdatePage";
-import { Link, Route, Routes } from 'react-router-dom';
+import { NavLink, Route, Routes } from 'react-router-dom';
 import styled from 'styled-components';
 
 const StyledAllDiv = styled.div`
@@ -81,6 +81,16 @@ const StyledProjectDetailDiv = styled.div`
                     padding-left: 25px;
                     padding-top: 8px;
                 }
+                & > tbody > tr:nth-child(2){
+                    & > td > span{
+                        border-radius: 5px;
+                        background-color: #f05a5a1a;
+                        padding-left: 5px;
+                        padding-right: 5px;
+                        margin-left: 5px;
+                        color: var(--red-color);
+                    }
+                }
             }
             & > li > button{
                 width: 85%;
@@ -137,43 +147,101 @@ const StyledProjectSelectDiv = styled.div`
     & > div{
         width: 1200px;
         display: grid;
-        grid-template-columns: 7fr 3fr;
         grid-template-rows: 1fr;
+        grid-template-columns: 7fr 3fr;
+        & > div{
+            width: 100%;
+            height: auto;
+            & > div:first-child{
+                // 창작자 소개 상자
+                border: 1px solid #d6d6d6;
+                border-radius: 5px;
+                padding: 25px;
+                margin-top: 60px;
+                height: fit-content;
+                margin-bottom: 40px;
+                & > div:first-child{
+                    font-size: 18px;
+                    font-weight: 500;
+                    margin-bottom: 20px;
+                }
+                & > div:nth-child(2){
+                    display: flex;
+                    align-items: center;
+                    margin-bottom: 10px;
+                    & > div{
+                        width: 40px;
+                        height: 40px;
+                        font-size: 5px;
+                        & > img{
+                            width: 100%;
+                            height: 100%;
+                            object-fit: cover;
+                        }
+                    }
+                    & > span{
+                        font-weight: 500;
+                        margin-left: 40px;
+                    }
+                }
+            }
+            & > div:last-child{
+                //선물 리워드 공간
+                background-color: aquamarine;
+                border: 1px solid #d6d6d6;
+                border-radius: 5px;
+                padding: 25px;
+            }
+        }
     }
 `;
 
 
 const DetailMain = () => {
+
+    const [detailVo, setDetailVo] = useState([]);
+
+    useEffect(()=>{
+        fetch("http://127.0.0.1:8889/gamepound/project/detail?no=1")
+        .then((resp)=>{return resp.json()})
+        .then((data)=>{
+            console.log(data);
+            setDetailVo(data);
+        })
+        .catch((e)=>{console.log("오류 : " + e);})
+        ;
+    }, []);
+
     return (<StyledAllDiv>
         <StyledProjectDetailDiv>
             <div className="inner">
                 <div>
-                    <div><div>카테고리 명</div></div>
-                    <h1>프로젝트 제목</h1>
+                    <div><div>{detailVo.subCategory}</div></div>
+                    <h1>{detailVo.title}</h1>
                 </div>            
                 <div>
                     <span><img src="" alt="프로젝트 대표 이미지" /></span>
                     <ul>
                         <li>모인금액</li>
-                        <li>100,000,000 <span>원</span><span>21476%</span></li>
+                        <li>{detailVo.currentAmount} <span>원</span><span>{detailVo.achievementRate}%</span></li>
                         <li>남은시간</li>
-                        <li>22 <span>일</span></li>
+                        <li>{detailVo.remainingPeriod} <span>일</span></li>
                         <li>후원자</li>
-                        <li>2,675 <span>명</span></li>
+                        <li>{detailVo.totalBackerNo} <span>명</span></li>
                         <li>
                             <table>
                                 <tbody>
                                     <tr>
                                         <td>목표금액</td>
-                                        <td>500,000원</td>
+                                        <td>{detailVo.goalAmount}원</td>
                                     </tr>
                                     <tr>
                                         <td>펀딩 기간</td>
-                                        <td>2024.01.03~2024.01.31 <span>22일 남음</span></td>
+                                        <td>{detailVo.startDateStr}~{detailVo.endDateStr} <span>{detailVo.achievementRate}일 남음</span></td>
                                     </tr>
                                     <tr>
                                         <td>결제</td>
-                                        <td>목표금액 달성시 2024.02.01에 결제 진행</td>
+                                        <td>목표금액 달성시 {detailVo.calDate}에 결제 진행</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -186,9 +254,9 @@ const DetailMain = () => {
         <StyledProjectDetailNaviDiv>
             <div className="inner">
                 <div>
-                    <span><Link to="/project/detail/story">프로젝트 계획</Link></span>
-                    <span><Link to="/project/detail/update">업데이트</Link></span>
-                    <span><Link to="/project/detail/community/">커뮤니티</Link></span>
+                    <span><NavLink to="/project/detail/story">프로젝트 계획</NavLink></span>
+                    <span><NavLink to="/project/detail/update">업데이트</NavLink></span>
+                    <span><NavLink to="/project/detail/community/">커뮤니티</NavLink></span>
                 </div>
             </div>
         </StyledProjectDetailNaviDiv>
@@ -198,9 +266,20 @@ const DetailMain = () => {
                     <Route path='/community' element={<CommunityPage/>}></Route>
                     <Route path='/story' element={<StoryPage/>}></Route>
                     <Route path='/update' element={<UpdatePage/>}></Route>
-                    
                 </Routes> 
-                <div>리워드 구간</div>
+                <div>
+                    <div>
+                        <div>창작자 소개</div>
+                        <div>
+                            <div><img src={detailVo.memberPic} alt="창작자 프로필 이미지" /></div>
+                            <span>{detailVo.memberName}</span>
+                        </div>
+                        <div>
+                            {detailVo.memberIntro}
+                        </div>
+                    </div>
+                    <div>선물 리워드</div>
+                </div>
             </div>
         </StyledProjectSelectDiv>
     </StyledAllDiv>);
