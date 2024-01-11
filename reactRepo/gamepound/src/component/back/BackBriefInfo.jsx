@@ -46,7 +46,7 @@ const StyledBackBriefInfoDiv = styled.div`
     }
 `;
 
-const BackBriefInfo = () => {
+const BackBriefInfo = ({item}) => {
 
     const [reviewWrite, setReviewWrite] = useState(false);
 
@@ -61,12 +61,12 @@ const BackBriefInfo = () => {
     return (
         <StyledBackBriefInfoDiv>
             <div className='back_item'>
-                <img></img>
+                <img src={item.projectImg}></img>
                 <div className='back_info'>
-                    <div id='back_date'>후원일 or 결제완료일</div>
-                    <div id='title'>프로젝트 제목</div>
-                    <div id='reward'>선물</div>
-                    <div id='payment_status'>결제 완료 or 결제예약 취소</div>
+                    <div id='back_date'>{item.backingDate}</div>
+                    <div id='title' key={item.projectTitle}>{item.projectTitle}</div>
+                    <div id='reward'>{item.rewardName}</div>
+                    <div id='payment_status'>{item.paymentStatus}</div>
                 </div>
             </div>
             <button onClick={handleReviewWriteBtnClick}>
