@@ -82,7 +82,6 @@ const LoginArea = () => {
 
     const navigate = useNavigate();
     const {loginMemberVo, setLoginMemberVo} = useUserMemory();
-    const sessionLoginMemberVo = JSON.parse(sessionStorage.getItem('loginMemberVo'));
 
     const handleUserInfo = (e) => {
         const target = e.currentTarget;
@@ -90,14 +89,13 @@ const LoginArea = () => {
     }
 
     const handleLogout = (e) => {
-        sessionStorage.setItem('loginMemberVo', null);
+        sessionStorage.removeItem('loginMemberVo');
         setLoginMemberVo(null);
     }
 
     return (
         <StyledLoginAreaDiv>
-            {
-                sessionLoginMemberVo === null ?
+            {loginMemberVo === undefined || loginMemberVo === null ?
                 (
                 <li>
                     <button onClick={() => {
@@ -107,13 +105,11 @@ const LoginArea = () => {
                         <strong>로그인/회원가입</strong>
                     </button>
                 </li>
-                )
-                :
-                (
+            ) : (
                 <li className='userInfo'>
                     <button onClick={handleUserInfo}>
-                        <span><img src={sessionLoginMemberVo.pic} alt='유저이미지' /></span>
-                        <strong>{sessionLoginMemberVo.name}</strong>
+                        <span><img src={loginMemberVo.pic} alt='유저이미지' /></span>
+                        <strong>{loginMemberVo.name}</strong>
                     </button>
                     <div className="userInfoMenu">
                         <ul>
@@ -130,8 +126,7 @@ const LoginArea = () => {
                         </ul>
                     </div>
                 </li>
-                )
-            }
+            )}
             
             
         </StyledLoginAreaDiv>

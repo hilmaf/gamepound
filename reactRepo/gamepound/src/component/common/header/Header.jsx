@@ -247,7 +247,7 @@ const Header = () => {
 
                     <h1><Link to='/'></Link></h1>
                     <div className='userArea'>
-                        <Link to='' className='projectUploadBtn'>프로젝트 올리기</Link>
+                        <Link to='/projectCreate/start' className='projectUploadBtn'>프로젝트 올리기</Link>
                         <Link to='' className=''>관심</Link>
                         <Link to='' className=''>알림</Link>
                         

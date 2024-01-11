@@ -60,7 +60,9 @@ const QuitPage = () => {
 
     const [formVo, setFormVo] = useState({});
     const navigate = useNavigate();
-    const {loginMemberVo} = useUserMemory(); // 로그인 유저정보
+    const {loginMemberVo, setLoginMemberVo} = useUserMemory(); // 로그인 유저정보
+    
+    // 로그인 체크
 
     // 탈퇴처리
     const handleQuit = (e) => {
@@ -77,8 +79,10 @@ const QuitPage = () => {
             })
             .then(resp => resp.json())
             .then(data => {
-                if(data === 'good'){
+                if(data.msg === 'good'){
                     alert('정상적으로 탈퇴가 되었습니다.');
+                    sessionStorage.removeItem('loginMemberVo');
+                    setLoginMemberVo(null)
                     navigate('/');
                 } else {
                     alert('알 수 없는 이유로 탈퇴 처리가 완료되지 않았습니다.');
@@ -90,18 +94,24 @@ const QuitPage = () => {
 
     // 로그인정보 체크
     useEffect(() => {
-        console.log(loginMemberVo);
-        
-    }, [loginMemberVo]);
-
+        if(loginMemberVo){
+            setFormVo({
+                ...formVo,
+                "no": loginMemberVo.no,
+            });
+        } 
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [loginMemberVo, setFormVo]);
+    
     // FormVo 저장
     const handleInputChange = (e) => {
         const {name, value} = e.target;
         setFormVo({
             ...formVo,
-            [name]: value
+            [name]: value,
         });
     }
+
 
     return (
         <StyledQuitDiv>
