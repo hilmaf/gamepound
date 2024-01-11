@@ -7,6 +7,8 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
 
+import com.gamepound.app.project.ProjectAchievementRate;
+import com.gamepound.app.project.ProjectRemainingPeriod;
 import com.gamepound.app.project.dao.ProjectDaoHYJ;
 import com.gamepound.app.project.vo.ProjectCommunityVo;
 import com.gamepound.app.project.vo.ProjectDetailVo;
@@ -54,7 +56,20 @@ public class ProjectServiceHYJ {
 	
 	//프로젝트 상세 조회 - 타이틀
 	public ProjectDetailVo projectDetail(String no) {
-		return dao.projectDetail(sst, no);
+		ProjectDetailVo vo = dao.projectDetail(sst, no);
+		
+		//후원자 수 추가
+		String totalBackerNo = dao.projectDetailTotalBackerNo(sst, no).getTotalBackerNo();
+		vo.setTotalBackerNo(totalBackerNo);
+		
+		//퍼센트 추가
+		ProjectAchievementRate achievementRate = new ProjectAchievementRate();
+		vo.setAchievementRate(achievementRate.achievementRate(vo.getGoalAmount(), vo.getCurrentAmount()));
+		
+		//남은 시간 추가
+		ProjectRemainingPeriod remainingPeriod = new ProjectRemainingPeriod();
+		vo.setRemainingPeriod(remainingPeriod.getRemainingPeriod(vo.getEndDate()));
+		return vo;
 	}
 
 	//프로젝트 상세 조회 - 프로젝트 계획

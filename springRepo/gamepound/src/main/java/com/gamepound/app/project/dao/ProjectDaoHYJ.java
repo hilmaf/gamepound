@@ -52,7 +52,7 @@ public class ProjectDaoHYJ {
 	//상세조회 - 타이틀 + 선물
 	public ProjectDetailVo projectDetail(SqlSessionTemplate sst, String no) {
 		ProjectDetailVo detailVo = sst.selectOne("ProjectMapper.DetailTitle", no);
-		detailVo.setRewardVo(sst.selectList("ProjectMapper.DetailReward", no));
+		detailVo.setRewardVoList(sst.selectList("ProjectMapper.DetailReward", no));
 		return detailVo;
 	}
 
@@ -84,6 +84,11 @@ public class ProjectDaoHYJ {
 	//프로젝트 상세 조회 - 커뮤니티 작성
 	public int projectDetailCommunity(SqlSessionTemplate sst, ProjectCommunityVo vo) {
 		return sst.insert("ProjectMapper.DetailCommunityInsert", vo);
+	}
+
+	//프로젝트 후원자 수
+	public ProjectDetailVo projectDetailTotalBackerNo(SqlSessionTemplate sst, String no) {
+		return sst.selectOne("ProjectMapper.ProjectTotalBackerNo", no);
 	}
 
 

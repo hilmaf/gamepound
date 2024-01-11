@@ -1,9 +1,7 @@
 package com.gamepound.app.project.controller;
 
 import java.util.List;
-import java.util.Map;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,16 +24,16 @@ public class ProjectDetailControllerHYJ {
 	
 	//프로젝트 상세 조회 - 타이틀
 	@GetMapping
-	public void projectDetail(String no) {
+	public ProjectDetailVo projectDetail(String no) {
 		ProjectDetailVo detailVo = service.projectDetail(no);
-		System.out.println("detailVo : " + detailVo);
+		return detailVo;
 	}
 	
 	//프로젝트 상세 조회 - 프로젝트 계획
 	@GetMapping("story")
-	public void projectDetailStory(String no) {
+	public ProjectStoryVo projectDetailStory(String no) {
 		ProjectStoryVo detailStoryVo = service.projectDetailStory(no);
-		System.out.println("detailStory : " + detailStoryVo);
+		return detailStoryVo;
 	}
 	
 	//프로젝트 상세 조회 - 업데이트

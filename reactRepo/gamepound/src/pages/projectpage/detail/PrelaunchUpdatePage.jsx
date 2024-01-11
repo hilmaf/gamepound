@@ -51,7 +51,7 @@ const PrelaunchUpdatePage = () => {
         <StyledUpdateDiv>
             {
                 detailPrelaunchUpdateVoList.map((vo)=>{
-                    return <>
+                    return (<>
                     <div>
                         <ul>
                             <li>
@@ -68,7 +68,7 @@ const PrelaunchUpdatePage = () => {
                             </li>
                         </ul>
                     </div>
-                    </>;
+                    </>);
                 })
             }
         </StyledUpdateDiv>
