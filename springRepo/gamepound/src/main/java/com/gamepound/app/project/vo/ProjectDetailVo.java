@@ -29,12 +29,17 @@ public class ProjectDetailVo {
 	private String imageUrl;
 	private String goalAmount;
 	private String currentAmount;
+	private String achievementRate;	//%
+	private String remainingPeriod;	//남은 시간
+	private String totalBackerNo;	//후원자 수
 	
 	//프로젝트 기간
 	private String okDate;
 	private String enrollDate;
-	private String startDate;
-	private String endDate;
+	private String startDate;		//YYYY년 MM월 DD일 표기
+	private String startDateStr;	//YYYY.MM.DD 표기
+	private String endDate;			//YYYY년 MM월 DD일 표기
+	private String endDateStr;		//YYYY.MM.DD표기
 	private String calDate;
 	
 	//프로젝트 승인*삭제 여부

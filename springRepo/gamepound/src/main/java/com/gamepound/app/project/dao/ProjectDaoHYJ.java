@@ -86,6 +86,11 @@ public class ProjectDaoHYJ {
 		return sst.insert("ProjectMapper.DetailCommunityInsert", vo);
 	}
 
+	//프로젝트 후원자 수
+	public ProjectDetailVo projectDetailTotalBackerNo(SqlSessionTemplate sst, String no) {
+		return sst.selectOne("ProjectMapper.ProjectTotalBackerNo", no);
+	}
+
 
 
 }
