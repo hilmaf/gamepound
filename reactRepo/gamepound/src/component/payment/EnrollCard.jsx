@@ -19,16 +19,13 @@ const StyledEnrollCardDiv = styled.div`
         }
         
         & > input {
+            text-align: center;
             width: 50px;
             height: 30px;
             border: 1px solid #3d3d3d66;
             border-radius: 5px;
             margin-right: 10px;
         }
-
-        /* & :nth-child(3), :nth-child(4), :nth-child(5) {
-            margin-left: 5px;
-        } */
     }
 
     & > .avail_period {
@@ -36,6 +33,7 @@ const StyledEnrollCardDiv = styled.div`
         width: 500px;
         
         & > :nth-child(2) {
+            text-align: center;
             width: 30px;
             height: 30px;
             margin-top: 10px;
@@ -45,6 +43,7 @@ const StyledEnrollCardDiv = styled.div`
         }
 
         & > :nth-child(3) {
+            text-align: center;
             width: 30px;
             height: 30px;
             margin-top: 10px;
@@ -65,6 +64,7 @@ const StyledEnrollCardDiv = styled.div`
             border-radius: 5px;
             
             & > input {
+                padding-left: 5px;
                 height: 30px;
                 margin-top: 10px;
                 border: 1px solid #3d3d3d66;
@@ -78,6 +78,14 @@ const EnrollCard = () => {
 
     const dataSet = useBackingMemory();
     let back = dataSet.dataVo;
+
+    // 카드번호 input maxLength: 2
+    
+    // 카드 유효기간 input maxLength: 2
+
+    
+    // 카드 비밀번호 앞 2자리 input maxLength: 2
+
 
     // 카드 번호 inputs useState
     const [cardInputs, setCardInputs]= useState({
@@ -102,7 +110,7 @@ const EnrollCard = () => {
     // 카드번호 onChange
     const handleCardNoInputsChange = (event) => {
         const {name, value} = event.target;
-        
+
         setCardInputs({
             ...cardInputs,
             [name]: value
