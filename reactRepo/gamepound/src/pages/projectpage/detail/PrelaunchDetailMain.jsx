@@ -5,14 +5,14 @@ import PrelaunchUpdatePage from "./PrelaunchUpdatePage";
 import styled from 'styled-components';
 
 //////////////////////////////////////////////////
-const StyledAllDiv = styled.div`
+const PrelaunchStyledAllDiv = styled.div`
     width: 100%;
     .inner {
         width: 1200px;
         margin: 0 auto;
     }
 `;
-const StyledProjectDetailDiv = styled.div`
+const PrelaunchStyledProjectDetailDiv = styled.div`
     display: flex;
     flex-direction: column;
     height: auto;
@@ -57,7 +57,7 @@ const StyledProjectDetailDiv = styled.div`
         }
     }
 `;
-const StyledProjectDetailNaviDiv = styled.div`
+const PrelaunchStyledProjectDetailNaviDiv = styled.div`
     width: 100%;
     border-top: 1px solid #ececec;
     border-bottom: 1px solid #ececec;
@@ -89,7 +89,7 @@ const StyledProjectDetailNaviDiv = styled.div`
         }
     }
 `;
-const StyledProjectSelectDiv = styled.div`
+const PrelaunchStyledProjectSelectDiv = styled.div`
     width: 100%;
     display: flex;
     justify-content: center;
@@ -153,8 +153,8 @@ const PrelaunchDetailMain = () => {
 
 
 
-    return (<StyledAllDiv>
-        <StyledProjectDetailDiv>
+    return (<PrelaunchStyledAllDiv>
+        <PrelaunchStyledProjectDetailDiv>
             <div className="inner">
                 
                 <div>
@@ -181,16 +181,16 @@ const PrelaunchDetailMain = () => {
                     </ul>
                 </div>
             </div>
-        </StyledProjectDetailDiv>
-        <StyledProjectDetailNaviDiv>
+        </PrelaunchStyledProjectDetailDiv>
+        <PrelaunchStyledProjectDetailNaviDiv>
             <div className="inner">
                 <div>
                     <span><NavLink to="/project/detail/prelaunch/story">프로젝트 계획</NavLink></span>
                     <span><NavLink to="/project/detail/prelaunch/update">업데이트</NavLink></span>
                 </div>
             </div>
-        </StyledProjectDetailNaviDiv>
-        <StyledProjectSelectDiv>
+        </PrelaunchStyledProjectDetailNaviDiv>
+        <PrelaunchStyledProjectSelectDiv>
             <div>
                 <Routes>
                     <Route path='/story' element={<PrelaunchStoryPage/>}></Route>
@@ -207,8 +207,8 @@ const PrelaunchDetailMain = () => {
                     </div>
                 </div>
             </div>
-        </StyledProjectSelectDiv>
-    </StyledAllDiv>);
+        </PrelaunchStyledProjectSelectDiv>
+    </PrelaunchStyledAllDiv>);
 };
 
 export default PrelaunchDetailMain;

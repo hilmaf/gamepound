@@ -62,7 +62,6 @@ public class ProjectDetailControllerHYJ {
 	//공개예정 프로젝트 상세 조회 - 프로젝트 계획
 	@GetMapping("prelaunch/story")
 	public ProjectStoryVo projectDetailPrelaunchStory(String no) {
-		System.out.println("프로젝트 상세 조회 - 계획 도착");
 		ProjectStoryVo detailPrelaunchStoryVo = service.projectDetailStory(no);
 		return detailPrelaunchStoryVo;
 	}

@@ -2,49 +2,8 @@ import React from 'react';
 import CommunityPage from "./CommunityPage";
 import StoryPage from "./StoryPage";
 import UpdatePage from "./UpdatePage";
-import { Route, Routes } from 'react-router-dom';
-
-const DetailMain = () => {
-    return (<>
-        <h1>하하</h1>
-
-
-
-
-        <Routes>
-            <Route path='/community' element={<CommunityPage/>}></Route>
-            <Route path='/story' element={<StoryPage/>}></Route>
-            <Route path='/update' element={<UpdatePage/>}></Route>
-            
-        </Routes>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    </>);
-};
-
-// //////////////////////////////////////////////////////////
-/*
-
-
-
+import { Link, Route, Routes } from 'react-router-dom';
+import styled from 'styled-components';
 
 const StyledAllDiv = styled.div`
     width: 100%;
@@ -53,7 +12,6 @@ const StyledAllDiv = styled.div`
         margin: 0 auto;
     }
 `;
-
 const StyledProjectDetailDiv = styled.div`
     display: flex;
     flex-direction: column;
@@ -61,7 +19,7 @@ const StyledProjectDetailDiv = styled.div`
     margin-bottom: 40px;
     & .inner div:nth-child(1){
         width: 100%;
-        margin-top: 50px;
+        margin-top: 10px;
         & > div{
             display: flex;
             justify-content: center;
@@ -89,11 +47,19 @@ const StyledProjectDetailDiv = styled.div`
         display: grid;
         grid-template-columns: 3fr 2fr;
         grid-template-rows: 1fr;
-        & > img{
-            background-color: black;
+        & > span{
+            width: 100%;
+            height: 100%;
+            background-color: #f05a5a;
+            & > img{
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
         }
         & > ul{
             width: 100%;
+            height: 600px;
             margin-left: 30px;
             & > li:nth-child(2n){
                 font-size: 40px;
@@ -143,19 +109,27 @@ const StyledProjectDetailNaviDiv = styled.div`
     top: 126px;
     z-index: 9;
     background-color: #fff;
-    box-shadow: 0 8px 15px 1px rgba(0, 0, 0, .1);
-    & > div > div{
-        width: 100%;
-        height: 100%;
-        display: grid;
-        grid-template-rows: 1fr;
-        grid-template-columns: 1fr 1fr 1fr 6fr;
-        grid-auto-flow: column;
-        place-items: center center;
-        font-size: 16px;
+    & > div {
+        & > div{
+            width: 100%;
+            display: flex;
+            place-items: left center;
+            font-size: 16px;
+            & > span{
+                padding-left: 5px;
+                padding-right: 25px;
+                & > a{
+                    color: lightgray;
+                    &.active{
+                        font-weight: 500;
+                        color: #333;
+                    }
+                }
+            }
+
+        }
     }
 `;
-
 const StyledProjectSelectDiv = styled.div`
     width: 100%;
     display: flex;
@@ -169,7 +143,7 @@ const StyledProjectSelectDiv = styled.div`
 `;
 
 
-const PrelaunchDetailMain = () => {
+const DetailMain = () => {
     return (<StyledAllDiv>
         <StyledProjectDetailDiv>
             <div className="inner">
@@ -178,7 +152,7 @@ const PrelaunchDetailMain = () => {
                     <h1>프로젝트 제목</h1>
                 </div>            
                 <div>
-                    <img src="" alt="프로젝트 대표 이미지" />
+                    <span><img src="" alt="프로젝트 대표 이미지" /></span>
                     <ul>
                         <li>모인금액</li>
                         <li>100,000,000 <span>원</span><span>21476%</span></li>
@@ -212,32 +186,24 @@ const PrelaunchDetailMain = () => {
         <StyledProjectDetailNaviDiv>
             <div className="inner">
                 <div>
-                    <span><Link to="/project/detail/prelaunch/story">프로젝트 계획</Link></span>
-                    <span><Link to="/project/detail/prelaunch/update">업데이트</Link></span>
-                    <span><Link to="/project/detail/prelaunch/community/">커뮤니티</Link></span>
+                    <span><Link to="/project/detail/story">프로젝트 계획</Link></span>
+                    <span><Link to="/project/detail/update">업데이트</Link></span>
+                    <span><Link to="/project/detail/community/">커뮤니티</Link></span>
                 </div>
             </div>
         </StyledProjectDetailNaviDiv>
         <StyledProjectSelectDiv>
             <div>
                 <Routes>
-                    <Route path='/story' element={<PrelaunchStoryPage/>}></Route>
-                    <Route path='/update' element={<PrelaunchUpdatePage/>}></Route>
-                </Routes>   
+                    <Route path='/community' element={<CommunityPage/>}></Route>
+                    <Route path='/story' element={<StoryPage/>}></Route>
+                    <Route path='/update' element={<UpdatePage/>}></Route>
+                    
+                </Routes> 
                 <div>리워드 구간</div>
             </div>
         </StyledProjectSelectDiv>
-        <br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
     </StyledAllDiv>);
 };
-*/
-/////////////////////////////////////////////////////////////
-
-
-
-
-
-
-
 
 export default DetailMain;
