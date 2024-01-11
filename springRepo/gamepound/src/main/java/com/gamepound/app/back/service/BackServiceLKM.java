@@ -42,6 +42,13 @@ public class BackServiceLKM {
 			throw new Exception("결제수단 선택 필요");
 		}
 		
+		// paymentType no setting
+		if(vo.getPaymentType() == "card") {
+			vo.setPaymentTypeNo("1");
+		} else {
+			vo.setPaymentTypeNo("2");
+		}
+		
 		// 후원정보에 insert
 		int result1 = dao.insertBack(sst, vo);
 		

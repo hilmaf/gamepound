@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -44,7 +45,10 @@ public class BackControllerLKM {
 	 */	
 	// 후원하기
 	@PostMapping("process")
-	public void back(BackDetailVo vo) throws Exception {
+	public void back(@RequestBody BackDetailVo vo) throws Exception {
+		
+		System.out.println(vo);
+		
 		boolean backed = service.back(vo);
 		
 		if(backed == false) {
