@@ -61,25 +61,68 @@ const StyledPaymentCheckDiv = styled.div`
 
 const PaymentCheck = () => {
 
+    // useContext
     const dataSet = useBackingMemory();
     const back = dataSet.dataVo;
+    
+    // 체크박스 체크여부 확인 함수
+    const checkCheckInput = () => {
+        const checkbox = document.querySelector('input[name=check_yn]');
+        let is_checked = false;
+        if(checkbox.checked) {
+            is_checked = true;
+        }
 
-    const handleBackBtnClick = () => {
+        return is_checked;
+    }
+
+
+    const handleBackBtnClick = (e) => {
+
+        e.preventDefault();
+
         // 유효성 체크
-        // PaymentType이 카드 결제일 시 카드정보 null체크
         // PaymentType undefined체크
-        // 체크박스 체크 여부
+        let paymentTypeDefined = false;
+        if(back.paymentType) {
+            paymentTypeDefined = true;
+        }
 
+        // PaymentType이 카드 결제일 시 카드정보 null체크
+        let cardInfoOk = false;
+        if(back.paymentType === "card" &&
+            back.cardNo1.length === 4 &&
+            back.cardNo2.length === 4 &&
+            back.cardNo3.length === 4 &&
+            back.cardNo4.length === 4 &&
+            back.validThru1.length === 2 &&
+            back.validThru2.length === 2 &&
+            back.cardPwd.length === 2 &&
+            back.birthDate.length === 6) {
+                cardInfoOk = true;
+        }
+
+        // 체크박스 체크 여부
+        const checkboxOk = checkCheckInput();
+
+        if(paymentTypeDefined && cardInfoOk && checkboxOk) {
+            fetch("http://127.0.0.1:8889/gamepound/back/process", {
+                method: "post",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(back)
+            })
+            .then(resp => resp.json())
+            .then(data => {
+
+            })
+            ;
+        } else {
+            alert("후원 정보가 빠진 곳 없이 입력되었는지 확인해주세요.");
+        }
         
-        fetch("http://127.0.0.1:8889/gamepound/back/process", {
-            method: "post",
-            headers: {
-                "Content-Type": "application/json"
-            }
-        })
-        .then()
-        .then()
-        ;
+        
     }
 
     return (
@@ -94,7 +137,7 @@ const PaymentCheck = () => {
             </div>
             
             <div className="checkbox_area">
-                <label><input type="checkbox" />개인정보 제3자 제공 동의</label>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+                <label><input type="checkbox" name='check_yn' />개인정보 제3자 제공 동의</label>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
             </div>
             
             <button onClick={handleBackBtnClick}>후원하기</button>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import EnrollCard from '../../../component/payment/EnrollCard';
 import { useBackingMemory } from '../../../component/context/BackingContext';
+import { useUserMemory } from '../../../component/context/UserContext';
 
 const StyledBackingDetailsDiv = styled.div`
     width: 800px;
@@ -85,18 +86,39 @@ const StyledBackingDetailsDiv = styled.div`
 `;
 
 const BackingDetails = () => {
+    // useContext
+    const dataSet = useBackingMemory();
+    let back = dataSet.dataVo;
 
     const [showCard, setShowCard] = useState(false);
-    const handleCardClick = () => {
+
+    const handleCardClick = (event) => {
+
+        const {name, value} = event.target;
+
+        back = {
+            ...back,
+            [name]: value
+        }
+
+        dataSet.setDataVo(back);
+        console.log(back);
         setShowCard(true);
     }
 
-    const handleKakaoPayClick = () => {
+    const handleKakaoPayClick = (event) => {
+        const {name, value} = event.target;
+
+        back = {
+            ...back,
+            [name]: value
+        }
+
+        console.log(back);
         setShowCard(false);
     }
 
-    const dataSet = useBackingMemory();
-    const back = dataSet.dataVo;
+
 
     return (
         <StyledBackingDetailsDiv>
