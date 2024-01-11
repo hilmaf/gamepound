@@ -13,12 +13,13 @@ const StyledBackingFormDiv = styled.div`
     }
 `;
 
-const BackingForm = ({BackingInfo}) => {
+const BackingForm = () => {
+
     return (
         <StyledBackingFormDiv>
             <form>
-                <BackingDetails backingDetails={BackingInfo}/>
-                <PaymentCheck backingDetails={BackingInfo}/>
+                <BackingDetails />
+                <PaymentCheck />
             </form>
         </StyledBackingFormDiv>
     );

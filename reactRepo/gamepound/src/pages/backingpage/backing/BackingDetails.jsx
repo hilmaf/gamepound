@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import EnrollCard from '../../component/payment/EnrollCard';
+import EnrollCard from '../../../component/payment/EnrollCard';
+import { useBackingMemory } from '../../../component/context/BackingContext';
 
 const StyledBackingDetailsDiv = styled.div`
     width: 800px;
@@ -83,7 +84,7 @@ const StyledBackingDetailsDiv = styled.div`
 
 `;
 
-const BackingDetails = ({backingDetails}) => {
+const BackingDetails = () => {
 
     const [showCard, setShowCard] = useState(false);
     const handleCardClick = () => {
@@ -94,6 +95,9 @@ const BackingDetails = ({backingDetails}) => {
         setShowCard(false);
     }
 
+    const dataSet = useBackingMemory();
+    const back = dataSet.dataVo;
+
     return (
         <StyledBackingDetailsDiv>
             <div className='detail_box' id='reward_info'>
@@ -101,11 +105,11 @@ const BackingDetails = ({backingDetails}) => {
                 <div className='detail'>
                     <div className='detail_1'>
                         <span>선물 구성</span>
-                        <span>{backingDetails.rewardName}</span>
+                        <span>{back.rewardName}</span>
                     </div>
                     <div className='detail_2'>
                         <span>선물 금액</span>
-                        <span>{backingDetails.rewardAmount} 원</span>
+                        <span>{back.rewardAmount} 원</span>
                     </div>
                 </div>
             </div>
@@ -114,7 +118,7 @@ const BackingDetails = ({backingDetails}) => {
                 <div className='detail'>
                     <div className='detail_1'>
                         <span>이메일</span>
-                        <span>{backingDetails.memberEmail}</span>
+                        <span>{back.memberEmail}</span>
                     </div>
                     <div id="email_guide">
                         <p>* 위 이메일로 후원 관련 소식이 전달됩니다.<br />

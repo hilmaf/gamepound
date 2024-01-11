@@ -1,5 +1,5 @@
 import React from 'react';
-import BackingProcess from './BackingProcess';
+import BackingProcess from './backing/BackingProcess';
 import { Route, Routes } from 'react-router-dom';
 import BackCompleted from './BackCompleted';
 import BackCanceled from './BackCanceled';
