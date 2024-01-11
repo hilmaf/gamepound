@@ -159,7 +159,7 @@ const StyledProjectSelectDiv = styled.div`
                 padding: 25px;
                 margin-top: 60px;
                 height: fit-content;
-                margin-bottom: 40px;
+                margin-bottom: 20px;
                 & > div:first-child{
                     font-size: 18px;
                     font-weight: 500;
@@ -186,11 +186,21 @@ const StyledProjectSelectDiv = styled.div`
                 }
             }
             & > div:last-child{
-                //선물 리워드 공간
-                background-color: aquamarine;
-                border: 1px solid #d6d6d6;
-                border-radius: 5px;
-                padding: 25px;
+                //리워드 공간
+                width: 100%;
+                & > div{
+                    //리워드 박스
+                    border: 1px solid #d6d6d6;
+                    border-radius: 5px;
+                    padding: 25px;
+                    margin-bottom: 10px;
+                    & > div:first-child{
+                        //가격부분
+                        font-size: 23px;
+                        font-weight: 500;
+                        margin-bottom: 7px;
+                    }
+                }
             }
         }
     }
@@ -205,7 +215,6 @@ const DetailMain = () => {
         fetch("http://127.0.0.1:8889/gamepound/project/detail?no=1")
         .then((resp)=>{return resp.json()})
         .then((data)=>{
-            console.log(data);
             setDetailVo(data);
         })
         .catch((e)=>{console.log("오류 : " + e);})
@@ -278,7 +287,18 @@ const DetailMain = () => {
                             {detailVo.memberIntro}
                         </div>
                     </div>
-                    <div>선물 리워드</div>
+                    <div>
+                        {
+                            detailVo.rewardVoList.map((vo)=>{
+                                return(<>
+                                <div>
+                                    <div>{vo.amount}원 + </div>
+                                    <div>{vo.name}</div>
+                                </div>
+                                </>);
+                            })
+                        }
+                    </div>
                 </div>
             </div>
         </StyledProjectSelectDiv>
