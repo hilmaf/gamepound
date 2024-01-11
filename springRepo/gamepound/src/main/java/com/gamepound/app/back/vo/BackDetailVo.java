@@ -9,6 +9,7 @@ public class BackDetailVo {
 	
 	// 후원번호
 	private String backNo;
+	private String backingDate;
 	
 	// 프로젝트 정보
 	private String projectNo;
