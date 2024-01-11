@@ -118,23 +118,23 @@ const ProjectCreateMain = () => {
             </div>
 
             <div className="linkList">
-                <NavLink to='../main/basic'>
+                <NavLink to='index/basic'>
                     기본정보
                     <span>12% 작성 완료</span>
                 </NavLink>
-                <NavLink to='../main/plan'>
+                <NavLink to='index/plan'>
                     펀딩 계획
                     <span>12% 작성 완료</span>
                 </NavLink>
-                <NavLink to='../main/reward'>
+                <NavLink to='index/reward'>
                     선물 구성
                     <span>12% 작성 완료</span>
                 </NavLink>
-                <NavLink to='../main/dateplan'>
+                <NavLink to='index/dateplan'>
                     프로젝트 계획
                     <span>12% 작성 완료</span>
                 </NavLink>
-                <NavLink to='../main/userinfo'>
+                <NavLink to='index/userinfo'>
                     창작자 정보
                     <span>12% 작성 완료</span>
                 </NavLink>
