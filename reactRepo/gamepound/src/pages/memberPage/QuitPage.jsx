@@ -99,7 +99,10 @@ const QuitPage = () => {
                 ...formVo,
                 "no": loginMemberVo.no,
             });
-        } 
+        } else {
+            alert("로그인 후 이용하실 수 있습니다.");
+            navigate('/');
+        }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loginMemberVo, setFormVo]);
     
