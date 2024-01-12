@@ -40,7 +40,6 @@ const PrelaunchUpdatePage = () => {
         fetch("http://127.0.0.1:8889/gamepound/project/detail/prelaunch/update?no=1")
         .then((resp)=>{return resp.json()})
         .then((data)=>{
-            console.log(data[0]);
             setDetailPrelaunchUpdateVoList(data);
         })
         .catch((e)=>{console.log("오류 : " + e);})

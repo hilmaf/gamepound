@@ -3,6 +3,7 @@ package com.gamepound.app.project.controller;
 import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -38,16 +39,16 @@ public class ProjectDetailControllerHYJ {
 	
 	//프로젝트 상세 조회 - 업데이트
 	@GetMapping("update")
-	public void projectDetailUpdate(String no) {
+	public List<ProjectUpdateVo> projectDetailUpdate(String no) {
 		List<ProjectUpdateVo>voList = service.projectDetailUpdate(no);
-		System.out.println(voList);
+		return voList;
 	}
 	
 	//프로젝트 상세 조회 - 커뮤니티
 	@GetMapping("community")
-	public void projectDetailCommunity(String no) {
+	public List<ProjectCommunityVo> projectDetailCommunity(String no) {
 		List<ProjectCommunityVo>voList = service.projectDetailCommunity(no);
-		System.out.println(voList);
+		return voList;
 	}
 	
 	//공개예정 프로젝트 상세 조회 - 타이틀

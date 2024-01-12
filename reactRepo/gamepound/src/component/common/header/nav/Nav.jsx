@@ -150,11 +150,11 @@ const Nav = () => {
                 </ul>
             </div>
 
-            <NavLink to='/ff1'>홈</NavLink>
-            <NavLink to='/ff2'>인기</NavLink>
-            <NavLink to='/ff3'>신규</NavLink>
-            <NavLink to='/ff4'>마감임박</NavLink>
-            <NavLink to='/ff5'>공개예정</NavLink>
+            <NavLink to='/'>홈</NavLink>
+            <NavLink to='/project/list/popular'>인기</NavLink>
+            <NavLink to='/project/list/new'>신규</NavLink>
+            <NavLink to='/project/list/imminent'>마감임박</NavLink>
+            <NavLink to='/project/list/prelaunch'>공개예정</NavLink>
             
         </StyledNavDiv>
     );

@@ -35,7 +35,7 @@ const PrelaunchStyledProjectDetailDiv = styled.div`
         }
         & > ul{
             width: 100%;
-            height: 600px;
+            height: 550px;
             margin-left: 30px;
             & > li:nth-child(2){
                 font-size: 35px;
