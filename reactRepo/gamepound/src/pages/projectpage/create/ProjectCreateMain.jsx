@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useHeaderMemory } from '../../../component/context/HeaderContext';
 import styled from 'styled-components';
-import { NavLink, Route, Routes } from 'react-router-dom';
+import { NavLink, Route, Routes, useParams } from 'react-router-dom';
 import ProjectBasicCreate from './ProjectBasicCreate';
 import ProjectPlanCreate from './ProjectPlanCreate';
 import ProjectRewardCreate from './ProjectRewardCreate';
@@ -95,6 +95,7 @@ const StyledCreateMainDiv = styled.div`
 const ProjectCreateMain = () => {
 
     const { updatePageType } = useHeaderMemory();
+    const { projectNo } = useParams();
 
     // header type
     useEffect(() => {
@@ -118,33 +119,33 @@ const ProjectCreateMain = () => {
             </div>
 
             <div className="linkList">
-                <NavLink to='index/basic'>
+                <NavLink to={`../main/index/basic/${projectNo}`}>
                     기본정보
                     <span>12% 작성 완료</span>
                 </NavLink>
-                <NavLink to='index/plan'>
+                <NavLink to={`../main/index/plan/${projectNo}`}>
                     펀딩 계획
                     <span>12% 작성 완료</span>
                 </NavLink>
-                <NavLink to='index/reward'>
+                <NavLink to={`../main/index/reward/${projectNo}`}>
                     선물 구성
                     <span>12% 작성 완료</span>
                 </NavLink>
-                <NavLink to='index/dateplan'>
+                <NavLink to={`../main/index/dateplan/${projectNo}`}>
                     프로젝트 계획
                     <span>12% 작성 완료</span>
                 </NavLink>
-                <NavLink to='index/userinfo'>
+                <NavLink to={`../main/index/userinfo/${projectNo}`}>
                     창작자 정보
                     <span>12% 작성 완료</span>
                 </NavLink>
             </div>
             <Routes>
-                <Route path='../main/basic' element={<ProjectBasicCreate />} />
-                <Route path='../main/plan' element={<ProjectPlanCreate />} />
-                <Route path='../main/reward' element={<ProjectRewardCreate />} />
-                <Route path='../main/dateplan' element={<ProjectDateplanCreate />} />
-                <Route path='../main/userinfo' element={<ProjectUserinfoCreate />} />
+                <Route path='../main/index/basic/:projectNo' element={<ProjectBasicCreate />} />
+                <Route path='../main/index/plan/:projectNo' element={<ProjectPlanCreate />} />
+                <Route path='../main/index/reward/:projectNo' element={<ProjectRewardCreate />} />
+                <Route path='../main/index/dateplan/:projectNo' element={<ProjectDateplanCreate />} />
+                <Route path='../main/index/userinfo/:projectNo' element={<ProjectUserinfoCreate />} />
             </Routes>
         </StyledCreateMainDiv>
         

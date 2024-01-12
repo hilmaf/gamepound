@@ -151,6 +151,7 @@ const ProjectNewCreate = () => {
                 "no": loginMemberVo.no,
             });
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loginMemberVo]);
 
     // 작성중인 프로젝트가 있으면 조회
@@ -227,7 +228,7 @@ const ProjectNewCreate = () => {
         .then(resp => resp.json())
         .then(data => {
             if(data.msg === 'good'){
-                navigate(`/projectCreate/main/index/basic/${data.no}`);
+                navigate(`../main/${data.no}`);
             } else {
                 alert('프로젝트 만들기에 실패했습니다.');
             }
