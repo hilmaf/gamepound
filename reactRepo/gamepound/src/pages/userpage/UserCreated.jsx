@@ -34,13 +34,7 @@ const UserCreated = () => {
     const [myProjectsList, setMyProjectsList] = useState([]);
 
     useEffect(()=>{
-        fetch("http://127.0.0.1:8889/gamepound/userpage/created", {
-            method: "post",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: loginMemberVo.no
-        })
+        fetch("http://127.0.0.1:8889/gamepound/userpage/created?user=" + loginMemberVo.no)
         .then(resp => resp.json())
         .then(data => {
             console.log(data);

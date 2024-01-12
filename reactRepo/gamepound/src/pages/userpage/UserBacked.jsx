@@ -26,26 +26,19 @@ const UserBacked = () => {
     const {loginMemberVo} = useUserMemory();
 
     const [backedVo, setBackedVo] = useState({});
-    let {successList, failList, successCnt, failCnt} = backedVo
+    let {cnt, successList, failList, successCnt, failCnt} = backedVo
 
     useEffect(()=>{
-        fetch("http://127.0.0.1:8889/gamepound/userpage/backed", {
-            method: "post",
-            headers: {
-                "Content-Type" : "application/json"
-            },
-            body: loginMemberVo.no
-        })
+        fetch("http://127.0.0.1:8889/gamepound/userpage/backed?user=" + loginMemberVo.no)
         .then(resp => resp.json())
         .then(data => {
             setBackedVo(data);
-            console.log(data);
         })
         ;
     }, [])
     return (
         <StyledUserBackedDiv>
-                <div id="cnt">--건의 후원 내역이 있습니다.</div>
+                <div id="cnt">{cnt}건의 후원 내역이 있습니다.</div>
                 <div className='back_items'>
                     <div id='success_cnt'>후원 성공({successCnt}개)</div>
                     {

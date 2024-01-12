@@ -9,14 +9,14 @@ const StyledReviewListDiv = styled.div`
     align-items: center;
 `;
 
-const ReviewList = () => {
+const ReviewList = ({reviewList}) => {
     return (
         <StyledReviewListDiv>
-            <ReviewBox />
-            <ReviewBox />
-            <ReviewBox />
-            <ReviewBox />
-            <ReviewBox />
+            {
+                reviewList.map((item)=>{
+                    <ReviewBox item = {item}/>
+                })
+            }
         </StyledReviewListDiv>
     );
 };

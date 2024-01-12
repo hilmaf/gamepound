@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.gamepound.app.back.vo.BackDetailVo;
@@ -24,6 +25,11 @@ public class UserPageService {
 
 	private final SqlSessionTemplate sst;
 	private final UserPageDao dao;
+	
+	// 유저페이지 - 프로필 소개
+	public String userProfile(String memberNo) {
+		return dao.userProfile(sst, memberNo);
+	}
 	
 	// 유저페이지 - 리뷰목록, 리뷰 통계 조회
 	public Map<String, Object> listReview(String memberNo) {
@@ -82,6 +88,7 @@ public class UserPageService {
 		map.put("failList", failList);
 		map.put("successCnt", successList.size());
 		map.put("failCnt", failList.size());
+		map.put("cnt", successList.size() + failList.size());
 		
 		return map;
 	}

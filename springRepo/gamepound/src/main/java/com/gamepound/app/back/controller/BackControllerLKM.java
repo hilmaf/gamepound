@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.gamepound.app.back.service.BackServiceLKM;
@@ -90,7 +91,7 @@ public class BackControllerLKM {
 	
 	// 후원 상세 조회
 	@GetMapping("detail")
-	public void detail(String backNo) {
+	public void detail(@RequestParam("no") String backNo) {
 		BackVo vo = service.detail(backNo);
 		
 	}

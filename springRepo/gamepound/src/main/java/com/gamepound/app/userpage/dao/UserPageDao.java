@@ -3,6 +3,7 @@ package com.gamepound.app.userpage.dao;
 import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
 import com.gamepound.app.back.vo.BackDetailVo;
@@ -14,14 +15,19 @@ import com.gamepound.app.review.vo.ReviewVo;
 
 public class UserPageDao {
 
+	// 프로필 소개
+	public String userProfile(SqlSessionTemplate sst, String memberNo) {
+		return sst.selectOne("UserPageMapper.userProfile", memberNo);
+	}
+	
 	// 리뷰 목록
 	public List<ReviewVo> listReview(SqlSessionTemplate sst, String memberNo) {
-		return sst.selectList("ReviewMapper.listReview", memberNo);
+		return sst.selectList("UserPageMapper.listReview", memberNo);
 	}
 
 	// 리뷰 통계 정보
 	public ReviewStatVo getStat(SqlSessionTemplate sst, String memberNo) {
-		return sst.selectOne("ReviewMapper.getReviewStat", memberNo);
+		return sst.selectOne("UserPageMapper.getReviewStat", memberNo);
 	}
 	
 	// 리뷰 작성

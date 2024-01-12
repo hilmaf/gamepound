@@ -104,7 +104,7 @@ const StyledReviewBoxDiv = styled.div`
     }
 `;
 
-const ReviewBox = () => {
+const ReviewBox = ({item}) => {
     return (
         <StyledReviewBoxDiv>
             <div className='writer'>

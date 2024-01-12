@@ -7,6 +7,7 @@ import com.gamepound.app.back.dao.BackDaoLKM;
 import com.gamepound.app.back.vo.BackDetailVo;
 import com.gamepound.app.back.vo.BackVo;
 import com.gamepound.app.project.ProjectAchievementRate;
+import com.gamepound.app.project.ProjectDataTransformation;
 import com.gamepound.app.project.ProjectRemainingPeriod;
 import com.gamepound.app.project.vo.ProjectBriefVo;
 
@@ -25,9 +26,11 @@ public class BackServiceLKM {
 		BackVo bvo = dao.viewBackingPage(sst, vo);
 		
 		// 달성률, 마감기한 d- setting
-		// TODO: 성능 개선
-		String achievementRate = ProjectAchievementRate.achievementRate(bvo.getGoalAmount(), bvo.getCurrentAmount());
-		String remainingPeriod = ProjectRemainingPeriod.getRemainingPeriod(bvo.getEndDate());
+		ProjectDataTransformation process1 = new ProjectAchievementRate();
+		ProjectDataTransformation process2 = new ProjectRemainingPeriod();
+		String achievementRate = process1.transform(bvo.getGoalAmount(), bvo.getCurrentAmount());
+		String remainingPeriod = process2.transform(bvo.getEndDate(), "YYYY년 MM월 DD일");
+		
 		bvo.setAchievementRate(achievementRate);
 		bvo.setRemainingPeriod(remainingPeriod);
 		
@@ -88,7 +91,14 @@ public class BackServiceLKM {
 	
 	// 후원 상세 조회
 	public BackVo detail(String backNo) {
-		return dao.detail(sst, backNo);
+	
+		BackVo bvo = dao.detail(sst, backNo);
+		
+		ProjectDataTransformation processor = new ProjectAchievementRate();
+		String achievementRate = processor.transform(bvo.getGoalAmount(), bvo.getCurrentAmount());
+		bvo.setAchievementRate(achievementRate);
+		
+		return bvo;
 	}
 
 	// 후원 내용 변경 - 선물 변경
