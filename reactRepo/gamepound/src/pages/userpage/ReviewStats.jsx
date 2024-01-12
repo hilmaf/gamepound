@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useUserMemory } from '../../component/context/UserContext';
 
 const StyledReviewStatsDiv = styled.div`
     color: var(--black-color);
@@ -21,6 +22,10 @@ const StyledReviewStatsDiv = styled.div`
         & > #title {
             font-size: 16px;
             font-weight: 500;
+
+            & > span {
+                font-weight: 300;
+            }
         }
 
         & > #avg {
@@ -52,12 +57,15 @@ const StyledReviewStatsDiv = styled.div`
     }
 `;
 
-const ReviewStats = () => {
+const ReviewStats = ({statVo}) => {
+
+    const {loginMemberVo} = useUserMemory();
+
     return (
         <StyledReviewStatsDiv>
             <div className='rating_avg'>
-                <div id='title'>ㅇㅇㅇ 님의 프로젝트 만족도</div>
-                <div id='avg'>3.5</div>
+                <div id='title'>{loginMemberVo.name}<span> 님의 프로젝트 만족도</span></div>
+                <div id='avg'>{statVo.ratingAvg}</div>
             </div>
             <ul>
                 <li><span id='rating'>1점</span><span id='cnt'>n개</span></li>
