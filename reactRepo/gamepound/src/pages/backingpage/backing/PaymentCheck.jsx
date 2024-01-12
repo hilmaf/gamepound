@@ -76,6 +76,20 @@ const PaymentCheck = () => {
         return is_checked;
     }
 
+    const checkCardInput = () => {
+        if((back.cardNo1 && back.cardNo2 && back.cardNo3 && back.cardNo4)
+        && (back.cardNo1.length == 4 && back.cardNo2.length === 4 && back.cardNo3.length === 4 && back.cardNo4.length === 4)
+        && (back.validThru1 && back.validThru2)
+        && (back.validThru1.length == 2 && back.validThru2.length === 2)
+        && (back.cardpwd && back.birthDate)
+        && (back.cardPwd.length === 2 && back.birthDate.length === 6)) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
 
     const handleBackBtnClick = (e) => {
 
@@ -89,18 +103,7 @@ const PaymentCheck = () => {
         }
 
         // PaymentType이 카드 결제일 시 카드정보 null체크
-        let cardInfoOk = false;
-        if(back.paymentType === "card" &&
-            back.cardNo1.length === 4 &&
-            back.cardNo2.length === 4 &&
-            back.cardNo3.length === 4 &&
-            back.cardNo4.length === 4 &&
-            back.validThru1.length === 2 &&
-            back.validThru2.length === 2 &&
-            back.cardPwd.length === 2 &&
-            back.birthDate.length === 6) {
-                cardInfoOk = true;
-        }
+        const cardInfoOk = checkCardInput();
 
         // 체크박스 체크 여부
         const checkboxOk = checkCheckInput();
