@@ -10,7 +10,7 @@ public class ReviewVo {
 
 	// 리뷰
 	private String reviewNo;
-	private String content;
+	private String reviewContent;
 	private String reviewImg;
 	private String rating;
 	private String enrollDate;
@@ -21,8 +21,6 @@ public class ReviewVo {
 	
 	// 프로젝트 정보
 	private String projectNo;
-	private String projectName;
+	private String projectTitle;
 	
-	// 후원 정보
-	private String backerNo;
 }

@@ -5,6 +5,7 @@ import java.util.Map;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -44,8 +45,9 @@ public class UserPageController {
 	}
 	
 	// 유저페이지 - 내가 올린 프로젝트 목록 조회
-	@GetMapping("created")
-	public Map<String, Object> listMyProjects(String memberNo) {
+	@PostMapping("created")
+	public Map<String, Object> listMyProjects(@RequestBody String memberNo) {
+		System.out.println(memberNo);
 		
 		Map<String, Object> listMap = service.listMyProjects(memberNo);
 		
@@ -53,10 +55,13 @@ public class UserPageController {
 	}
 	
 	// 유저페이지 - 내 후원 목록 조회
-	@GetMapping("backed")
-	public void listMyBackedProjects(String memberNo) {
+	@PostMapping("backed")
+	public Map<String, Object> listMyBackedProjects(@RequestBody String memberNo) {
+		System.out.println(memberNo);
 		Map<String, Object> map = service.listMyBackedProjects(memberNo);
 		
 		System.out.println(map);
+		
+		return map;
 	}
 }

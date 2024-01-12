@@ -37,7 +37,7 @@ public class BackVo {
 	
 	// 후원 정보
 	private String backNo;
-	private String backingDate;
+	private String backDate;
 
 	// 선물 정보
 	private String rewardNo;

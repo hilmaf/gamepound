@@ -89,6 +89,7 @@ const BackingDetails = () => {
     // useContext
     const dataSet = useBackingMemory();
     let back = dataSet.dataVo;
+    console.log("BackingDetails @@@@@",back);
 
     const [showCard, setShowCard] = useState(false);
 
@@ -114,7 +115,7 @@ const BackingDetails = () => {
             [name]: value
         }
 
-        console.log(back);
+        console.log('back' , back);
         setShowCard(false);
     }
 
@@ -140,7 +141,7 @@ const BackingDetails = () => {
                 <div className='detail'>
                     <div className='detail_1'>
                         <span>이메일</span>
-                        <span>{back.memberEmail}</span>
+                        <span>{back.memberNo}</span>
                     </div>
                     <div id="email_guide">
                         <p>* 위 이메일로 후원 관련 소식이 전달됩니다.<br />

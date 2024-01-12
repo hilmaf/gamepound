@@ -85,14 +85,16 @@
 	ORDER BY P.ENROLL_DATE DESC
 </select>
 
-<select id="backedSuccessfully" resultType="BackVo">
+<select id="backedSuccessfully" resultType="com.gamepound.app.back.vo.BackDetailVo">
 	SELECT
-	    B.NO
-	    , PS.STATUS
-	    , P.TITLE
-	    , R.NAME
-	    , TO_CHAR(PAY.PAYMENT_DATE, 'YY"년" MM"월" DD"일"')
-	    , PSTAT.PAYMENT_STATUS
+	    B.NO AS BACK_NO
+	    , TO_CHAR(B.BACKING_DATE, 'YY"년" MM"월" DD"일"') AS BACKING_DATE
+	    , P.IMAGE_URL AS PROJECT_IMG
+	    , PS.STATUS AS PROJECT_STATUS
+	    , P.TITLE AS PROJECT_TITLE
+	    , R.NAME AS REWARD_NAME
+	    , TO_CHAR(PAY.PAYMENT_DATE, 'YY"년" MM"월" DD"일"') AS PAYMENT_DATE
+	    , PSTAT.PAYMENT_STATUS AS PAYMENT_STATUS
 	FROM BACKER B
 	JOIN PROJECT P ON P.NO = B.PROJECT_NO
 	JOIN PROJECT_STATUS PS ON PS.NO = P.STATUS_NO
@@ -103,14 +105,16 @@
 	WHERE B.MEMBER_NO = #{memberNo} AND R.NO = B.REWARD_NO AND P.STATUS_NO = 6
 </select>
 
-<select id="backedUnsuccessfully" resultType="BackVo">
+<select id="backedUnsuccessfully" resultType="com.gamepound.app.back.vo.BackDetailVo">
 	SELECT
-	    B.NO
-	    , PS.STATUS
-	    , P.TITLE
-	    , R.NAME
-	    , TO_CHAR(PAY.PAYMENT_DATE, 'YY"년" MM"월" DD"일"')
-	    , PSTAT.PAYMENT_STATUS
+	    B.NO AS BACK_NO
+	    , TO_CHAR(B.BACKING_DATE, 'YY"년" MM"월" DD"일"') AS BACKING_DATE
+	    , P.IMAGE_URL AS PROJECT_IMG
+	    , PS.STATUS AS PROJECT_STATUS
+	    , P.TITLE AS PROJECT_TITLE
+	    , R.NAME AS REWARD_NAME
+	    , TO_CHAR(PAY.PAYMENT_DATE, 'YY"년" MM"월" DD"일"') AS PAYMENT_DATE
+	    , PSTAT.PAYMENT_STATUS AS PAYMENT_STATUS
 	FROM BACKER B
 	JOIN PROJECT P ON P.NO = B.PROJECT_NO
 	JOIN PROJECT_STATUS PS ON PS.NO = P.STATUS_NO

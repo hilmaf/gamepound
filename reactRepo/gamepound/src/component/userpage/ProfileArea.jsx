@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import { useUserMemory } from '../context/UserContext';
+import { useNavigate } from 'react-router-dom';
 
 const StyledProfileAreaDiv = styled.div`
     width: 1200px;
@@ -34,15 +36,21 @@ const StyledProfileAreaDiv = styled.div`
 `;
 
 const ProfileArea = () => {
+
+    const {loginMemberVo} = useUserMemory();
+    console.log(loginMemberVo);
+
+
     return (
         <StyledProfileAreaDiv>
-            <img src='https://cdn.akamai.steamstatic.com/steam/apps/416600/capsule_616x353.jpg?t=1689347261'/>
+            <img src={loginMemberVo.pic} alt="Profile" />
             <div className='nick_area'>
-                <div id='nick'>닉네임</div>
+                <div id='nick'>{loginMemberVo.name}</div>
                 <button>계정 관리</button>
             </div>
         </StyledProfileAreaDiv>
-    );
+    );    
+    
 };
 
 export default ProfileArea;

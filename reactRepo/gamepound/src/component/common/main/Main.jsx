@@ -17,15 +17,23 @@ const Main = () => {
     const navigate = useNavigate();
 
     const userVo = useUserMemory();
-    const handleBtnClick = () => {
+    const handleBackingProcessBtn = () => {
         console.log(userVo);
         navigate('/back/process');
+    }
+    const handleUserCreatedBtn = () => {
+        navigate('/userpage/created');
     }
 
     return (
         <StyledMainDiv>
             <Routes>
-                <Route path='/' element={<h1>메인페이지 <button onClick={handleBtnClick}>눌러</button></h1>}></Route>
+                <Route path='/' element={
+                <h1>메인페이지 
+                    <button onClick={handleBackingProcessBtn}>후원하기</button>
+                    <button onClick={handleUserCreatedBtn}>올린 프로젝트</button>
+                </h1>
+                }></Route>
                 <Route path='/project/*' element={<ProjectMain />}></Route>
                 <Route path='/userpage/*' element={<UserPageMain />}></Route>
                 <Route path='/back/*' element={<BackMain />}></Route>
