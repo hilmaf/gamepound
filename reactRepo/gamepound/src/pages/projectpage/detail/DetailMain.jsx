@@ -292,12 +292,12 @@ const DetailMain = () => {
                     <div>
                     {
                         rewardVoList.map((vo)=>{
-                            return(<>
-                            <div>
-                                <div>{vo.amount}원 + </div>
-                                <div>{vo.name}</div>
-                            </div>
-                            </>);
+                            return(
+                                <div key={vo.no}>
+                                    <div>{vo.amount}원 + </div>
+                                    <div>{vo.name}</div>
+                                </div>
+                            );
                         })
                     }
                     </div>
