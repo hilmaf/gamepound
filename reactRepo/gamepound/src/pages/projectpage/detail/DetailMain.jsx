@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import CommunityPage from "./CommunityPage";
 import StoryPage from "./StoryPage";
 import UpdatePage from "./UpdatePage";
-import { NavLink, Route, Routes } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 const StyledAllDiv = styled.div`
@@ -50,7 +50,7 @@ const StyledProjectDetailDiv = styled.div`
         & > span{
             width: 100%;
             height: 100%;
-            background-color: #f05a5a;
+            background-color: var(--red-color);
             & > img{
                 width: 100%;
                 height: 100%;
@@ -59,11 +59,12 @@ const StyledProjectDetailDiv = styled.div`
         }
         & > ul{
             width: 100%;
-            height: 600px;
+            height: 550px;
             margin-left: 30px;
             & > li:nth-child(2n){
                 font-size: 40px;
-                margin-bottom: 20px;
+                margin-bottom: 25px;
+                margin-top: 5px;
                 & > span{
                     font-size: 16px;
                 }
@@ -74,6 +75,7 @@ const StyledProjectDetailDiv = styled.div`
                 
             }
             & > li > table{
+                margin-top: 25px;
                 width: 85%;
                 border-top: 1px solid #ececec;
                 
@@ -97,7 +99,7 @@ const StyledProjectDetailDiv = styled.div`
                 height: 60px;
                 font-size: 16px;
                 color: white;
-                background-color: #f05a5a;
+                background-color: var(--red-color);
                 font-weight: 500;
                 border-radius: 5px;
                 margin-top: 40px;
@@ -209,11 +211,13 @@ const StyledProjectSelectDiv = styled.div`
 
 const DetailMain = () => {
 
+    
+    const {temp, no} = useParams();
     const [detailVo, setDetailVo] = useState([]);
     const [rewardVoList, setRewardVoList] = useState([]);
 
     useEffect(()=>{
-        fetch("http://127.0.0.1:8889/gamepound/project/detail?no=1")
+        fetch("http://127.0.0.1:8889/gamepound/project/detail?no=" + no)
         .then((resp)=>{return resp.json()})
         .then((data)=>{
             setDetailVo(data);
@@ -221,7 +225,7 @@ const DetailMain = () => {
         })
         .catch((e)=>{console.log("오류 : " + e);})
         ;
-    }, []);
+    }, [no]);
 
     return (<StyledAllDiv>
         <StyledProjectDetailDiv>
@@ -265,19 +269,17 @@ const DetailMain = () => {
         <StyledProjectDetailNaviDiv>
             <div className="inner">
                 <div>
-                    <span><NavLink to="/project/detail/story">프로젝트 계획</NavLink></span>
-                    <span><NavLink to="/project/detail/update">업데이트</NavLink></span>
-                    <span><NavLink to="/project/detail/community/">커뮤니티</NavLink></span>
+                    <span><NavLink to={`/project/detail/story/${no}`}>프로젝트 계획</NavLink></span>
+                    <span><NavLink to={`/project/detail/update/${no}`}>업데이트</NavLink></span>
+                    <span><NavLink to={`/project/detail/community/${no}`}>커뮤니티</NavLink></span>
                 </div>
             </div>
         </StyledProjectDetailNaviDiv>
         <StyledProjectSelectDiv>
             <div>
-                <Routes>
-                    <Route path='/story' element={<StoryPage/>}></Route>
-                    <Route path='/update' element={<UpdatePage/>}></Route>
-                    <Route path='/community' element={<CommunityPage/>}></Route>
-                </Routes> 
+                {temp === 'story' ? <StoryPage/> : null}
+                {temp === 'update' ? <UpdatePage/> : null}
+                {temp === 'community' ? <CommunityPage/> : null}
                 <div>
                     <div>
                         <div>창작자 소개</div>

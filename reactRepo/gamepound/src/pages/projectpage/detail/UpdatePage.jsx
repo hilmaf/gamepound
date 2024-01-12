@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 const StyledAllDiv = styled.div`
@@ -32,27 +33,29 @@ const StyledUpdateDiv = styled.div`
     }
 `;
 
+
 const UpdatePage = () => {
+
+    const {no} = useParams();
 
     const [detailUpdateVoList, setDetailUpdateVoList] = useState([]);
 
     useEffect(()=>{
-        fetch("http://127.0.0.1:8889/gamepound/project/detail/update?no=1")
+        fetch("http://127.0.0.1:8889/gamepound/project/detail/update?no=" + no)
         .then((resp)=>{return resp.json()})
         .then((data)=>{
-            console.log(data[0]);
             setDetailUpdateVoList(data);
         })
         .catch((e)=>{console.log("오류 : " + e);})
         ;
-    }, []);
+    }, [no]);
 
     return (<StyledAllDiv>
         <StyledUpdateDiv>
             {
                 detailUpdateVoList.map((vo)=>{
-                    return (<>
-                    <div>
+                    return (
+                    <div key={vo.no}>
                         <ul>
                             <li>
                                 <div>
@@ -68,7 +71,7 @@ const UpdatePage = () => {
                             </li>
                         </ul>
                     </div>
-                    </>);
+                    );
                 })
             }
         </StyledUpdateDiv>
