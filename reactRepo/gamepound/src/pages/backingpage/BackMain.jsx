@@ -12,7 +12,7 @@ const BackMain = () => {
             <Route path='process' element={<BackingProcess />}/>
             <Route path='completed' element={<BackCompleted />}/>
             <Route path='canceled' element={<BackCanceled />}/>
-            <Route path='detail' element={<BackDetail />}/>
+            <Route path='detail/:no' element={<BackDetail />}/>
         </Routes>
 
     );
