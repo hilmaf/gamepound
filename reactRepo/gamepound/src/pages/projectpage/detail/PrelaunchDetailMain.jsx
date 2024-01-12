@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { NavLink, Route, Routes } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import PrelaunchStoryPage from "./PrelaunchStoryPage";
 import PrelaunchUpdatePage from "./PrelaunchUpdatePage";
 import styled from 'styled-components';
@@ -134,7 +134,12 @@ const PrelaunchStyledProjectSelectDiv = styled.div`
 //////////////////////////////////////////////////
 
 const PrelaunchDetailMain = () => {
-    
+    const {temp, no} = useParams();
+    const {params} = useParams();
+    console.log(params);
+    console.log("PrelaunchDetailMain > no ::: ",no);
+    console.log("PrelaunchDetailMain > temp ::: ", temp);
+
     const [detailPrelaunchVo, setDetailPrelaunchVo] = useState([]);
 
 
@@ -146,7 +151,7 @@ const PrelaunchDetailMain = () => {
         })
         .catch((e)=>{console.log("오류 : " + e);})
         ;
-    }, []);
+    }, [no]);
 
 
 
@@ -185,17 +190,15 @@ const PrelaunchDetailMain = () => {
         <PrelaunchStyledProjectDetailNaviDiv>
             <div className="inner">
                 <div>
-                    <span><NavLink to="/project/detail/prelaunch/story">프로젝트 계획</NavLink></span>
-                    <span><NavLink to="/project/detail/prelaunch/update">업데이트</NavLink></span>
+                    <span><NavLink to={`/project/detail/prelaunch/story/${no}`}>프로젝트 계획</NavLink></span>
+                    <span><NavLink to={`/project/detail/prelaunch/update/${no}`}>업데이트</NavLink></span>
                 </div>
             </div>
         </PrelaunchStyledProjectDetailNaviDiv>
         <PrelaunchStyledProjectSelectDiv>
             <div>
-                <Routes>
-                    <Route path='/story' element={<PrelaunchStoryPage/>}></Route>
-                    <Route path='/update' element={<PrelaunchUpdatePage/>}></Route>
-                </Routes>  
+                {temp === 'story' ? <PrelaunchStoryPage/> : null}
+                {temp === 'update' ? <PrelaunchUpdatePage/> : null}
                 <div>
                     <div>창작자 소개</div>
                     <div>

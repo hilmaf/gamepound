@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 const StyledAllDiv = styled.div`
@@ -34,17 +35,19 @@ const StyledUpdateDiv = styled.div`
 /////////////////////////////////////////////////////////////////////////////
 const PrelaunchUpdatePage = () => {
 
+    const {no} = useParams();
+
     const [detailPrelaunchUpdateVoList, setDetailPrelaunchUpdateVoList] = useState([]);
 
     useEffect(()=>{
-        fetch("http://127.0.0.1:8889/gamepound/project/detail/prelaunch/update?no=1")
+        fetch("http://127.0.0.1:8889/gamepound/project/detail/prelaunch/update?no=" + {no})
         .then((resp)=>{return resp.json()})
         .then((data)=>{
             setDetailPrelaunchUpdateVoList(data);
         })
         .catch((e)=>{console.log("오류 : " + e);})
         ;
-    }, []);
+    }, [no]);
 
     return (<StyledAllDiv>
         <StyledUpdateDiv>
