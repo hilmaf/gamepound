@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import logoImage from '../../assets/images/logo_big.svg';
 import InpText from './input/InpText';
 import { useUserMemory } from '../../component/context/UserContext';
+import { useIsFirstMemory } from '../../component/context/IsFirstContext';
 
 const StyledQuitDiv = styled.div`
     display: flex;
@@ -60,9 +61,8 @@ const QuitPage = () => {
 
     const [formVo, setFormVo] = useState({});
     const navigate = useNavigate();
-    const {loginMemberVo, setLoginMemberVo} = useUserMemory(); // 로그인 유저정보
-    
-    // 로그인 체크
+    const { loginMemberVo, setLoginMemberVo } = useUserMemory(); // 로그인 유저정보
+    const { isFirst, setIsFirst } = useIsFirstMemory(); // 렌더링 체크
 
     // 탈퇴처리
     const handleQuit = (e) => {
@@ -94,14 +94,17 @@ const QuitPage = () => {
 
     // 로그인정보 체크
     useEffect(() => {
+        setIsFirst(false);
         if(loginMemberVo){
             setFormVo({
                 ...formVo,
                 "no": loginMemberVo.no,
             });
         } else {
-            alert("로그인 후 이용하실 수 있습니다.");
-            navigate('/');
+            if(!isFirst){
+                alert("로그인 후 이용하실 수 있습니다.");
+                navigate('/');
+            }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loginMemberVo, setFormVo]);

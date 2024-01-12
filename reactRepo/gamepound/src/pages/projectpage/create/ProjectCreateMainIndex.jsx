@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { NavLink, Route, Routes } from 'react-router-dom';
+import { NavLink, Route, Routes, useNavigate } from 'react-router-dom';
 import ProjectBasicCreate from './ProjectBasicCreate';
 import ProjectDateplanCreate from './ProjectDateplanCreate';
 import ProjectRewardCreate from './ProjectRewardCreate';
@@ -68,6 +68,7 @@ const StyledCreateBasicIndexDiv = styled.div`
 
 const ProjectCreateMainIndex = () => {
     const { updatePageType } = useHeaderMemory();
+    const navigate = useNavigate();
 
     // header type
     useEffect(() => {

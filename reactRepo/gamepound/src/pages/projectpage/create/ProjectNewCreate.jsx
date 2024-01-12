@@ -1,6 +1,8 @@
 
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { useUserMemory } from '../../../component/context/UserContext';
 
 const StyledNewCreateDiv = styled.div`
     display: flex;
@@ -25,6 +27,7 @@ const StyledNewCreateDiv = styled.div`
                     display: flex;
                     align-items: center;
                     gap: 10px;
+                    width: calc(100% - 110px);
                     & span {
                         display: flex;
                         align-items: center;
@@ -34,6 +37,7 @@ const StyledNewCreateDiv = styled.div`
                         height: 60px;
                     }
                     & strong {
+                        width: calc(100% - 75px);
                         font-size: 15px;
                         font-weight: 500;
                         color: #333;
@@ -76,6 +80,7 @@ const StyledNewCreateDiv = styled.div`
         }
     }
     & .categoryBox {
+        width: 100%;
         margin-top: 50px;
         & h3 {
             margin-bottom: 20px;
@@ -94,6 +99,7 @@ const StyledNewCreateDiv = styled.div`
                     display: flex;
                     flex-wrap: wrap;
                     gap: 5px 10px;
+                    width: 100%;
                     & input {
                         position: absolute;
                         left: -9999em;
@@ -114,6 +120,9 @@ const StyledNewCreateDiv = styled.div`
                 }
             }
         }
+        & dl + dl {
+            margin-top: 20px;
+        }
     }
     & > button {
         display: flex;
@@ -129,61 +138,140 @@ const StyledNewCreateDiv = styled.div`
 const ProjectNewCreate = () => {
 
     const navigate = useNavigate();
+    const [dataVo, setDataVo] = useState([]); // 조회한 데이터
+    const {loginMemberVo} = useUserMemory(); // 로그인 유저 정보 가져오기
+    const [categoryVo, setCategoryVo] = useState([]); // 카테고리 정보 가져오기
+    const [formVo, setFormVo] = useState({}); // 저장할 데이터
+    const [isFirst, setIsFirst] = useState(true);
 
+    // 로그인 멤버의 번호 저장
+    useEffect(() => {
+        if(loginMemberVo !== undefined && loginMemberVo !== null && loginMemberVo.no !== undefined && loginMemberVo.no !== null){
+            setFormVo({
+                ...formVo,
+                "no": loginMemberVo.no,
+            });
+        }
+    }, [loginMemberVo]);
+
+    // 작성중인 프로젝트가 있으면 조회
+    useEffect(() => {
+        fetch('http://localhost:8889/gamepound/project/getCurrentProject', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formVo),
+        })
+        .then(resp => resp.json())
+        .then(data => {
+            if (data.length > 0) {
+                setDataVo(data);
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+    }, [formVo, loginMemberVo]);
+    
+    // 카테고리 가져오기
+    useEffect(() => {
+        fetch('http://localhost:8889/gamepound/category/list', {
+            method: 'get',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+        .then(resp => resp.json())
+        .then(data => {
+            if(data.length > 0){
+                setCategoryVo(data);
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+    }, []);
+
+    // formVo 저장
+    const handleInputChange = (e) => {
+        const {name, value} = e.target;
+        if(loginMemberVo !== undefined){
+            setFormVo({
+                ...formVo,
+                [name]: value,
+                "memberNo": loginMemberVo.no,
+            });
+        }
+    }
+
+    // 프로젝트 저장
+    const handleCreateProject = () => {
+        // fetch('http://localhost:8889/gamepound/project/create/new', {
+        //     method: 'post',
+        //     headers: {
+        //         'Content-Type': 'application/json'
+        //     },
+        //     body: JSON.stringify(formVo),
+        // })
+        // .then(resp => resp.json())
+        // .then(data => {
+
+        // })
+        // ;
+    }
+    console.log(formVo);
     return (
         <StyledNewCreateDiv>
-            <div className="continueBox">
-                <div className="messege">작성중인 프로젝트가 있습니다!</div>
-                <ul>
-                    <li>
-                        <div className="left">
-                            <span><img src="" alt="프로젝트이미지" /></span>
-                            <strong>프로젝트명</strong>
-                        </div>
-                        <button>이어서 작성</button>
-                    </li>
-                    <li>
-                        <div className="left">
-                            <span><img src="" alt="" /></span>
-                            <strong>프로젝트명</strong>
-                        </div>
-                        <button>이어서 작성</button>
-                    </li>
-                </ul>
-            </div>
+            {
+                (!dataVo || (Array.isArray(dataVo) && dataVo.length === 0))
+                ? ''
+                : (
+                    <div className="continueBox">
+                        <div className="messege">작성중인 프로젝트가 있습니다!</div>
+                        <ul>
+                            {dataVo.map((prj) => (
+                                <li key={prj.no}>
+                                    <div className="left">
+                                        <span><img src={prj.imageUrl} alt="프로젝트이미지" /></span>
+                                        <strong>{prj.title}</strong>
+                                    </div>
+                                    <button>이어서 작성</button>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                )
+            }
             <div className="categoryBox">
                 <h3>어떤 프로젝트를 계획 중 이신가요?</h3>
-                <dl>
-                    <dt>카테고리 선택</dt>
-                    <dd>
-                        <ul>
-                            <li>
-                                <input type="radio" id='rdo_1' name='category' value='카테고리no' />
-                                <label htmlFor="rdo_1">카테고리명</label>
-                            </li>
-                            <li>
-                                <input type="radio" id='rdo_2' name='category' value='카테고리no' />
-                                <label htmlFor="rdo_2">카테고리명</label>
-                            </li>
-                            <li>
-                                <input type="radio" id='rdo_3' name='category' value='카테고리no' />
-                                <label htmlFor="rdo_3">카테고리명</label>
-                            </li>
-                            <li>
-                                <input type="radio" id='rdo_4' name='category' value='카테고리no' />
-                                <label htmlFor="rdo_4">카테고리명</label>
-                            </li>
-                            <li>
-                                <input type="radio" id='rdo_5' name='category' value='카테고리no' />
-                                <label htmlFor="rdo_5">카테고리명</label>
-                            </li>
-                        </ul>
-                    </dd>
-                </dl>
+                {
+                    (!categoryVo || (Array.isArray(categoryVo) && categoryVo.length === 0))
+                    ?
+                    ''
+                    :  
+                    categoryVo.map((vo) => (
+                    <dl key={vo.no}>
+                        <dt>{vo.mainCategory}</dt>
+                        <dd>
+                            <ul>
+                                {
+                                    vo.subCategoryList.map((subVo) => (
+                                    <li key={subVo.no}>
+                                        <div>
+                                            <input type="radio" id={subVo.no} name='categoryNo' value={subVo.no} onChange={handleInputChange} />
+                                            <label htmlFor={subVo.no}>{subVo.subCategory}</label>
+                                        </div>
+                                    </li>
+                                    ))
+                                }
+                            </ul>
+                        </dd>
+                    </dl>
+                    ))
+                }
             </div>
-            <button onClick={() => {
-                navigate('/projectCreate/main/index');
-            }}>시작하기</button>
+            <button onClick={handleCreateProject}>시작하기</button>
         </StyledNewCreateDiv>
     );
 };
