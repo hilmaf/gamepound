@@ -142,7 +142,6 @@ const ProjectNewCreate = () => {
     const {loginMemberVo} = useUserMemory(); // 로그인 유저 정보 가져오기
     const [categoryVo, setCategoryVo] = useState([]); // 카테고리 정보 가져오기
     const [formVo, setFormVo] = useState({}); // 저장할 데이터
-    const [isFirst, setIsFirst] = useState(true);
 
     // 로그인 멤버의 번호 저장
     useEffect(() => {
@@ -204,23 +203,38 @@ const ProjectNewCreate = () => {
             });
         }
     }
-
+    
     // 프로젝트 저장
     const handleCreateProject = () => {
-        // fetch('http://localhost:8889/gamepound/project/create/new', {
-        //     method: 'post',
-        //     headers: {
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify(formVo),
-        // })
-        // .then(resp => resp.json())
-        // .then(data => {
 
-        // })
-        // ;
+        // 검증
+        if(formVo.categoryNo === undefined || formVo.categoryNo === null){
+            alert('카테고리를 선택해주세요.');
+            return;
+        }
+        if(formVo.memberNo === undefined || formVo.categoryNo === null){
+            alert('카테고리를 선택해주세요.');
+            return;
+        }
+
+        fetch('http://localhost:8889/gamepound/project/create/new', {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formVo),
+        })
+        .then(resp => resp.json())
+        .then(data => {
+            if(data.msg === 'good'){
+                navigate(`/projectCreate/main/index/basic/${data.no}`);
+            } else {
+                alert('프로젝트 만들기에 실패했습니다.');
+            }
+        })
+        ;
     }
-    console.log(formVo);
+    
     return (
         <StyledNewCreateDiv>
             {

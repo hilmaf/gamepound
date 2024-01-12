@@ -1,5 +1,6 @@
 package com.gamepound.app.project.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -35,22 +36,20 @@ public class ProjectControllerHJY {
 	// 작성중 프로젝트 조회
 	@PostMapping("getCurrentProject")
 	public List<ProjectVo> getCurrentProject(@RequestBody MemberVo vo) {
+		System.out.println(vo);
 		List<ProjectVo> voList = service.getCurrentProject(vo);
+		System.out.println(voList);
 		return voList;
 	}
 	
 	// 프로젝트 올리기 (카테고리 저장 및 insert)
 	@PostMapping("create/new")
-	public void newProject(HttpSession session, ProjectVo vo) throws Exception {
-		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
-		if(loginMember == null) {
-			throw new Exception("로그인 후 이용하실 수 있습니다.");
-		}
+	public Map<String, String> newProject(@RequestBody ProjectVo vo) throws Exception {
+		System.out.println(vo);
+		Map<String, String> resultMap = service.newProject(vo);
+		System.out.println(resultMap);
 		
-		vo.setMemberNo(loginMember.getNo());
-		
-		int result = service.newProject(vo);
-		System.out.println("프로젝트 올리기 결과 : " + result);
+		return resultMap;
 		
 	}
 	
