@@ -10,9 +10,12 @@
 	</select>
 	
 	<!-- 프로젝트 올리기 (카테고리 저장 및 insert) -->
-	<insert id="newProject">
+	<insert id="newProject" parameterType="map" useGeneratedKeys="true" keyProperty="no">
+		<selectKey keyProperty="no" resultType="ProjectVo" order="BEFORE">
+	        SELECT SEQ_PROJECT_NO.NEXTVAL AS no FROM DUAL
+	    </selectKey>
 		INSERT INTO PROJECT(NO, CATEGORY_NO, MEMBER_NO) 
-		VALUES (SEQ_PROJECT_NO.NEXTVAL, ${categoryNo}, ${memberNo})
+		VALUES (#{no}, #{categoryNo}, #{memberNo})
 	</insert>
 	
 	<!-- 프로젝트 내용 조회 (메인) -->
@@ -47,7 +50,7 @@
 		JOIN MEMBER M ON P.MEMBER_NO = M.NO
 		JOIN CATEGORY C ON P.CATEGORY_NO = C.NO
 		JOIN SETTLEMENT_INFO S ON P.NO = S.PROJECT_NO
-		WHERE P.NO = ${no}
+		WHERE P.NO = #{no}
 		AND P.DELETE_YN = 'N'
 	</select>
 	
@@ -56,7 +59,7 @@
 		SELECT C.MAIN_CATEGORY, C.SUB_CATEGORY, P.TITLE, P.IMAGE_URL
 		FROM PROJECT P
 		JOIN CATEGORY C ON C.NO = P.CATEGORY_NO
-		WHERE P.NO = ${no}
+		WHERE P.NO = #{no}
 		AND DELETE_YN = 'N'
 	</select>
 	

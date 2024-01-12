@@ -37,14 +37,21 @@ public class ProjectServiceHJY {
 	}
 
 	// 프로젝트 올리기 (카테고리 저장 및 insert)
-	public int newProject(ProjectVo vo) throws Exception {
+	public Map<String, String> newProject(ProjectVo vo) throws Exception {
 		
 		// 카테고리 null이거나 ''빈값 검증
 		if(vo.getCategoryNo() == null && vo.getCategoryNo().isEmpty()) {
 			throw new Exception("카테고리를 결정하지 않았습니다.");
 		}
 		
-		return dao.newProject(sst, vo);
+		// 결과
+		ProjectVo resultVo = dao.newProject(sst, vo); // 프로젝트 정보 가져오기
+		
+		Map<String, String> map = new HashMap<>();
+		map.put("msg", "good");
+		map.put("no", resultVo.getNo());
+		
+		return map;
 	}
 
 	// 프로젝트 내용 조회 (메인)

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useHeaderMemory } from '../../../component/context/HeaderContext';
+import { useParams } from 'react-router-dom';
 
 const StyledCreateBasicDiv = styled.div`
     padding: 40px 0;
@@ -97,6 +98,8 @@ const ProjectBasicCreate = () => {
 
     const { updatePageType } = useHeaderMemory();
     const [formVo, setFormVo] = useState({});
+    const {projectNo} = useParams();
+    console.log('basicCreate',projectNo);
 
     // header type
     useEffect(() => {

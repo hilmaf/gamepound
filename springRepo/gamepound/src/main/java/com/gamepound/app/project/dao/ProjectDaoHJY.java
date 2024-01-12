@@ -23,8 +23,16 @@ public class ProjectDaoHJY {
 	}
 
 	// 프로젝트 올리기 (카테고리 저장 및 insert)
-	public int newProject(SqlSessionTemplate sst, ProjectVo vo) {
-		return sst.insert("ProjectCreateMapper.newProject", vo);
+	public ProjectVo newProject(SqlSessionTemplate sst, ProjectVo vo) throws Exception {
+		int result = sst.insert("ProjectCreateMapper.newProject", vo);
+		ProjectVo projectVo = new ProjectVo();
+		if(result == 1) {
+			String projectNo = vo.getNo();
+			projectVo.setNo(projectNo);
+		} else {
+			throw new Exception("insert가 진행되지 않았습니다.");
+		}
+		return projectVo;
 	}
 
 	// 프로젝트 내용 조회 (메인)
