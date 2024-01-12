@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useHeaderMemory } from '../../../component/context/HeaderContext';
 
@@ -96,11 +96,20 @@ const StyledCreateBasicDiv = styled.div`
 const ProjectBasicCreate = () => {
 
     const { updatePageType } = useHeaderMemory();
+    const [formVo, setFormVo] = useState({});
 
     // header type
     useEffect(() => {
         updatePageType('createMain');
     }, [updatePageType]);
+
+    // 데이터 불러오기
+    useEffect(() => {
+        fetch('', {})
+        .then()
+        .then()
+        ;
+    }, []);
 
     // 이미지 미리보기
     const handleImgCreate = (e) => {
@@ -122,8 +131,25 @@ const ProjectBasicCreate = () => {
 
             // 파일을 읽기
             reader.readAsDataURL(file);
+
+            // formVo에 저장
+            setFormVo({
+                ...formVo,
+                [imgInp.name]: imgInp.value,
+            });
         }
+
     }
+
+    // formVo에 값 저장
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormVo({
+            ...formVo,
+            [name]: value
+        });
+    };
+    console.log(formVo);
 
     return (
         <StyledCreateBasicDiv>
@@ -134,15 +160,16 @@ const ProjectBasicCreate = () => {
                         <dl className='item'>
                             <dt>대분류 카테고리</dt>
                             <dd>
-                                <select name="mainCategoryNo">
+                                <select name="mainCategoryNo" onChange={handleInputChange}>
                                     <option value="1">카테고리 대분류</option>
+                                    <option value="2">카테고리 대분류</option>
                                 </select>
                             </dd>
                         </dl>
                         <dl className='item'>
                             <dt>소분류 카테고리</dt>
                             <dd>
-                                <select name="subCategoryNo">
+                                <select name="subCategoryNo" onChange={handleInputChange}>
                                     <option value="1">카테고리 소분류</option>
                                 </select>
                             </dd>
@@ -155,7 +182,7 @@ const ProjectBasicCreate = () => {
                         <dl className='item'>
                             <dt>프로젝트 제목</dt>
                             <dd>
-                                <input type="text" name='title' />
+                                <input type="text" name='title' onChange={handleInputChange} />
                             </dd>
                         </dl>
                     </dd>

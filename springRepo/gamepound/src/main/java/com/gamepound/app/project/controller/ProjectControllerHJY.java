@@ -8,7 +8,10 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.gamepound.app.member.vo.MemberVo;
 import com.gamepound.app.project.service.ProjectServiceHJY;
@@ -18,7 +21,7 @@ import com.gamepound.app.settlement.vo.SettlementVo;
 
 import lombok.RequiredArgsConstructor;
 
-@Controller
+@RestController
 @RequestMapping("project")
 @RequiredArgsConstructor
 public class ProjectControllerHJY {
@@ -30,12 +33,10 @@ public class ProjectControllerHJY {
 	private final ProjectServiceHJY service;
 	
 	// 작성중 프로젝트 조회
-	@GetMapping("getCurrentProject")
-	public void getCurrentProject(HttpSession session) {
-		MemberVo loginMember = (MemberVo) session.getAttribute("loginMember");
-		
-		List<ProjectVo> voList = service.getCurrentProject(loginMember);
-		System.out.println(voList);
+	@PostMapping("getCurrentProject")
+	public List<ProjectVo> getCurrentProject(@RequestBody MemberVo vo) {
+		List<ProjectVo> voList = service.getCurrentProject(vo);
+		return voList;
 	}
 	
 	// 프로젝트 올리기 (카테고리 저장 및 insert)
