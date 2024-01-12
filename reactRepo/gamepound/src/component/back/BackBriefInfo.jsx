@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import ReviewWrite from '../../pages/userpage/ReviewWrite';
+import { useNavigate } from 'react-router-dom';
 
 const StyledBackBriefInfoDiv = styled.div`
     width: 1200px;
@@ -15,6 +16,7 @@ const StyledBackBriefInfoDiv = styled.div`
         display: flex;
         justify-content: space-evenly;
         align-items: center;
+        cursor: pointer;
         
         & > img {
             width: 155px;
@@ -28,10 +30,25 @@ const StyledBackBriefInfoDiv = styled.div`
 
             & > #back_date {
                font-size: 12px; 
+               opacity: 0.9;
             }
 
             & > #title {
                 font-size: 16px;
+                padding-bottom: 20px;
+                font-weight: 400;
+            }
+
+            & > #reward {
+                font-size: 13px;
+            }
+
+            & > #payment_status {
+                padding-top: 10px;
+                font-size: 13px;
+                font-weight: 400;
+                letter-spacing: 0.4px;
+                color: var(--red-color);
             }
         }
     }
@@ -48,6 +65,7 @@ const StyledBackBriefInfoDiv = styled.div`
 
 const BackBriefInfo = ({item}) => {
 
+    const navigate = useNavigate();
     const [reviewWrite, setReviewWrite] = useState(false);
 
     const handleReviewWriteBtnClick = () => {
@@ -58,13 +76,17 @@ const BackBriefInfo = ({item}) => {
         }
     }
 
+    const handleBoxClick = () => {
+        navigate("/back/detail/" + item.backNo);
+    }
+
     return (
         <StyledBackBriefInfoDiv>
-            <div className='back_item'>
+            <div className='back_item' key={item.backNo} onClick={handleBoxClick}>
                 <img src={item.projectImg}></img>
                 <div className='back_info'>
                     <div id='back_date'>{item.backingDate}</div>
-                    <div id='title' key={item.projectTitle}>{item.projectTitle}</div>
+                    <div id='title'>{item.projectTitle}</div>
                     <div id='reward'>{item.rewardName}</div>
                     <div id='payment_status'>{item.paymentStatus}</div>
                 </div>
