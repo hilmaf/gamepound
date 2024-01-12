@@ -33,6 +33,7 @@ const ProfileNav = () => {
 
     return (
         <StyledProfileNavDiv>
+            <NavLink to='/userpage/'><span>프로필 소개</span></NavLink>
             <NavLink to='/userpage/created'><span>올린 프로젝트</span></NavLink>
             <NavLink to='/userpage/backed'><span>후원한 프로젝트</span></NavLink>
             <NavLink to='/userpage/review'><span>프로젝트 후기</span></NavLink>

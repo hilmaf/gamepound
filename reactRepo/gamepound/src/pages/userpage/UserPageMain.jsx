@@ -6,6 +6,7 @@ import UserBacked from './UserBacked';
 import UserReview from './UserReview';
 import ProfileMenu from '../../component/userpage/ProfileMenu';
 import { useUserMemory } from '../../component/context/UserContext';
+import UserProfile from './UserProfile';
 
 const SytledUserPageMainDiv = styled.div`
     width: 1200px;
@@ -23,6 +24,7 @@ const UserPageMain = () => {
             <SytledUserPageMainDiv>
                 <ProfileMenu />
                 <Routes>
+                    <Route path='' element={<UserProfile />}></Route>
                     <Route path='created' element={<UserCreated />}></Route>
                     <Route path='backed' element={<UserBacked />}></Route>
                     <Route path='review' element={<UserReview />}></Route>
