@@ -38,9 +38,9 @@ public class ProjectDetailControllerHYJ {
 	
 	//프로젝트 상세 조회 - 업데이트
 	@GetMapping("update")
-	public void projectDetailUpdate(String no) {
+	public List<ProjectUpdateVo> projectDetailUpdate(String no) {
 		List<ProjectUpdateVo>voList = service.projectDetailUpdate(no);
-		System.out.println(voList);
+		return voList;
 	}
 	
 	//프로젝트 상세 조회 - 커뮤니티
