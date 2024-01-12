@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components';
-import { NavLink, Route, Routes, useNavigate } from 'react-router-dom';
+import { NavLink, Route, Routes, useNavigate, useParams } from 'react-router-dom';
 import ProjectBasicCreate from './ProjectBasicCreate';
 import ProjectDateplanCreate from './ProjectDateplanCreate';
 import ProjectRewardCreate from './ProjectRewardCreate';
@@ -69,7 +69,8 @@ const StyledCreateBasicIndexDiv = styled.div`
 const ProjectCreateMainIndex = () => {
     const { updatePageType } = useHeaderMemory();
     const navigate = useNavigate();
-
+    const { projectNo } = useParams();
+    console.log(projectNo);
     // header type
     useEffect(() => {
         updatePageType('createMain');
@@ -83,20 +84,20 @@ const ProjectCreateMainIndex = () => {
                         <div className="title">프로젝트 제목</div>
                     </div>
                     <div className="linkList">
-                        <NavLink to='basic'>기본정보</NavLink>
-                        <NavLink to='plan'>펀딩 계획</NavLink>
-                        <NavLink to='reward'>선물 구성</NavLink>
-                        <NavLink to='dateplan'>프로젝트 계획</NavLink>
-                        <NavLink to='userinfo'>창작자 정보</NavLink>
+                        <NavLink to={`basic/${projectNo}`}>기본정보</NavLink>
+                        <NavLink to={`plan/${projectNo}`}>펀딩 계획</NavLink>
+                        <NavLink to={`reward/${projectNo}`}>선물 구성</NavLink>
+                        <NavLink to={`dateplan/${projectNo}`}>프로젝트 계획</NavLink>
+                        <NavLink to={`userinfo/${projectNo}`}>창작자 정보</NavLink>
                     </div>
                 </div>
             </div>
             <Routes>
-                <Route path='basic' element={<ProjectBasicCreate />} />
-                <Route path='plan' element={<ProjectPlanCreate />} />
-                <Route path='reward' element={<ProjectRewardCreate />} />
-                <Route path='dateplan' element={<ProjectDateplanCreate />} />
-                <Route path='userinfo' element={<ProjectUserinfoCreate />} />
+                <Route path='basic/:projectNo' element={<ProjectBasicCreate />} />
+                <Route path='plan/:projectNo' element={<ProjectPlanCreate />} />
+                <Route path='reward/:projectNo' element={<ProjectRewardCreate />} />
+                <Route path='dateplan/:projectNo' element={<ProjectDateplanCreate />} />
+                <Route path='userinfo/:projectNo' element={<ProjectUserinfoCreate />} />
             </Routes>
 
         </StyledCreateBasicIndexDiv>
