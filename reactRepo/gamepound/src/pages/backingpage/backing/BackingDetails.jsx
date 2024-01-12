@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import EnrollCard from '../../../component/payment/EnrollCard';
 import { useBackingMemory } from '../../../component/context/BackingContext';
-import { useUserMemory } from '../../../component/context/UserContext';
 
 const StyledBackingDetailsDiv = styled.div`
     width: 800px;
@@ -89,7 +88,7 @@ const BackingDetails = () => {
     // useContext
     const dataSet = useBackingMemory();
     let back = dataSet.dataVo;
-    console.log("BackingDetails @@@@@",back);
+    console.log(back);
 
     const [showCard, setShowCard] = useState(false);
 
@@ -103,7 +102,6 @@ const BackingDetails = () => {
         }
 
         dataSet.setDataVo(back);
-        console.log(back);
         setShowCard(true);
     }
 
@@ -115,7 +113,6 @@ const BackingDetails = () => {
             [name]: value
         }
 
-        console.log('back' , back);
         setShowCard(false);
     }
 
@@ -141,7 +138,7 @@ const BackingDetails = () => {
                 <div className='detail'>
                     <div className='detail_1'>
                         <span>이메일</span>
-                        <span>{back.memberNo}</span>
+                        <span>{back.memberEmail}</span>
                     </div>
                     <div id="email_guide">
                         <p>* 위 이메일로 후원 관련 소식이 전달됩니다.<br />

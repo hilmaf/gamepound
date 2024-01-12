@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useUserMemory } from '../context/UserContext';
-import { useNavigate } from 'react-router-dom';
 
 const StyledProfileAreaDiv = styled.div`
     width: 1200px;
@@ -38,8 +37,6 @@ const StyledProfileAreaDiv = styled.div`
 const ProfileArea = () => {
 
     const {loginMemberVo} = useUserMemory();
-    console.log(loginMemberVo);
-
 
     return (
         <StyledProfileAreaDiv>
