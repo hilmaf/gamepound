@@ -14,42 +14,41 @@
 		<selectKey keyProperty="no" resultType="ProjectVo" order="BEFORE">
 	        SELECT SEQ_PROJECT_NO.NEXTVAL AS no FROM DUAL
 	    </selectKey>
-		INSERT INTO PROJECT(NO, CATEGORY_NO, MEMBER_NO) 
-		VALUES (#{no}, #{categoryNo}, #{memberNo})
+		INSERT INTO PROJECT(NO, CATEGORY_NO, MEMBER_NO, TITLE) 
+		VALUES (#{no}, #{categoryNo}, #{memberNo}, #{title})
 	</insert>
 	
 	<!-- 프로젝트 내용 조회 (메인) -->
 	<select id="createMain" resultType="ProjectVo">
 		SELECT
-		    P.NO
-		    , P.STATUS_NO
-		    , C.MAIN_CATEGORY
-		    , C.SUB_CATEGORY
-		    , P.MEMBER_NO
+		    P.NO AS NO
+		    , P.STATUS_NO AS STATUS_NO
+		    , P.CATEGORY_NO AS CATEGORY_NO
+		    , C.MAIN_CATEGORY_NO AS MAIN_CATEGORY_NO
+		    , C.SUB_CATEGORY_NO AS SUB_CATEGORY_NO
+		    , C.MAIN_CATEGORY AS MAIN_CATEGORY
+		    , C.SUB_CATEGORY AS SUB_CATEGORY
+		    , P.MEMBER_NO AS MEMBER_NO
 		    , M.NAME AS MEMBER_NAME
-		    , P.TITLE
-		    , P.GOAL_AMOUNT
-		    , P.IMAGE_URL
-		    , P.TXT_DESCRIPTION
-		    , P.TXT_BUDGET
-		    , P.TXT_SCHEDULE
-		    , P.TXT_TEAM
-		    , P.TXT_ITEM
-		    , P.CURRENT_AMOUNT
-		    , P.OK_YN
-		    , P.OK_DATE
-		    , P.ENROLL_DATE
-		    , P.START_DATE
-		    , P.END_DATE
-		    , P.CAL_DATE
-		    , P.DELETE_YN
-		    , S.BANK_NAME
-		    , S.NAME
-		    , S.ACCOUNT_NUM
+		    , P.TITLE AS TITLE
+		    , P.GOAL_AMOUNT AS GOAL_AMOUNT
+		    , P.IMAGE_URL AS IMAGE_URL
+		    , P.TXT_DESCRIPTION AS TXT_DESCRIPTION
+		    , P.TXT_BUDGET AS TXT_BUDGET
+		    , P.TXT_SCHEDULE AS TXT_SCHEDULE
+		    , P.TXT_TEAM AS TXT_TEAM
+		    , P.TXT_ITEM AS TXT_ITEM
+		    , P.CURRENT_AMOUNT AS CURRENT_AMOUNT
+		    , P.OK_YN AS OK_YN
+		    , P.OK_DATE AS OK_DATE
+		    , P.ENROLL_DATE AS ENROLL_DATE
+		    , P.START_DATE AS START_DATE
+		    , P.END_DATE AS END_DATE
+		    , P.CAL_DATE AS CAL_DATE
+		    , P.DELETE_YN AS DELETE_YN
 		FROM PROJECT P
 		JOIN MEMBER M ON P.MEMBER_NO = M.NO
 		JOIN CATEGORY C ON P.CATEGORY_NO = C.NO
-		JOIN SETTLEMENT_INFO S ON P.NO = S.PROJECT_NO
 		WHERE P.NO = #{no}
 		AND P.DELETE_YN = 'N'
 	</select>
