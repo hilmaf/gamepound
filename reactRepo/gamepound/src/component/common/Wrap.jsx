@@ -12,6 +12,7 @@ import NewPwdPage from './../../pages/memberPage/NewPwdPage';
 import QuitPage from './../../pages/memberPage/QuitPage';
 import { UserMemoryProvider } from '../context/UserContext';
 import { IsFirstMemoryProvider } from '../context/IsFirstContext';
+import { ProjectCreateMemoryProvider } from '../context/ProjectCreateContext';
 
 const StyledWrapDiv = styled.div`
     display: flex;
@@ -25,20 +26,22 @@ const Wrap = () => {
         <HeaderMemoryProvider>
             <UserMemoryProvider>
                 <IsFirstMemoryProvider>
-                    <Routes>
-                        <Route path="/*" element={
-                            <StyledWrapDiv>
-                                <Header />
-                                <Main />
-                                <Footer />
-                            </StyledWrapDiv>
-                        } />
-                        <Route path='/login' element={<LoginPage />} />
-                        <Route path='/join' element={<JoinPage />} />
-                        <Route path='/pwd' element={<FindPwdPage />} />
-                        <Route path='/newPwd' element={<NewPwdPage />} />
-                        <Route path='/quit' element={<QuitPage />} />
-                    </Routes>
+                    <ProjectCreateMemoryProvider>
+                        <Routes>
+                            <Route path="/*" element={
+                                <StyledWrapDiv>
+                                    <Header />
+                                    <Main />
+                                    <Footer />
+                                </StyledWrapDiv>
+                            } />
+                            <Route path='/login' element={<LoginPage />} />
+                            <Route path='/join' element={<JoinPage />} />
+                            <Route path='/pwd' element={<FindPwdPage />} />
+                            <Route path='/newPwd' element={<NewPwdPage />} />
+                            <Route path='/quit' element={<QuitPage />} />
+                        </Routes>
+                    </ProjectCreateMemoryProvider>
                 </IsFirstMemoryProvider>
             </UserMemoryProvider>
         </HeaderMemoryProvider>

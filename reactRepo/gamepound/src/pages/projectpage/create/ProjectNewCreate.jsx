@@ -143,6 +143,7 @@ const ProjectNewCreate = () => {
     const [categoryVo, setCategoryVo] = useState([]); // 카테고리 정보 가져오기
     const [formVo, setFormVo] = useState({}); // 저장할 데이터
 
+
     // 로그인 멤버의 번호 저장
     useEffect(() => {
         if(loginMemberVo !== undefined && loginMemberVo !== null && loginMemberVo.no !== undefined && loginMemberVo.no !== null){
@@ -151,6 +152,7 @@ const ProjectNewCreate = () => {
                 "no": loginMemberVo.no,
             });
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [loginMemberVo]);
 
     // 작성중인 프로젝트가 있으면 조회
@@ -171,7 +173,7 @@ const ProjectNewCreate = () => {
         .catch(error => {
             console.error('Error fetching data:', error);
         });
-    }, [formVo, loginMemberVo]);
+    }, [formVo.no, loginMemberVo]);
     
     // 카테고리 가져오기
     useEffect(() => {
@@ -203,7 +205,7 @@ const ProjectNewCreate = () => {
             });
         }
     }
-    
+    console.log('formVo :: ', formVo);
     // 프로젝트 저장
     const handleCreateProject = () => {
 
@@ -227,7 +229,7 @@ const ProjectNewCreate = () => {
         .then(resp => resp.json())
         .then(data => {
             if(data.msg === 'good'){
-                navigate(`/projectCreate/main/index/basic/${data.no}`);
+                navigate(`../main/${data.no}`);
             } else {
                 alert('프로젝트 만들기에 실패했습니다.');
             }
@@ -250,7 +252,9 @@ const ProjectNewCreate = () => {
                                         <span><img src={prj.imageUrl} alt="프로젝트이미지" /></span>
                                         <strong>{prj.title}</strong>
                                     </div>
-                                    <button>이어서 작성</button>
+                                    <button onClick={() => {
+                                        navigate(`../main/${prj.no}`);
+                                    }}>이어서 작성</button>
                                 </li>
                             ))}
                         </ul>

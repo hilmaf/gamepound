@@ -30,4 +30,11 @@ public class CategoryControllerHJY {
 		return result;
 	}
 	
+	// 메인카테고리 조회
+	@GetMapping("getMainCategory")
+	public void getMainCategory() {
+		List<CategoryVo> vo = service.getMainCategory();
+	}
+	
+	
 }

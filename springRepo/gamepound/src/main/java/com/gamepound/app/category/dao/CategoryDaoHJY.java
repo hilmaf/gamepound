@@ -43,4 +43,9 @@ public class CategoryDaoHJY {
 		return result;
 	}
 
+	// 메인 카테고리 조회
+	public List<CategoryVo> getMainCategory(SqlSessionTemplate sst) {
+		return sst.selectList("CategoryMaper.getMainCategory");
+	}
+
 }

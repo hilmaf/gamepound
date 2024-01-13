@@ -6,12 +6,13 @@ import ProjectCreateMain from './ProjectCreateMain';
 import ProjectCreateMainIndex from './ProjectCreateMainIndex';
 
 const CreateMain = () => {
+
     return (
         <Routes>
             <Route path='start' element={<ProjectStartCreate />} />
             <Route path='new' element={<ProjectNewCreate />} />
-            <Route path='main' element={<ProjectCreateMain />} />
-            <Route path='main/index/*' element={<ProjectCreateMainIndex />} />
+            <Route path='main/:projectNo' element={<ProjectCreateMain />} />
+            <Route path='main/index/:temp/:projectNo' element={<ProjectCreateMainIndex />} />
         </Routes>
     );
 };

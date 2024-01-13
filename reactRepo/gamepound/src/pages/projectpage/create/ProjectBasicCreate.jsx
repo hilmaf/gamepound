@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useHeaderMemory } from '../../../component/context/HeaderContext';
 import { useParams } from 'react-router-dom';
+import { useProjectCreateMemory } from '../../../component/context/ProjectCreateContext';
 
 const StyledCreateBasicDiv = styled.div`
     padding: 40px 0;
@@ -98,21 +99,35 @@ const ProjectBasicCreate = () => {
 
     const { updatePageType } = useHeaderMemory();
     const [formVo, setFormVo] = useState({});
-    const {projectNo} = useParams();
-    console.log('basicCreate',projectNo);
+    const {projectCreateData, setProjectCreateData} = useProjectCreateMemory(); // 컨텍스트 데이터
 
     // header type
     useEffect(() => {
         updatePageType('createMain');
     }, [updatePageType]);
 
-    // 데이터 불러오기
+    const { projectNo } = useParams();
     useEffect(() => {
-        fetch('', {})
-        .then()
-        .then()
-        ;
+        setProjectCreateData({
+            ...projectCreateData,
+            'mainVo': {
+                'no': projectNo,
+            },
+        })
     }, []);
+    console.log('컨텍스트데이터: ', projectCreateData);
+
+    // 데이터 불러오기
+    // useEffect(() => {
+    //     fetch('http://localhost:8889/gamepound/project/get/basic?no=' + projectNo, {
+    //         method: 'get',
+    //     })
+    //     .then(resp => resp.json())
+    //     .then(data => {
+    //         console.log('데이타 : ', data);
+    //     })
+    //     ;
+    // }, []);
 
     // 이미지 미리보기
     const handleImgCreate = (e) => {
@@ -152,7 +167,6 @@ const ProjectBasicCreate = () => {
             [name]: value
         });
     };
-    console.log(formVo);
 
     return (
         <StyledCreateBasicDiv>
