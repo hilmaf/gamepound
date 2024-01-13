@@ -28,7 +28,8 @@ const StyledBackInfoDiv = styled.div`
         }
 
         & > .detail {
-            border: 1px solid #3d3d3d;
+            border: 1px solid #3d3d3d22;
+            border-radius: 5px;
             padding: 5px;
 
             & > .detail_1 {
@@ -37,8 +38,11 @@ const StyledBackInfoDiv = styled.div`
                 padding-left: 12px;
                 padding-top: 15px;
                 padding-bottom: 15px;
-
-                & > .span {
+                display: flex;
+                
+                & > :nth-child(1) {
+                    width: 120px;
+                    display: block;
                 }
             }
             
@@ -48,6 +52,12 @@ const StyledBackInfoDiv = styled.div`
                 padding-left: 12px;
                 padding-top: 15px;
                 padding-bottom: 15px;
+                display: flex;
+                
+                & > :nth-child(1) {
+                    width: 120px;
+                    display: block;
+                }
             }
         }
 
@@ -59,6 +69,17 @@ const StyledBackInfoDiv = styled.div`
 `;
 
 const BackInfo = ({BackInfo}) => {
+
+    const handleRewardChangeClick = () => {
+        return ({
+            
+        });
+    };
+
+    const handlePaymentChangeClick = () => {
+
+    };
+
     return (
         <StyledBackInfoDiv>
             <div className='detail_box' id='reward_info'>
@@ -83,7 +104,7 @@ const BackInfo = ({BackInfo}) => {
             <div className='detail_box' id='reward_info'>
                 <div className='title'>
                     <span>선물 정보</span>
-                    <button>변경</button>
+                    <button onClick={handleRewardChangeClick}>변경</button>
                 </div>
                 <div className='detail'>
                     <div className='detail_1'>
@@ -92,14 +113,14 @@ const BackInfo = ({BackInfo}) => {
                     </div>
                     <div className='detail_2'>
                         <span>선물 금액</span>
-                        <span>{BackInfo.rewardAmount}</span>
+                        <span>{BackInfo.rewardAmount} 원</span>
                     </div>
                 </div>
             </div>
             <div className='detail_box' id='reward_info'>
                 <div className='title'>
                     <span>결제 정보</span>
-                    <button>변경</button>
+                    <button onClick={handlePaymentChangeClick}>변경</button>
                 </div>
                 <div className='detail'>
                     <div className='detail_1'>
@@ -108,7 +129,7 @@ const BackInfo = ({BackInfo}) => {
                     </div>
                     <div className='detail_2'>
                         <span>결제 금액</span>
-                        <span>{BackInfo.paymentAmount}원</span>
+                        <span>{BackInfo.paymentAmount} 원</span>
                     </div>
                 </div>
             </div>

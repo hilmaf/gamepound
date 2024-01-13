@@ -6,9 +6,6 @@ import org.springframework.stereotype.Service;
 import com.gamepound.app.back.dao.BackDaoLKM;
 import com.gamepound.app.back.vo.BackDetailVo;
 import com.gamepound.app.back.vo.BackVo;
-import com.gamepound.app.project.ProjectAchievementRate;
-import com.gamepound.app.project.ProjectDataTransformation;
-import com.gamepound.app.project.ProjectRemainingPeriod;
 import com.gamepound.app.project.vo.ProjectBriefVo;
 import com.gamepound.app.util.DataProcessingUtil;
 
