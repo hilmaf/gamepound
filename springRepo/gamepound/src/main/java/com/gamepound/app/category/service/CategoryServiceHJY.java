@@ -29,4 +29,9 @@ public class CategoryServiceHJY {
 		return dao.getMainCategory(sst);
 	}
 
+	// 서브카테고리 조회
+	public List<CategoryVo> getSubCategory() {
+		return dao.getSubCategory(sst);
+	}
+
 }

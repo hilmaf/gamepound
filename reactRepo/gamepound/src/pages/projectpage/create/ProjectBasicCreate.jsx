@@ -107,6 +107,7 @@ const ProjectBasicCreate = () => {
     }, [updatePageType]);
 
     const { projectNo } = useParams();
+    // 컨텍스트 데이터에 프로젝트 넘버 저장
     useEffect(() => {
         setProjectCreateData({
             ...projectCreateData,
@@ -117,18 +118,18 @@ const ProjectBasicCreate = () => {
     }, []);
     console.log('컨텍스트데이터: ', projectCreateData);
 
-    // 데이터 불러오기
-    // useEffect(() => {
-    //     fetch('http://localhost:8889/gamepound/project/get/basic?no=' + projectNo, {
-    //         method: 'get',
-    //     })
-    //     .then(resp => resp.json())
-    //     .then(data => {
-    //         console.log('데이타 : ', data);
-    //     })
-    //     ;
-    // }, []);
+    // 카테고리 대분류 조회하기
+    useEffect(() => {
+        // fetch('http://localhost:8889/gamepound/category/getMainCategory')
+        // .then(resp => resp.json())
+        // .then(data => {
+        //     console.log(data);
+        // })
+        // ;
+    }, []);
 
+    // 카테고리 소분류 조회하기
+    
     // 이미지 미리보기
     const handleImgCreate = (e) => {
         const imgInp = e.target.parentNode.querySelector('input');
