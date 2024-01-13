@@ -75,6 +75,8 @@ const ProjectCreateMainIndex = () => {
         updatePageType('createMain');
     }, [updatePageType]);
 
+    
+
     return (
         <StyledCreateBasicIndexDiv>
             <div className="createMainHeader">

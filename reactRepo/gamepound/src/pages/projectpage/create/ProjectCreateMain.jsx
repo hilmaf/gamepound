@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHeaderMemory } from '../../../component/context/HeaderContext';
 import styled from 'styled-components';
 import { NavLink, Route, Routes, useParams } from 'react-router-dom';
@@ -7,6 +7,7 @@ import ProjectPlanCreate from './ProjectPlanCreate';
 import ProjectRewardCreate from './ProjectRewardCreate';
 import ProjectDateplanCreate from './ProjectDateplanCreate';
 import ProjectUserinfoCreate from './ProjectUserinfoCreate';
+import { useProjectCreateMemory } from '../../../component/context/ProjectCreateContext';
 
 const StyledCreateMainDiv = styled.div`
     padding-top: 184px;
@@ -96,23 +97,42 @@ const ProjectCreateMain = () => {
 
     const { updatePageType } = useHeaderMemory();
     const { projectNo } = useParams();
+    const [dataVo, setDataVo] = useState(); // 프로젝트 정보
+    const [calculatePercent, setCalculatePercent] = useState(); // 작성률
+    const {projectCreateData, setProjectCreateData} = useProjectCreateMemory(); // 컨텍스트 데이터
 
     // header type
     useEffect(() => {
         updatePageType('createMain');
     }, [updatePageType]);
 
+    // 컨텍스트 데이터에 프로젝트 넘버 전달
+    useEffect(() => {
+        setProjectCreateData({
+            ...projectCreateData,
+            'mainVo': {
+                'no': projectNo,
+            },
+        })
+    }, []);
+
+    console.log('projectCreateData :: ', projectCreateData);
+
     return (
         <StyledCreateMainDiv>
 
             <div className="createMainHeader">
                 <div className="inner">
-                    <span className="img"><img src="프로젝트이미지" alt="프로젝트이미지" /></span>
+                    <span className="img">
+                        {dataVo ? <img src={dataVo.imageUrl} alt="프로젝트이미지" /> : ''}
+                    </span>
                     <div className="titleBox">
-                        <div className="title">프로젝트 제목</div>
+                        <div className="title">
+                            {dataVo ? dataVo.title : ''}
+                        </div>
                         <div className="category">
-                            <span>카테고리 대분류</span>
-                            <span>카테고리 소분류</span>
+                            <span>{dataVo ? dataVo.mainCategory : ''}</span>
+                            <span>{dataVo ? dataVo.subCategory : ''}</span>
                         </div>
                     </div>
                 </div>
@@ -121,23 +141,23 @@ const ProjectCreateMain = () => {
             <div className="linkList">
                 <NavLink to={`../main/index/basic/${projectNo}`}>
                     기본정보
-                    <span>12% 작성 완료</span>
+                    <span>{calculatePercent ? calculatePercent.basicPercent : 0}% 작성 완료</span>
                 </NavLink>
                 <NavLink to={`../main/index/plan/${projectNo}`}>
                     펀딩 계획
-                    <span>12% 작성 완료</span>
+                    <span>{calculatePercent ? calculatePercent.planPercent : 0}% 작성 완료</span>
                 </NavLink>
                 <NavLink to={`../main/index/reward/${projectNo}`}>
                     선물 구성
-                    <span>12% 작성 완료</span>
+                    <span>{calculatePercent ? calculatePercent.rewardPercent : 0}% 작성 완료</span>
                 </NavLink>
                 <NavLink to={`../main/index/dateplan/${projectNo}`}>
                     프로젝트 계획
-                    <span>12% 작성 완료</span>
+                    <span>{calculatePercent ? calculatePercent.dateplanPercent : 0}% 작성 완료</span>
                 </NavLink>
                 <NavLink to={`../main/index/userinfo/${projectNo}`}>
                     창작자 정보
-                    <span>12% 작성 완료</span>
+                    <span>{calculatePercent ? calculatePercent.userinfoPercent : 0}% 작성 완료</span>
                 </NavLink>
             </div>
             <Routes>
