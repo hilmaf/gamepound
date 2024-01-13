@@ -80,7 +80,9 @@ const EnrollCard = () => {
     let back = dataSet.dataVo;
 
     // 카드번호 input maxLength: 2
+    const cardNums = document.querySelectorAll(".card_input");
     
+
     // 카드 유효기간 input maxLength: 2
 
     
@@ -175,10 +177,7 @@ const EnrollCard = () => {
                         />                        
                     })
                 }
-                {/* <input className='card_input' name='cardNo1' type='text' onKeyUp={handleInputChange}/> - 
-                <input className='card_input' name='cardNo2' type='text' onKeyUp={handleInputChange}/> - 
-                <input className='card_input' name='cardNo3' type='text' onKeyUp={handleInputChange}/> - 
-                <input className='card_input' name='cardNo4' type='text' onKeyUp={handleInputChange}/> */}
+                
             </div>
             <div className='avail_period'>
                 <div>카드 유효기간</div>
