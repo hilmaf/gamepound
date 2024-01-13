@@ -60,7 +60,7 @@ const CommunityPage = () => {
         <StyledCommunityDiv>
             {
                 detailCommunityVoList.map((vo)=>{
-                    return (<>
+                    return (
                     <div key={vo.no}>
                         <ul>
                             <li>
@@ -85,7 +85,7 @@ const CommunityPage = () => {
                             </li>
                         </ul>
                     </div>
-                    </>);
+                    );
                 })
             }
         </StyledCommunityDiv>

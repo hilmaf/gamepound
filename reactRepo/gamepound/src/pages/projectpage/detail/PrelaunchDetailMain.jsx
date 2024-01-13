@@ -135,16 +135,18 @@ const PrelaunchStyledProjectSelectDiv = styled.div`
 
 const PrelaunchDetailMain = () => {
     const {temp, no} = useParams();
-    const {params} = useParams();
-    console.log(params);
     console.log("PrelaunchDetailMain > no ::: ",no);
     console.log("PrelaunchDetailMain > temp ::: ", temp);
+
+
+    const params = useParams();
+    console.log(params);
 
     const [detailPrelaunchVo, setDetailPrelaunchVo] = useState([]);
 
 
     useEffect(()=>{
-        fetch("http://127.0.0.1:8889/gamepound/project/detail/prelaunch?no=1")
+        fetch("http://127.0.0.1:8889/gamepound/project/detail/prelaunch?no="+no)
         .then((resp)=>{return resp.json()})
         .then((data)=>{
             setDetailPrelaunchVo(data);

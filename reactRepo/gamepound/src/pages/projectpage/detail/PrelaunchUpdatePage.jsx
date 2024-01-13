@@ -40,7 +40,7 @@ const PrelaunchUpdatePage = () => {
     const [detailPrelaunchUpdateVoList, setDetailPrelaunchUpdateVoList] = useState([]);
 
     useEffect(()=>{
-        fetch("http://127.0.0.1:8889/gamepound/project/detail/prelaunch/update?no=" + {no})
+        fetch("http://127.0.0.1:8889/gamepound/project/detail/prelaunch/update?no=" + no)
         .then((resp)=>{return resp.json()})
         .then((data)=>{
             setDetailPrelaunchUpdateVoList(data);
@@ -53,8 +53,8 @@ const PrelaunchUpdatePage = () => {
         <StyledUpdateDiv>
             {
                 detailPrelaunchUpdateVoList.map((vo)=>{
-                    return (<>
-                    <div>
+                    return (
+                    <div key={vo.no}>
                         <ul>
                             <li>
                                 <div>
@@ -70,7 +70,7 @@ const PrelaunchUpdatePage = () => {
                             </li>
                         </ul>
                     </div>
-                    </>);
+                    );
                 })
             }
         </StyledUpdateDiv>
