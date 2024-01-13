@@ -12,7 +12,8 @@ public class PaymentVo {
 	private String projectStatusNo;
 	private String paymentTypeNo;
 	private String paymentStatusNo;
-	private String paidDate;
+	private String paymentDate;
+	private String paymentDueDate;
 	private String amount;
 	
 }

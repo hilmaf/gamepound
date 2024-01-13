@@ -50,7 +50,8 @@ public class BackDetailVo {
 	private String paymentType;
 	private String paymentDate;
 	private String paymentAmount; // == 최종 후원 금액
-	private String paymentStatus;	
+	private String paymentStatus;
+	private String paymentDueDate; // 결제예정일
 	
 	// 카드 정보
 	private String cardNo1;
