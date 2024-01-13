@@ -5,7 +5,6 @@ import org.springframework.stereotype.Repository;
 
 import com.gamepound.app.back.vo.BackDetailVo;
 import com.gamepound.app.back.vo.BackVo;
-import com.gamepound.app.project.vo.ProjectBriefVo;
 
 @Repository
 
@@ -42,7 +41,7 @@ public class BackDaoLKM {
 	}
 
 	// 후원 상세 조회
-	public BackVo detail(SqlSessionTemplate sst, String backNo) {
+	public BackDetailVo detail(SqlSessionTemplate sst, String backNo) {
 		return sst.selectOne("BackMapper.detail", backNo);
 	}
 

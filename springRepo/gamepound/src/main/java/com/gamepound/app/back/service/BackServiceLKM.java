@@ -93,12 +93,11 @@ public class BackServiceLKM {
 	}
 	
 	// 후원 상세 조회
-	public BackVo detail(String backNo) {
+	public BackDetailVo detail(String backNo) {
 	
-		BackVo bvo = dao.detail(sst, backNo);
+		BackDetailVo bvo = dao.detail(sst, backNo);
 		
-		ProjectDataTransformation processor = new ProjectAchievementRate();
-		String achievementRate = processor.transform(bvo.getGoalAmount(), bvo.getCurrentAmount());
+		String achievementRate = util.achievementRate(bvo.getGoalAmount(), bvo.getCurrentAmount());
 		bvo.setAchievementRate(achievementRate);
 		
 		return bvo;

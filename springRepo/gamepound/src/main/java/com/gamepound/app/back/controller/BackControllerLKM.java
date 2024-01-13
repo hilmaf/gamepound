@@ -91,8 +91,11 @@ public class BackControllerLKM {
 	
 	// 후원 상세 조회
 	@GetMapping("detail")
-	public void detail(@RequestParam("no") String backNo) {
-		BackVo vo = service.detail(backNo);
+	public BackDetailVo detail(@RequestParam("no") String backNo) {
+		BackDetailVo vo = service.detail(backNo);
+		
+		return vo;
+		
 		
 	}
 	

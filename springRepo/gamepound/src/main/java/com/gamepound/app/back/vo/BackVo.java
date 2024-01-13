@@ -9,8 +9,6 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 @Data
-@RequiredArgsConstructor
-
 public class BackVo {
 
 	// 프로젝트 정보
