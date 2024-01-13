@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import Nav from './nav/Nav';
 import LoginArea from './LoginArea';
 import { useHeaderMemory } from '../../context/HeaderContext';
+import { useProjectCreateMemory } from '../../context/ProjectCreateContext';
 
 const StyledHeaderDiv = styled.header`
     display: flex;
@@ -228,6 +229,7 @@ const handleSearchBlur = (e) => {
 const Header = () => {
 
     const {pageType} = useHeaderMemory();
+    const {projectCreateData, IsProjectInputChange} = useProjectCreateMemory();
 
     return (
         <StyledHeaderDiv className={pageType}>
@@ -241,7 +243,7 @@ const Header = () => {
                     { // 프로젝트 create 버튼
                         pageType === 'create' ?  <button className='createBtn'>내가 만든 프로젝트</button> : ''
                     }
-                    { // createMain 버튼
+                    { // createMain < 이 버튼
                         pageType === 'createMain' ?  <button className='createMainBtn'></button> : ''
                     }
 
@@ -253,7 +255,31 @@ const Header = () => {
                         
                         { // createMain 버튼
                             pageType === 'createMain' ?  
-                            <button className='createMainStateBtn' disabled>기획중 · 13% 완료</button> 
+                            (
+                                projectCreateData ?
+                                    IsProjectInputChange ?
+                                    (
+                                        <button className="createMainStateBtn">
+                                            저장하기
+                                        </button>
+                                    )
+                                    :
+                                    ( 
+                                        <button
+                                            className="createMainStateBtn"
+                                            disabled={!(projectCreateData.totalCompletionRate === 100)}
+                                        >
+                                        {
+                                            projectCreateData.totalCompletionRate === 100 ?
+                                            '승인요청'
+                                            :
+                                            `기획중 · ${projectCreateData.totalCompletionRate}% 완료`
+                                        }
+                                        </button>
+                                    )
+                                :
+                                ''
+                            )
                             :
                             ''
                         }
