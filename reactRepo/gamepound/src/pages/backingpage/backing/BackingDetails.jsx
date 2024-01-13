@@ -88,7 +88,6 @@ const BackingDetails = () => {
     // useContext
     const dataSet = useBackingMemory();
     let back = dataSet.dataVo;
-    console.log(back);
 
     const [showCard, setShowCard] = useState(false);
 

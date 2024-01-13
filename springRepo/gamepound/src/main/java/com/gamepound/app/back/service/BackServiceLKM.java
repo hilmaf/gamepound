@@ -10,6 +10,7 @@ import com.gamepound.app.project.ProjectAchievementRate;
 import com.gamepound.app.project.ProjectDataTransformation;
 import com.gamepound.app.project.ProjectRemainingPeriod;
 import com.gamepound.app.project.vo.ProjectBriefVo;
+import com.gamepound.app.util.DataProcessingUtil;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,19 +21,21 @@ public class BackServiceLKM {
 
 	private final BackDaoLKM dao;
 	private final SqlSessionTemplate sst;
+	private final DataProcessingUtil util;
 	
 	// 후원하기(화면) - 프로젝트 정보 가져오기
 	public BackVo viewBackingPage(BackVo vo) {
 		BackVo bvo = dao.viewBackingPage(sst, vo);
 		
 		// 달성률, 마감기한 d- setting
-		ProjectDataTransformation process1 = new ProjectAchievementRate();
-		ProjectDataTransformation process2 = new ProjectRemainingPeriod();
-		String achievementRate = process1.transform(bvo.getGoalAmount(), bvo.getCurrentAmount());
-		String remainingPeriod = process2.transform(bvo.getEndDate(), "YYYY년 MM월 DD일");
+		System.out.println(bvo.getEndDate());
+		String achievementRate = util.achievementRate(bvo.getGoalAmount(), bvo.getCurrentAmount());
+		String remainingPeriod = util.getRemainingPeriod(bvo.getEndDate(), "yyyy년 MM월 dd일");
+		String paymentDueDate = util.calcPaymentDueDate(bvo.getEndDate(), "yyyy년 MM월 dd일");
 		
 		bvo.setAchievementRate(achievementRate);
 		bvo.setRemainingPeriod(remainingPeriod);
+		bvo.setPaymentDueDate(paymentDueDate);
 		
 		return bvo;
 		
@@ -90,12 +93,11 @@ public class BackServiceLKM {
 	}
 	
 	// 후원 상세 조회
-	public BackVo detail(String backNo) {
+	public BackDetailVo detail(String backNo) {
 	
-		BackVo bvo = dao.detail(sst, backNo);
+		BackDetailVo bvo = dao.detail(sst, backNo);
 		
-		ProjectDataTransformation processor = new ProjectAchievementRate();
-		String achievementRate = processor.transform(bvo.getGoalAmount(), bvo.getCurrentAmount());
+		String achievementRate = util.achievementRate(bvo.getGoalAmount(), bvo.getCurrentAmount());
 		bvo.setAchievementRate(achievementRate);
 		
 		return bvo;

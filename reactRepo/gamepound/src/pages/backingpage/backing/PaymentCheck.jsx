@@ -135,7 +135,7 @@ const PaymentCheck = () => {
                 <span>{back.rewardAmount} 원</span>
             </div>
 
-            <div className="payment_due">프로젝트 성공 시, 결제는 <span>{back.endDate}</span> 에 진행됩니다.<br/> 
+            <div className="payment_due">프로젝트 성공 시, 결제는 <span>{back.paymentDueDate}</span> 에 진행됩니다.<br/> 
                 프로젝트가 무산 또는 중단된 경우, 예약된 결제는 자동으로 취소됩니다.
             </div>
             

@@ -109,7 +109,7 @@ const ReviewBox = ({item}) => {
         <StyledReviewBoxDiv>
             <div className='writer'>
                 <img id='profile_img' src='https://cdn.akamai.steamstatic.com/steam/apps/416600/capsule_616x353.jpg?t=1689347261'></img>
-                <div id='nick'>닉네임</div>
+                <div id='nick'>item.name</div>
             </div>
             <div className='rating'>
                 <span>만족도</span>

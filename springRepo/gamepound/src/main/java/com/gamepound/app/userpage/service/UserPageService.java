@@ -5,16 +5,14 @@ import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.gamepound.app.back.vo.BackDetailVo;
-import com.gamepound.app.project.ProjectAchievementRate;
-import com.gamepound.app.project.ProjectRemainingPeriod;
 import com.gamepound.app.project.vo.ProjectBriefVo;
 import com.gamepound.app.review.vo.ReviewStatVo;
 import com.gamepound.app.review.vo.ReviewVo;
 import com.gamepound.app.userpage.dao.UserPageDao;
+import com.gamepound.app.util.DataProcessingUtil;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,6 +23,7 @@ public class UserPageService {
 
 	private final SqlSessionTemplate sst;
 	private final UserPageDao dao;
+	private final DataProcessingUtil util;
 	
 	// 유저페이지 - 프로필 소개
 	public String userProfile(String memberNo) {
@@ -43,6 +42,8 @@ public class UserPageService {
 		map.put("reviewList", reviewList);
 		map.put("statVo", statVo);
 		
+		System.out.println(reviewList);
+		
 		return map;
 	}
 
@@ -60,10 +61,10 @@ public class UserPageService {
 		List<ProjectBriefVo> myProjectList = dao.listMyProjects(sst, memberNo);
 		
 		// 달성률, 마감기한 d- setting
-		// TODO: 성능 개선
 		for(ProjectBriefVo vo : myProjectList) {
-			String achievementRate = ProjectAchievementRate.achievementRate(vo.getGoalAmount(), vo.getCurrentAmount());
-			String remainingPeriod = ProjectRemainingPeriod.getRemainingPeriod(vo.getEndDate());
+			String achievementRate = util.achievementRate(vo.getGoalAmount(), vo.getCurrentAmount());
+			String remainingPeriod = util.getRemainingPeriod(vo.getEndDate(), "YYYY년 MM월 DD일");
+			
 			vo.setAchievementRate(achievementRate);
 			vo.setRemainingPeriod(remainingPeriod);
 		}

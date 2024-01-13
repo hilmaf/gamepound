@@ -9,8 +9,6 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
 @Data
-@RequiredArgsConstructor
-
 public class BackVo {
 
 	// 프로젝트 정보
@@ -47,5 +45,8 @@ public class BackVo {
 	// 후원자 정보
 	private String memberNo;
 	private String memberEmail;
+	
+	// 결제예정일
+	private String paymentDueDate;
 		
 }

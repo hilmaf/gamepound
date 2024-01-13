@@ -12,6 +12,11 @@ public class ReviewStatVo {
 
 	private String cntReview; // 리뷰 전체 cnt
 	private String ratingAvg; // 만족도 평균
-	private List<String> ratingCntList; // 만족도 cnt (분포)
+	private String countRating1;
+	private String countRating2;
+	private String countRating3;
+	private String countRating4;
+	private String countRating5;
+	
 	
 }
