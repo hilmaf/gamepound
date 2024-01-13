@@ -7,8 +7,6 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
 
-import com.gamepound.app.project.ProjectAchievementRate;
-import com.gamepound.app.project.ProjectRemainingPeriod;
 import com.gamepound.app.project.dao.ProjectDaoHYJ;
 import com.gamepound.app.project.vo.ProjectCommunityVo;
 import com.gamepound.app.project.vo.ProjectDetailVo;
@@ -16,6 +14,7 @@ import com.gamepound.app.project.vo.ProjectListVo;
 import com.gamepound.app.project.vo.ProjectStoryVo;
 import com.gamepound.app.project.vo.ProjectUpdateVo;
 import com.gamepound.app.project.vo.ProjectVo;
+import com.gamepound.app.util.DataProcessingUtil;
 
 import lombok.RequiredArgsConstructor;
 
@@ -63,12 +62,11 @@ public class ProjectServiceHYJ {
 		vo.setTotalBackerNo(totalBackerNo);
 		
 		//퍼센트 추가
-		ProjectAchievementRate achievementRate = new ProjectAchievementRate();
-		vo.setAchievementRate(achievementRate.achievementRate(vo.getGoalAmount(), vo.getCurrentAmount()));
+		DataProcessingUtil util = new DataProcessingUtil();
+		vo.setAchievementRate(util.achievementRate(vo.getGoalAmount(), vo.getCurrentAmount()));
 		
 		//남은 시간 추가
-		ProjectRemainingPeriod remainingPeriod = new ProjectRemainingPeriod();
-		vo.setRemainingPeriod(remainingPeriod.getRemainingPeriod(vo.getEndDate()));
+		vo.setRemainingPeriod(util.getRemainingPeriod(vo.getEndDate(), "yy-MM-dd"));
 		return vo;
 	}
 
