@@ -8,8 +8,6 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
 
 import com.gamepound.app.back.vo.BackDetailVo;
-import com.gamepound.app.project.ProjectAchievementRate;
-import com.gamepound.app.project.ProjectRemainingPeriod;
 import com.gamepound.app.project.vo.ProjectBriefVo;
 import com.gamepound.app.review.vo.ReviewStatVo;
 import com.gamepound.app.review.vo.ReviewVo;

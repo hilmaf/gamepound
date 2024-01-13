@@ -5,8 +5,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-import com.gamepound.app.project.ProjectAchievementRate;
-
+import org.springframework.context.annotation.Configuration;
+@Configuration
 public class DataProcessingUtil {
 		
 	ProcessSupport support = new ProcessSupport();
@@ -28,22 +28,32 @@ public class DataProcessingUtil {
 	public String getRemainingPeriod(String endDate, String format) {
 		// 마감일, sysdate 간 차이
 		Date currentDate = new Date();
-		Date parsedEndDate = support.parseEndDate(endDate, format);
+		Date parsedEndDate = support.parseDate(endDate, format);
 		
-		// int 형변환 이전에 반올림
-		int gap = (int) Math.round((parsedEndDate.getTime() - currentDate.getTime()) / (24*60*60*1000));
-		// gap 절대값
-		int absoluteGap_ = Math.abs(gap);
-		
-		String absoluteGap = String.valueOf(absoluteGap_);
-		
-		return absoluteGap;
+		if(currentDate.compareTo(parsedEndDate) >= 0) {
+			return "펀딩 종료";
+		} else {
+			Calendar currentCalendar = Calendar.getInstance();
+			Calendar endDateCalendar = Calendar.getInstance();
+			currentCalendar.setTime(currentDate);
+			endDateCalendar.setTime(parsedEndDate);
+			
+			long gap = (endDateCalendar.getTimeInMillis() - currentCalendar.getTimeInMillis()) / (24*60*60*1000);
+			
+			// gap 절대값
+			long absoluteGap_ = Math.abs(gap);
+			System.out.println("absoluteGap :: " + absoluteGap_);
+			
+			String absoluteGap = String.valueOf(absoluteGap_);
+			
+			return absoluteGap;			
+		}
 	}
 	
 	// 결제일 계산
 	public String calcPaymentDueDate(String endDate, String format) {
 		
-		Date parsedEndDate = support.parseEndDate(endDate, format);
+		Date parsedEndDate = support.parseDate(endDate, format);
 		
 		// Calnedar 객체에 펀딩종료일 셋팅
 		Calendar calendar = Calendar.getInstance();
@@ -69,16 +79,12 @@ public class DataProcessingUtil {
 		}
 		
 		// endDate 가공
-		Date parseEndDate(String endDate, String format) {
+		Date parseDate(String endDate, String format) {
 
 			Date parsedEndDate = null;
 			try {
-
 				DateFormat dateFormat = new SimpleDateFormat(format);
-//				String endDate_ = endDate.substring(0, format.length());
-				
 				parsedEndDate = dateFormat.parse(endDate);
-							
 			} catch(Exception e) {
 				e.printStackTrace();
 			}
@@ -89,7 +95,7 @@ public class DataProcessingUtil {
 		// Date 타입 변수 날짜 형식에 알맞게 String으로 가공
 		String transformDateToString(Date date) {
 			
-			DateFormat dateFormat = new SimpleDateFormat("YYYY년 MM월 dd일");
+			DateFormat dateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
 			String dateStr = dateFormat.format(date);
 			
 			return dateStr;
