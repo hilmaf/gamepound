@@ -6,7 +6,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.gamepound.app.project.ProjectAchievementRate;
 import com.gamepound.app.project.service.ProjectServiceHYJ;
 import com.gamepound.app.project.vo.ProjectListVo;
 import com.gamepound.app.project.vo.ProjectVo;
