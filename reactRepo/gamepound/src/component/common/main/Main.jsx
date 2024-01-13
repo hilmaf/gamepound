@@ -5,9 +5,7 @@ import UserPageMain from '../../../pages/userpage/UserPageMain';
 import BackMain from '../../../pages/backingpage/BackMain';
 import CreateMain from '../../../pages/projectpage/create/CreateMain';
 import { useUserMemory } from '../../context/UserContext';
-import ListMain from '../../../pages/projectpage/list/ListMain';
-import DetailMain from '../../../pages/projectpage/detail/DetailMain';
-import PrelaunchDetailMain from '../../../pages/projectpage/detail/PrelaunchDetailMain';
+import ProjectMain from '../../../pages/projectpage/ProjectMain';
 
 const StyledMainDiv = styled.div`
     width: 100%;
@@ -36,13 +34,7 @@ const Main = () => {
                     <button onClick={handleUserCreatedBtn}>올린 프로젝트</button>
                 </h1>
                 }></Route>
-                <Route path='/project/*'>
-                    <Route path='list/*' element={<ListMain/>}></Route>
-                    <Route path='detail/*' >
-                         <Route path=':temp/:no' element={<DetailMain />} /> 
-                    </Route>
-                    <Route path='detail/prelaunch/*' element={<PrelaunchDetailMain/>}></Route>
-                </Route>
+                <Route path='/project/*' element={<ProjectMain/>}></Route>
                 <Route path='/userpage/*' element={<UserPageMain />}></Route>
                 <Route path='/back/*' element={<BackMain />}></Route>
                 <Route path='/projectCreate/*' element={<CreateMain />}></Route>
