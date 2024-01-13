@@ -8,7 +8,6 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
 
 import com.gamepound.app.member.vo.MemberVo;
-import com.gamepound.app.project.ProjectAchievementRate;
 import com.gamepound.app.project.dao.ProjectDaoHJY;
 import com.gamepound.app.project.vo.ProjectVo;
 import com.gamepound.app.reward.dao.RewardDaoHJY;
