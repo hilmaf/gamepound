@@ -36,18 +36,15 @@ public class ProjectControllerHJY {
 	// 작성중 프로젝트 조회
 	@PostMapping("getCurrentProject")
 	public List<ProjectVo> getCurrentProject(@RequestBody MemberVo vo) {
-		System.out.println(vo);
 		List<ProjectVo> voList = service.getCurrentProject(vo);
-		System.out.println(voList);
 		return voList;
 	}
 	
 	// 프로젝트 올리기 (카테고리 저장 및 insert)
 	@PostMapping("create/new")
 	public Map<String, String> newProject(@RequestBody ProjectVo vo) throws Exception {
-		System.out.println(vo);
+		
 		Map<String, String> resultMap = service.newProject(vo);
-		System.out.println(resultMap);
 		
 		return resultMap;
 		
@@ -55,24 +52,21 @@ public class ProjectControllerHJY {
 	
 	// 프로젝트 내용 조회 (메인) 프로젝트 넘버필요
 	@GetMapping("create/main")
-	public void createMain(ProjectVo vo) {
+	public Map<String, Object> createMain(ProjectVo vo) {
+		System.out.println(vo);
 		Map<String, Object> map = service.createMain(vo);
-		
-		System.out.println("메인vo : " + map.get("mainVo"));
-		System.out.println("기본정보 작성률 : " + map.get("basicPercent"));
-		System.out.println("펀딩계획 작성률 : " + map.get("planPercent"));
-		System.out.println("선물 작성률 : " + map.get("rewardPercent"));
-		System.out.println("프로젝트계획 작성률 : " + map.get("dateplanPercent"));
-		System.out.println("창작자 정보 작성률 : " + map.get("userinfoPercent"));
-		System.out.println("전체 작성률 : " + map.get("totalCompletionRate"));
+		System.out.println(map.get("mainVo"));
+		return map;
 	}
 	
 	// 프로젝트 작성조회 : 기본정보 프로젝트 넘버필요
 	@GetMapping("get/basic")
-	public void getBasic(ProjectVo vo) {
+	public ProjectVo getBasic(ProjectVo vo) {
 		
 		ProjectVo projectVo = service.getBasic(vo);
 		System.out.println("기본정보 : " + projectVo);
+		
+		return projectVo;
 		
 	}
 	// 프로젝트 작성저장 : 기본정보

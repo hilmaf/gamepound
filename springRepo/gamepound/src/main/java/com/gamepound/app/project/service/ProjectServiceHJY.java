@@ -40,8 +40,13 @@ public class ProjectServiceHJY {
 	public Map<String, String> newProject(ProjectVo vo) throws Exception {
 		
 		// 카테고리 null이거나 ''빈값 검증
-		if(vo.getCategoryNo() == null && vo.getCategoryNo().isEmpty()) {
+		if(vo.getCategoryNo() == null || vo.getCategoryNo().isEmpty()) {
 			throw new Exception("카테고리를 결정하지 않았습니다.");
+		}
+		
+		// 타이틀 null이거나 ''빈값 검증 후 true면 프로젝트 타이틀을 설정해주세요 라고 하기
+		if(vo.getTitle() == null || vo.getTitle().isEmpty()) {
+			vo.setTitle("프로젝트 타이틀을 설정해주세요.");
 		}
 		
 		// 결과
@@ -56,7 +61,6 @@ public class ProjectServiceHJY {
 
 	// 프로젝트 내용 조회 (메인)
 	public Map<String, Object> createMain(ProjectVo vo) {
-		
 		ProjectVo mainVo = dao.createMain(sst, vo);
 		
 		// 퍼센트 계산 + 작성률 계산 후 리턴
@@ -69,7 +73,7 @@ public class ProjectServiceHJY {
 		map.put("mainVo", mainVo);
 		
 		// 기본정보 작성률
-		String[] basic = {mainVo.getMainCategory(),mainVo.getSubCategory(), mainVo.getTitle(), mainVo.getImageUrl()};
+		String[] basic = {mainVo.getMainCategory(), mainVo.getSubCategory(), mainVo.getTitle(), mainVo.getImageUrl()};
 		double basicPercent = calculateCompletionRate(basic);
 		map.put("basicPercent", basicPercent);
 		
@@ -90,7 +94,10 @@ public class ProjectServiceHJY {
 		
 		// 창작자 정보 작성률
 		SettlementVo settlementVo = settlementDao.getSettlementByNo(sst, mainVo);
-		String[] userinfo = {settlementVo.getBankName(), settlementVo.getName(), settlementVo.getAccountNum()};
+		String[] userinfo = null;
+		if(settlementVo != null) {
+			userinfo = new String[]{settlementVo.getBankName(), settlementVo.getName(), settlementVo.getAccountNum()};
+		}
 		double userinfoPercent = calculateCompletionRate(userinfo);
 		map.put("userinfoPercent", userinfoPercent);
 		
