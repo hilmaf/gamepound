@@ -47,5 +47,8 @@ public class BackVo {
 	// 후원자 정보
 	private String memberNo;
 	private String memberEmail;
+	
+	// 결제예정일
+	private String paymentDueDate;
 		
 }
