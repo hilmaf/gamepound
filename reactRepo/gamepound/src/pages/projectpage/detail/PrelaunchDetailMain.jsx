@@ -135,12 +135,9 @@ const PrelaunchStyledProjectSelectDiv = styled.div`
 
 const PrelaunchDetailMain = () => {
     const {temp, no} = useParams();
-    console.log("PrelaunchDetailMain > no ::: ",no);
-    console.log("PrelaunchDetailMain > temp ::: ", temp);
 
 
     const params = useParams();
-    console.log(params);
 
     const [detailPrelaunchVo, setDetailPrelaunchVo] = useState([]);
 
