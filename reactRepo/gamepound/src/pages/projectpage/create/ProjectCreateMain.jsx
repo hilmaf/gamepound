@@ -98,7 +98,6 @@ const ProjectCreateMain = () => {
     const { updatePageType } = useHeaderMemory();
     const { projectNo } = useParams();
     const [dataVo, setDataVo] = useState(); // 프로젝트 정보
-    const [calculatePercent, setCalculatePercent] = useState(); // 작성률
     const {projectCreateData, setProjectCreateData} = useProjectCreateMemory(); // 컨텍스트 데이터
 
     // header type
@@ -116,7 +115,17 @@ const ProjectCreateMain = () => {
         })
     }, []);
 
-    console.log('projectCreateData :: ', projectCreateData);
+    useEffect(() => {
+        // 데이터 불러오기
+        fetch('http://localhost:8889/gamepound/project/create/main?no=' + projectNo, {
+            method: 'get',
+        })
+        .then(resp => resp.json())
+        .then(data => {
+            setDataVo(data);
+        })
+        ;
+    }, []);
 
     return (
         <StyledCreateMainDiv>
@@ -124,15 +133,15 @@ const ProjectCreateMain = () => {
             <div className="createMainHeader">
                 <div className="inner">
                     <span className="img">
-                        {dataVo ? <img src={dataVo.imageUrl} alt="프로젝트이미지" /> : ''}
+                        {dataVo? <img src={dataVo.mainVo.imageUrl} alt="프로젝트이미지" /> : ''}
                     </span>
                     <div className="titleBox">
                         <div className="title">
-                            {dataVo ? dataVo.title : ''}
+                            {dataVo ? dataVo.mainVo.title : ''}
                         </div>
                         <div className="category">
-                            <span>{dataVo ? dataVo.mainCategory : ''}</span>
-                            <span>{dataVo ? dataVo.subCategory : ''}</span>
+                            <span>{dataVo ? dataVo.mainVo.mainCategory : ''}</span>
+                            <span>{dataVo ? dataVo.mainVo.subCategory : ''}</span>
                         </div>
                     </div>
                 </div>
@@ -141,23 +150,23 @@ const ProjectCreateMain = () => {
             <div className="linkList">
                 <NavLink to={`../main/index/basic/${projectNo}`}>
                     기본정보
-                    <span>{calculatePercent ? calculatePercent.basicPercent : 0}% 작성 완료</span>
+                    <span>{projectCreateData ? projectCreateData.basicPercent : 0}% 작성 완료</span>
                 </NavLink>
                 <NavLink to={`../main/index/plan/${projectNo}`}>
                     펀딩 계획
-                    <span>{calculatePercent ? calculatePercent.planPercent : 0}% 작성 완료</span>
+                    <span>{projectCreateData ? projectCreateData.planPercent : 0}% 작성 완료</span>
                 </NavLink>
                 <NavLink to={`../main/index/reward/${projectNo}`}>
                     선물 구성
-                    <span>{calculatePercent ? calculatePercent.rewardPercent : 0}% 작성 완료</span>
+                    <span>{projectCreateData ? projectCreateData.rewardPercent : 0}% 작성 완료</span>
                 </NavLink>
                 <NavLink to={`../main/index/dateplan/${projectNo}`}>
                     프로젝트 계획
-                    <span>{calculatePercent ? calculatePercent.dateplanPercent : 0}% 작성 완료</span>
+                    <span>{projectCreateData ? projectCreateData.dateplanPercent : 0}% 작성 완료</span>
                 </NavLink>
                 <NavLink to={`../main/index/userinfo/${projectNo}`}>
                     창작자 정보
-                    <span>{calculatePercent ? calculatePercent.userinfoPercent : 0}% 작성 완료</span>
+                    <span>{projectCreateData ? projectCreateData.userinfoPercent : 0}% 작성 완료</span>
                 </NavLink>
             </div>
             <Routes>
