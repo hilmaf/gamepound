@@ -15,8 +15,8 @@ public class DataProcessingUtil {
 	public String achievementRate(String goalAmount, String currentAmount) {
 		
 		// amount 가공
-		int goalA = Integer.parseInt(support.removeCommas(goalAmount));
-		int currentA = Integer.parseInt(support.removeCommas(currentAmount));
+		int goalA = Integer.parseInt(removeCommas(goalAmount));
+		int currentA = Integer.parseInt(removeCommas(currentAmount));
 		
 		// 달성률 계산
 		int result = (currentA*100)/goalA;
@@ -68,15 +68,22 @@ public class DataProcessingUtil {
 		return paymentDueDate;
 	}
 	
+
+	// amount 문자열 가공
+	public String removeCommas(String amount) {
+		return amount.replace(",", "");
+	}
 	
+	// 리뷰 만족도 점수 double 타입으로 변경
+	public String castToDouble(String num_) {
+		
+		double num = Math.round(Double.parseDouble(num_));
+		
+		return String.format("%.1f", num);
+	}
 
 	
 	class ProcessSupport {
-		
-		// amount 문자열 가공
-		String removeCommas(String goalAmount) {
-			return goalAmount.replace(",", "");
-		}
 		
 		// endDate 가공
 		Date parseDate(String endDate, String format) {

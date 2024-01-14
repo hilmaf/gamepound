@@ -79,15 +79,35 @@ const EnrollCard = () => {
     const dataSet = useBackingMemory();
     let back = dataSet.dataVo;
 
+    const inputs = document.querySelectorAll("input");
+    const inputRegex = /^\d+$/;
+    for(const input of inputs) {
+        if(!inputRegex.test(input.value)) {
+            input.value = input.value.slice(0, input.value.length-1);
+        }
+    }
+
     // 카드번호 input maxLength: 2
     const cardNums = document.querySelectorAll(".card_input");
-    
+    for (const cardNum of cardNums) {
+        if (cardNum !== undefined && cardNum.value.length > 4) {
+            cardNum.value = cardNum.value.slice(0, 4);
+        }
+    }
 
     // 카드 유효기간 input maxLength: 2
-
+    const validThrus = document.querySelectorAll(".validThru");
+    for(const validThru of validThrus) {
+        if (validThru !== undefined && validThru.value.length > 2) {
+            validThru.value = validThru.value.slice(0, 2);
+        }
+    }
     
     // 카드 비밀번호 앞 2자리 input maxLength: 2
-
+    const cardPwd = document.querySelector("input[name=cardPwd]");
+    if (cardPwd !== undefined && cardPwd !== null && cardPwd.value.length > 2) {
+        cardPwd.value = cardPwd.value.slice(0, 2);
+    }
 
     // 카드 번호 inputs useState
     const [cardInputs, setCardInputs]= useState({
@@ -181,8 +201,8 @@ const EnrollCard = () => {
             </div>
             <div className='avail_period'>
                 <div>카드 유효기간</div>
-                <input type='text' name='validThru1' onKeyUp={handleValidThruInputsChange}/> / 
-                <input type='text' name='validThru2' onKeyUp={handleValidThruInputsChange}/>
+                <input type='text' className='validThru' name='validThru1' onKeyUp={handleValidThruInputsChange}/> / 
+                <input type='text' className='validThru' name='validThru2' onKeyUp={handleValidThruInputsChange}/>
             </div>
             <div className='owner_info'>
                 <div className='pwd'>

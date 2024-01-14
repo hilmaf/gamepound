@@ -16,16 +16,20 @@
   <!-- 리뷰 목록 조회 -->
 <select id="listReview" resultType="com.gamepound.app.review.vo.ReviewVo">
 	SELECT
-	    R.NO
-	    , R.MEMBER_NO
-	    , R.PROJECT_NO
-	    , R.BACKER_NO
-	    , R.CONTENT
-	    , R.IMAGE
-	    , R.RATING
-	    , TO_CHAR(R.ENROLL_DATE, 'YY"년" MM"월" DD"일"')
+	    R.NO AS REVIEW_NO
+	    , R.MEMBER_NO AS MEMBER_NO
+	    , M.NAME AS MEMBER_NAME
+	    , M.PIC AS PROFILE_IMG
+	    , R.CONTENT AS REVIEW_CONTENT
+	    , R.IMAGE AS REVIEW_IMG
+	    , R.RATING AS RATING
+	    , R.PROJECT_NO AS PROJECT_NO
+	    , P.TITLE AS PROJECT_TITLE
+	    , P.IMAGE_URL AS PROJECT_IMG
+	    , TO_CHAR(R.ENROLL_DATE, 'YY"년" MM"월" DD"일"') AS ENROLL_DATE
 	FROM REVIEW R
-	JOIN PROJECT P ON R.PROJECT_NO = P.NO 
+	JOIN PROJECT P ON R.PROJECT_NO = P.NO
+	JOIN MEMBER M ON M.NO = R.MEMBER_NO
 	WHERE P.MEMBER_NO = #{memberNo}
 </select>
 
