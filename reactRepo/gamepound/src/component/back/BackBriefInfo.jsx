@@ -97,7 +97,7 @@ const BackBriefInfo = ({item}) => {
             {
                 reviewWrite===true
                 ?
-                <ReviewWrite />
+                <ReviewWrite item={item}/>
                 :
                 <></>
             }

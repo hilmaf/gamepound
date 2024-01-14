@@ -106,25 +106,25 @@ const StyledReviewBoxDiv = styled.div`
 
 const ReviewBox = ({item}) => {
     return (
-        <StyledReviewBoxDiv>
+        <StyledReviewBoxDiv key={item.reviewNo}>
             <div className='writer'>
                 <img id='profile_img' src='https://cdn.akamai.steamstatic.com/steam/apps/416600/capsule_616x353.jpg?t=1689347261'></img>
-                <div id='nick'>item.name</div>
+                <div id='nick'>{item.memberName}</div>
             </div>
             <div className='rating'>
                 <span>만족도</span>
-                <span>2 . 0</span>
+                <span>{item.rating}</span>
             </div>
             <div className='content'>
                 <span>후기</span>
-                <span>너무너무 재미있어요</span>
+                <span>{item.reviewContent}</span>
             </div>
             <div className='reviewImg'>
-                <img src=''></img>
+                <img src={item.reviewImg}></img>
             </div>
             <div className='project'>
                 <img></img>
-                <div>프로젝트 타이트으으을 짱재밌는 게임</div>
+                <div>{item.projectTitle}</div>
             </div>
             <div className='enroll_date'>
                 2024년 1월 9일

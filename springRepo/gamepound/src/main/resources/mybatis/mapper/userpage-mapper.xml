@@ -62,8 +62,8 @@
 	    SEQ_REVIEW_NO.NEXTVAL
 	    , #{memberNo}
 	    , #{projectNo}
-	    , #{backerNo}
-	    , #{content}
+	    , #{backNo}
+	    , #{reviewContent}
 	    , #{reviewImg}
 	    , #{rating}
 	)
