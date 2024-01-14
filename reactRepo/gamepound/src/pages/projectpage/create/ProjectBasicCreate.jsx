@@ -99,14 +99,17 @@ const ProjectBasicCreate = () => {
 
     const { updatePageType } = useHeaderMemory();
     const [formVo, setFormVo] = useState({});
-    const {projectCreateData, setProjectCreateData} = useProjectCreateMemory(); // 컨텍스트 데이터
+    const {projectCreateData, setProjectCreateData, setIsProjectInputChange, setDataFrom, headerFormVo, setHeaderFormVo} = useProjectCreateMemory(); // 컨텍스트 데이터
+    const [dataVo, setDataVo] = useState(); // 프로젝트 정보
+    const [categoryVo, setCategoryVo] = useState([]); // 카테고리 데이터
+    const [subCategory, setSubCategory] = useState([]); // 서브카테고리
 
     // header type
     useEffect(() => {
         updatePageType('createMain');
     }, [updatePageType]);
-
     const { projectNo } = useParams();
+
     // 컨텍스트 데이터에 프로젝트 넘버 저장
     useEffect(() => {
         setProjectCreateData({
@@ -116,22 +119,76 @@ const ProjectBasicCreate = () => {
             },
         })
     }, []);
-    console.log('컨텍스트데이터: ', projectCreateData);
 
+    // 데이터 불러오기
+    useEffect(() => {
+        if(dataVo){}
+        fetch('http://localhost:8889/gamepound/project/create/main?no=' + projectNo)
+        .then(resp => resp.json())
+        .then(data => {
+            setDataVo(data);
+        })
+        ;
+    }, []);
+    
     // 카테고리 대분류 조회하기
     useEffect(() => {
-        // fetch('http://localhost:8889/gamepound/category/getMainCategory')
-        // .then(resp => resp.json())
-        // .then(data => {
-        //     console.log(data);
-        // })
-        // ;
+        fetch('http://localhost:8889/gamepound/category/list')
+        .then(resp => resp.json())
+        .then(data => {
+            if(data){
+                setCategoryVo(data);
+            }
+        })
+        ;
     }, []);
 
-    // 카테고리 소분류 조회하기
+    // 선택된 카테고리의 서브카테고리 나타내기
+    useEffect(() => {
+        if(categoryVo && dataVo){
+            const selectedCategory = categoryVo.find((vo) => vo.mainCategoryNo === dataVo.mainVo.mainCategoryNo);
+            setSubCategory(selectedCategory.subCategoryList);
+        } 
+    }, [categoryVo]);
+    // console.log('datavo', dataVo);
+
+    // formVo에 값 저장
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setHeaderFormVo(prevFormVo => ({
+            ...prevFormVo,
+            [name]: value,
+        }));
+        setIsProjectInputChange(true);
+        setDataFrom('basic');
+    };
     
-    // 이미지 미리보기
-    const handleImgCreate = (e) => {
+    // 서브카테고리 저장 (기본)
+    useEffect(() => {
+        if(dataVo){
+            // find 메소드로 찾은 결과가 undefined인지 확인
+            const selectedCategory = categoryVo.find((vo) => vo.mainCategoryNo === dataVo.mainVo.mainCategoryNo);
+            const subCategoryList = selectedCategory ? selectedCategory.subCategoryList : [];
+            setSubCategory(subCategoryList);
+        }
+    }, []);
+
+    // 카테고리 값 저장
+    const handleMainCategoryChange = (e) => {
+        const selectMainCategory = e.target;
+        const {name, value} = e.target;
+
+        setHeaderFormVo({
+            ...headerFormVo,
+            [name]: value,
+        });
+        setIsProjectInputChange(true);
+        setDataFrom('basic');
+    }
+
+    // file값 저장
+    const handleChangeFile = (e) => {
+        // 이미지 미리보기
         const imgInp = e.target.parentNode.querySelector('input');
         const imgDiv = e.target.parentNode.querySelector('.img');
         // 파일이 선택되었는지 확인
@@ -152,22 +209,15 @@ const ProjectBasicCreate = () => {
             reader.readAsDataURL(file);
 
             // formVo에 저장
-            setFormVo({
-                ...formVo,
-                [imgInp.name]: imgInp.value,
+            setHeaderFormVo({
+                ...headerFormVo,
+                [imgInp.name]: imgInp.files[0],
             });
+            setIsProjectInputChange(true);
+            setDataFrom('basic');
         }
-
-    }
-
-    // formVo에 값 저장
-    const handleInputChange = (e) => {
-        const { name, value } = e.target;
-        setFormVo({
-            ...formVo,
-            [name]: value
-        });
     };
+    console.log(headerFormVo);
 
     return (
         <StyledCreateBasicDiv>
@@ -178,9 +228,20 @@ const ProjectBasicCreate = () => {
                         <dl className='item'>
                             <dt>대분류 카테고리</dt>
                             <dd>
-                                <select name="mainCategoryNo" onChange={handleInputChange}>
-                                    <option value="1">카테고리 대분류</option>
-                                    <option value="2">카테고리 대분류</option>
+                                <select name="mainCategoryNo" onChange={handleMainCategoryChange} defaultValue='0'>
+                                    <option value='0'>선택</option>
+                                    {
+                                        categoryVo.length !== 0 ?
+                                        categoryVo.map((vo) => (
+                                            dataVo && dataVo.mainVo.mainCategoryNo === vo.mainCategoryNo ? (
+                                                <option key={vo.no} value={vo.mainCategoryNo} selected>{vo.mainCategory}</option>
+                                            ) : (
+                                                <option key={vo.no} value={vo.mainCategoryNo}>{vo.mainCategory}</option>
+                                            )
+                                        ))
+                                        :
+                                        ''
+                                    }
                                 </select>
                             </dd>
                         </dl>
@@ -188,7 +249,19 @@ const ProjectBasicCreate = () => {
                             <dt>소분류 카테고리</dt>
                             <dd>
                                 <select name="subCategoryNo" onChange={handleInputChange}>
-                                    <option value="1">카테고리 소분류</option>
+                                    <option value='0'>선택</option>
+                                    {
+                                        subCategory.length === 0 ?
+                                        ''
+                                        :
+                                        subCategory.map((vo) => (
+                                            dataVo && dataVo.mainVo.subCategoryNo === vo.subCategoryNo ? (
+                                                <option key={vo.no} value={vo.no} selected>{vo.subCategory}</option>
+                                            )
+                                            :
+                                            <option key={vo.no} value={vo.no}>{vo.subCategory}</option>
+                                        ))
+                                    }
                                 </select>
                             </dd>
                         </dl>
@@ -200,7 +273,7 @@ const ProjectBasicCreate = () => {
                         <dl className='item'>
                             <dt>프로젝트 제목</dt>
                             <dd>
-                                <input type="text" name='title' onChange={handleInputChange} />
+                                <input type="text" name='title' defaultValue={dataVo && dataVo.mainVo && dataVo.mainVo.title ? dataVo.mainVo.title : ''} onChange={handleInputChange} />
                             </dd>
                         </dl>
                     </dd>
@@ -211,8 +284,8 @@ const ProjectBasicCreate = () => {
                         <dl className='item img'>
                             <dt>이미지 업로드</dt>
                             <dd>
-                                <span className="img"></span>
-                                <input type="file" id='imgFileUpload' name='imageUrl' accept='image/*' onChange={handleImgCreate}/>
+                                <span className="img"><img src={dataVo && dataVo.mainVo && dataVo.mainVo.imageUrl ? dataVo.mainVo.imageUrl : ''} alt="" /></span>
+                                <input type="file" id='imgFileUpload' name='imageUrl' accept='image/*' onChange={handleChangeFile} defaultValue={dataVo && dataVo.mainVo && dataVo.mainVo.imageUrl ? dataVo.mainVo.imageUrl : ''}/>
                                 <label htmlFor="imgFileUpload">이미지 업로드</label>
                             </dd>
                         </dl>

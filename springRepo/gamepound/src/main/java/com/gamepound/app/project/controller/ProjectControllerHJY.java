@@ -4,15 +4,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.gamepound.app.member.vo.MemberVo;
 import com.gamepound.app.project.service.ProjectServiceHJY;
@@ -71,7 +76,26 @@ public class ProjectControllerHJY {
 	}
 	// 프로젝트 작성저장 : 기본정보
 	@PostMapping("save/basic")
-	public void saveBasic(ProjectVo vo) throws Exception {
+	public ResponseEntity<String> saveBasic(
+			@RequestParam("title") String title,
+	        @RequestParam("imageUrl") MultipartFile imageUrl,
+	        @RequestParam("mainCategoryNo") String mainCategoryNo,
+	        @RequestParam("subCategoryNo") String subCategoryNo,
+	        @RequestParam("no") String no,
+	        HttpServletRequest req) throws Exception {
+		
+		// 파일저장 service
+		String uploadDir = "/resources/images/projectImg/";
+        String root = req.getServletContext().getRealPath(uploadDir);
+		System.out.println("저장경로:: " + root);
+		String fileName = service.imagefileSave(imageUrl, root);
+		
+		ProjectVo vo = new ProjectVo();
+		vo.setNo(no);
+		vo.setTitle(title);
+		vo.setMainCategoryNo(mainCategoryNo);
+		vo.setCategoryNo(subCategoryNo);
+		vo.setImageUrl("http://localhost:8889/gamepound" + uploadDir + fileName);
 		System.out.println(vo);
 		int result = service.saveBasic(vo);
 		if(result != 1) {
@@ -79,6 +103,7 @@ public class ProjectControllerHJY {
 		}
 		System.out.println("프로젝트 작성저장 결과 : " + result);
 		
+		return ResponseEntity.ok("Success");
 	}
 	
 	

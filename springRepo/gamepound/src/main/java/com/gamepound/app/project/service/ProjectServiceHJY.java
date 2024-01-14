@@ -1,11 +1,14 @@
 package com.gamepound.app.project.service;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.gamepound.app.member.vo.MemberVo;
 import com.gamepound.app.project.dao.ProjectDaoHJY;
@@ -188,6 +191,18 @@ public class ProjectServiceHJY {
 	// 프로젝트 작성저장 : 창작자 정보
 	public int saveUserinfo(SettlementVo vo) {
 		return dao.saveUserinfo(sst, vo);
+	}
+
+	// 이미지 파일저장
+	public String imagefileSave(MultipartFile imageUrl, String root) throws Exception {
+
+		String fileName = imageUrl.getOriginalFilename();
+        String filePath = root + fileName;
+
+        File dest = new File(filePath);
+        imageUrl.transferTo(dest);
+
+        return fileName;
 	}
 	
 }
