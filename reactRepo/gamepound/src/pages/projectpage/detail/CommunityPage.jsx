@@ -12,9 +12,7 @@ const StyledCommunityDiv = styled.div`
         padding-top: 20px;
         margin: 15px;
         & > ul{
-            background-color: aquamarine;
             & > li:first-child{
-                background-color: aliceblue;
                 & > div:first-child{
                     display: flex;
                     padding-left: 15px;
@@ -25,15 +23,21 @@ const StyledCommunityDiv = styled.div`
                     }
                 }
                 & > div > div > img{
-                    background-color: aquamarine;
                     width: 40px;
                     height: 40px;
+                    font-size: 8px;
                     object-fit: cover;
                 }
                 & > div:last-child{
                     padding: 15px;
                 }
-
+            }
+            & > li:last-child{
+                padding: 15px;
+                margin-left: 25px;
+                & > div:first-child{
+                    margin-bottom: 15px;
+                }
             }
         }
     }
@@ -77,7 +81,6 @@ const CommunityPage = () => {
                             </li>
                             <li>
                                 <div>
-                                    <div></div>
                                     <div>{vo.memberName}</div>
                                     <div>{vo.replyEnrollDate}</div>
                                 </div>
