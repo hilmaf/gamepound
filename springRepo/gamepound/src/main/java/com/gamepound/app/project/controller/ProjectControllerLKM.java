@@ -21,5 +21,7 @@ public class ProjectControllerLKM {
 		List<ProjectVo> searchList = service.searchProject(keyword);
 		
 		System.out.println(searchList);
+		
 	}
+
 }

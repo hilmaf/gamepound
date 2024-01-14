@@ -34,15 +34,23 @@ public class UserPageService {
 	public Map<String, Object> listReview(String memberNo) {
 		// 리뷰 목록
 		List<ReviewVo> reviewList = dao.listReview(sst, memberNo);
+		System.out.println(reviewList);
+		
+		// 만족도 double 타입으로 변경해서 다시 셋팅하기
+		for(ReviewVo vo : reviewList) {
+			vo.setRating(util.castToDouble(vo.getRating()));
+		}
+		
 		// 리뷰 통계
 		ReviewStatVo statVo = dao.getStat(sst, memberNo);
+		
+		// 만족도 평균 double 타입으로 변경
+		statVo.setRatingAvg(util.castToDouble(statVo.getRatingAvg()));
 		
 		// map에 넣기
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("reviewList", reviewList);
 		map.put("statVo", statVo);
-		
-		System.out.println(reviewList);
 		
 		return map;
 	}

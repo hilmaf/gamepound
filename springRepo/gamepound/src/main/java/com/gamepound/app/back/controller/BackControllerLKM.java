@@ -46,19 +46,19 @@ public class BackControllerLKM {
 	 */	
 	// 후원하기
 	@PostMapping("process")
-	public void back(@RequestBody BackDetailVo vo) throws Exception {
-		
-		System.out.println(vo);
+	public Map<String, String> back(@RequestBody BackDetailVo vo) throws Exception {
 		
 		boolean backed = service.back(vo);
 		
+		Map<String, String> map = new HashMap<String, String>();
 		if(backed == false) {
-			System.out.println("후원 실패");
+			map.put("result", "fail");
 			throw new Exception();
 		}
 		
-		System.out.println(backed);
-		System.out.println("후원 완료");
+		map.put("result", "success");
+		System.out.println(1);
+		return map;
 	}
 	
 	// 후원 완료(화면)

@@ -64,8 +64,22 @@ const StyledBackInfoDiv = styled.div`
         & > .paymentType {
             border: 1px solid #3d3d3d;
         }
+
+        
     }
     
+    & > .cancel_area {
+        padding-top: 30px;
+        padding-bottom: 30px;
+        text-align: center;
+        font-size: 12px;
+        cursor: pointer;
+        color: var(--black-color);
+        opacity: 0.7;
+            
+       
+        
+    }
 `;
 
 const BackInfo = ({BackInfo}) => {
@@ -132,6 +146,10 @@ const BackInfo = ({BackInfo}) => {
                         <span>{BackInfo.paymentAmount} 원</span>
                     </div>
                 </div>
+            </div>
+
+            <div className='cancel_area'>
+                후원을 취소하시겠습니까?
             </div>
         </StyledBackInfoDiv>
     );

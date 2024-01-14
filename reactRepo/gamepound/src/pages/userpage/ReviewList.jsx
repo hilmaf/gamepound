@@ -10,13 +10,15 @@ const StyledReviewListDiv = styled.div`
 `;
 
 const ReviewList = ({reviewList}) => {
+
+    console.log(reviewList);
     return (
         <StyledReviewListDiv>
             {
-                reviewList.map((item)=>{
-                    <ReviewBox item = {item}/>
-                })
-            }
+                reviewList.map((item)=> (
+                    <ReviewBox item={item}/>
+                )) 
+            } 
         </StyledReviewListDiv>
     );
 };

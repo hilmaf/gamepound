@@ -45,11 +45,25 @@ public class BackServiceLKM {
 			throw new Exception("결제수단 선택 필요");
 		}
 		
+		// TODO: cardNo 유효성 체크: not null, max length 2, 숫자
+		
+		// TODO: validThru 유효성 체크: not null, max length 2, 숫자
+		
+		// TODO: cardPwd 유효성 체크: not null, max length 2, 숫자
+		
+		// TODO: birthDate 유효성 체크: not null, max length 6, 숫자
+		
+		
+		// rewardAmount 수정
+		vo.setRewardAmount(util.removeCommas(vo.getRewardAmount()));
+		// paymentAmount setting
+		vo.setPaymentAmount(vo.getRewardAmount());
+		
 		// paymentType no setting
 		if(vo.getPaymentType() == "card") {
 			vo.setPaymentTypeNo("1");
 		} else {
-			vo.setPaymentTypeNo("2");
+			vo.setPaymentTypeNo("1");
 		}
 		
 		// 후원정보에 insert

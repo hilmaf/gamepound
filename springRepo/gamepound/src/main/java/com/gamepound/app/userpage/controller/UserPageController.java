@@ -57,6 +57,8 @@ public class UserPageController {
 	// 리뷰 작성하기
 	@PostMapping("review/write")
 	public void write(ReviewVo vo) throws Exception {
+		System.out.println(vo);
+		System.out.println(vo.getMemberNo());
 		// service
 		int result = service.write(vo);
 		

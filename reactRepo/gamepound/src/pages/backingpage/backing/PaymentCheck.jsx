@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useBackingMemory } from '../../../component/context/BackingContext';
+import {useNavigate, useNavigation} from 'react-router-dom';
 
 const StyledPaymentCheckDiv = styled.div`
     width: 380px;
@@ -61,9 +62,13 @@ const StyledPaymentCheckDiv = styled.div`
 
 const PaymentCheck = () => {
 
+    // useNavigate
+    const navigate = useNavigate();
+
     // useContext
     const dataSet = useBackingMemory();
     const back = dataSet.dataVo;
+    console.log(back);
     
     // 체크박스 체크여부 확인 함수
     const checkCheckInput = () => {
@@ -77,13 +82,54 @@ const PaymentCheck = () => {
     }
 
     const checkCardInput = () => {
-        if((back.cardNo1 && back.cardNo2 && back.cardNo3 && back.cardNo4)
-        && (back.cardNo1.length == 4 && back.cardNo2.length === 4 && back.cardNo3.length === 4 && back.cardNo4.length === 4)
-        && (back.validThru1 && back.validThru2)
-        && (back.validThru1.length == 2 && back.validThru2.length === 2)
-        && (back.cardpwd && back.birthDate)
-        && (back.cardPwd.length === 2 && back.birthDate.length === 6)) {
-            return true;
+        let check1 = false;
+        if(back.cardNo1 && back.cardNo2 && back.cardNo3 && back.cardNo4) {
+            check1 = true;
+        } 
+        console.log("cardNo null check :: ", check1);
+
+        let check2 = false;
+        if(back.cardNo1.length === 4 && back.cardNo2.length === 4 && back.cardNo3.length === 4 && back.cardNo4.length === 4) {
+            check2 = true;
+        }
+        console.log("cardNo length check :: ", check2); 
+
+        let check3 = false;
+        if(back.validThru1 && back.validThru2) {
+            check3 = true;
+        }
+        console.log("validThru null check :: ", check3);
+
+        let check4 = false;
+        if(back.validThru1.length === 2 && back.validThru2.length === 2) {
+            check4 = true;
+        }
+        console.log("validTru length check :: ", check4);
+
+        let check5 = false;
+        if(back.cardPwd && back.birthDate) {
+            check5 = true;
+        }
+        console.log("ownerInfo null check :: ", check5);
+
+        let check6 = false;
+        if(back.cardPwd.length === 2 && back.birthDate.length === 6) {
+            check6 = true;
+        }
+        console.log("ownerInfo length check", check6);
+        // if((back.cardNo1 && back.cardNo2 && back.cardNo3 && back.cardNo4)
+        // && (back.cardNo1.length === 4 && back.cardNo2.length === 4 && back.cardNo3.length === 4 && back.cardNo4.length === 4)
+        // && (back.validThru1 && back.validThru2)
+        // && (back.validThru1.length === 2 && back.validThru2.length === 2)
+        // && (back.cardPwd && back.birthDate)
+        // && (back.cardPwd.length === 2 && back.birthDate.length === 6)) {
+        //     return true;
+        // } else {
+        //     return false;
+        // }
+        if(check1 === true && check2 === true && check3 === true && check4 === true &&
+            check5 === true && check6 === true) {
+                return true;
         } else {
             return false;
         }
@@ -108,6 +154,9 @@ const PaymentCheck = () => {
         // 체크박스 체크 여부
         const checkboxOk = checkCheckInput();
 
+        console.log(paymentTypeDefined);
+        console.log(cardInfoOk);
+        console.log(checkboxOk);
         if(paymentTypeDefined && cardInfoOk && checkboxOk) {
             fetch("http://127.0.0.1:8889/gamepound/back/process", {
                 method: "post",
@@ -118,7 +167,9 @@ const PaymentCheck = () => {
             })
             .then(resp => resp.json())
             .then(data => {
-
+                if(data.result==="success") {
+                    navigate("/back/completed");
+                }
             })
             ;
         } else {

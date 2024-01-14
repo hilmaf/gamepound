@@ -16,10 +16,6 @@ const StyledProjectBoxInfoDiv = styled.div`
         background-color: aliceblue;
     }
 
-    & > div {
-        color: #3d3d3d;
-    }
-
     & > .category {
         padding-top: 10px;
         font-size: 12px;
