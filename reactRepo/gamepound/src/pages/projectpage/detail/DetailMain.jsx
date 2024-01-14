@@ -211,12 +211,7 @@ const StyledProjectSelectDiv = styled.div`
 
 const DetailMain = () => {
 
-    
     const {temp, no} = useParams();
-    console.log("DetailMain useParams ::: ",temp);
-    console.log("DetailMain useParams ::: ",no);
-    ///////////////////////////////////////////
-
     const [detailVo, setDetailVo] = useState([]);
     const [rewardVoList, setRewardVoList] = useState([]);
 
