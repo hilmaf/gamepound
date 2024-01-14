@@ -4,7 +4,7 @@ import ReviewWrite from '../../pages/userpage/ReviewWrite';
 import { useNavigate } from 'react-router-dom';
 
 const StyledBackBriefInfoDiv = styled.div`
-    width: 1200px;
+    width: 1100px;
     padding: 20px;
     border: 1px solid rgba(0, 0, 0, 0.1);
     display: flex;
