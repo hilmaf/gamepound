@@ -11,18 +11,4 @@
 		ORDER BY NO
 	</select>
 	
-	<!-- 메인카테고리 리스트 조회 -->
-	<select id="getMainCategory" resultType="com.gamepound.app.category.vo.CategoryVo">
-		SELECT NO, MAIN_CATEGORY_NO, MAIN_CATEGORY
-		FROM CATEGORY
-		ORDER BY NO
-	</select>
-	
-	<!-- 서브카테고리 리스트 조회 -->
-	<select id="getSubCategory" resultType="com.gamepound.app.category.vo.CategoryVo">
-		SELECT NO, SUB_CATEGORY_NO, SUB_CATEGORY
-		FROM CATEGORY
-		ORDER BY NO
-	</select>
-	
 </mapper>

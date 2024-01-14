@@ -29,20 +29,6 @@ public class CategoryControllerHJY {
 		ArrayList<CategoryVo> result = service.getCategory();
 		return result;
 	}
-
-	// 메인카테고리 조회
-	@GetMapping("getMainCategory")
-	public List<CategoryVo> getMainCategory() {
-		List<CategoryVo> voList = service.getMainCategory();
-		return voList;
-	}
-	
-	// 메인카테고리 조회
-	@GetMapping("getSubCategory")
-	public List<CategoryVo> getSubCategory() {
-		List<CategoryVo> voList = service.getSubCategory();
-		return voList;
-	}
 	
 	
 }
