@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import Nav from './nav/Nav';
 import LoginArea from './LoginArea';
 import { useHeaderMemory } from '../../context/HeaderContext';
-import { useProjectCreateMemory } from '../../context/ProjectCreateContext';
+import HeaderCreateProject from './HeaderCreateProject';
 
 const StyledHeaderDiv = styled.header`
     display: flex;
@@ -229,7 +229,6 @@ const handleSearchBlur = (e) => {
 const Header = () => {
 
     const {pageType} = useHeaderMemory();
-    const {projectCreateData, IsProjectInputChange} = useProjectCreateMemory();
 
     return (
         <StyledHeaderDiv className={pageType}>
@@ -255,31 +254,7 @@ const Header = () => {
                         
                         { // createMain 버튼
                             pageType === 'createMain' ?  
-                            (
-                                projectCreateData ?
-                                    IsProjectInputChange ?
-                                    (
-                                        <button className="createMainStateBtn">
-                                            저장하기
-                                        </button>
-                                    )
-                                    :
-                                    ( 
-                                        <button
-                                            className="createMainStateBtn"
-                                            disabled={!(projectCreateData.totalCompletionRate === 100)}
-                                        >
-                                        {
-                                            projectCreateData.totalCompletionRate === 100 ?
-                                            '승인요청'
-                                            :
-                                            `기획중 · ${projectCreateData.totalCompletionRate}% 완료`
-                                        }
-                                        </button>
-                                    )
-                                :
-                                ''
-                            )
+                            <HeaderCreateProject />
                             :
                             ''
                         }
