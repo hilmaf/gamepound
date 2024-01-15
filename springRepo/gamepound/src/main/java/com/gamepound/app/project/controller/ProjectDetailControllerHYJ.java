@@ -73,6 +73,8 @@ public class ProjectDetailControllerHYJ {
 		return voList;
 	}
 	
+	
+	//////////////////////////////////////////////////////////////
 	//프로젝트 상세 조회 - 업데이트 작성
 	@PostMapping("update")
 	public void projectDetailUpdate(ProjectUpdateVo vo) throws Exception {

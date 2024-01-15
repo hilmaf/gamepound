@@ -90,7 +90,6 @@ public class ProjectServiceHYJ {
 		vo.setAchievementRate(util.achievementRate(vo.getGoalAmount(), vo.getCurrentAmount()));
 		
 		//남은 시간 추가
-		System.out.println(vo.getEndDate());
 		vo.setRemainingPeriod(util.getRemainingPeriod(vo.getEndDate(), "YYYY'년' MM'월' DD'일'"));
 		return vo;
 	}
