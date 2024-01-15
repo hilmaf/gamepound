@@ -53,19 +53,10 @@
 		AND P.DELETE_YN = 'N'
 	</select>
 	
-	<!-- 프로젝트 작성조회 : 기본정보 -->
-	<select id="getBasic" resultType="ProjectVo">
-		SELECT C.MAIN_CATEGORY, C.SUB_CATEGORY, P.TITLE, P.IMAGE_URL
-		FROM PROJECT P
-		JOIN CATEGORY C ON C.NO = P.CATEGORY_NO
-		WHERE P.NO = #{no}
-		AND DELETE_YN = 'N'
-	</select>
-	
 	<!-- 프로젝트 작성조회 : 펀딩계획 -->
 	<select id="getPlan" resultType="ProjectVo">
 		SELECT 
-			, REGEXP_REPLACE(REVERSE(REGEXP_REPLACE(REVERSE(TO_CHAR(GOAL_AMOUNT)), '(\d{3})', '\1,')), '^,', '') AS GOAL_AMOUNT
+			GOAL_AMOUNT
 			, TO_CHAR(START_DATE, 'YYYY-MM-DD') AS START_DATE
 			, TO_CHAR(END_DATE, 'YYYY-MM-DD') AS END_DATE
 		FROM PROJECT
@@ -97,10 +88,11 @@
 	<!-- 프로젝트 작성저장 : 펀딩계획 -->
 	<update id="savePlan">
 		UPDATE PROJECT
-		    SET 
-		    GOAL_AMOUNT = #{goalAmount}
-		    , START_DATE = #{startDate}
-		    , END_DATE = #{endDate}
+		<set>
+	        <if test="goalAmount != null">GOAL_AMOUNT = #{goalAmount},</if>
+	        <if test="startDate != null">START_DATE = #{startDate},</if>
+	        <if test="endDate != null">END_DATE = #{endDate}</if>
+	    </set>
 		WHERE NO = #{no}
 	</update>
 	

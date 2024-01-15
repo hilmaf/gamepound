@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import DatePicker from "react-datepicker";
+import { format } from 'date-fns';
 
 import "react-datepicker/dist/react-datepicker.css";
+import { useParams } from 'react-router-dom';
+import { useProjectCreateMemory } from '../../../component/context/ProjectCreateContext';
 
 const StyledCreatePlanDiv = styled.div`
     padding: 40px 0;
@@ -80,8 +83,109 @@ const StyledCreatePlanDiv = styled.div`
 
 const ProjectPlanCreate = () => {
 
-    const [startDate, setStartDate] = useState(null);
-    const [endDate, setEndDate] = useState(null);
+    const [startDate, setStartDate] = useState(null); // 데이트피커
+    const [endDate, setEndDate] = useState(null); // 데이트피커
+    const [dataVo, setDataVo] = useState(); // 가져온 데이터
+    const { projectNo } = useParams(); // 파라미터
+    const [money, setMoney] = useState(); // 금액
+    const { headerFormVo, setHeaderFormVo, setIsProjectInputChange, setDataFrom, setProjectCreateData, projectCreateData } = useProjectCreateMemory(); // 보낼 컨텍스트 데이터
+
+    // 컨텍스트 데이터에 프로젝트 넘버 저장
+    useEffect(() => {
+        setProjectCreateData({
+            ...projectCreateData,
+            'mainVo': {
+                'no': projectNo,
+            },
+        })
+        setHeaderFormVo({
+            ...headerFormVo,
+            'no': projectNo,
+        });
+    }, []);
+
+    // 데이터 불러오기
+    useEffect(() => {
+        fetch(`http://localhost:8889/gamepound/project/get/plan?no=${projectNo}`)
+        .then(resp => resp.json())
+        .then(data => {
+            setDataVo(data.vo);
+            setMoney(data.vo?.goalAmount);
+            // dataVo 데이터가 들어온 후에 설정
+            if (data.vo?.startDate) {
+                setStartDate(new Date(data.vo.startDate));
+            }
+            if (data.vo?.endDate) {
+                setEndDate(new Date(data.vo.endDate));
+            }
+        })
+        ;
+    }, []);
+
+    // 콤마추가
+    const addComma = (price) => {
+        let returnString = price?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        return returnString;
+    }
+
+    // 목표금액 핸들링
+    const handleInputChange = (e) => {
+        const rawValue = e.target.value;
+        const numericValue = parseFloat(rawValue.replace(/,/g, ''));
+        const { name } = e.target;
+      
+        // NaN 처리
+        if (!isNaN(numericValue)) {
+            // 입력값이 1경 이하인지 확인
+            if (numericValue <= 1000000000000) {
+                const formattedValue = numericValue.toLocaleString();
+                setMoney(formattedValue);
+            } else {
+                // 1경 이상일 경우, 원래 값으로 유지
+                setMoney(money);
+            }
+        
+            setHeaderFormVo({
+                ...headerFormVo,
+                [name]: numericValue,
+            });
+            setIsProjectInputChange(true);
+            setDataFrom('plan');
+        } else {
+            // NaN일 경우, 0으로 설정
+            setMoney(0);
+            setHeaderFormVo({
+                ...headerFormVo,
+                [name]: 0,
+            });
+            setIsProjectInputChange(true);
+            setDataFrom('plan');
+        }
+    };
+    console.log(headerFormVo);
+
+    // 시작날짜 저장
+    const handleStartDateChange = (date) => {
+        setStartDate(date);
+        
+        setHeaderFormVo({
+            ...headerFormVo,
+            'startDate': date ? format(date, 'yyyy-MM-dd') : '',
+        });
+        setIsProjectInputChange(true);
+        setDataFrom('plan');
+    };
+    // 종료날짜 저장
+    const handleEndDateChange = (date) => {
+        setEndDate(date);
+
+        setHeaderFormVo({
+            ...headerFormVo,
+            'endDate': date ? format(date, 'yyyy-MM-dd') : '',
+        });
+        setIsProjectInputChange(true);
+        setDataFrom('plan');
+    };
 
     return (
         <StyledCreatePlanDiv>
@@ -92,7 +196,14 @@ const ProjectPlanCreate = () => {
                         <dl className='item'>
                             <dt>목표 금액</dt>
                             <dd>
-                                <input type="text" name='goalAmount' placeholder='50만원 이상의 금액을 입력해주세요' /><span className='won'>원</span>
+                                <input 
+                                    type="text" 
+                                    name='goalAmount' 
+                                    value={money ? addComma(money) : ""}
+                                    placeholder='50만원 이상의 금액을 입력해주세요' 
+                                    onChange={handleInputChange}
+                                />
+                                <span className='won'>원</span>
                             </dd>
                         </dl>
                     </dd>
@@ -107,7 +218,7 @@ const ProjectPlanCreate = () => {
                                     dateFormat='yyyy-MM-dd' // 날짜 형태
                                     shouldCloseOnSelect // 날짜를 선택하면 datepicker가 자동으로 닫힘
                                     selected={startDate}
-                                    onChange={(date) => setStartDate(date)}
+                                    onChange={handleStartDateChange}
                                     minDate={new Date()} // 시작일은 오늘 이후로 선택
                                     selectsStart
                                     startDate={startDate}
@@ -122,7 +233,7 @@ const ProjectPlanCreate = () => {
                                     dateFormat='yyyy-MM-dd' // 날짜 형태
                                     shouldCloseOnSelect // 날짜를 선택하면 datepicker가 자동으로 닫힘
                                     selected={endDate}
-                                    onChange={(date) => setEndDate(date)}
+                                    onChange={handleEndDateChange}
                                     selectsEnd
                                     startDate={startDate}
                                     endDate={endDate}

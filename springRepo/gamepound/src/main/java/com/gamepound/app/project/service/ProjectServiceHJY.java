@@ -139,22 +139,6 @@ public class ProjectServiceHJY {
         return completionRate;
     }
 
-	// 프로젝트 작성조회 : 기본정보
-	public ProjectVo getBasic(ProjectVo vo) {
-		
-		// 조회시 이미지 파일명에 경로 붙이기
-		ProjectVo prjVo = dao.getBasic(sst, vo);
-		String fileName = prjVo.getImageUrl();
-		
-		String localAddr = "http://localhost:8889/gamepound";
-		String uploadDir = "/resources/images/projectImg/";
-		fileName = localAddr + uploadDir + fileName;
-		
-		prjVo.setImageUrl(fileName);
-		
-		return prjVo;
-	}
-
 	// 프로젝트 작성조회 : 펀딩계획
 	public ProjectVo getPlan(ProjectVo vo) {
 		return dao.getPlan(sst, vo);

@@ -14,6 +14,7 @@ const HeaderCreateProject = () => {
     
     const handleSaveData = (e) => {
         const { name } = e.target;
+        // basic 저장
         if(name === 'basic'){
             const formData = new FormData();
 
@@ -52,6 +53,33 @@ const HeaderCreateProject = () => {
             })
             ;
             setIsProjectInputChange(false);
+        }
+        
+        // plan 저장
+        if(name === 'plan'){
+
+            fetch('http://localhost:8889/gamepound/project/save/plan', {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(headerFormVo),
+            })
+            .then(resp => resp.json())
+            .then(data => {
+                if(data.msg === 'good'){
+                    alert('프로젝트 내용이 저장되었습니다.');
+                    navigate(`/projectCreate/main/index/plan/${projectNo.no}`);
+                } else {
+                    throw new Error();
+                }
+            })
+            .catch((e) => {
+                alert('오류가 발생했습니다. 다시 시도해주세요.');
+            })
+            ;
+            setIsProjectInputChange(false);
+            
         }
     }
 
