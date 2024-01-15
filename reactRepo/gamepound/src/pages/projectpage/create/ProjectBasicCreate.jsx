@@ -122,7 +122,6 @@ const ProjectBasicCreate = () => {
 
     // 데이터 불러오기
     useEffect(() => {
-        if(dataVo){}
         fetch('http://localhost:8889/gamepound/project/create/main?no=' + projectNo)
         .then(resp => resp.json())
         .then(data => {
