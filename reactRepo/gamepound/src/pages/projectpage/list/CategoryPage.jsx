@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import ProjectBoxInfo from "../../../component/project/ProjectBoxInfo";
+import { useParams } from 'react-router-dom';
+import ProjectListBoxInfo from '../../../component/project/ProjectListBoxInfo';
 
 const StyledAllDiv = styled.div`
     width: 100%;
@@ -29,13 +30,31 @@ const StyledAllDiv = styled.div`
             
         }
         & > div:last-child{
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr;
+            display: flex;
+            flex-wrap: wrap;
         }
     }
 `;
 
-const categoryPage = () => {
+const CategoryPage = () => {
+
+    const {no} = useParams();
+
+    const [categoryVoList, setCategoryVoList] = useState([]);
+
+    useEffect(()=>{
+        fetch("http://127.0.0.1:8889/gamepound/project/list/category?categoryNo=" + no)
+        .then((resp)=>{return resp.json()})
+        .then((data)=>{
+            console.log(1);
+            console.log(data);
+            setCategoryVoList(data);
+        })
+        .catch((e)=>{console.log("오류 : " + e);})
+        ;
+    }, [no]);
+
+
     return (
         <StyledAllDiv>
             <div className='inner'>
@@ -47,15 +66,16 @@ const categoryPage = () => {
                     <div><span>20</span>개의 프로젝트가 있습니다.</div>
                 </div>
                 <div>
-                    <ProjectBoxInfo no={1} project={1}/>
-                    <ProjectBoxInfo no={1} project={1}/>
-                    <ProjectBoxInfo no={1} project={1}/>
-                    <ProjectBoxInfo no={1} project={1}/>
-                    <ProjectBoxInfo no={1} project={1}/>
+                    {
+                        categoryVoList.map((vo)=>{
+                            return(<ProjectListBoxInfo no={4} project={vo}/>);
+                        })
+
+                    }
                 </div>
             </div>
         </StyledAllDiv>
     );
 };
 
-export default categoryPage;
+export default CategoryPage;
