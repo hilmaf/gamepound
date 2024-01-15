@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.gamepound.app.project.service.ProjectServiceHYJ;
 import com.gamepound.app.project.vo.ProjectListVo;
@@ -12,7 +13,7 @@ import com.gamepound.app.project.vo.ProjectVo;
 
 import lombok.RequiredArgsConstructor;
 
-@Controller
+@RestController
 @RequestMapping("project")
 @RequiredArgsConstructor
 public class ProjectControllerHYJ {
@@ -20,14 +21,14 @@ public class ProjectControllerHYJ {
 	
 	//목록 조회 - 카테고리(소분류)
 	@GetMapping("list/category")
-	public void projectListCategory(ProjectListVo vo) {
-		System.out.println("카테고리 목록 조회 시작");
+	public List<ProjectVo> projectListCategory(ProjectListVo vo) {
 		List<ProjectVo> voList = service.projectListCategory(vo);
 		
 		//TODO-HYJ : [list-category] ajaxㄱㄱ (화면에서 받을때 : 달성률 시작 + 끝, 카테고리번호(필수) , 프로젝트 상태 받을수있음)
 		for (ProjectVo projectVo : voList) {
-			System.out.println(projectVo);
+			System.out.println(projectVo.getNo() + " ::: " + projectVo);
 		}
+		return voList;
 	}
 	
 	//목록 조회 - 인기순

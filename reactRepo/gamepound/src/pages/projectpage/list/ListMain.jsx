@@ -8,7 +8,7 @@ import PrelaunchPage from "./PrelaunchPage";
 const ListMain = () => {
     return (<>
         <Routes>
-            <Route path='/category' element={<CategoryPage/>}></Route>
+            <Route path='/category/:no' element={<CategoryPage/>}></Route>
             <Route path='/imminent' element={<ImminentPage/>}></Route>
             <Route path='/new' element={<NewPage/>}></Route>
             <Route path='/popular' element={<PopularPage/>}></Route>

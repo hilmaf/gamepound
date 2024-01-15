@@ -10,9 +10,12 @@
 		SELECT 
 		    NO
 		    , STATUS_NO
+		    , STATUS AS STATUS_NAME
 		    , IMAGE_URL
 		    , CATEGORY_NO
+		    , MAIN_CATEGORY_NO
 		    , MAIN_CATEGORY
+		    , SUB_CATEGORY_NO
 		    , SUB_CATEGORY
 		    , MEMBER_NO
 		    , NAME AS MEMBER_NAME
@@ -21,15 +24,17 @@
 		    , GOAL_AMOUNT AS GOAL_AMOUNT_NO
 		    , REGEXP_REPLACE(REVERSE(REGEXP_REPLACE(REVERSE(TO_CHAR(CURRENT_AMOUNT)), '(\d{3})', '\1,')), '^,', '') AS "CURRENT_AMOUNT"
 		    , CURRENT_AMOUNT AS CURRENT_AMOUNT_NO
-		    , END_DATE
+		    , TO_CHAR(END_DATE, 'YYYY"년 "MM"월 "DD"일"') AS END_DATE
 			]]>
 		FROM (
 		        SELECT 
 		        P.NO
 		        , P.IMAGE_URL
 		        , P.CATEGORY_NO
+		        , C.MAIN_CATEGORY_NO
 		        , C.MAIN_CATEGORY
 		        , C.SUB_CATEGORY
+		        , C.SUB_CATEGORY_NO
 		        , P.MEMBER_NO
 		        , M.NAME
 		        , P.TITLE
@@ -37,6 +42,7 @@
 		        , P.GOAL_AMOUNT
 		        , P.CURRENT_AMOUNT
 		        , P.STATUS_NO
+		        , PS.STATUS
 		    FROM (SELECT NO
 		                , IMAGE_URL
 		                , CATEGORY_NO

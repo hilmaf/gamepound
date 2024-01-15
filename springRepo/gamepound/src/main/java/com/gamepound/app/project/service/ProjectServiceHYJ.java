@@ -23,35 +23,59 @@ import lombok.RequiredArgsConstructor;
 public class ProjectServiceHYJ {
 	private final ProjectDaoHYJ dao;
 	private final SqlSessionTemplate sst;
+	private final DataProcessingUtil util;
 	
 	//목록 조회 - 카테고리
 	public List<ProjectVo> projectListCategory(ProjectListVo vo) {
-		//TODO-HYJ : [list-category] vo에 달성률 남은 기간 너어야함
-		return dao.projectListCategory(sst, vo);
+		
+		List<ProjectVo> voList = dao.projectListCategory(sst, vo);
+		
+		//추가
+		add(voList);
+		
+		return voList;
 	}
 
 	//목록 조회 - 인기순
 	public List<ProjectVo> projectListPopular(ProjectListVo vo) {
-		//TODO-HYJ : [list-popular] vo에 달성률 남은 기간 너어야함
-		return dao.projectListPopular(sst, vo);
+		List<ProjectVo> voList = dao.projectListPopular(sst, vo);
+		//추가
+		add(voList);
+		return voList;
 	}
 
 	//목록 조회 - 신규
 	public List<ProjectVo> projectListNew(ProjectListVo vo) {
-		//TODO-HYJ : [list-new] vo에 달성률 남은 기간 너어야함
-		return dao.projectListNew(sst, vo);
+		List<ProjectVo> voList = dao.projectListNew(sst, vo);
+		//추가
+		add(voList);
+		return voList;
 	}
 
 	//목록 조회 - 마감임박
 	public List<ProjectVo> projectListImminent(ProjectListVo vo) {
-		//TODO-HYJ : [list-imminent] vo에 달성률 남은 기간 너어야함
-		return dao.projectListImminent(sst, vo);
+		List<ProjectVo> voList = dao.projectListImminent(sst, vo);
+		//추가
+		add(voList);
+		return voList;
 	}
 
 	//목록 조회 - 공개예정
 	public List<ProjectVo> projectListPrelaunch() {
 		return dao.projectListPrelaunch(sst);
 	}
+	
+	
+	//List에 달성률, 남은 시간 추가
+	public void add(List<ProjectVo>voList) {
+		for (ProjectVo vo : voList) {
+			vo.setAchievementRate(util.achievementRate(vo.getGoalAmount(), vo.getCurrentAmount()));
+			vo.setRemainingPeriod(util.getRemainingPeriod(vo.getEndDate(), "YYYY'년' MM'월' DD'일'"));
+		}
+	}
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
 	
 	//프로젝트 상세 조회 - 타이틀
 	public ProjectDetailVo projectDetail(String no) {
