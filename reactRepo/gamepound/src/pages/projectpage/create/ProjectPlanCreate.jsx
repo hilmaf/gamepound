@@ -1,5 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import DatePicker from "react-datepicker";
+
+import "react-datepicker/dist/react-datepicker.css";
 
 const StyledCreatePlanDiv = styled.div`
     padding: 40px 0;
@@ -62,6 +65,9 @@ const StyledCreatePlanDiv = styled.div`
                             text-align: right;
                             padding-right: 42px;
                         }
+                        & > div {
+                            width: 100%;
+                        }
                     }
                 }
             }
@@ -73,6 +79,10 @@ const StyledCreatePlanDiv = styled.div`
 `;
 
 const ProjectPlanCreate = () => {
+
+    const [startDate, setStartDate] = useState(null);
+    const [endDate, setEndDate] = useState(null);
+
     return (
         <StyledCreatePlanDiv>
             <div className="contentDiv">
@@ -93,13 +103,31 @@ const ProjectPlanCreate = () => {
                         <dl className='item'>
                             <dt>시작일</dt>
                             <dd>
-                                <input type="text" name='startDate' />
+                                <DatePicker 
+                                    dateFormat='yyyy-MM-dd' // 날짜 형태
+                                    shouldCloseOnSelect // 날짜를 선택하면 datepicker가 자동으로 닫힘
+                                    selected={startDate}
+                                    onChange={(date) => setStartDate(date)}
+                                    minDate={new Date()} // 시작일은 오늘 이후로 선택
+                                    selectsStart
+                                    startDate={startDate}
+                                    endDate={endDate}
+                                />
                             </dd>
                         </dl>
                         <dl className='item'>
                             <dt>종료일</dt>
                             <dd>
-                                <input type="text" name='endDate' />
+                                <DatePicker
+                                    dateFormat='yyyy-MM-dd' // 날짜 형태
+                                    shouldCloseOnSelect // 날짜를 선택하면 datepicker가 자동으로 닫힘
+                                    selected={endDate}
+                                    onChange={(date) => setEndDate(date)}
+                                    selectsEnd
+                                    startDate={startDate}
+                                    endDate={endDate}
+                                    minDate={startDate} // 종료일은 시작일 이후여야 함
+                                />
                             </dd>
                         </dl>
                     </dd>

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
@@ -64,6 +65,13 @@ public class ProjectServiceHJY {
 	// 프로젝트 내용 조회 (메인)
 	public Map<String, Object> createMain(ProjectVo vo) {
 		ProjectVo mainVo = dao.createMain(sst, vo);
+		
+		// 파일명에 경로 붙이기
+		String fileName = mainVo.getImageUrl();
+		String localAddr = "http://localhost:8889/gamepound";
+		String uploadDir = "/resources/images/projectImg/";
+		fileName = localAddr + uploadDir + fileName;
+		mainVo.setImageUrl(fileName);
 		
 		// 퍼센트 계산 + 작성률 계산 후 리턴
 		return calculatePercent(mainVo);
@@ -133,7 +141,18 @@ public class ProjectServiceHJY {
 
 	// 프로젝트 작성조회 : 기본정보
 	public ProjectVo getBasic(ProjectVo vo) {
-		return dao.getBasic(sst, vo);
+		
+		// 조회시 이미지 파일명에 경로 붙이기
+		ProjectVo prjVo = dao.getBasic(sst, vo);
+		String fileName = prjVo.getImageUrl();
+		
+		String localAddr = "http://localhost:8889/gamepound";
+		String uploadDir = "/resources/images/projectImg/";
+		fileName = localAddr + uploadDir + fileName;
+		
+		prjVo.setImageUrl(fileName);
+		
+		return prjVo;
 	}
 
 	// 프로젝트 작성조회 : 펀딩계획
@@ -160,6 +179,28 @@ public class ProjectServiceHJY {
 	
 	// 프로젝트 작성저장 : 기본정보
 	public int saveBasic(ProjectVo vo) {
+		
+		// 타이틀 널체크
+		System.out.println("서비스에서 타이틀 :: " + vo.getTitle());
+		System.out.println("서비스에서 널 :: " + vo.getTitle() == null);
+		System.out.println("서비스에서 언디파인드 :: " + "undefined".equals(vo.getTitle()));
+		System.out.println("서비스에서 엠티결과 :: " + vo.getTitle().isEmpty());
+	    if (vo.getTitle() == null || "undefined".equals(vo.getTitle()) || vo.getTitle().isEmpty()) {
+	        vo.setTitle(null);
+	    }
+
+	    // 메인카테고리 넘버 널체크
+		System.out.println("서비스에서 메인카테고리 넘버 :: " + vo.getMainCategoryNo());
+	    if (vo.getMainCategoryNo() == null || "undefined".equals(vo.getMainCategoryNo()) || vo.getMainCategoryNo().isEmpty()) {
+	        vo.setMainCategory(null);
+	    }
+
+	    // 카테고리 넘버 널체크
+		System.out.println("서비스에서 카테고리 넘버 :: " + vo.getCategoryNo());
+	    if (vo.getCategoryNo() == null || "undefined".equals(vo.getCategoryNo()) || vo.getCategoryNo().isEmpty()) {
+	        vo.setCategoryNo(null);
+	    }
+		
 		return dao.saveBasic(sst, vo);
 	}
 
@@ -196,9 +237,14 @@ public class ProjectServiceHJY {
 	// 이미지 파일저장
 	public String imagefileSave(MultipartFile imageUrl, String root) throws Exception {
 
+		// 랜덤파일이름 생성
 		String fileName = imageUrl.getOriginalFilename();
+		String fileExtension = fileName.substring(fileName.lastIndexOf('.') + 1);
+		UUID uuid = UUID.randomUUID();
+		fileName = uuid.toString() + "." + fileExtension;
+		
+		// 이미지 webapp/resources/images/projectImg 경로에 저장
         String filePath = root + fileName;
-
         File dest = new File(filePath);
         imageUrl.transferTo(dest);
 

@@ -58,9 +58,7 @@ public class ProjectControllerHJY {
 	// 프로젝트 내용 조회 (메인) 프로젝트 넘버필요
 	@GetMapping("create/main")
 	public Map<String, Object> createMain(ProjectVo vo) {
-		System.out.println(vo);
 		Map<String, Object> map = service.createMain(vo);
-		System.out.println(map.get("mainVo"));
 		return map;
 	}
 	
@@ -76,34 +74,42 @@ public class ProjectControllerHJY {
 	}
 	// 프로젝트 작성저장 : 기본정보
 	@PostMapping("save/basic")
-	public ResponseEntity<String> saveBasic(
+	public Map<String, String> saveBasic(
 			@RequestParam("title") String title,
-	        @RequestParam("imageUrl") MultipartFile imageUrl,
+			@RequestPart(name = "imageUrl", required = false) MultipartFile imageUrl,
 	        @RequestParam("mainCategoryNo") String mainCategoryNo,
 	        @RequestParam("subCategoryNo") String subCategoryNo,
 	        @RequestParam("no") String no,
 	        HttpServletRequest req) throws Exception {
+		System.out.println("title::" + title);
+		System.out.println("imageUrl::" + imageUrl);
+		System.out.println("mainCategoryNo::" + mainCategoryNo);
+		System.out.println("subCategoryNo::" + subCategoryNo);
+		System.out.println("no::" + no);
 		
 		// 파일저장 service
 		String uploadDir = "/resources/images/projectImg/";
-        String root = req.getServletContext().getRealPath(uploadDir);
-		System.out.println("저장경로:: " + root);
-		String fileName = service.imagefileSave(imageUrl, root);
+        String root = req.getServletContext().getRealPath(uploadDir); // 저장경로
+        String fileName = null;
+        if(!(imageUrl == null) && !(imageUrl.isEmpty())) { // 이미지 파일 처리
+        	fileName = service.imagefileSave(imageUrl, root);        	
+        }
 		
 		ProjectVo vo = new ProjectVo();
 		vo.setNo(no);
 		vo.setTitle(title);
 		vo.setMainCategoryNo(mainCategoryNo);
 		vo.setCategoryNo(subCategoryNo);
-		vo.setImageUrl("http://localhost:8889/gamepound" + uploadDir + fileName);
-		System.out.println(vo);
-		int result = service.saveBasic(vo);
-		if(result != 1) {
-			throw new Exception("프로젝트 기본정보 작성에 실패했습니다.");
-		}
-		System.out.println("프로젝트 작성저장 결과 : " + result);
+		vo.setImageUrl(fileName);
 		
-		return ResponseEntity.ok("Success");
+		int result = service.saveBasic(vo);
+		Map<String, String> map = new HashMap<>();
+		map.put("msg", "good");
+		if(result != 1) {
+			map.put("msg", "bad");
+		}
+		
+		return map;
 	}
 	
 	
