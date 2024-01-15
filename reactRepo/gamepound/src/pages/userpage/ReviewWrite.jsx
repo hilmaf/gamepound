@@ -109,7 +109,7 @@ const ReviewWrite = ({item}) => {
     });
 
     console.log(reviewVo);
-    
+
     // img preview
     const handleInputChange = (event) => {
         const {name, value} = event.target;
@@ -119,20 +119,30 @@ const ReviewWrite = ({item}) => {
         })
     }
 
+    
     // fetch 리뷰 등록
     const handleReviewSubmit = (e) => {
         e.preventDefault();
         
+        const formData = new FormData();
+        formData.append('memberNo', reviewVo.memberNo);
+        formData.append('projectNo', reviewVo.projectNo);
+        formData.append('backNo', reviewVo.backNo);
+        formData.append('reviewContent', reviewVo.reviewContent);
+        formData.append('reviewImg', reviewVo.reviewImg);
+        formData.append('rating', reviewVo.rating);
+
         fetch("http://127.0.0.1:8889/gamepound/userpage/review/write", {
             method: "post",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(reviewVo)
+            body: formData
         })
         .then(resp => resp.json())
         .then(data => {
-            console.log(data);  
+            console.log(data);
+            alert("리뷰 작성이 완료되었습니다.");  
         })
     }
 
