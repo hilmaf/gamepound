@@ -81,6 +81,11 @@ public class DataProcessingUtil {
 		
 		return String.format("%.1f", num);
 	}
+	
+	// 카드 정보 데이터 가공
+	public String compileInputs(String[] strings) {
+		return String.join("", strings);
+	}
 
 	
 	class ProcessSupport {

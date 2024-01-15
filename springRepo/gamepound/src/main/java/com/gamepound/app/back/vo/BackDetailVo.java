@@ -43,6 +43,7 @@ public class BackDetailVo {
 	
 	// 후원자 정보
 	private String memberNo;
+	private String customerUid;
 	private String memberEmail; // sessionStorage 통해서 가져올 것
 	
 	// 결제 수단
@@ -54,11 +55,13 @@ public class BackDetailVo {
 	private String paymentDueDate; // 결제예정일
 	
 	// 카드 정보
+	private String cardNo;
 	private String cardNo1;
 	private String cardNo2;
 	private String cardNo3;
 	private String cardNo4;
 	
+	private String validThru;
 	private String validThru1;
 	private String validThru2;
 	
