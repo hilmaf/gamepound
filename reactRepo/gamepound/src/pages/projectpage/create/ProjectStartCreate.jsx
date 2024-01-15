@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import { useUserMemory } from '../../../component/context/UserContext';
 
 const StyledCreateStartDiv = styled.div`
     & .inner {
@@ -36,7 +37,18 @@ const StyledCreateStartDiv = styled.div`
 `;
 
 const ProjectStartCreate = () => {
+
     const navigate = useNavigate();
+    const {loginMemberVo} = useUserMemory();
+
+    const handleStartLink = () => {
+        if(loginMemberVo){
+            navigate('/projectCreate/new');
+        } else {
+            alert('로그인 후 이용하실 수 있습니다.');
+            navigate('/');
+        }
+    }
 
     return (
         <StyledCreateStartDiv>
@@ -47,7 +59,7 @@ const ProjectStartCreate = () => {
                 <span className="txt">
                     당신의 아이디어가 필요합니다.
                 </span>
-                <button onClick={() => {navigate('/projectCreate/new')}}>지금 시작하기</button>
+                <button onClick={handleStartLink}>지금 시작하기</button>
             </div>
         </StyledCreateStartDiv>
     );

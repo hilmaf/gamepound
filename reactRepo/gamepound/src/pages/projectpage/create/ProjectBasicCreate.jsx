@@ -98,7 +98,7 @@ const StyledCreateBasicDiv = styled.div`
 const ProjectBasicCreate = () => {
 
     const { updatePageType } = useHeaderMemory();
-    const [formVo, setFormVo] = useState({});
+    // const [formVo, setFormVo] = useState({});
     const {projectCreateData, setProjectCreateData, setIsProjectInputChange, setDataFrom, headerFormVo, setHeaderFormVo} = useProjectCreateMemory(); // 컨텍스트 데이터
     const [dataVo, setDataVo] = useState(); // 프로젝트 정보
     const [categoryVo, setCategoryVo] = useState([]); // 카테고리 데이터
@@ -143,15 +143,6 @@ const ProjectBasicCreate = () => {
         ;
     }, []);
 
-    // 선택된 카테고리의 서브카테고리 나타내기
-    useEffect(() => {
-        if(categoryVo && dataVo){
-            const selectedCategory = categoryVo.find((vo) => vo.mainCategoryNo === dataVo.mainVo.mainCategoryNo);
-            setSubCategory(selectedCategory.subCategoryList);
-        } 
-    }, [categoryVo]);
-    // console.log('datavo', dataVo);
-
     // formVo에 값 저장
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -162,21 +153,25 @@ const ProjectBasicCreate = () => {
         setIsProjectInputChange(true);
         setDataFrom('basic');
     };
-    
-    // 서브카테고리 저장 (기본)
+
+    // 선택된 카테고리의 서브카테고리 나타내기
     useEffect(() => {
-        if(dataVo){
-            // find 메소드로 찾은 결과가 undefined인지 확인
+        if(categoryVo && dataVo){
             const selectedCategory = categoryVo.find((vo) => vo.mainCategoryNo === dataVo.mainVo.mainCategoryNo);
-            const subCategoryList = selectedCategory ? selectedCategory.subCategoryList : [];
-            setSubCategory(subCategoryList);
-        }
-    }, []);
+            setSubCategory(selectedCategory.subCategoryList);
+        } 
+    }, [categoryVo]);
 
     // 카테고리 값 저장
     const handleMainCategoryChange = (e) => {
         const selectMainCategory = e.target;
         const {name, value} = e.target;
+
+        console.log('벨류', selectMainCategory.value);
+        if(categoryVo && dataVo){
+            const selectCategory = categoryVo.find((vo) => vo.mainCategoryNo === selectMainCategory.value);
+            setSubCategory(selectCategory.subCategoryList);
+        } 
 
         setHeaderFormVo({
             ...headerFormVo,
@@ -217,7 +212,6 @@ const ProjectBasicCreate = () => {
             setDataFrom('basic');
         }
     };
-    console.log(headerFormVo);
 
     return (
         <StyledCreateBasicDiv>
@@ -229,7 +223,6 @@ const ProjectBasicCreate = () => {
                             <dt>대분류 카테고리</dt>
                             <dd>
                                 <select name="mainCategoryNo" onChange={handleMainCategoryChange} defaultValue='0'>
-                                    <option value='0'>선택</option>
                                     {
                                         categoryVo.length !== 0 ?
                                         categoryVo.map((vo) => (

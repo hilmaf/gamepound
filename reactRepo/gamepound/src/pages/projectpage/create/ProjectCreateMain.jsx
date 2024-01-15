@@ -30,7 +30,10 @@ const StyledCreateMainDiv = styled.div`
             margin: 0 auto;
             gap: 0 40px;
             & .img {
-                display: block;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                overflow: hidden;
                 width: 200px;
                 height: 133px;
                 background-color: #ddd;

@@ -85,12 +85,13 @@
 	
 	<!-- 프로젝트 작성저장 : 기본정보 -->
 	<update id="saveBasic">
-		UPDATE PROJECT
-		    SET 
-		    CATEGORY_NO = #{categoryNo}
-		    , TITLE = #{title}
-		    , IMAGE_URL = #{imageUrl}
-		WHERE NO = #{no}
+	    UPDATE PROJECT
+	    <set>
+	        <if test="categoryNo != null">CATEGORY_NO = #{categoryNo},</if>
+	        <if test="title != null">TITLE = #{title},</if>
+	        <if test="imageUrl != null">IMAGE_URL = #{imageUrl}</if>
+	    </set>
+	    WHERE NO = #{no}
 	</update>
 	
 	<!-- 프로젝트 작성저장 : 펀딩계획 -->

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { NavLink, useParams } from 'react-router-dom';
 import ProjectBasicCreate from './ProjectBasicCreate';
@@ -7,6 +7,7 @@ import ProjectRewardCreate from './ProjectRewardCreate';
 import ProjectUserinfoCreate from './ProjectUserinfoCreate';
 import ProjectPlanCreate from './ProjectPlanCreate';
 import { useHeaderMemory } from '../../../component/context/HeaderContext';
+import { useProjectCreateMemory } from '../../../component/context/ProjectCreateContext';
 
 const StyledCreateBasicIndexDiv = styled.div`
     padding-top: 124px;
@@ -69,27 +70,54 @@ const StyledCreateBasicIndexDiv = styled.div`
 const ProjectCreateMainIndex = () => {
     const { updatePageType } = useHeaderMemory();
     const { projectNo, temp } = useParams();
+    const [projectTitle, setProjectTitle] = useState();
+    const { IsProjectInputChange, setIsProjectInputChange } = useProjectCreateMemory(); // 컨텍스트 데이터
 
     // header type
     useEffect(() => {
         updatePageType('createMain');
     }, [updatePageType]);
 
-    
+    // 데이터 불러오기
+    useEffect(() => {
+        fetch('http://localhost:8889/gamepound/project/create/main?no=' + projectNo, {
+            method: 'get',
+        })
+        .then(resp => resp.json())
+        .then(data => {
+            setProjectTitle(data.mainVo.title);
+        })
+        ;
+    }, []);
+
+    // NavLink를 클릭할 때 호출되는 함수
+    const handleNavLinkClick = (e) => {
+        // 작성 중인 내용이 있다면 경고창 띄우기
+        if (IsProjectInputChange) {
+            const confirmResult = window.confirm('작성 중인 내용이 있습니다. 정말로 이동하시겠습니까?');
+            // 사용자가 확인을 선택한 경우에만 페이지 이동
+            if (confirmResult) {
+                setIsProjectInputChange(false); // 이동 시 false로 바꿔줌
+            } else {
+                // 사용자가 취소를 선택한 경우, 페이지 이동을 취소
+                e.preventDefault();
+            }
+        }
+    };
 
     return (
         <StyledCreateBasicIndexDiv>
             <div className="createMainHeader">
                 <div className="inner">
                     <div className="titleBox">
-                        <div className="title">프로젝트 제목</div>
+                        <div className="title">{projectTitle ? projectTitle : ''}</div>
                     </div>
                     <div className="linkList">
-                        <NavLink to={`../main/index/basic/${projectNo}`}>기본정보</NavLink>
-                        <NavLink to={`../main/index/plan/${projectNo}`}>펀딩 계획</NavLink>
-                        <NavLink to={`../main/index/reward/${projectNo}`}>선물 구성</NavLink>
-                        <NavLink to={`../main/index/dateplan/${projectNo}`}>프로젝트 계획</NavLink>
-                        <NavLink to={`../main/index/userinfo/${projectNo}`}>창작자 정보</NavLink>
+                        <NavLink to={`../main/index/basic/${projectNo}`} onClick={handleNavLinkClick}>기본정보</NavLink>
+                        <NavLink to={`../main/index/plan/${projectNo}`} onClick={handleNavLinkClick}>펀딩 계획</NavLink>
+                        <NavLink to={`../main/index/reward/${projectNo}`} onClick={handleNavLinkClick}>선물 구성</NavLink>
+                        <NavLink to={`../main/index/dateplan/${projectNo}`} onClick={handleNavLinkClick}>프로젝트 계획</NavLink>
+                        <NavLink to={`../main/index/userinfo/${projectNo}`} onClick={handleNavLinkClick}>창작자 정보</NavLink>
                     </div>
                 </div>
             </div>
