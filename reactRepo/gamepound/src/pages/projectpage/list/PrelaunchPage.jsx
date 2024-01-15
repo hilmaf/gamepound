@@ -18,8 +18,8 @@ const StyledAllDiv = styled.div`
             
         }
         & > div:last-child{
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr 1fr;
+            display: flex;
+            flex-wrap: wrap;
         }
     }
 `;
