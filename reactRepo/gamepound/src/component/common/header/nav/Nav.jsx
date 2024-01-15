@@ -140,7 +140,7 @@ const Nav = () => {
                                     <Link to=''>{vo.mainCategory}</Link>
                                     <ul>
                                         {vo.subCategoryList.map(sub => (
-                                            <li key={sub.no}><Link to=''>{sub.subCategory}</Link></li>
+                                            <li key={sub.no}><Link to={`/project/list/category/${sub.no}`}>{sub.subCategory}</Link></li>
                                         ))}
                                     </ul>
                                 </li>
