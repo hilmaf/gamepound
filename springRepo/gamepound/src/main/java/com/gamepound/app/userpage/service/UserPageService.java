@@ -68,10 +68,11 @@ public class UserPageService {
 		
 		List<ProjectBriefVo> myProjectList = dao.listMyProjects(sst, memberNo);
 		
+		System.out.println("myProjectList ::: " + myProjectList);
 		// 달성률, 마감기한 d- setting
 		for(ProjectBriefVo vo : myProjectList) {
 			String achievementRate = util.achievementRate(vo.getGoalAmount(), vo.getCurrentAmount());
-			String remainingPeriod = util.getRemainingPeriod(vo.getEndDate(), "YYYY년 MM월 DD일");
+			String remainingPeriod = util.getRemainingPeriod(vo.getEndDate(), "yyyy년 MM월 dd일");
 			
 			vo.setAchievementRate(achievementRate);
 			vo.setRemainingPeriod(remainingPeriod);
@@ -100,6 +101,11 @@ public class UserPageService {
 		map.put("cnt", successList.size() + failList.size());
 		
 		return map;
+	}
+
+	public String imagefileSave(String reviewImg, String root) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 	 

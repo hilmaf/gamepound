@@ -112,6 +112,7 @@ const BackingDetails = () => {
             [name]: value
         }
 
+        dataSet.setDataVo(back);
         setShowCard(false);
     }
 

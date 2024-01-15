@@ -23,10 +23,10 @@
 	    , R.CONTENT AS REVIEW_CONTENT
 	    , R.IMAGE AS REVIEW_IMG
 	    , R.RATING AS RATING
-	    , R.PROJECT_NO AS PROJECT_NO
+	    , P.NO AS PROJECT_NO
 	    , P.TITLE AS PROJECT_TITLE
 	    , P.IMAGE_URL AS PROJECT_IMG
-	    , TO_CHAR(R.ENROLL_DATE, 'YY"년" MM"월" DD"일"') AS ENROLL_DATE
+	    , TO_CHAR(R.ENROLL_DATE, 'YYYY"년" MM"월" DD"일"') AS ENROLL_DATE
 	FROM REVIEW R
 	JOIN PROJECT P ON R.PROJECT_NO = P.NO
 	JOIN MEMBER M ON M.NO = R.MEMBER_NO
@@ -52,7 +52,6 @@
 	INSERT INTO REVIEW(
 	    NO
 	    , MEMBER_NO
-	    , PROJECT_NO
 	    , BACKER_NO
 	    , CONTENT
 	    , IMAGE
@@ -61,7 +60,6 @@
 	VALUES(
 	    SEQ_REVIEW_NO.NEXTVAL
 	    , #{memberNo}
-	    , #{projectNo}
 	    , #{backNo}
 	    , #{reviewContent}
 	    , #{reviewImg}

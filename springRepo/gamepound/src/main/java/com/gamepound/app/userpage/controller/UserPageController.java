@@ -3,12 +3,15 @@ package com.gamepound.app.userpage.controller;
 import java.nio.charset.Charset;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -56,17 +59,27 @@ public class UserPageController {
 	
 	// 리뷰 작성하기
 	@PostMapping("review/write")
-	public void write(ReviewVo vo) throws Exception {
-		System.out.println(vo);
-		System.out.println(vo.getMemberNo());
+	public Map<String, String> write(@ModelAttribute ReviewVo vo, HttpServletRequest req) throws Exception {
+		
+		String uploadDir = "/resources/images/reviewImg";
+		String root = req.getServletContext().getRealPath(uploadDir); // 저장경로
+		String fileName = null;
+		System.out.println(vo.getReviewImg());
+		if(!(vo.getReviewImg()==null) && !(vo.getReviewImg().isEmpty())) {
+			fileName = service.imagefileSave(vo.getReviewImg(), root);
+		}
+		
 		// service
 		int result = service.write(vo);
 		
-		if(result != 1) {
-			throw new Exception("후기 작성 실패...");
-		}
-		
-		System.out.println(result);
+		Map<String, String> map = new HashMap<>();
+	    map.put("msg", "good");
+	    if(result != 1) {
+	       map.put("msg", "bad");
+	    }
+	      
+	    return map;
+
 	}
 	
 	// 유저페이지 - 내가 올린 프로젝트 목록 조회

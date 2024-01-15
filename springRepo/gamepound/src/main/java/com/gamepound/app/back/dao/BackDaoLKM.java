@@ -24,7 +24,17 @@ public class BackDaoLKM {
 	public int insertPayment(SqlSessionTemplate sst, BackDetailVo vo) {
 		return sst.insert("BackMapper.insertPayment", vo);
 	}
-
+	
+	// 카드 정보 insert 작업
+	public int insertCard(SqlSessionTemplate sst, BackDetailVo vo) {
+		return sst.insert("BackMapper.insertCard", vo);
+	}
+	
+	// 카카오페이 정보 insert 작업
+	public int insertKakaopay(SqlSessionTemplate sst, BackDetailVo vo) {
+		return sst.insert("BackMapper.insertKakaopay", vo);
+	}
+	
 	// 후원완료(nth 후원)
 	public String cntBacker(SqlSessionTemplate sst, String projectNo) {
 		return sst.selectOne("BackMapper.cntBacker", projectNo);

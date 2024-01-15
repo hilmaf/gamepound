@@ -1,8 +1,13 @@
 package com.gamepound.app.back.controller;
 
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -47,6 +52,7 @@ public class BackControllerLKM {
 	// 후원하기
 	@PostMapping("process")
 	public Map<String, String> back(@RequestBody BackDetailVo vo) throws Exception {
+		System.out.println("server side backing process start ::: !!");
 		
 		boolean backed = service.back(vo);
 		
@@ -63,13 +69,21 @@ public class BackControllerLKM {
 	
 	// 후원 완료(화면)
 	@GetMapping("completed")
-	public String completed(String projectNo) {
-		
-		projectNo = "1";
+	public ResponseEntity<String> completed(@RequestParam("no") String projectNo) {
 		
 		String nthBacker = service.cntBacker(projectNo);
 		
-		return nthBacker;
+		HttpHeaders header = getHttpHeaders("String");
+		
+		try {
+			if(nthBacker!=null) {
+				return ResponseEntity.ok().headers(header).body(nthBacker);
+			} else {
+				return ResponseEntity.notFound().headers(header).build();
+			}
+		} catch(Exception e) {
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).headers(header).body("서버 내부 에러 500");
+		}
 	}
 	
 	// 후원 취소
@@ -109,5 +123,14 @@ public class BackControllerLKM {
 	@PostMapping("change/paymentType")
 	public void changePaymentType(BackVo vo) {
 		int result = service.changePaymentType(vo);
+	}
+	
+	// HttpHeaders 세팅
+	private HttpHeaders getHttpHeaders(String respType) {
+		
+		HttpHeaders header = new HttpHeaders();
+		header.setContentType(new MediaType("application", respType, Charset.forName("UTF-8")));;
+		
+		return header;
 	}
 }

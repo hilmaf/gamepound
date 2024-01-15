@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const StyledProjectBoxInfoDiv = styled.div`
-    width: calc(100% / 3 - 30px);
+    width: calc(100% / ${no => no.no} - 30px);
     height: 410px;
     cursor: pointer;
     margin-right: 25px;
@@ -63,17 +63,17 @@ const ProjectBoxInfo = ({no, project}) => {
     const navigate = useNavigate();
 
     const handleBoxClick= () => {
-        navigate("/project/detail?no=" + project.projectNo);
+        navigate("/project/detail/" + project.projectNo);
     }
 
     return (
-        <StyledProjectBoxInfoDiv onClick={handleBoxClick}>
+        <StyledProjectBoxInfoDiv onClick={handleBoxClick} no={no}>
             <img src={project.projectImg}></img>
             <div className='category'>
                 <span>{project.categoryName} | {project.subCategoryName}</span>
                 <span>{project.memberName}</span>
             </div>
-            <div className='title' key={no}>
+            <div className='title' key={project.projectNo}>
                 {project.projectTitle}
             </div>
             <div className='progress'>

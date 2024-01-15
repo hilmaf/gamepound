@@ -60,6 +60,38 @@
 			, #{paymentAmount}
 		)
 	</insert>
+	
+<!-- 	후원하기(카드정보 테이블 insert) -->
+	<insert id="insertCard">
+		INSERT INTO CARD(
+		    NO
+		    , PAYMENT_NO
+		    , CARD_NUMBER
+		    , EXPIRATION_DATE
+		    , CARD_PWD
+		    , BIRTH_DATE
+		) VALUES(
+		    SEQ_CARD_NO.NEXTVAL
+		    , SEQ_PAYMENT_NO.CURRVAL
+		    , #{cardNo}
+		    , #{validThru}
+		    , #{cardPwd}
+		    , #{birthDate}
+		)
+	</insert>
+	
+<!-- 	후원하기(카카오페이정보 테이블 insert) -->
+	<insert id="insertKakaopay">
+		INSERT INTO KAKAOPAY(
+		    NO
+		    , PAYMENT_NO
+		    , CUSTOMER_UID
+		) VALUES(
+		    SEQ_CARD_NO.NEXTVAL
+		    , SEQ_PAYMENT_NO.CURRVAL
+		    , #{customerUid}
+		)
+	</insert>
   
 <!--   후원완료 -->
   <select id="cntBacker" resultType="java.lang.String">
