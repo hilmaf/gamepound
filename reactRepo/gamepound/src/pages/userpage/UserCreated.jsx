@@ -56,7 +56,7 @@ const UserCreated = () => {
                     <div id="project_items">
                         {
                             myProjectsList.map((vo) => {
-                                return <ProjectBoxInfo key={vo.projectNo} project={vo}/>
+                                return <ProjectBoxInfo no={3} project={vo}/>
                             })
                         }
                     </div>
