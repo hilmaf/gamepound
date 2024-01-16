@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useBackingMemory } from '../../../component/context/BackingContext';
-import {useNavigate, useNavigation} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import { useUserMemory } from '../../../component/context/UserContext';
 
 const StyledPaymentCheckDiv = styled.div`
@@ -67,7 +67,7 @@ const PaymentCheck = () => {
     const navigate = useNavigate();
 
     // useContext
-    const loginMemberVo = useUserMemory();
+    const {loginMemberVo} = useUserMemory();
 
     const dataSet = useBackingMemory();
     const back = dataSet.dataVo;
@@ -84,43 +84,32 @@ const PaymentCheck = () => {
         return is_checked;
     }
 
+    // 카드 정보 입력값 유효성 체크
     const checkCardInput = () => {
-        let check1 = false;
-        if(back.cardNo1 && back.cardNo2 && back.cardNo3 && back.cardNo4) {
-            check1 = true;
-        } 
 
-        let check2 = false;
-        if(back.cardNo1.length === 4 && back.cardNo2.length === 4 && back.cardNo3.length === 4 && back.cardNo4.length === 4) {
-            check2 = true;
-        }
+        const isNotEmpty = (value) => value && value.length>0;
+        const isValidLength = (value, length) => value.length === length;
 
-        let check3 = false;
-        if(back.validThru1 && back.validThru2) {
-            check3 = true;
-        }
+        const notNull= isNotEmpty(back.cardNo1) &&
+                    isNotEmpty(back.cardNo2) &&
+                    isNotEmpty(back.cardNo3) &&
+                    isNotEmpty(back.cardNo4) &&
+                    isNotEmpty(back.validThru1) &&
+                    isNotEmpty(back.validThru2) &&
+                    isNotEmpty(back.cardPwd) &&
+                    isNotEmpty(back.birthDate);
 
-        let check4 = false;
-        if(back.validThru1.length === 2 && back.validThru2.length === 2) {
-            check4 = true;
-        }
-
-        let check5 = false;
-        if(back.cardPwd && back.birthDate) {
-            check5 = true;
-        }
-
-        let check6 = false;
-        if(back.cardPwd.length === 2 && back.birthDate.length === 6) {
-            check6 = true;
-        }
+    
+        const lengthValid = isValidLength(back.cardNo1, 4) &&
+                            isValidLength(back.cardNo2, 4) &&
+                            isValidLength(back.cardNo3, 4) &&
+                            isValidLength(back.cardNo4, 4) &&
+                            isValidLength(back.validThru1, 2) &&
+                            isValidLength(back.validThru2, 2) &&
+                            isValidLength(back.cardPwd, 2) &&
+                            isValidLength(back.birthDate, 6);
         
-        if(check1 === true && check2 === true && check3 === true && check4 === true &&
-            check5 === true && check6 === true) {
-                return true;
-        } else {
-            return false;
-        }
+        return notNull && lengthValid;
 
     }
 
@@ -142,11 +131,12 @@ const PaymentCheck = () => {
             amount: 0,
             name: back.projectName + '_' + back.rewardName,
             customer_uid: loginMemberVo.email + '_' + new Date().getTime(),
-            buyer_email: loginMemberVo.email,
             m_redirect_url: 'http://localhost:3000/back/completed/'+back.projectNo
         }
 
-        IMP.request_pay(paymentData, ({success, merchant_uid, error_msg})=>{
+        console.log(paymentData);
+
+        IMP.request_pay(paymentData, ({success, error_msg})=>{
             if(success) {
 
                 dataSet.setDataVo({
@@ -154,12 +144,13 @@ const PaymentCheck = () => {
                     "customerUid": paymentData.customer_uid
                 })
 
+
                 fetch("http://127.0.0.1:8889/gamepound/back/process", {
                     method: "post",
                     headers: {
                         "Content-Type": "application/json"
                     },
-                    body: JSON.stringify(back)
+                    body: JSON.stringify(dataSet.dataVo)
                 })
                 .then(resp => resp.json())
                 .then(data => {
