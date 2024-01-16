@@ -145,7 +145,7 @@ public class ProjectServiceHJY {
 	}
 
 	// 프로젝트 작성조회 : 선물구성
-	public List<RewardVo> getReword(ProjectVo vo) {
+	public List<RewardVo> getReward(ProjectVo vo) {
 		return rewardDao.getRewardListByNo(sst, vo);
 	}
 
