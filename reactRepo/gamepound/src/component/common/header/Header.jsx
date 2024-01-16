@@ -75,8 +75,10 @@ const StyledHeaderDiv = styled.header`
         & .createMainBtn {
             display: flex;
             align-items: center;
-            font-size: 14px;
             background-color: #fff;
+            width: 30px;
+            height: 30px;
+            font-size: 14px;
             cursor: pointer;
             &::before {
                 content: "";
@@ -215,7 +217,6 @@ const StyledHeaderDiv = styled.header`
         }
     }
 `;
-
 
 const Header = () => {
 

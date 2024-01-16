@@ -40,11 +40,6 @@ public class ProjectDaoHJY {
 		return sst.selectOne("ProjectCreateMapper.createMain", vo);
 	}
 
-	// 프로젝트 작성조회 : 기본정보
-	public ProjectVo getBasic(SqlSessionTemplate sst, ProjectVo vo) {
-		return sst.selectOne("ProjectCreateMapper.getBasic", vo);
-	}
-
 	// 프로젝트 작성조회 : 펀딩계획
 	public ProjectVo getPlan(SqlSessionTemplate sst, ProjectVo vo) {
 		return sst.selectOne("ProjectCreateMapper.getPlan", vo);

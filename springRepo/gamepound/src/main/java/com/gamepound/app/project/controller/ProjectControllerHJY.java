@@ -62,16 +62,6 @@ public class ProjectControllerHJY {
 		return map;
 	}
 	
-	// 프로젝트 작성조회 : 기본정보 프로젝트 넘버필요
-	@GetMapping("get/basic")
-	public ProjectVo getBasic(ProjectVo vo) {
-		
-		ProjectVo projectVo = service.getBasic(vo);
-		System.out.println("기본정보 : " + projectVo);
-		
-		return projectVo;
-		
-	}
 	// 프로젝트 작성저장 : 기본정보
 	@PostMapping("save/basic")
 	public Map<String, String> saveBasic(
@@ -112,25 +102,37 @@ public class ProjectControllerHJY {
 		return map;
 	}
 	
-	
 	// 프로젝트 작성조회 : 펀딩계획 프로젝트 넘버필요
 	@GetMapping("get/plan")
-	public void getPlan(ProjectVo vo) {
+	public Map<String, Object> getPlan(ProjectVo vo) {
+		System.out.println(vo);
 		
 		ProjectVo projectVo = service.getPlan(vo);
-		System.out.println("펀딩계획 : " + projectVo);
+		
+		Map<String, Object> map = new HashMap<>();
+		map.put("vo", projectVo);
+		map.put("msg", "good");
+		
+		if(projectVo == null) {
+			map.put("msg", "bad");
+		}
+		
+		return map;
 		
 	}
 	// 프로젝트 작성저장 : 펀딩계획
 	@PostMapping("save/plan")
-	public void savePlan(ProjectVo vo) throws Exception {
+	public Map<String, String> savePlan(@RequestBody ProjectVo vo) throws Exception {
 		
 		int result = service.savePlan(vo);
+
+		Map<String, String> map = new HashMap<>();
+		map.put("msg", "good");
 		if(result != 1) {
-			throw new Exception("프로젝트 펀딩계획 작성에 실패했습니다.");
+			map.put("msg", "bad");
 		}
-		System.out.println("프로젝트 펀딩계획 결과 : " + result);
 		
+		return map;
 	}
 	
 	
