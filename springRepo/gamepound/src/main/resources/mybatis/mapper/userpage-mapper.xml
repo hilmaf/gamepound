@@ -141,7 +141,7 @@
 	WHERE B.MEMBER_NO = #{memberNo} AND R.NO = B.REWARD_NO AND (P.STATUS_NO = 7 OR B.RETRACT_YN = 'Y')
 </select>
 
-<select id="myReview" resultType="come.gamepound.app.review.vo.ReviewVo">
+<select id="myReview" resultType="com.gamepound.app.review.vo.ReviewVo">
 	SELECT
 	    CONTENT AS REVIEW_CONTENT
 	    , IMAGE AS REVIEW_IMAGE

@@ -82,9 +82,11 @@ const BackBriefInfo = ({item}) => {
         if(reviewView === false) {
             setReviewView(true);
 
-            fetch("http://127.0.0.1:8889/gamepound/review/")
-            .then()
-            .then();
+            fetch(`http://127.0.0.1:8889/gamepound/userpage/backed/review?memberNo=${loginMemberVo.no}&backNo=${item.no}`)
+            .then(resp => resp.json())
+            .then(data => {
+                
+            });
 
         } else {
             setReviewView(false);

@@ -102,8 +102,10 @@ public class UserPageController {
 	
 	// 내 리뷰 조회
 	@GetMapping("backed/review")
-	public void viewMyReview(String backNo) {
+	public ReviewVo viewMyReview(ReviewVo vo) {
+		ReviewVo reviewVo = service.viewMyReview(vo);
 		
+		return reviewVo;
 	}
 	
 	// 유저페이지 - 내가 올린 프로젝트 목록 조회
