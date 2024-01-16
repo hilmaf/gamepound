@@ -26,27 +26,30 @@ public class DataProcessingUtil {
 	
 	// 마감기한 D-day 계산
 	public String getRemainingPeriod(String endDate, String format) {
-		// 마감일, sysdate 간 차이
-		Date currentDate = new Date();
-		Date parsedEndDate = support.parseDate(endDate, format);
-		
-		if(currentDate.compareTo(parsedEndDate) >= 0) {
-			return "펀딩 종료";
-		} else {
+		try {
+			// 마감일, sysdate 간 차이
+			Date currentDate = new Date();
+			Date parsedEndDate = support.parseDate(endDate, format);
+			
 			Calendar currentCalendar = Calendar.getInstance();
 			Calendar endDateCalendar = Calendar.getInstance();
 			currentCalendar.setTime(currentDate);
 			endDateCalendar.setTime(parsedEndDate);
 			
-			long gap = (endDateCalendar.getTimeInMillis() - currentCalendar.getTimeInMillis()) / (24*60*60*1000);
-			
-			// gap 절대값
-			long absoluteGap_ = Math.abs(gap);
-			System.out.println("absoluteGap :: " + absoluteGap_);
-			
-			String absoluteGap = String.valueOf(absoluteGap_);
-			
-			return absoluteGap;			
+			if(currentCalendar.after(endDateCalendar) || currentCalendar.equals(endDateCalendar)) {
+				return "펀딩 종료";
+			} else {
+				long gap = (endDateCalendar.getTimeInMillis() - currentCalendar.getTimeInMillis()) / (24*60*60*1000);
+				// gap 절대값
+				long absoluteGap_ = Math.abs(gap);
+				
+				String absoluteGap = String.valueOf(absoluteGap_);
+				
+				return absoluteGap;
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+			return "날짜 파싱 오류";
 		}
 	}
 	
