@@ -32,6 +32,7 @@ public class ProjectServiceHYJ {
 		
 		//추가
 		add(voList);
+		listAddPath(voList);
 		
 		return voList;
 	}
@@ -41,6 +42,8 @@ public class ProjectServiceHYJ {
 		List<ProjectVo> voList = dao.projectListPopular(sst, vo);
 		//추가
 		add(voList);
+		listAddPath(voList);
+
 		return voList;
 	}
 
@@ -49,6 +52,8 @@ public class ProjectServiceHYJ {
 		List<ProjectVo> voList = dao.projectListNew(sst, vo);
 		//추가
 		add(voList);
+		listAddPath(voList);
+		
 		return voList;
 	}
 
@@ -57,12 +62,15 @@ public class ProjectServiceHYJ {
 		List<ProjectVo> voList = dao.projectListImminent(sst, vo);
 		//추가
 		add(voList);
+		listAddPath(voList);
 		return voList;
 	}
 
 	//목록 조회 - 공개예정
 	public List<ProjectVo> projectListPrelaunch() {
-		return dao.projectListPrelaunch(sst);
+		List<ProjectVo> voList = dao.projectListPrelaunch(sst);
+		listAddPath(voList);
+		return voList;
 	}
 	
 	
@@ -70,16 +78,21 @@ public class ProjectServiceHYJ {
 	public void add(List<ProjectVo>voList) {
 		for (ProjectVo vo : voList) {
 			vo.setAchievementRate(util.achievementRate(vo.getGoalAmount(), vo.getCurrentAmount()));
-			System.out.print(vo.getNo() + " ::: ");
-			System.out.print(vo.getEndDate());
-			System.out.print(" ::: ");
-			vo.setRemainingPeriod(util.getRemainingPeriod(vo.getEndDate(), "YYYY'년' MM'월' DD'일'"));
-			System.out.println(vo.getRemainingPeriod());
+			System.out.println(vo.getEndDate());
+			vo.setRemainingPeriod(util.getRemainingPeriod(vo.getEndDate(), "yyyy년 MM월 dd일"));
 		}
 	}
+	
+	//db에서 사진 가져올때 사진 경로 추가
+	public void listAddPath(List<ProjectVo>voList) {
+		String localAddr = "http://127.0.0.1:8889/gamepound";
+		String path = "/resources/images/projectImg/";
+		for (ProjectVo vo : voList) {
+			vo.setImageUrl(localAddr + path + vo.getImageUrl());
+		}
+	}
+	
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-	
 	
 	//프로젝트 상세 조회 - 타이틀
 	public ProjectDetailVo projectDetail(String no) {
@@ -94,7 +107,13 @@ public class ProjectServiceHYJ {
 		vo.setAchievementRate(util.achievementRate(vo.getGoalAmount(), vo.getCurrentAmount()));
 		
 		//남은 시간 추가
-		vo.setRemainingPeriod(util.getRemainingPeriod(vo.getEndDate(), "YYYY'년' MM'월' DD'일'"));
+		vo.setRemainingPeriod(util.getRemainingPeriod(vo.getEndDate(), "yyyy년 MM월 dd일"));
+		
+		//사진 경로 추가
+		String localAddr = "http://127.0.0.1:8889/gamepound";
+		String path = "/resources/images/projectImg/";
+		vo.setImageUrl(localAddr + path + vo.getImageUrl());
+		
 		return vo;
 	}
 
@@ -128,7 +147,11 @@ public class ProjectServiceHYJ {
 		}
 		return result;
 	}
+	
 
+
+	////////////////////////////////////////////////////////////////////////////////////////////////
+	
 
 
 

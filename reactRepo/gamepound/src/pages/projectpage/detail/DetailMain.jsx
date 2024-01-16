@@ -235,7 +235,7 @@ const DetailMain = () => {
                         <h1>{detailVo.title}</h1>
                     </div>            
                     <div>
-                        <span><img src="" alt="프로젝트 대표 이미지" /></span>
+                        <span><img src={detailVo.imageUrl} alt="프로젝트 대표 이미지" /></span>
                         <ul>
                             <li>모인금액</li>
                             <li>{detailVo.currentAmount} <span>원</span><span>{detailVo.achievementRate}%</span></li>
