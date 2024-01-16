@@ -12,7 +12,6 @@ import com.gamepound.app.review.vo.ReviewStatVo;
 import com.gamepound.app.review.vo.ReviewVo;
 
 @Repository
-
 public class UserPageDao {
 
 	// 프로필 소개
@@ -55,6 +54,9 @@ public class UserPageDao {
 		return sst.selectList("UserPageMapper.backedUnsuccessfully", memberNo);
 	}
 	
-
+	// 해당 후원에 대한 내 후기 보기
+	public ReviewVo viewMyReview(SqlSessionTemplate sst, ReviewVo vo) {
+		return sst.selectOne("UserPageMapper.myReview", vo);
+	}
 	
 }

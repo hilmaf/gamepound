@@ -100,6 +100,12 @@ public class UserPageController {
 
 	}
 	
+	// 내 리뷰 조회
+	@GetMapping("backed/review")
+	public void viewMyReview(String backNo) {
+		
+	}
+	
 	// 유저페이지 - 내가 올린 프로젝트 목록 조회
 	@GetMapping("created")
 	public Map<String, Object> listMyProjects(@RequestParam("user") String memberNo) {
