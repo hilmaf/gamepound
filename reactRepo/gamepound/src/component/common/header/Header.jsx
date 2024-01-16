@@ -237,6 +237,23 @@ const Header = () => {
         searchArea.classList.remove('active');
     }
 
+    const handleSearch = (e) => {
+        e.preventDefault();
+
+        // 검색어 없으면 return
+        const searchInputTag = document.querySelector("input[name=searchInput]");
+        if(searchInputTag.value !== undefined) {
+            fetch("http://127.0.0.1:8889/gamepound/project/search?query" + searchInputTag.value)
+            .then(resp => resp.json())
+            .then(data => {
+                console.log(data);
+                navigate("/project/search");
+            });
+        } else {
+
+        }
+    }
+
     return (
         <StyledHeaderDiv className={pageType}>
             <div className="inner">
@@ -274,8 +291,8 @@ const Header = () => {
                     <Nav />
 
                     <div className="searchArea">
-                        <input type="text" onFocus={handleSearchActive} onBlur={handleSearchBlur} placeholder='검색어를 입력해주세요.' />
-                        <button>검색</button>
+                        <input type="text" name='searchInput' onFocus={handleSearchActive} onBlur={handleSearchBlur} placeholder='검색어를 입력해주세요.' />
+                        <button onClick={handleSearch}>검색</button>
                     </div>
 
                 </div>
