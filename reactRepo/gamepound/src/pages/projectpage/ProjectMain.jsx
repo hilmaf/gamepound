@@ -3,6 +3,8 @@ import { Route, Routes } from 'react-router-dom';
 import ListMain from "./list/ListMain";
 import DetailMain from './detail/DetailMain';
 import PrelaunchDetailMain from './detail/PrelaunchDetailMain';
+import ProjectSearch from './search/ProjectSearch';
+
 const ProjectMain = () => {
 
     return (<>
@@ -11,6 +13,7 @@ const ProjectMain = () => {
             <Route path='/detail/:temp/:no' element={<DetailMain/>} />
             <Route path='/detail/prelaunch/*'>
                 <Route path=':temp/:no' element={<PrelaunchDetailMain/>}></Route>
+            <Route path='/search' element={<ProjectSearch />}></Route>
             </Route>
         </Routes>        
     </>);

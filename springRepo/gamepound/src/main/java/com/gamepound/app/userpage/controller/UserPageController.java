@@ -67,8 +67,7 @@ public class UserPageController {
 			@RequestParam("reviewContent") String reviewContent, 
 			@RequestPart(name="reviewImg", required=false) MultipartFile reviewImg, HttpServletRequest req) throws Exception {
 		
-		System.out.println(reviewImg);
-		
+		// TODO: 이미 해당 후원목록에 대해 후기를 작성했으면, 다시 후기 작성 불가능함
 		// vo에 담아주기
 		ReviewVo vo = new ReviewVo();
 		vo.setBackNo(backNo);

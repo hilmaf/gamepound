@@ -67,4 +67,7 @@ public class BackDetailVo {
 	
 	private String cardPwd;
 	private String birthDate;
+	
+	// 리뷰 정보
+	private String reviewNo;
 }
