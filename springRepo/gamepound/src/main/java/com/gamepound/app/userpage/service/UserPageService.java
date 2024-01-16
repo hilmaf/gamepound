@@ -124,6 +124,8 @@ public class UserPageService {
 		return fileName;
 	}
 
-	
+	public ReviewVo viewMyReview(ReviewVo vo) {
+		return dao.viewMyReview(sst, vo);
+	}
 	 
 }

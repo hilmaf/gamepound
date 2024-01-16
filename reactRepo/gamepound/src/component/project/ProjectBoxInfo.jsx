@@ -4,20 +4,20 @@ import styled from 'styled-components';
 
 const StyledProjectBoxInfoDiv = styled.div`
     width: calc(100% / ${no => no.no} - 30px);
-    height: 410px;
+    height: ${props => props.no === 3 ? '410px' : '370px'};
     cursor: pointer;
     margin-right: 25px;
 
     & > img {
         width: 100%;
-        height: 300px;
+        height: 205px;
         background-size: cover;
-        object-fit: cover;
+        object-fit: contain;
         background-color: aliceblue;
     }
 
     & > .category {
-        padding-top: 10px;
+        padding-top: 4px;
         font-size: 12px;
         
         & > span {
@@ -26,13 +26,17 @@ const StyledProjectBoxInfoDiv = styled.div`
         }
     }
 
+    & > .creator {
+        padding-top: 8px;
+        font-size: 13px;
+        color: rgba(0, 0, 0, 0.5);
+    }
+
     & > .title {
-        height: 30px;
-        line-height: 30px;
+        padding-top: 5px;
+        height: 50px;
         font-size: 16px;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
+        /* letter-spacing: 0.01px; */
     }
 
     & > .progress {
@@ -43,8 +47,9 @@ const StyledProjectBoxInfoDiv = styled.div`
 
             & > #achievement_rate {
                 font-size: 15px;
-                font-weight: 900;
+                font-weight: 600;
                 padding-right: 5px;
+                color: var(--red-color);
             }
 
             & > #achievement_amnt {
@@ -62,6 +67,8 @@ const ProjectBoxInfo = ({no, project}) => {
 
     const navigate = useNavigate();
 
+    console.log("ProjectBoxInfo :::!!!!!!!!!" + project);
+
     const handleBoxClick= () => {
         navigate("/project/detail/" + project.projectNo);
     }
@@ -71,6 +78,8 @@ const ProjectBoxInfo = ({no, project}) => {
             <img src={project.projectImg} onClick={handleBoxClick} ></img>
             <div className='category'>
                 <span>{project.categoryName} | {project.subCategoryName}</span>
+            </div>
+            <div className='creator'>
                 <span>{project.memberName}</span>
             </div>
             <div className='title' onClick={handleBoxClick} key={project.projectNo}>

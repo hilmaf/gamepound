@@ -238,6 +238,7 @@ const Header = () => {
         searchArea.classList.remove('active');
     }
 
+    // 검색 관련 코드
     const {keyword, setKeyword, setSearchedVo} = useSearchContext();
     const handleSearchInput = (e) => {
         setKeyword(
@@ -259,9 +260,11 @@ const Header = () => {
                     data
                 });
 
-                navigate("/project/search/"+keyword);
-
+                console.log("fetched ::: ", data);
                 e.target.defaultValue = keyword;
+                navigate("/project/search/"+keyword);
+                console.log("navigated ::: ", data);
+
             });
         } else {
 

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import ReviewWrite from '../../pages/userpage/ReviewWrite';
 import { useNavigate } from 'react-router-dom';
+import ReviewBox from '../../pages/userpage/ReviewBox';
 
 const StyledBackBriefInfoDiv = styled.div`
     width: 1100px;
@@ -80,6 +81,11 @@ const BackBriefInfo = ({item}) => {
     const handleReviewViewBtnClick = () => {
         if(reviewView === false) {
             setReviewView(true);
+
+            fetch("http://127.0.0.1:8889/gamepound/review/")
+            .then()
+            .then();
+
         } else {
             setReviewView(false);
         }
@@ -119,7 +125,11 @@ const BackBriefInfo = ({item}) => {
                 <></>
             }
             {
-
+                reviewView===true
+                ?
+                <ReviewBox />
+                :
+                <></>
             }
         </StyledBackBriefInfoDiv>
     );

@@ -6,17 +6,42 @@ const StyledSearchConditionDiv = styled.div`
     width: 1200px;
     height: 80px;
     display: flex;
+    align-items: center;
     
     & > .query {
+        font-size: 16px;
+        padding: 5px 10px;
         margin-right: 20px;
+        font-weight: 900px;
+        border: 1px solid var(--red-color);
+        border-radius: 5px;
+
+        & > span {
+            margin-right: 5px
+        }
+    }
+    
+    & > .project_status {
+        background-color: #f5f5f5;
+        padding: 5px 10px;
+        margin-right: 10px;
+    }
+    
+    & > .achieveRate {
+        background-color: #f5f5f5;
+        padding: 5px 10px;
+        margin-right: 10px;
     }
 `;
 
-const Condition = () => {
+const Condition = (query) => {
+
+    console.log("Condition >> keyword", query);
+
     return (
         <StyledSearchConditionDiv>
             <div className='query'>
-                스타듀밸리
+                <span>검색어 :</span>  "{query.query}"
             </div>
             <select className='project_status'>
                 <option>전체 프로젝트</option>
