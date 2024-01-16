@@ -71,11 +71,6 @@ public class ProjectControllerHJY {
 	        @RequestParam("subCategoryNo") String subCategoryNo,
 	        @RequestParam("no") String no,
 	        HttpServletRequest req) throws Exception {
-		System.out.println("title::" + title);
-		System.out.println("imageUrl::" + imageUrl);
-		System.out.println("mainCategoryNo::" + mainCategoryNo);
-		System.out.println("subCategoryNo::" + subCategoryNo);
-		System.out.println("no::" + no);
 		
 		// 파일저장 service
 		String uploadDir = "/resources/images/projectImg/";
@@ -105,7 +100,6 @@ public class ProjectControllerHJY {
 	// 프로젝트 작성조회 : 펀딩계획 프로젝트 넘버필요
 	@GetMapping("get/plan")
 	public Map<String, Object> getPlan(ProjectVo vo) {
-		System.out.println(vo);
 		
 		ProjectVo projectVo = service.getPlan(vo);
 		
@@ -137,12 +131,20 @@ public class ProjectControllerHJY {
 	
 	
 	// 프로젝트 작성조회 : 선물구성 프로젝트 넘버필요
-	@GetMapping("get/reword")
-	public void getReword(ProjectVo vo) {
+	@GetMapping("get/reward")
+	public Map<String, Object> getReword(ProjectVo vo) {
+		System.out.println("선물구성 :: " + vo);
+		List<RewardVo> voList = service.getReward(vo);
+		System.out.println("선물 : " + voList);
 		
-		List<RewardVo> projectVo = service.getReword(vo);
-		System.out.println("선물 : " + projectVo);
+		Map<String, Object> map = new HashMap<>();
+		map.put("msg", "good");
+		map.put("voList", voList);
+		if(voList == null) {
+			map.put("msg", "bad");
+		}
 		
+		return map;
 	}
 	// 프로젝트 작성 : 선물구성
 	@PostMapping("create/reword")
