@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { createContext, useContext, useEffect, useRef, useState } from 'react';
 
 const SearchContext = createContext();
 
@@ -9,17 +9,12 @@ const useSearchContext = () => {
 
 const SearchContextProvider = ({children}) => {
 
-    const keyword = useRef();
+    const [keyword, setKeyword] = useState();
     const [searchedVo, setSearchedVo] = useState([]);
-
-    useEffect(()=>{
-        if(keyword !== undefined) {
-            
-        }
-    }, [])
+    
 
     return (
-        <SearchContext.Provider >
+        <SearchContext.Provider value={{keyword, setKeyword, searchedVo, setSearchedVo}}>
             {children}
         </SearchContext.Provider>
     );

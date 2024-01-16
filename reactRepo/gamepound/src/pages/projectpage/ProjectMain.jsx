@@ -3,7 +3,7 @@ import { Route, Routes } from 'react-router-dom';
 import ListMain from "./list/ListMain";
 import DetailMain from './detail/DetailMain';
 import PrelaunchDetailMain from './detail/PrelaunchDetailMain';
-import ProjectSearch from './search/ProjectSearch';
+import SearchMain from './search/SearchMain';
 
 const ProjectMain = () => {
 
@@ -14,7 +14,7 @@ const ProjectMain = () => {
             <Route path='/detail/prelaunch/*'>
                 <Route path=':temp/:no' element={<PrelaunchDetailMain/>}></Route>
             </Route>
-            <Route path='/search' element={<ProjectSearch />}></Route>
+            <Route path='/search' element={<SearchMain />}></Route>
         </Routes>        
     </>);
 };

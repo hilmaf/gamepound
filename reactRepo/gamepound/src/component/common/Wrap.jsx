@@ -13,6 +13,7 @@ import QuitPage from './../../pages/memberPage/QuitPage';
 import { UserMemoryProvider } from '../context/UserContext';
 import { IsFirstMemoryProvider } from '../context/IsFirstContext';
 import { ProjectCreateMemoryProvider } from '../context/ProjectCreateContext';
+import { SearchContextProvider } from '../context/SearchContext';
 
 const StyledWrapDiv = styled.div`
     display: flex;
@@ -26,22 +27,24 @@ const Wrap = () => {
         <HeaderMemoryProvider>
             <UserMemoryProvider>
                 <IsFirstMemoryProvider>
-                    <ProjectCreateMemoryProvider>
-                        <Routes>
-                            <Route path="/*" element={
-                                <StyledWrapDiv>
-                                    <Header />
-                                    <Main />
-                                    <Footer />
-                                </StyledWrapDiv>
-                            } />
-                            <Route path='/login' element={<LoginPage />} />
-                            <Route path='/join' element={<JoinPage />} />
-                            <Route path='/pwd' element={<FindPwdPage />} />
-                            <Route path='/newPwd' element={<NewPwdPage />} />
-                            <Route path='/quit' element={<QuitPage />} />
-                        </Routes>
-                    </ProjectCreateMemoryProvider>
+                    <SearchContextProvider>
+                        <ProjectCreateMemoryProvider>
+                            <Routes>
+                                <Route path="/*" element={
+                                    <StyledWrapDiv>
+                                        <Header />
+                                        <Main />
+                                        <Footer />
+                                    </StyledWrapDiv>
+                                } />
+                                <Route path='/login' element={<LoginPage />} />
+                                <Route path='/join' element={<JoinPage />} />
+                                <Route path='/pwd' element={<FindPwdPage />} />
+                                <Route path='/newPwd' element={<NewPwdPage />} />
+                                <Route path='/quit' element={<QuitPage />} />
+                            </Routes>
+                        </ProjectCreateMemoryProvider>
+                    </SearchContextProvider>
                 </IsFirstMemoryProvider>
             </UserMemoryProvider>
         </HeaderMemoryProvider>

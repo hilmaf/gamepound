@@ -7,6 +7,7 @@ import Nav from './nav/Nav';
 import LoginArea from './LoginArea';
 import { useHeaderMemory } from '../../context/HeaderContext';
 import HeaderCreateProject from './HeaderCreateProject';
+import { useSearchContext } from '../../context/SearchContext';
 
 const StyledHeaderDiv = styled.header`
     display: flex;
@@ -237,17 +238,30 @@ const Header = () => {
         searchArea.classList.remove('active');
     }
 
+    const {keyword, setKeyword, setSearchedVo} = useSearchContext();
+    const handleSearchInput = (e) => {
+        setKeyword(
+            e.target.value
+        );
+    }
+
+    console.log("keyword ::: ", keyword);
+
     const handleSearch = (e) => {
         e.preventDefault();
 
-        // 검색어 없으면 return
-        const searchInputTag = document.querySelector("input[name=searchInput]");
-        if(searchInputTag.value !== undefined) {
-            fetch("http://127.0.0.1:8889/gamepound/project/search?query" + searchInputTag.value)
+        if(keyword) {
+            fetch("http://127.0.0.1:8889/gamepound/project/search?query=" + keyword)
             .then(resp => resp.json())
             .then(data => {
-                console.log(data);
-                navigate("/project/search");
+                
+                setSearchedVo({
+                    data
+                });
+
+                navigate("/project/search/"+keyword);
+
+                e.target.defaultValue = keyword;
             });
         } else {
 
@@ -291,7 +305,7 @@ const Header = () => {
                     <Nav />
 
                     <div className="searchArea">
-                        <input type="text" name='searchInput' onFocus={handleSearchActive} onBlur={handleSearchBlur} placeholder='검색어를 입력해주세요.' />
+                        <input type="text" name='searchInput' onChange={handleSearchInput} onFocus={handleSearchActive} onBlur={handleSearchBlur} placeholder='검색어를 입력해주세요.' />
                         <button onClick={handleSearch}>검색</button>
                     </div>
 
