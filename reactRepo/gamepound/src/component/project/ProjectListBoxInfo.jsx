@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const StyledProjectBoxInfoDiv = styled.div`
-    width: calc(100% / 4 - 25px);
+    width: calc(100% / 4 - 30px);
     cursor: pointer;
     margin-right: 25px;
     margin-bottom: 40px;
@@ -29,6 +29,15 @@ const StyledProjectBoxInfoDiv = styled.div`
         & > span {
             opacity: 0.95;
             padding-right: 10px;
+            & > span{
+                padding-left: 5px;
+                padding-right: 5px;
+                color: #adadad;
+            }
+        }
+        & > div{
+            margin-top: 5px;
+            font-weight: 500;
         }
     }
 
@@ -78,8 +87,8 @@ const ProjectListBoxInfo = ({project}) => {
                 <img src={project.imageUrl} alt="프로젝트 대표 이미지"></img>
             </div>
             <div className='category'>
-                <span>{project.mainCategory} | {project.subCategory}</span>
-                <span>{project.memberName}</span>
+                <span>{project.mainCategory}<span>|</span>{project.subCategory}</span>
+                <div>{project.memberName}</div>
             </div>
             <div className='title' key={project.no}>
                 {project.title}
