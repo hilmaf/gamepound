@@ -6,6 +6,7 @@ import BackMain from '../../../pages/backingpage/BackMain';
 import CreateMain from '../../../pages/projectpage/create/CreateMain';
 import { useUserMemory } from '../../context/UserContext';
 import ProjectMain from '../../../pages/projectpage/ProjectMain';
+import ProfileSetting from '../../../pages/settingPage/ProfileSetting';
 
 const StyledMainDiv = styled.div`
     width: 100%;
@@ -38,6 +39,7 @@ const Main = () => {
                 <Route path='/userpage/*' element={<UserPageMain />}></Route>
                 <Route path='/back/*' element={<BackMain />}></Route>
                 <Route path='/projectCreate/*' element={<CreateMain />}></Route>
+                <Route path='/settings' element={<ProfileSetting/>}/>
             </Routes>
         </StyledMainDiv>
     );

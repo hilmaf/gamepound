@@ -10,7 +10,7 @@ import com.gamepound.app.member.vo.MemberVo;
 import lombok.RequiredArgsConstructor;
 
 @Controller
-@RequestMapping("member/settings")
+@RequestMapping("settings")
 @RequiredArgsConstructor
 public class MemberControllerHYJ {
 
