@@ -13,8 +13,8 @@ const ProjectMain = () => {
             <Route path='/detail/:temp/:no' element={<DetailMain/>} />
             <Route path='/detail/prelaunch/*'>
                 <Route path=':temp/:no' element={<PrelaunchDetailMain/>}></Route>
-            <Route path='/search' element={<ProjectSearch />}></Route>
             </Route>
+            <Route path='/search' element={<ProjectSearch />}></Route>
         </Routes>        
     </>);
 };
