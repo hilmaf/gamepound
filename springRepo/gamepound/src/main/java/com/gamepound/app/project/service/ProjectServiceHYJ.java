@@ -70,7 +70,11 @@ public class ProjectServiceHYJ {
 	public void add(List<ProjectVo>voList) {
 		for (ProjectVo vo : voList) {
 			vo.setAchievementRate(util.achievementRate(vo.getGoalAmount(), vo.getCurrentAmount()));
+			System.out.print(vo.getNo() + " ::: ");
+			System.out.print(vo.getEndDate());
+			System.out.print(" ::: ");
 			vo.setRemainingPeriod(util.getRemainingPeriod(vo.getEndDate(), "YYYY'년' MM'월' DD'일'"));
+			System.out.println(vo.getRemainingPeriod());
 		}
 	}
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

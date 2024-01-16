@@ -82,7 +82,7 @@ const ProjectListBoxInfo = ({project}) => {
                     <span id='achievement_amnt'>{project.currentAmount}원</span>
                 </div>
                 <div className='status'>
-                    {project.statusName}
+                    {project.remainingPeriod}
                 </div>
             </div>
         </StyledProjectBoxInfoDiv>

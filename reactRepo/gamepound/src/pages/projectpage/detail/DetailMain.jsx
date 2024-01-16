@@ -251,7 +251,7 @@ const DetailMain = () => {
                                     </tr>
                                     <tr>
                                         <td>펀딩 기간</td>
-                                        <td>{detailVo.startDateStr} ~ {detailVo.endDateStr} <span>{detailVo.achievementRate}일 남음</span></td>
+                                        <td>{detailVo.startDateStr} ~ {detailVo.endDateStr} {detailVo.remainingPeriod === "펀딩 종료" ? <span>{detailVo.remainingPeriod}</span>:<span>{detailVo.remainingPeriod}일남음</span>}</td>
                                     </tr>
                                     <tr>
                                         <td>결제</td>
