@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const StyledAllDiv = styled.div`
@@ -29,6 +30,36 @@ const StyledSettingsDiv = styled.div`
 
 
 const ProfileSetting = () => {
+
+    // //회원번호
+    // const [no, setNo] = useState([1]);
+
+    // // const [profile, setProfile] = useState([]);
+    // // const [img, setImg] = useState([]);
+    // // const [name, setName] = useState([]);
+    // // const [intro, setIntro] = useState([]);
+    // // const [siteUtl, setSiteUrl] = useState([]);
+
+    // useEffect(()=>{
+    //     fetch("http://localhost:8889/settings",{
+    //         method: 'post',
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify(no),
+    //     })
+    //     .then((resp)=>{return resp.json()})
+    //     .then((data)=>{
+    //         // setProfile(data);
+    //     })
+    //     .catch((e)=>{console.log("오류 : " + e);})
+    //     ;
+    // }, []);
+
+
+
+
+
     return (
         <StyledAllDiv>
             <StyledSettingsDiv>
@@ -77,7 +108,7 @@ const ProfileSetting = () => {
                         <li>
                             <div>회원탈퇴</div>
                             <div>
-                                <button>이동</button>
+                                <Link to='/quit'><button type="button">이동</button></Link>
                             </div>
                         </li>
                     </ul>
