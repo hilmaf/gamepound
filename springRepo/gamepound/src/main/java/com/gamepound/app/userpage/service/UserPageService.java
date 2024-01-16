@@ -1,11 +1,14 @@
 package com.gamepound.app.userpage.service;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.gamepound.app.back.vo.BackDetailVo;
 import com.gamepound.app.project.vo.ProjectBriefVo;
@@ -103,10 +106,23 @@ public class UserPageService {
 		return map;
 	}
 
-	public String imagefileSave(String reviewImg, String root) {
-		// TODO Auto-generated method stub
-		return null;
+	public String imagefileSave(MultipartFile reviewImg, String root) throws Exception {
+		// 랜덤파일이름 생성
+		String fileName = reviewImg.getOriginalFilename();
+		String fileExtension = fileName.substring(fileName.lastIndexOf('.')+1);
+		
+		// 랜덤 파일명 생성
+		UUID uuid = UUID.randomUUID();
+		fileName = uuid.toString() + fileExtension;
+		
+		// 이미지 webapp/resources/images/reviewImg 경로에 저장
+		String filePath = root + fileName;
+		File dest = new File(filePath);
+		reviewImg.transferTo(dest);
+		
+		return fileName;
 	}
+
 	
 	 
 }

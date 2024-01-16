@@ -12,11 +12,12 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.gamepound.app.review.vo.ReviewVo;
 import com.gamepound.app.userpage.service.UserPageService;
@@ -60,15 +61,32 @@ public class UserPageController {
 	
 	// 리뷰 작성하기
 	@PostMapping("review/write")
-	public Map<String, String> write(@ModelAttribute ReviewVo vo, HttpServletRequest req) throws Exception {
+	public Map<String, String> write(@RequestParam("backNo") String backNo,
+			@RequestParam("memberNo") String memberNo,
+			@RequestParam("rating") String rating,
+			@RequestParam("reviewContent") String reviewContent, 
+			@RequestPart(name="reviewImg", required=false) MultipartFile reviewImg, HttpServletRequest req) throws Exception {
 		
-		String uploadDir = "/resources/images/reviewImg";
+		System.out.println(reviewImg);
+		
+		// vo에 담아주기
+		ReviewVo vo = new ReviewVo();
+		vo.setBackNo(backNo);
+		vo.setMemberNo(memberNo);
+		vo.setRating(rating);
+		vo.setReviewContent(reviewContent);
+		
+		// 파일명 설정
+		String uploadDir = "/resources/images/reviewImg/";
 		String root = req.getServletContext().getRealPath(uploadDir); // 저장경로
 		String fileName = null;
-		System.out.println(vo.getReviewImg());
-		if(!(vo.getReviewImg()==null) && !(vo.getReviewImg().isEmpty())) {
-			fileName = service.imagefileSave(vo.getReviewImg(), root);
+		if(!(reviewImg==null) && !(reviewImg.isEmpty())) {
+			fileName = service.imagefileSave(reviewImg, root);
 		}
+		
+		vo.setReviewImg(fileName);
+		
+		System.out.println(fileName);
 		
 		// service
 		int result = service.write(vo);
