@@ -7,6 +7,7 @@ const StyledAllDiv = styled.div`
     .inner {
         width: 1200px;
         margin: 0 auto;
+        padding: 20px;
         & > div:first-child{
             & > div:first-child{
                 border: 1px solid #c9c9c9;
@@ -50,7 +51,7 @@ const NewPage = () => {
         <StyledAllDiv>
             <div className='inner'>
                 <div>
-                    <div>달성률 ▽</div>
+                    <div>달성률</div>
                     <div><span>20</span>개의 프로젝트가 있습니다.</div>
                 </div>
                 <div>

@@ -7,6 +7,7 @@ const StyledAllDiv = styled.div`
     width: 100%;
     .inner {
         width: 1200px;
+        padding: 20px;
         margin: 0 auto;
         & > div:first-child{
             & > div:first-child{

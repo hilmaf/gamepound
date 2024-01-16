@@ -7,6 +7,7 @@ const StyledAllDiv = styled.div`
     .inner {
         width: 1200px;
         margin: 0 auto;
+        padding: 20px;
         & > div:first-child{
             & > div:last-child{
                 & > span{
