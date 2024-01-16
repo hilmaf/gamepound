@@ -51,7 +51,7 @@ const NewPage = () => {
         <StyledAllDiv>
             <div className='inner'>
                 <div>
-                    <div>달성률 ▽</div>
+                    <div>달성률</div>
                     <div><span>20</span>개의 프로젝트가 있습니다.</div>
                 </div>
                 <div>

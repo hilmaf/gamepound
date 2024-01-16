@@ -60,6 +60,7 @@ const StyledProjectBoxInfoDiv = styled.div`
                 font-size: 15px;
                 font-weight: 900;
                 padding-right: 5px;
+                color: var(--red-color);
             }
 
             & > #achievement_amnt {
