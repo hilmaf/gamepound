@@ -154,60 +154,62 @@ const PrelaunchDetailMain = () => {
 
 
 
-    return (<PrelaunchStyledAllDiv>
-        <PrelaunchStyledProjectDetailDiv>
-            <div className="inner">
-                
-                <div>
-                    <span>
-                        <img src={detailPrelaunchVo.imageUrl} alt="프로젝트 대표 이미지" />
-                    </span>
-                    <ul>
-                        <li>{detailPrelaunchVo.subCategory}</li>
-                        <li>{detailPrelaunchVo.title}</li>
-                        <li>
-                            <table>
-                                <tbody>
-                                    <tr>
-                                        <td>목표금액</td>
-                                        <td>{detailPrelaunchVo.goalAmount}원</td>
-                                    </tr>
-                                    <tr>
-                                        <td>공개예정</td>
-                                        <td>{detailPrelaunchVo.startDate}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </PrelaunchStyledProjectDetailDiv>
-        <PrelaunchStyledProjectDetailNaviDiv>
-            <div className="inner">
-                <div>
-                    <span><NavLink to={`/project/detail/prelaunch/story/${no}`}>프로젝트 계획</NavLink></span>
-                    <span><NavLink to={`/project/detail/prelaunch/update/${no}`}>업데이트</NavLink></span>
-                </div>
-            </div>
-        </PrelaunchStyledProjectDetailNaviDiv>
-        <PrelaunchStyledProjectSelectDiv>
-            <div>
-                {temp === 'story' ? <PrelaunchStoryPage/> : null}
-                {temp === 'update' ? <PrelaunchUpdatePage/> : null}
-                <div>
-                    <div>창작자 소개</div>
+    return (
+        <PrelaunchStyledAllDiv>
+            <PrelaunchStyledProjectDetailDiv>
+                <div className="inner">
+                    
                     <div>
-                        <div><img src={detailPrelaunchVo.memberPic} alt="창작자 프로필 이미지" /></div>
-                        <span>{detailPrelaunchVo.memberName}</span>
-                    </div>
-                    <div>
-                        {detailPrelaunchVo.memberIntro}
+                        <span>
+                            <img src={detailPrelaunchVo.imageUrl} alt="프로젝트 대표 이미지" />
+                        </span>
+                        <ul>
+                            <li>{detailPrelaunchVo.subCategory}</li>
+                            <li>{detailPrelaunchVo.title}</li>
+                            <li>
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td>목표금액</td>
+                                            <td>{detailPrelaunchVo.goalAmount}원</td>
+                                        </tr>
+                                        <tr>
+                                            <td>공개예정</td>
+                                            <td>{detailPrelaunchVo.startDate}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </li>
+                        </ul>
                     </div>
                 </div>
-            </div>
-        </PrelaunchStyledProjectSelectDiv>
-    </PrelaunchStyledAllDiv>);
+            </PrelaunchStyledProjectDetailDiv>
+            <PrelaunchStyledProjectDetailNaviDiv>
+                <div className="inner">
+                    <div>
+                        <span><NavLink to={`/project/detail/prelaunch/story/${no}`}>프로젝트 계획</NavLink></span>
+                        <span><NavLink to={`/project/detail/prelaunch/update/${no}`}>업데이트</NavLink></span>
+                    </div>
+                </div>
+            </PrelaunchStyledProjectDetailNaviDiv>
+            <PrelaunchStyledProjectSelectDiv>
+                <div>
+                    {temp === 'story' ? <PrelaunchStoryPage/> : null}
+                    {temp === 'update' ? <PrelaunchUpdatePage/> : null}
+                    <div>
+                        <div>창작자 소개</div>
+                        <div>
+                            <div><img src={detailPrelaunchVo.memberPic} alt="창작자 프로필 이미지" /></div>
+                            <span>{detailPrelaunchVo.memberName}</span>
+                        </div>
+                        <div>
+                            {detailPrelaunchVo.memberIntro}
+                        </div>
+                    </div>
+                </div>
+            </PrelaunchStyledProjectSelectDiv>
+        </PrelaunchStyledAllDiv>
+    );
 };
 
 export default PrelaunchDetailMain;

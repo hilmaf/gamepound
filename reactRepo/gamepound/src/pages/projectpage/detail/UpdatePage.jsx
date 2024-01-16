@@ -50,32 +50,34 @@ const UpdatePage = () => {
         ;
     }, [no]);
 
-    return (<StyledAllDiv>
-        <StyledUpdateDiv>
-            {
-                detailUpdateVoList.map((vo)=>{
-                    return (
-                    <div key={vo.no}>
-                        <ul>
-                            <li>
-                                <div>
-                                    <img src={vo.memberPic} alt="프로필 이미지" />
-                                </div>
-                                <div>
-                                    <div>{vo.memberName}</div>
-                                    <div>{vo.enrollDate}</div>
-                                </div>
-                            </li>
-                            <li>
-                                <div>{vo.content}</div>
-                            </li>
-                        </ul>
-                    </div>
-                    );
-                })
-            }
-        </StyledUpdateDiv>
-    </StyledAllDiv>);
+    return (
+        <StyledAllDiv>
+            <StyledUpdateDiv>
+                {
+                    detailUpdateVoList.map((vo)=>{
+                        return (
+                        <div key={vo.no}>
+                            <ul>
+                                <li>
+                                    <div>
+                                        <img src={vo.memberPic} alt="프로필 이미지" />
+                                    </div>
+                                    <div>
+                                        <div>{vo.memberName}</div>
+                                        <div>{vo.enrollDate}</div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div>{vo.content}</div>
+                                </li>
+                            </ul>
+                        </div>
+                        );
+                    })
+                }
+            </StyledUpdateDiv>
+        </StyledAllDiv>
+    );
 };
 
 export default UpdatePage;

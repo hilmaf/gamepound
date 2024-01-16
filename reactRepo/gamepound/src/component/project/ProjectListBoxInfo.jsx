@@ -3,17 +3,23 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const StyledProjectBoxInfoDiv = styled.div`
-    width: calc(100% / 4 - 30px);
-    height: 410px;
+    width: calc(100% / 4 - 25px);
     cursor: pointer;
     margin-right: 25px;
+    margin-bottom: 40px;
 
-    & > img {
+    & > div:first-child {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
         width: 100%;
-        height: 300px;
-        background-size: cover;
-        object-fit: cover;
-        background-color: aliceblue;
+        height: 200px;
+        
+        & > img{
+            max-width: 100%;
+            min-height: 100%;
+        }
     }
 
     & > .category {
@@ -68,7 +74,9 @@ const ProjectListBoxInfo = ({project}) => {
 
     return (
         <StyledProjectBoxInfoDiv onClick={handleBoxClick}>
-            <img src={project.imageUrl} alt="프로젝트 대표 이미지"></img>
+            <div>
+                <img src={project.imageUrl} alt="프로젝트 대표 이미지"></img>
+            </div>
             <div className='category'>
                 <span>{project.mainCategory} | {project.subCategory}</span>
                 <span>{project.memberName}</span>
@@ -81,9 +89,8 @@ const ProjectListBoxInfo = ({project}) => {
                     <span id='achievement_rate'>{project.achievementRate}%</span>
                     <span id='achievement_amnt'>{project.currentAmount}원</span>
                 </div>
-                <div className='status'>
-                    {project.remainingPeriod}
-                </div>
+                {project.remainingPeriod === "펀딩 종료" ? <div className='status'>{project.remainingPeriod}</div>:<div className='status'>{project.remainingPeriod}일 남음</div>}
+                
             </div>
         </StyledProjectBoxInfoDiv>
     );

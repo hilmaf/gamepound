@@ -226,86 +226,88 @@ const DetailMain = () => {
         ;
     }, [no]);
 
-    return (<StyledAllDiv>
-        <StyledProjectDetailDiv>
-            <div className="inner">
-                <div>
-                    <div><div>{detailVo.subCategory}</div></div>
-                    <h1>{detailVo.title}</h1>
-                </div>            
-                <div>
-                    <span><img src="" alt="프로젝트 대표 이미지" /></span>
-                    <ul>
-                        <li>모인금액</li>
-                        <li>{detailVo.currentAmount} <span>원</span><span>{detailVo.achievementRate}%</span></li>
-                        <li>남은시간</li>
-                        <li>{detailVo.remainingPeriod} <span>일</span></li>
-                        <li>후원자</li>
-                        <li>{detailVo.totalBackerNo} <span>명</span></li>
-                        <li>
-                            <table>
-                                <tbody>
-                                    <tr>
-                                        <td>목표금액</td>
-                                        <td>{detailVo.goalAmount}원</td>
-                                    </tr>
-                                    <tr>
-                                        <td>펀딩 기간</td>
-                                        <td>{detailVo.startDateStr} ~ {detailVo.endDateStr} {detailVo.remainingPeriod === "펀딩 종료" ? <span>{detailVo.remainingPeriod}</span>:<span>{detailVo.remainingPeriod}일남음</span>}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>결제</td>
-                                        <td>목표금액 달성시 {detailVo.calDate}에 결제 진행</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </li>
-                        <li><button>이 프로젝트 후원하기</button></li>
-                    </ul>
-                </div>
-            </div>
-        </StyledProjectDetailDiv>
-        <StyledProjectDetailNaviDiv>
-            <div className="inner">
-                <div>
-                    <span><NavLink to={`/project/detail/story/${no}`}>프로젝트 계획</NavLink></span>
-                    <span><NavLink to={`/project/detail/update/${no}`}>업데이트</NavLink></span>
-                    <span><NavLink to={`/project/detail/community/${no}`}>커뮤니티</NavLink></span>
-                </div>
-            </div>
-        </StyledProjectDetailNaviDiv>
-        <StyledProjectSelectDiv>
-            <div>
-                {temp === 'story' ? <StoryPage/> : null}
-                {temp === 'update' ? <UpdatePage/> : null}
-                {temp === 'community' ? <CommunityPage/> : null}
-                <div>
+    return (
+        <StyledAllDiv>
+            <StyledProjectDetailDiv>
+                <div className="inner">
                     <div>
-                        <div>창작자 소개</div>
-                        <div>
-                            <div><img src={detailVo.memberPic} alt="창작자 프로필 이미지" /></div>
-                            <span>{detailVo.memberName}</span>
-                        </div>
-                        <div>
-                            {detailVo.memberIntro}
-                        </div>
-                    </div>
+                        <div><div>{detailVo.subCategory}</div></div>
+                        <h1>{detailVo.title}</h1>
+                    </div>            
                     <div>
-                    {
-                        rewardVoList.map((vo)=>{
-                            return(
-                                <div key={vo.no}>
-                                    <div>{vo.amount}원 + </div>
-                                    <div>{vo.name}</div>
-                                </div>
-                            );
-                        })
-                    }
+                        <span><img src={detailVo.imageUrl} alt="프로젝트 대표 이미지" /></span>
+                        <ul>
+                            <li>모인금액</li>
+                            <li>{detailVo.currentAmount} <span>원</span><span>{detailVo.achievementRate}%</span></li>
+                            <li>남은시간</li>
+                            {detailVo.remainingPeriod === "펀딩 종료" ? <li>{detailVo.remainingPeriod}</li> : <li>{detailVo.remainingPeriod} <span>일</span></li>}
+                            <li>후원자</li>
+                            <li>{detailVo.totalBackerNo} <span>명</span></li>
+                            <li>
+                                <table>
+                                    <tbody>
+                                        <tr>
+                                            <td>목표금액</td>
+                                            <td>{detailVo.goalAmount}원</td>
+                                        </tr>
+                                        <tr>
+                                            <td>펀딩 기간</td>
+                                            <td>{detailVo.startDateStr} ~ {detailVo.endDateStr} {detailVo.remainingPeriod === "펀딩 종료" ? <span>{detailVo.remainingPeriod}</span>:<span>{detailVo.remainingPeriod}일남음</span>}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>결제</td>
+                                            <td>목표금액 달성시 {detailVo.calDate}에 결제 진행</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </li>
+                            <li><button>이 프로젝트 후원하기</button></li>
+                        </ul>
                     </div>
                 </div>
-            </div>
-        </StyledProjectSelectDiv>
-    </StyledAllDiv>);
+            </StyledProjectDetailDiv>
+            <StyledProjectDetailNaviDiv>
+                <div className="inner">
+                    <div>
+                        <span><NavLink to={`/project/detail/story/${no}`}>프로젝트 계획</NavLink></span>
+                        <span><NavLink to={`/project/detail/update/${no}`}>업데이트</NavLink></span>
+                        <span><NavLink to={`/project/detail/community/${no}`}>커뮤니티</NavLink></span>
+                    </div>
+                </div>
+            </StyledProjectDetailNaviDiv>
+            <StyledProjectSelectDiv>
+                <div>
+                    {temp === 'story' ? <StoryPage/> : null}
+                    {temp === 'update' ? <UpdatePage/> : null}
+                    {temp === 'community' ? <CommunityPage/> : null}
+                    <div>
+                        <div>
+                            <div>창작자 소개</div>
+                            <div>
+                                <div><img src={detailVo.memberPic} alt="창작자 프로필 이미지" /></div>
+                                <span>{detailVo.memberName}</span>
+                            </div>
+                            <div>
+                                {detailVo.memberIntro}
+                            </div>
+                        </div>
+                        <div>
+                        {
+                            rewardVoList.map((vo)=>{
+                                return(
+                                    <div key={vo.no}>
+                                        <div>{vo.amount}원 + </div>
+                                        <div>{vo.name}</div>
+                                    </div>
+                                );
+                            })
+                        }
+                        </div>
+                    </div>
+                </div>
+            </StyledProjectSelectDiv>
+        </StyledAllDiv> 
+    );
 };
 
 export default DetailMain;

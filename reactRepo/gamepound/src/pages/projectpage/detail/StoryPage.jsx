@@ -40,22 +40,24 @@ const StoryPage = () => {
 
 
 
-    return (<StyledAllDiv>
-        <StyledStoryDiv>
-            <ul>
-                <li>| 프로젝트 소개</li>
-                <li>{detailStoryVo.txtDescription}</li>
-                <li>| 프로젝트 예산</li>
-                <li>{detailStoryVo.txtBudget}</li>
-                <li>| 프로젝트 일정</li>
-                <li>{detailStoryVo.txtSchedule}</li>
-                <li>| 팀 소개</li>
-                <li>{detailStoryVo.txtTeam}</li>
-                <li>| 선물 설명</li>
-                <li>{detailStoryVo.txtItem}</li>
-            </ul>
-        </StyledStoryDiv>
-    </StyledAllDiv>);
+    return (
+        <StyledAllDiv>
+            <StyledStoryDiv>
+                <ul>
+                    <li>| 프로젝트 소개</li>
+                    <li>{detailStoryVo.txtDescription}</li>
+                    <li>| 프로젝트 예산</li>
+                    <li>{detailStoryVo.txtBudget}</li>
+                    <li>| 프로젝트 일정</li>
+                    <li>{detailStoryVo.txtSchedule}</li>
+                    <li>| 팀 소개</li>
+                    <li>{detailStoryVo.txtTeam}</li>
+                    <li>| 선물 설명</li>
+                    <li>{detailStoryVo.txtItem}</li>
+                </ul>
+            </StyledStoryDiv>
+        </StyledAllDiv>
+    );
 };
 
 export default StoryPage;

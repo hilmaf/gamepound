@@ -44,19 +44,21 @@ const PrelaunchStoryPage = () => {
         ;
     }, [no]);
 
-    return (<StyledAllDiv>
-        <StyledStoryDiv>
-            <ul>
-                <li>❗ 해당 프로젝트 정보는 미리 보기 용으로 상세 내용은 펀딩 시작 전 변경될 수 있습니다.</li>
-                <li>| 프로젝트 소개</li>
-                <li>{detailPrelaunchStoryVo.txtDescription}</li>
-                <li>| 팀 소개</li>
-                <li>{detailPrelaunchStoryVo.txtTeam}</li>
-                <li>| 선물 설명</li>
-                <li>{detailPrelaunchStoryVo.txtItem}</li>
-            </ul>
-        </StyledStoryDiv>
-    </StyledAllDiv>);
+    return (
+        <StyledAllDiv>
+            <StyledStoryDiv>
+                <ul>
+                    <li>❗ 해당 프로젝트 정보는 미리 보기 용으로 상세 내용은 펀딩 시작 전 변경될 수 있습니다.</li>
+                    <li>| 프로젝트 소개</li>
+                    <li>{detailPrelaunchStoryVo.txtDescription}</li>
+                    <li>| 팀 소개</li>
+                    <li>{detailPrelaunchStoryVo.txtTeam}</li>
+                    <li>| 선물 설명</li>
+                    <li>{detailPrelaunchStoryVo.txtItem}</li>
+                </ul>
+            </StyledStoryDiv>
+        </StyledAllDiv>
+    );
 };
 
 export default PrelaunchStoryPage;
