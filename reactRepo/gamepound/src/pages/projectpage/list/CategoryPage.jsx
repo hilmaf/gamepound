@@ -46,8 +46,7 @@ const CategoryPage = () => {
         fetch("http://127.0.0.1:8889/gamepound/project/list/category?categoryNo=" + no)
         .then((resp)=>{return resp.json()})
         .then((data)=>{
-            console.log(1);
-            console.log(data);
+            console.log("categoryPage > fetch");
             setCategoryVoList(data);
         })
         .catch((e)=>{console.log("오류 : " + e);})
@@ -68,7 +67,7 @@ const CategoryPage = () => {
                 <div>
                     {
                         categoryVoList.map((vo)=>{
-                            return(<ProjectListBoxInfo no={4} project={vo}/>);
+                            return(<ProjectListBoxInfo project={vo}/>);
                         })
 
                     }

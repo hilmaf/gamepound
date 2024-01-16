@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import ProjectBoxInfo from "../../../component/project/ProjectBoxInfo";
+import ProjectListBoxInfo from '../../../component/project/ProjectListBoxInfo';
 
 const StyledAllDiv = styled.div`
     width: 100%;
@@ -32,6 +32,20 @@ const StyledAllDiv = styled.div`
 `;
 
 const PopularPage = () => {
+
+    const [popularVoList, setPopularVoList] = useState([]);
+
+    useEffect(()=>{
+        fetch("http://127.0.0.1:8889/gamepound/project/list/popular")
+        .then((resp)=>{return resp.json()})
+        .then((data)=>{
+            console.log("popularPage > fetch");
+            setPopularVoList(data);
+        })
+        .catch((e)=>{console.log("오류 : " + e);})
+        ;
+    }, []);
+
     return (
         <StyledAllDiv>
             <div className='inner'>
@@ -40,11 +54,11 @@ const PopularPage = () => {
                     <div><span>20</span>개의 프로젝트가 있습니다.</div>
                 </div>
                 <div>
-                    <ProjectBoxInfo no={1} project={1}/>
-                    <ProjectBoxInfo no={1} project={1}/>
-                    <ProjectBoxInfo no={1} project={1}/>
-                    <ProjectBoxInfo no={1} project={1}/>
-                    <ProjectBoxInfo no={1} project={1}/>
+                    {
+                        popularVoList.map((vo)=>{
+                            return(<ProjectListBoxInfo project={vo}/>);
+                        })
+                    }
                 </div>
             </div>
         </StyledAllDiv>

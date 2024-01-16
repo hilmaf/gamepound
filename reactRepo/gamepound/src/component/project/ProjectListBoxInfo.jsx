@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const StyledProjectBoxInfoDiv = styled.div`
-    width: calc(100% / ${(props) => props.no} - 30px);
+    width: calc(100% / 4 - 30px);
     height: 410px;
     cursor: pointer;
     margin-right: 25px;
@@ -58,7 +58,7 @@ const StyledProjectBoxInfoDiv = styled.div`
     }
 `;
 
-const ProjectListBoxInfo = ({no, project}) => {
+const ProjectListBoxInfo = ({project}) => {
     
     const navigate = useNavigate();
 
@@ -68,7 +68,7 @@ const ProjectListBoxInfo = ({no, project}) => {
 
     return (
         <StyledProjectBoxInfoDiv onClick={handleBoxClick}>
-            <img src={project.imageUrl}></img>
+            <img src={project.imageUrl} alt="프로젝트 대표 이미지"></img>
             <div className='category'>
                 <span>{project.mainCategory} | {project.subCategory}</span>
                 <span>{project.memberName}</span>

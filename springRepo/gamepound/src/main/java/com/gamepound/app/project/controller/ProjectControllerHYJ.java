@@ -33,48 +33,53 @@ public class ProjectControllerHYJ {
 	
 	//목록 조회 - 인기순
 	@GetMapping("list/popular")
-	public void projectListPopular(ProjectListVo vo) {
+	public List<ProjectVo> projectListPopular(ProjectListVo vo) {
 		List<ProjectVo> voList = service.projectListPopular(vo);
 		
 		//TODO-HYJ : [list-popular] ajax.....(화면에서 받을때 : 달성률 시작 + 끝 받을수있음)
 		for (ProjectVo projectVo : voList) {
 			System.out.println(projectVo);
 		}
+		
+		return voList;
 	}
 	
 	//목록 조회 - 신규
 	@GetMapping("list/new")
-	public void projectListNew(ProjectListVo vo) {
+	public List<ProjectVo> projectListNew(ProjectListVo vo) {
 		List<ProjectVo> voList = service.projectListNew(vo);
 		
 		//TODO-HYJ : [list-new] ajax (화면에서 받을때 : 달성률 시작 + 끝)
 		for (ProjectVo projectVo : voList) {
 			System.out.println(projectVo);
 		}
+		return voList;
 	}
 	
 	
 	//목록 조회 - 마감임박
 	@GetMapping("list/imminent")
-	public void projectListImminent(ProjectListVo vo) {
+	public List<ProjectVo> projectListImminent(ProjectListVo vo) {
 		List<ProjectVo> voList = service.projectListImminent(vo);
 		
 		//TODO-HYJ : [list-imminent] ajax (화면에서 받을때 : 달성률 시작 + 끝)
 		for (ProjectVo projectVo : voList) {
 			System.out.println(projectVo);
 		}
+		return voList;
 	}
 	
 	
 	//목록 조회 - 공개예정
 	@GetMapping("list/prelaunch")
-	public void projectListPrelaunch() {
+	public List<ProjectVo> projectListPrelaunch() {
 		List<ProjectVo> voList = service.projectListPrelaunch();
 		
 		//TODO-HYJ : [list-prelaunch] ajax처리
 		for (ProjectVo projectVo : voList) {
 			System.out.println(projectVo);
 		}
+		return voList;
 	}
 	
 	
