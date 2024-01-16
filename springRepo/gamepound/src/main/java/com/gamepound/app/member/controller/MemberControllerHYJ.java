@@ -1,24 +1,33 @@
 package com.gamepound.app.member.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.gamepound.app.member.service.MemberServiceHYJ;
 import com.gamepound.app.member.vo.MemberVo;
 
 import lombok.RequiredArgsConstructor;
 
-@Controller
+@RestController
 @RequestMapping("settings")
 @RequiredArgsConstructor
+@CrossOrigin("*")
 public class MemberControllerHYJ {
 
 	private final MemberServiceHYJ service;
 	
+	@PostMapping
+	public void getProfile(@RequestBody MemberVo vo) {
+		System.out.println(vo);
+	}
+	
 	//프로필 사진 변경
 	@PostMapping("pic")
-	public void editPic(MemberVo vo) throws Exception {
+	public void editPic(@RequestBody MemberVo vo) throws Exception {
 		
 		int result = service.editPic(vo);
 		
@@ -33,7 +42,7 @@ public class MemberControllerHYJ {
 	
 	//프로필 이름 변경
 	@PostMapping("name")
-	public void editName(MemberVo vo) throws Exception {
+	public void editName(@RequestBody MemberVo vo) throws Exception {
 		int result = service.editName(vo);
 		
 		if(result != 1) {
@@ -47,7 +56,7 @@ public class MemberControllerHYJ {
 	
 	//프로필 소개 변경
 	@PostMapping("intro")
-	public void editIntro(MemberVo vo) throws Exception {
+	public void editIntro(@RequestBody MemberVo vo) throws Exception {
 		int result = service.editIntro(vo);
 		
 		if(result != 1) {
@@ -62,7 +71,7 @@ public class MemberControllerHYJ {
 	
 	//프로필 웹사이트 변경
 	@PostMapping("siteUrl")
-	public void editSiteUrl(MemberVo vo) throws Exception {
+	public void editSiteUrl(@RequestBody MemberVo vo) throws Exception {
 		int result = service.editSiteUrl(vo);
 		
 		if(result != 1) {
@@ -76,7 +85,7 @@ public class MemberControllerHYJ {
 	
 	//프로필 비밀번호 변경
 	@PostMapping("pwd")
-	public void editPwd(MemberVo vo) throws Exception {
+	public void editPwd(@RequestBody MemberVo vo) throws Exception {
 		int result = service.editPwd(vo);
 		
 		if(result != 1) {
