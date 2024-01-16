@@ -60,39 +60,41 @@ const CommunityPage = () => {
         ;
     }, [no]);
 
-    return (<StyledAllDiv>
-        <StyledCommunityDiv>
-            {
-                detailCommunityVoList.map((vo)=>{
-                    return (
-                    <div key={vo.no}>
-                        <ul>
-                            <li>
-                                <div>
+    return (
+        <StyledAllDiv>
+            <StyledCommunityDiv>
+                {
+                    detailCommunityVoList.map((vo)=>{
+                        return (
+                        <div key={vo.no}>
+                            <ul>
+                                <li>
                                     <div>
-                                        <img src={vo.memberPid} alt="프로필 이미지" />
+                                        <div>
+                                            <img src={vo.memberPid} alt="프로필 이미지" />
+                                        </div>
+                                        <div>
+                                            <div>{vo.memberName}</div>
+                                            <div>{vo.contentEnrollDate}</div>
+                                        </div>
                                     </div>
+                                    <div>{vo.content}</div>
+                                </li>
+                                <li>
                                     <div>
                                         <div>{vo.memberName}</div>
-                                        <div>{vo.contentEnrollDate}</div>
+                                        <div>{vo.replyEnrollDate}</div>
                                     </div>
-                                </div>
-                                <div>{vo.content}</div>
-                            </li>
-                            <li>
-                                <div>
-                                    <div>{vo.memberName}</div>
-                                    <div>{vo.replyEnrollDate}</div>
-                                </div>
-                                <div>{vo.reply}</div>
-                            </li>
-                        </ul>
-                    </div>
-                    );
-                })
-            }
-        </StyledCommunityDiv>
-    </StyledAllDiv>);
+                                    <div>{vo.reply}</div>
+                                </li>
+                            </ul>
+                        </div>
+                        );
+                    })
+                }
+            </StyledCommunityDiv>
+        </StyledAllDiv>
+    );
 };
 
 export default CommunityPage;
