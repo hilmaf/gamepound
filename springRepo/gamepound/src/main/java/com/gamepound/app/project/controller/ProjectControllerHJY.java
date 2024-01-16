@@ -133,9 +133,9 @@ public class ProjectControllerHJY {
 	// 프로젝트 작성조회 : 선물구성 프로젝트 넘버필요
 	@GetMapping("get/reward")
 	public Map<String, Object> getReword(ProjectVo vo) {
-		System.out.println("선물구성 :: " + vo);
+		
 		List<RewardVo> voList = service.getReward(vo);
-		System.out.println("선물 : " + voList);
+		
 		
 		Map<String, Object> map = new HashMap<>();
 		map.put("msg", "good");
@@ -148,24 +148,32 @@ public class ProjectControllerHJY {
 	}
 	// 프로젝트 작성 : 선물구성
 	@PostMapping("create/reword")
-	public void createReword(RewardVo vo) throws Exception {
-		
+	public Map<String, String> createReword(@RequestBody RewardVo vo) throws Exception {
+		System.out.println("제대로잘오나 선물작성" + vo);
 		int result = service.createReword(vo);
+		
+		Map<String, String> map = new HashMap<>();
+		map.put("msg", "good");
 		if(result != 1) {
-			throw new Exception("선물추가에 실패했습니다.");
+			map.put("msg", "bad");
 		}
-		System.out.println("선물추가 결과 : " + result);
+		
+		return map;
 		
 	}
 	// 프로젝트 작성저장 : 선물구성
 	@PostMapping("save/reword")
-	public void saveReword(RewardVo vo) throws Exception {
-		
+	public Map<String, String> saveReword(@RequestBody RewardVo vo) throws Exception {
+		System.out.println("제대로잘오나 선물수정" + vo);
 		int result = service.saveReword(vo);
+		
+		Map<String, String> map = new HashMap<>();
+		map.put("msg", "good");
 		if(result != 1) {
-			throw new Exception("선물저장에 실패했습니다.");
+			map.put("msg", "bad");
 		}
-		System.out.println("선물저장 결과 : " + result);
+		
+		return map;
 		
 	}
 	// 프로젝트 선물삭제 : 선물구성

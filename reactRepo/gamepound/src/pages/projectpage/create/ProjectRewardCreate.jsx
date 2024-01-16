@@ -142,16 +142,20 @@ const StyledCreateRewardDiv = styled.div`
                     }
                 }
             }
-            & > button {
+            & .btnArea {
                 display: flex;
-                align-items: center;
-                font-size: 14px;
-                background-color: #fff;
-                border: 1px solid #ddd;
-                padding: 10px 25px;
-                border-radius: 5px;
-                margin-top: 30px;
-                cursor: pointer;
+                gap: 10px;
+                & button {
+                    display: flex;
+                    align-items: center;
+                    font-size: 14px;
+                    background-color: #fff;
+                    border: 1px solid #ddd;
+                    padding: 10px 25px;
+                    border-radius: 5px;
+                    margin-top: 30px;
+                    cursor: pointer;
+                }
             }
         }
     }
@@ -162,8 +166,10 @@ const ProjectRewardCreate = () => {
     const {projectCreateData, setProjectCreateData, setIsProjectInputChange, setDataFrom, headerFormVo, setHeaderFormVo} = useProjectCreateMemory(); // 컨텍스트 데이터
     const [dataVo, setDataVo] = useState([]); // 프로젝트 정보
     const { projectNo } = useParams(); // 프로젝트 넘버 파라미터
-    const [money, setMoney] = useState(); // 금액
-    const [rewardName, setRewardName] = useState(); // 금액
+    const [money, setMoney] = useState({}); // 금액
+    const [rewardName, setRewardName] = useState(''); // 선물이름
+    const [rewardNo, setRewardNo] = useState({}); // 선물번호
+    const [isNewReward, setIsNewReward] = useState(true); // 수정인지 새로등록인지 판단
 
     // 컨텍스트 데이터에 프로젝트 넘버 저장
     useEffect(() => {
@@ -183,11 +189,48 @@ const ProjectRewardCreate = () => {
             if(data.msg === 'good'){
                 setDataVo(data.voList);
                 setMoney(data.vo?.amount);
+                setHeaderFormVo({
+                    ...headerFormVo,
+                    'projectNo': projectNo,
+                });
             }
         })
         ;
     }, []);
-    console.log('dataVo :: ', dataVo);
+
+    // 데이터 보여주기
+    const handleEditDataShow = (name, amount, no) => {
+        // 수정하기 페이지 보여주기
+        setIsNewReward(false);
+        setRewardNo(no);
+        setMoney(amount);
+        setRewardName(name);
+        setHeaderFormVo({
+            ...headerFormVo,
+            'amount': '',
+            'name': '',
+        });
+    }
+
+    // 초기화 되면서 no저장
+    useEffect(() => {
+        if(!isNewReward){
+            setHeaderFormVo({
+                ...headerFormVo,
+                'no': rewardNo,
+            });
+        } else {
+            setHeaderFormVo({});
+        }
+    }, [rewardNo]);
+
+    // 수정하기 취소 (초기화)
+    const handleCancle = () => {
+        setMoney('');
+        setRewardName('');
+        setHeaderFormVo({});
+        setIsNewReward(true);
+    }
 
     // 콤마추가
     const addComma = (price) => {
@@ -230,11 +273,71 @@ const ProjectRewardCreate = () => {
         }
     };
 
-    const handleEditDataShow = (name, amount) => {
-        setMoney(amount);
-        setRewardName(name);
+    // rewardName 핸들링
+    const handleRewardName = (e) => {
+        setRewardName(e.target.value);
+
+        const {name, value} = e.target;
+        setHeaderFormVo({
+            ...headerFormVo,
+            [name]: value,
+        });
+        setIsProjectInputChange(true);
+        setDataFrom('plan');
     }
-    console.log(money);
+
+    // 저장/수정
+    const handleEditSave = () => {
+
+        
+
+        //no값이 있으면 수정하기, 없으면 새로만들기
+        if(headerFormVo.no){
+            fetch('http://localhost:8889/gamepound/project/save/reword', {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(headerFormVo),
+            })
+            .then(resp => resp.json())
+            .then(data => {
+                if(data.msg === 'good'){
+                    alert('선물이 저장되었습니다.1');
+                } else {
+                    alert('선물 저장에 실패했습니다. 다시 시도해주세요.');
+                }
+            })
+            ;
+        } else {
+            // 값 검증
+            if(!headerFormVo.name || headerFormVo.name.trim() === ''){
+                alert('선물 이름이 비어있습니다.');
+                return;
+            }
+            if(headerFormVo.amount === undefined || headerFormVo.amount === null || headerFormVo.amount === 0){
+                alert('선물 금액이 비어있습니다.');
+                return;
+            }
+            fetch('http://localhost:8889/gamepound/project/create/reword', {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(headerFormVo),
+            })
+            .then(resp => resp.json())
+            .then(data => {
+                if(data.msg === 'good'){
+                    alert('선물이 저장되었습니다.2');
+                } else {
+                    alert('선물 저장에 실패했습니다. 다시 시도해주세요.');
+                }
+            })
+            ;
+        }
+    }
+    console.log('headerFormVo :: ', headerFormVo);
 
     return (
         <StyledCreateRewardDiv>
@@ -248,7 +351,7 @@ const ProjectRewardCreate = () => {
                             {
                                 dataVo && dataVo.length > 0 ?
                                 dataVo.map((vo) => (
-                                    <li key={vo.no} onClick={() => handleEditDataShow(vo.name, vo.amount)}>
+                                    <li key={vo.no} onClick={() => handleEditDataShow(vo.name, vo.amount, vo.no)}>
                                         <span className="tit">{vo.name}</span>
                                         <span className="content">{vo.amount}</span>
                                         <button>삭제</button>
@@ -265,30 +368,71 @@ const ProjectRewardCreate = () => {
                 </div>
 
                 <div className='right'>
-                    <dl>
-                        <dt>선물 만들기</dt>
-                        <dd>
-                            <dl className='item'>
-                                <dt>선물이름</dt>
+                    {
+                        isNewReward ?
+                        <>
+                            <dl>
+                                <dt>선물 만들기</dt>
                                 <dd>
-                                    <input type="text" name='name' defaultValue={rewardName}/>
+                                    <dl className='item'>
+                                        <dt>선물이름</dt>
+                                        <dd>
+                                            <input type="text" name='name' value={rewardName} onChange={(e)=>{handleRewardName(e)}}  />
+                                        </dd>
+                                    </dl>
+                                    <dl className='item'>
+                                        <dt>선물 금액</dt>
+                                        <dd>
+                                            <input 
+                                                type="text" 
+                                                name='amount' 
+                                                value={money ? addComma(money) : ""}
+                                                onChange={handleMoneyChange} 
+                                            />
+                                            <span className="won">원</span>
+                                        </dd>
+                                    </dl>
                                 </dd>
                             </dl>
-                            <dl className='item'>
-                                <dt>선물 금액</dt>
+                            <div className="btnArea">
+                                <button onClick={handleCancle}>초기화</button>
+                                <button onClick={handleEditSave}>저장</button>
+                            </div>
+                        </>
+                        :
+                        <>
+                            <dl>
+                                <dt>선물 수정하기</dt>
                                 <dd>
-                                    <input 
-                                        type="text" 
-                                        name='amount' 
-                                        value={money ? addComma(money) : ""}
-                                        onChange={handleMoneyChange} 
-                                    />
-                                    <span className="won">원</span>
+                                    <dl className='item'>
+                                        <dt>선물이름</dt>
+                                        <dd>
+                                            <input type="text" name='name' value={rewardName} onChange={(e)=>{handleRewardName(e)}} />
+                                        </dd>
+                                    </dl>
+                                    <dl className='item'>
+                                        <dt>선물 금액</dt>
+                                        <dd>
+                                            <input 
+                                                type="text" 
+                                                name='amount' 
+                                                value={money ? addComma(money) : ""}
+                                                onChange={handleMoneyChange} 
+                                            />
+                                            <span className="won">원</span>
+                                        </dd>
+                                    </dl>
                                 </dd>
                             </dl>
-                        </dd>
-                    </dl>
-                    <button>저장</button>
+                            <div className="btnArea">
+                                <button onClick={handleCancle}>취소</button>
+                                <button onClick={handleEditSave}>저장</button>
+                            </div>
+                        </>
+                    }
+
+
+                    
                 </div>
 
             </div>
