@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const StyledAllDiv = styled.div`
@@ -29,6 +30,12 @@ const StyledSettingsDiv = styled.div`
 
 
 const ProfileSetting = () => {
+
+    const [img, setImg] = useState([]);
+    const [name, setName] = useState([]);
+    const [intro, setIntro] = useState([]);
+    const [siteUtl, setSiteUrl] = useState([]);
+
     return (
         <StyledAllDiv>
             <StyledSettingsDiv>
@@ -77,7 +84,7 @@ const ProfileSetting = () => {
                         <li>
                             <div>회원탈퇴</div>
                             <div>
-                                <button>이동</button>
+                                <Link to='/quit'>이동</Link>
                             </div>
                         </li>
                     </ul>
