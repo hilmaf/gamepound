@@ -163,13 +163,14 @@ const StyledCreateRewardDiv = styled.div`
 
 const ProjectRewardCreate = () => {
     
-    const {projectCreateData, setProjectCreateData, setIsProjectInputChange, setDataFrom, headerFormVo, setHeaderFormVo} = useProjectCreateMemory(); // 컨텍스트 데이터
+    const {projectCreateData, setProjectCreateData, setDataFrom, headerFormVo, setHeaderFormVo} = useProjectCreateMemory(); // 컨텍스트 데이터
     const [dataVo, setDataVo] = useState([]); // 프로젝트 정보
     const { projectNo } = useParams(); // 프로젝트 넘버 파라미터
     const [money, setMoney] = useState({}); // 금액
     const [rewardName, setRewardName] = useState(''); // 선물이름
     const [rewardNo, setRewardNo] = useState({}); // 선물번호
     const [isNewReward, setIsNewReward] = useState(true); // 수정인지 새로등록인지 판단
+    const [isSave, setIsSave] = useState(false); // 저장여부 판단
 
     // 컨텍스트 데이터에 프로젝트 넘버 저장
     useEffect(() => {
@@ -196,7 +197,8 @@ const ProjectRewardCreate = () => {
             }
         })
         ;
-    }, []);
+        setIsSave(false);
+    }, [isSave]);
 
     // 데이터 보여주기
     const handleEditDataShow = (name, amount, no) => {
@@ -258,18 +260,16 @@ const ProjectRewardCreate = () => {
             setHeaderFormVo({
                 ...headerFormVo,
                 [name]: numericValue,
+                'projectNo': projectNo,
             });
-            setIsProjectInputChange(true);
-            setDataFrom('plan');
         } else {
             // NaN일 경우, 0으로 설정
             setMoney(0);
             setHeaderFormVo({
                 ...headerFormVo,
                 [name]: 0,
+                'projectNo': projectNo,
             });
-            setIsProjectInputChange(true);
-            setDataFrom('plan');
         }
     };
 
@@ -281,18 +281,16 @@ const ProjectRewardCreate = () => {
         setHeaderFormVo({
             ...headerFormVo,
             [name]: value,
+            'projectNo': projectNo,
         });
-        setIsProjectInputChange(true);
         setDataFrom('plan');
     }
 
     // 저장/수정
     const handleEditSave = () => {
 
-        
-
         //no값이 있으면 수정하기, 없으면 새로만들기
-        if(headerFormVo.no){
+        if(headerFormVo.no){ // 수정하기
             fetch('http://localhost:8889/gamepound/project/save/reword', {
                 method: 'post',
                 headers: {
@@ -303,13 +301,15 @@ const ProjectRewardCreate = () => {
             .then(resp => resp.json())
             .then(data => {
                 if(data.msg === 'good'){
-                    alert('선물이 저장되었습니다.1');
+                    alert('선물이 수정되었습니다.');
+                    setIsSave(true);
+                    handleCancle();
                 } else {
-                    alert('선물 저장에 실패했습니다. 다시 시도해주세요.');
+                    alert('선물 수정에 실패했습니다. 다시 시도해주세요.');
                 }
             })
             ;
-        } else {
+        } else { // 새로만들기
             // 값 검증
             if(!headerFormVo.name || headerFormVo.name.trim() === ''){
                 alert('선물 이름이 비어있습니다.');
@@ -329,7 +329,9 @@ const ProjectRewardCreate = () => {
             .then(resp => resp.json())
             .then(data => {
                 if(data.msg === 'good'){
-                    alert('선물이 저장되었습니다.2');
+                    alert('선물이 저장되었습니다.');
+                    setIsSave(true);
+                    handleCancle();
                 } else {
                     alert('선물 저장에 실패했습니다. 다시 시도해주세요.');
                 }
@@ -337,7 +339,36 @@ const ProjectRewardCreate = () => {
             ;
         }
     }
-    console.log('headerFormVo :: ', headerFormVo);
+
+    // 삭제
+    const handleDelete = (no) => {
+        const confirmDelete = window.confirm("정말 삭제하시겠습니까?");
+        if(confirmDelete){
+            fetch('http://localhost:8889/gamepound/project/delete/reword', {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    'no': no
+                }),
+            })
+            .then(resp => resp.json())
+            .then(data => {
+                if(data.msg === 'good'){
+                    alert('선물이 삭제되었습니다.')
+                    setIsSave(true);
+                    handleCancle();
+                } else {
+                    throw new Error();
+                }
+            })
+            .catch(() => {
+                alert('선물삭제에 실패했습니다.');
+            })
+            ;
+        }
+    }
 
     return (
         <StyledCreateRewardDiv>
@@ -354,7 +385,7 @@ const ProjectRewardCreate = () => {
                                     <li key={vo.no} onClick={() => handleEditDataShow(vo.name, vo.amount, vo.no)}>
                                         <span className="tit">{vo.name}</span>
                                         <span className="content">{vo.amount}</span>
-                                        <button>삭제</button>
+                                        <button onClick={() => handleDelete(vo.no)}>삭제</button>
                                     </li>
                                 ))
                                 :

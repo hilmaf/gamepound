@@ -136,7 +136,6 @@ public class ProjectControllerHJY {
 		
 		List<RewardVo> voList = service.getReward(vo);
 		
-		
 		Map<String, Object> map = new HashMap<>();
 		map.put("msg", "good");
 		map.put("voList", voList);
@@ -164,7 +163,7 @@ public class ProjectControllerHJY {
 	// 프로젝트 작성저장 : 선물구성
 	@PostMapping("save/reword")
 	public Map<String, String> saveReword(@RequestBody RewardVo vo) throws Exception {
-		System.out.println("제대로잘오나 선물수정" + vo);
+		
 		int result = service.saveReword(vo);
 		
 		Map<String, String> map = new HashMap<>();
@@ -178,14 +177,17 @@ public class ProjectControllerHJY {
 	}
 	// 프로젝트 선물삭제 : 선물구성
 	@PostMapping("delete/reword")
-	public void deleteReword(RewardVo vo) throws Exception {
+	public Map<String, String> deleteReword(@RequestBody RewardVo vo) throws Exception {
 		
 		int result = service.deleteReword(vo);
-		if(result != 1) {
-			throw new Exception("선물삭제에 실패했습니다.");
-		}
-		System.out.println("선물삭제 결과 : " + result);
 		
+		Map<String, String> map = new HashMap<>();
+		map.put("msg", "good");
+		if(result != 1) {
+			map.put("msg", "bad");
+		}
+		
+		return map;
 	}
 	
 	

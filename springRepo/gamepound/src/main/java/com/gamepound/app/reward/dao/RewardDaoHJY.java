@@ -16,8 +16,8 @@ public class RewardDaoHJY {
 	 * */
 
 	// 프로젝트넘버로 선물 조회
-	public List<RewardVo> getRewardListByNo(SqlSessionTemplate sst, ProjectVo vo) {
-		return sst.selectList("rewardCreateMapper.getRewardListByNo", vo);
+	public List<RewardVo> getRewardListByNo(SqlSessionTemplate sst, ProjectVo mainVo) {
+		return sst.selectList("rewardCreateMapper.getRewardListByNo", mainVo);
 	}
 
 }
