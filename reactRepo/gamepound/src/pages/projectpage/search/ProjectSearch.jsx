@@ -1,15 +1,20 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import Condition from '../../../component/search/Condition';
+import ProjectBoxInfo from '../../../component/project/ProjectBoxInfo';
 
 const StyledProjectSearchDiv = styled.div`
+    width: 1200px;
+    display: flex;
 `;
 
-const ProjectSearch = () => {
-    
+const ProjectSearch = ({result}) => {
     return (
         <StyledProjectSearchDiv>
-            <Condition />
+            {
+                result.map((item)=> (
+                    <ProjectBoxInfo no={4} project={item}/>
+                ))
+            }
         </StyledProjectSearchDiv>
     );
 };

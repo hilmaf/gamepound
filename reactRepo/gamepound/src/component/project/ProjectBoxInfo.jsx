@@ -67,13 +67,13 @@ const ProjectBoxInfo = ({no, project}) => {
     }
 
     return (
-        <StyledProjectBoxInfoDiv onClick={handleBoxClick} no={no}>
-            <img src={project.projectImg}></img>
+        <StyledProjectBoxInfoDiv no={no}>
+            <img src={project.projectImg} onClick={handleBoxClick} ></img>
             <div className='category'>
                 <span>{project.categoryName} | {project.subCategoryName}</span>
                 <span>{project.memberName}</span>
             </div>
-            <div className='title' key={project.projectNo}>
+            <div className='title' onClick={handleBoxClick} key={project.projectNo}>
                 {project.projectTitle}
             </div>
             <div className='progress'>

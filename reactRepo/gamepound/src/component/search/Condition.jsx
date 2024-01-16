@@ -7,6 +7,9 @@ const StyledSearchConditionDiv = styled.div`
     height: 80px;
     display: flex;
     
+    & > .query {
+        margin-right: 20px;
+    }
 `;
 
 const Condition = () => {

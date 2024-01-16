@@ -18,8 +18,8 @@ public class ProjectServiceLKM {
 	private final ProjectDaoLKM dao;
 	
 	// 프로젝트 검색
-	public List<ProjectVo> searchProject(String keyword) {
-		return dao.searchProject(sst, keyword);
+	public List<ProjectVo> searchProject(String query) {
+		return dao.searchProject(sst, query);
 	}
 	
 	
