@@ -85,7 +85,6 @@ const ProjectPlanCreate = () => {
 
     const [startDate, setStartDate] = useState(null); // 데이트피커
     const [endDate, setEndDate] = useState(null); // 데이트피커
-    const [dataVo, setDataVo] = useState(); // 가져온 데이터
     const { projectNo } = useParams(); // 파라미터
     const [money, setMoney] = useState(); // 금액
     const { headerFormVo, setHeaderFormVo, setIsProjectInputChange, setDataFrom, setProjectCreateData, projectCreateData } = useProjectCreateMemory(); // 보낼 컨텍스트 데이터
@@ -109,7 +108,6 @@ const ProjectPlanCreate = () => {
         fetch(`http://localhost:8889/gamepound/project/get/plan?no=${projectNo}`)
         .then(resp => resp.json())
         .then(data => {
-            setDataVo(data.vo);
             setMoney(data.vo?.goalAmount);
             // dataVo 데이터가 들어온 후에 설정
             if (data.vo?.startDate) {

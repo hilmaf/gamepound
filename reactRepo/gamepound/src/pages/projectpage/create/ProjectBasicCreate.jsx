@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useHeaderMemory } from '../../../component/context/HeaderContext';
 import { useParams } from 'react-router-dom';
 import { useProjectCreateMemory } from '../../../component/context/ProjectCreateContext';
 
@@ -97,17 +96,11 @@ const StyledCreateBasicDiv = styled.div`
 
 const ProjectBasicCreate = () => {
 
-    const { updatePageType } = useHeaderMemory();
-    // const [formVo, setFormVo] = useState({});
     const {projectCreateData, setProjectCreateData, setIsProjectInputChange, setDataFrom, headerFormVo, setHeaderFormVo} = useProjectCreateMemory(); // 컨텍스트 데이터
     const [dataVo, setDataVo] = useState(); // 프로젝트 정보
     const [categoryVo, setCategoryVo] = useState([]); // 카테고리 데이터
     const [subCategory, setSubCategory] = useState([]); // 서브카테고리
 
-    // header type
-    useEffect(() => {
-        updatePageType('createMain');
-    }, [updatePageType]);
     const { projectNo } = useParams();
 
     // 컨텍스트 데이터에 프로젝트 넘버 저장
