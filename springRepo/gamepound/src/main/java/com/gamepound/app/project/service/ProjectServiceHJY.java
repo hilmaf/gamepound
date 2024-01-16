@@ -200,6 +200,15 @@ public class ProjectServiceHJY {
 
 	// 프로젝트 작성저장 : 선물구성
 	public int saveReword(RewardVo vo) {
+		// 금액 검증
+		if(vo.getAmount().isEmpty()) {
+			vo.setAmount(null);
+		}
+		// 선물이름 검증
+		if(vo.getName().isEmpty()) {
+			vo.setName(null);
+		}
+		
 		return dao.saveReword(sst, vo);
 	}
 

@@ -99,16 +99,30 @@
 	<!-- 프로젝트 작성 : 선물구성 -->
 	<insert id="createReword">
 		INSERT INTO REWARD(NO, PROJECT_NO, AMOUNT, NAME)
-		VALUES(SEQ_REWARD_NO.NEXTVAL, #{projectNo}, #{amount}, #{name})
+		VALUES(
+			SEQ_REWARD_NO.NEXTVAL, 
+			#{projectNo},
+			<choose>
+		        <when test="amount != null">
+		        	#{amount}
+		        </when>
+	        </choose>, 
+	        <choose>
+		        <when test="name != null">
+		        	#{name}
+		        </when>
+	        </choose>
+		)
 	</insert>
 	
 	<!-- 프로젝트 작성저장 : 선물구성 -->
 	<update id="saveReword">
-		UPDATE REWARD
-		    SET 
-		        AMOUNT = #{amount}
-		        , NAME = #{name}
-		WHERE NO = #{no}
+	    UPDATE REWARD
+	    <trim prefix="SET" suffixOverrides=",">
+	        <if test="amount != null">AMOUNT = #{amount},</if>
+	        <if test="name != null">NAME = #{name},</if>
+	    </trim>
+	    WHERE NO = #{no}
 	</update>
 	
 	<!-- 프로젝트 선물삭제 : 선물구성 -->
