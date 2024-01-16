@@ -67,12 +67,21 @@ const BackBriefInfo = ({item}) => {
 
     const navigate = useNavigate();
     const [reviewWrite, setReviewWrite] = useState(false);
+    const [reviewView, setReviewView] = useState(false);
 
     const handleReviewWriteBtnClick = () => {
         if(reviewWrite===false) {
             setReviewWrite(true);
         } else {
             setReviewWrite(false);
+        }
+    }
+
+    const handleReviewViewBtnClick = () => {
+        if(reviewView === false) {
+            setReviewView(true);
+        } else {
+            setReviewView(false);
         }
     }
 
@@ -91,15 +100,26 @@ const BackBriefInfo = ({item}) => {
                     <div id='payment_status'>{item.paymentStatus}</div>
                 </div>
             </div>
-            <button onClick={handleReviewWriteBtnClick}>
-                후기 작성
-            </button>
+            {
+                item.reviewNo === undefined
+                ? 
+                <button onClick={handleReviewWriteBtnClick}>
+                    후기 작성
+                </button>
+                :
+                <button onClick={handleReviewViewBtnClick}>
+                    내가 남긴 후기
+                </button>
+            }
             {
                 reviewWrite===true
                 ?
                 <ReviewWrite item={item}/>
                 :
                 <></>
+            }
+            {
+
             }
         </StyledBackBriefInfoDiv>
     );

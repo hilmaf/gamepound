@@ -106,10 +106,11 @@ public class UserPageService {
 		return map;
 	}
 
+	// 서버에 이미지 파일 업로드
 	public String imagefileSave(MultipartFile reviewImg, String root) throws Exception {
 		// 랜덤파일이름 생성
 		String fileName = reviewImg.getOriginalFilename();
-		String fileExtension = fileName.substring(fileName.lastIndexOf('.')+1);
+		String fileExtension = fileName.substring(fileName.lastIndexOf('.'));
 		
 		// 랜덤 파일명 생성
 		UUID uuid = UUID.randomUUID();

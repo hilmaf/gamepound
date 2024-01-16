@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import {useUserMemory} from '../../component/context/UserContext';
+import { useNavigate } from 'react-router-dom';
 
 const StyledReviewWriteDiv = styled.div`
     width: 1200px;
@@ -93,7 +94,6 @@ const StyledReviewWriteDiv = styled.div`
                     margin-top: 10px;
                     width: 70px;
                     height: 30px;
-                    border: 1px solid var(--black-color);
                     border-radius: 5px;
                     background-color: var(--black-color);
                     color: white;
@@ -106,8 +106,8 @@ const StyledReviewWriteDiv = styled.div`
             & > #img_preview {
                     width: 200px;
                     height: 133px;
-                    border: 1px dashed rgba(0, 0, 0, 0.1);
                     margin-left: 40px;
+                    object-fit: contain;
             }
 
             
@@ -133,30 +133,42 @@ const StyledReviewWriteDiv = styled.div`
 
 const ReviewWrite = ({item}) => {
 
+    const navigate = useNavigate();
+
     const {loginMemberVo} = useUserMemory();
-    console.log(loginMemberVo);
     const [reviewVo, setReviewVo] = useState({
         memberNo: loginMemberVo.no,
         backNo: item.backNo
     });
 
+    const [imgObj, setImgObj] = useState();
+
     console.log(reviewVo);
 
     const handleInputChange = (event) => {
-        const {name, value, files} = event.target;
+        const {name, value} = event.target;
 
-        if(name !== 'reviewImg') {
-            setReviewVo({
-                ...reviewVo,
-                [name]: value
-            });
-        } else if(files && files.length > 0) {
-            setReviewVo({
-                ...reviewVo,
-                reviewImg: files[0].name
-            })
-        }
+        setReviewVo({
+            ...reviewVo,
+            [name]: value
+        });
+    }
 
+    // 미리보기 기능
+    const handleFileChange = (e) => {
+
+        setImgObj(e.target.files[0]);
+
+        const fileTag = document.querySelector("#inputImg");
+        const previewTag = document.querySelector("#img_preview");
+
+        const fr = new FileReader();
+        fr.addEventListener('load', (event) => {
+            previewTag.src= event.target.result;
+        });
+
+        fr.readAsDataURL(fileTag.files[0]);
+        
     }
     
     // rating
@@ -186,23 +198,25 @@ const ReviewWrite = ({item}) => {
     const handleReviewSubmit = (e) => {
         e.preventDefault();
         
+        // TODO: 만족도 선택 안되어있으면 안됨
+
         const formData = new FormData();
         formData.append('memberNo', reviewVo.memberNo);
         formData.append('projectNo', reviewVo.projectNo);
         formData.append('backNo', reviewVo.backNo);
         formData.append('reviewContent', reviewVo.reviewContent);
-        formData.append('reviewImg', reviewVo.reviewImg);
+        formData.append('reviewImg', imgObj);
         formData.append('rating', reviewVo.rating);
 
         fetch("http://127.0.0.1:8889/gamepound/userpage/review/write", {
             method: "post",
-            body: formData,
-            // credentials: 'include'
+            body: formData
         })
         .then(resp => resp.json())
         .then(data => {
             console.log(data);
-            alert("리뷰 작성이 완료되었습니다.");  
+            alert("리뷰 작성이 완료되었습니다.");
+            navigate("/userpage/backed");
         })
     }
 
@@ -227,13 +241,13 @@ const ReviewWrite = ({item}) => {
                 <div className='content'>
                     <textarea name='reviewContent' onChange={handleInputChange}></textarea>
                 </div>
-                <input type='file' id='inputImg' name='reviewImg' accept='image/*' hidden onChange={handleInputChange}/>
+                <input type='file' id='inputImg' name='reviewImg' accept='image/*' hidden onChange={handleFileChange}/>
                 <div className='upload'>
                     <div id='upload_area'>
                     이미지 업로드
                     <label htmlFor='inputImg'>사진 첨부</label>
                     </div>
-                    <img id='img_preview' src=''></img>
+                    <img id='img_preview'></img>
                 </div>
                 <button onClick={handleReviewSubmit}>
                     후기 등록
