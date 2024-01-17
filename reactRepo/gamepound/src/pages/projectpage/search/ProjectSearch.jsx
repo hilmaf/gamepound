@@ -18,7 +18,7 @@ const ProjectSearch = () => {
     return (
         <StyledProjectSearchDiv>
             
-            {searchedVo!==undefined
+            {searchedList!==undefined
             ?
             searchedList.map((vo)=> {
                 return <ProjectBoxInfo no={4} project={vo}/>

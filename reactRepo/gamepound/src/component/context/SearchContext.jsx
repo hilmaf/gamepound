@@ -11,7 +11,6 @@ const SearchContextProvider = ({children}) => {
 
     const [keyword, setKeyword] = useState();
     const [searchedVo, setSearchedVo] = useState([]);
-    
 
     return (
         <SearchContext.Provider value={{keyword, setKeyword, searchedVo, setSearchedVo}}>
