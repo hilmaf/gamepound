@@ -39,7 +39,6 @@ public class BackControllerLKM {
 		backVo.setRewardNo("1");
 		
 		BackVo bvo = service.viewBackingPage(backVo);
-		System.out.println(bvo);
 		return bvo;
 	}
 	
@@ -53,7 +52,6 @@ public class BackControllerLKM {
 	@PostMapping("process")
 	public Map<String, String> back(@RequestBody BackDetailVo vo) throws Exception {
 		System.out.println("server side backing process start ::: !!");
-		
 		boolean backed = service.back(vo);
 		
 		Map<String, String> map = new HashMap<String, String>();
@@ -63,7 +61,6 @@ public class BackControllerLKM {
 		}
 		
 		map.put("result", "success");
-		System.out.println(1);
 		return map;
 	}
 	
@@ -88,8 +85,10 @@ public class BackControllerLKM {
 	
 	// 후원 취소
 	@PostMapping("canceled")
-	public Map<String, String> cancel(String backNo) throws Exception {
-		boolean canceled = service.cancel(backNo);
+	public Map<String, String> cancel(@RequestBody BackVo backVo) throws Exception {
+		System.out.println(backVo.getBackNo());
+		
+		boolean canceled = service.cancel(backVo.getBackNo());
 	
 		Map<String, String> map = new HashMap<>();
 		
@@ -109,8 +108,6 @@ public class BackControllerLKM {
 		BackDetailVo vo = service.detail(backNo);
 		
 		return vo;
-		
-		
 	}
 	
 	// 후원 내용 변경 - 선물 변경
