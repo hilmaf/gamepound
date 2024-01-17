@@ -7,6 +7,11 @@ import com.gamepound.app.member.vo.MemberVo;
 
 @Repository
 public class MemberDaoHYJ {
+	
+	//로그인 유저 프로필 정보
+	public MemberVo getProfile(SqlSessionTemplate sst, MemberVo vo) {
+		return sst.selectOne("MemberSettingsMapper.getProfile", vo);
+	}
 
 	//프로필 사진 변경
 	public int editPic(MemberVo vo, SqlSessionTemplate sst) {
@@ -32,5 +37,7 @@ public class MemberDaoHYJ {
 	public int editPwd(SqlSessionTemplate sst, MemberVo vo) {
 		return sst.update("MemberSettingsMapper.editPwd", vo);
 	}
+
+
 
 }

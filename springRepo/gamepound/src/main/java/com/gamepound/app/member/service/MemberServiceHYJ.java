@@ -15,6 +15,11 @@ public class MemberServiceHYJ {
 	private final MemberDaoHYJ dao;
 	private final SqlSessionTemplate sst;
 
+	//로그인 유저 프로필 정보
+	public MemberVo getProfile(MemberVo vo) {
+		return dao.getProfile(sst, vo);
+	}
+
 	//프로필 사진 변경
 	public int editPic(MemberVo vo) throws Exception {
 		if(vo.getPic() == null || vo.getPic()=="") {
@@ -63,5 +68,6 @@ public class MemberServiceHYJ {
 		
 		return dao.editPwd(sst, vo);
 	}
+
 	
 }
