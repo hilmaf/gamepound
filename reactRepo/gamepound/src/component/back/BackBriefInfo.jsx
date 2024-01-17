@@ -71,11 +71,6 @@ const BackBriefInfo = ({item}) => {
     const [reviewWrite, setReviewWrite] = useState(false);
     const [reviewView, setReviewView] = useState(false);
 
-    const {loginMemberVo} = useUserMemory();
-
-    console.log(item);
-
-
     const handleReviewWriteBtnClick = () => {
         if(reviewWrite===false) {
             setReviewWrite(true);

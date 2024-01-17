@@ -42,14 +42,14 @@ const UserCreated = () => {
             console.log(myProjectsList);
             setProjectsCnt(data.projectsCnt);
         });    
-    }, [])
+    }, [projectsCnt])
 
     return (
         <StyledUserCreatedDiv>
             {
                 projectsCnt == 0
                 ?
-                <h2>올린 프로젝트가 없습니다.</h2>
+                <></>
                 :
                 <>
                     <div id="cnt">프로젝트가 <span>{projectsCnt}</span>개 있습니다.</div>

@@ -13,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -51,10 +52,13 @@ public class UserPageController {
 	}
 	
 	// 유저페이지 - 리뷰목록, 리뷰 통계 조회
-	@GetMapping("review")
-	public Map<String, Object> listReview(@RequestParam("user") String memberNo) {
+	@PostMapping("review")
+	public Map<String, Object> listReview(@RequestBody Map<String, String> memberMap) {
 		
-		Map<String, Object> map = service.listReview(memberNo);
+		System.out.println(memberMap);
+		System.out.println(memberMap.get("memberNo"));
+		
+		Map<String, Object> map = service.listReview(memberMap.get("memberNo"));
 		
 		return map;
 	}

@@ -114,7 +114,7 @@ const PaymentCheck = () => {
     }
 
     // 카카오페이 결제등록창 연동
-    const getKakaoPayApi = () => {
+    const getKakaoPayApi = async() => {
 
         let { IMP } = window;
         IMP.init('imp44278700');
@@ -134,46 +134,30 @@ const PaymentCheck = () => {
             m_redirect_url: 'http://localhost:3000/back/completed/'+back.projectNo
         }
 
-        console.log(paymentData);
-
-        IMP.request_pay(paymentData, ({success, error_msg})=>{
-            if(success) {
-                new Promise(resolve => {
-                    dataSet.setDataVo({
-                        ...back,
-                        "customerUid": paymentData.customer_uid
-                    });
-                    resolve();
-                }).then(() => {
-                    console.log("fetch 직전의 dataVo 확인", back);
-
-                    if(back.customerUid) {
-                        fetch("http://127.0.0.1:8889/gamepound/back/process", {
-                            method: "post",
-                            headers: {
-                                "Content-Type": "application/json"
-                            },
-                            body: JSON.stringify(dataSet.dataVo)
-                        })
-                        .then(resp => resp.json())
-                        .then(data => {
-                            if(data.result==="success") {
-                                    navigate("/back/completed/" + back.projectNo);
-                            }
-                        })
+        try {
+            const result = await new Promise((resolve, reject) => {
+                IMP.request_pay(paymentData, ({ success, error_msg }) => {
+                    if (success) {
+                        dataSet.setDataVo({
+                            ...back,
+                            "customerUid": paymentData.customer_uid
+                        });
+                        resolve("success");
                     } else {
-                        alert("다시다시");
+                        alert(error_msg);
+                        reject("fail");
                     }
-                })
-                
-            } else {
-                alert(error_msg);
-            }
-        })
+                });
+            });
+            return result;
+        } catch (error) {
+            console.error("카카오페이 API 호출 중 오류 발생:", error);
+            return "fail";
+        }
     }
 
 
-    const handleBackBtnClick = (e) => {
+    const handleBackBtnClick = async (e) => {
 
         e.preventDefault();
 
@@ -190,7 +174,27 @@ const PaymentCheck = () => {
         if(paymentTypeDefined) {
             
             if(back.paymentType==='kakaopay') {
-                getKakaoPayApi();
+                const response = await getKakaoPayApi();
+
+                console.log("fetch 직전 데이터 확인", back);
+
+                if(back.customerUid && response === "success") {
+                    fetch("http://127.0.0.1:8889/gamepound/back/process", {
+                        method: "post",
+                        headers: {
+                            "Content-Type": "application/json"
+                        },
+                        body: JSON.stringify(dataSet.dataVo)
+                    })
+                    .then(resp => resp.json())
+                    .then(data => {
+                        if(data.result==="success") {
+                                navigate("/back/completed/" + back.projectNo);
+                        }
+                    })
+                } else {
+                    alert("다시다시");
+                }
             } else {
                 // PaymentType이 카드 결제일 시 카드정보 null 및 길이 체크
                 const cardInfoOk = checkCardInput();
