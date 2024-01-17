@@ -42,7 +42,7 @@ const UserBacked = () => {
                 <div className='back_items'>
                     <div id='success_cnt'>후원 성공({successCnt}개)</div>
                     {
-                        successCnt>=0
+                        successCnt>0
                         ?
                         successList.map((item)=>{
                             return <BackBriefInfo item={item}/>
@@ -55,10 +55,10 @@ const UserBacked = () => {
                 <div className='back_items'>
                     <div id='fail_cnt'>후원 실패({failCnt}개)</div>
                     {
-                        failCnt>=0
+                        failCnt>0
                         ?
                         failList.map((item)=>{
-                            return <BackBriefInfo list={item}/>
+                            return <BackBriefInfo item={item}/>
                         })
                         :
                         <div id='noItems'>
