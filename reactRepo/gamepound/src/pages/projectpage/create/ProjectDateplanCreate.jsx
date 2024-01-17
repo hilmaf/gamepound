@@ -60,6 +60,7 @@ const ProjectDateplanCreate = () => {
 
     const { headerFormVo, setHeaderFormVo, setIsProjectInputChange, setDataFrom, setProjectCreateData, projectCreateData } = useProjectCreateMemory(); // 컨텍스트 데이터
     const { projectNo } = useParams(); // 파라미터
+    const quillRefs = [useRef(), useRef(), useRef(), useRef(), useRef()]; // 에디터 접근을 위한 ref
 
     // 컨텍스트 데이터에 프로젝트 넘버 저장
     useEffect(() => {
@@ -73,16 +74,34 @@ const ProjectDateplanCreate = () => {
             ...headerFormVo,
             'no': projectNo,
         });
-    }, []);
+    }, [projectNo, setProjectCreateData, setHeaderFormVo]);
 
-    // 에디터 접근을 위한 ref
-    const quillRefs = [
-        useRef(),
-        useRef(),
-        useRef(),
-        useRef(),
-        useRef(),
-    ];
+    // 프로젝트 내용 조회
+    useEffect(() => {
+        if(projectNo){
+
+            fetch('http://localhost:8889/gamepound/project/get/dateplan?no=' + projectNo)
+            .then(resp => resp.json())
+            .then(data => {
+                if(data.msg === 'good'){
+                    if(data.projectVo){
+                        setTxtDescription(data.projectVo.txtDescription ? data.projectVo.txtDescription : '');
+                        setTxtBudget(data.projectVo.txtBudget ? data.projectVo.txtBudget : '');
+                        setTxtSchedule(data.projectVo.txtSchedule ? data.projectVo.txtSchedule : '');
+                        setTxtTeam(data.projectVo.txtTeam ? data.projectVo.txtTeam : '');
+                        seTtxtItem(data.projectVo.txtItem ? data.projectVo.txtItem : '');
+                    }
+                } else {
+                    throw new Error();
+                }
+            })
+            .catch((e) => {
+                // alert('프로젝트 내용을 가져오는데 실패했습니다.');
+                alert(e);
+            })
+            ;
+        }
+    }, [projectNo]);
 
     // 이미지 리사이즈 모듈을 useEffect 내에서 초기화
     useEffect(() => {
@@ -139,12 +158,11 @@ const ProjectDateplanCreate = () => {
     };
 
     // quill state
-    const [descriptionValues, setDescriptionValues] = useState();
-    const [budgetValues, setBudgetValues] = useState();
-    const [scheduleValues, setScheduleValues] = useState();
-    const [teamValues, setTeamValues] = useState();
-    const [itemValues, setItemValues] = useState();
-
+    const [txtDescription, setTxtDescription] = useState();
+    const [txtBudget, setTxtBudget] = useState();
+    const [txtSchedule, setTxtSchedule] = useState();
+    const [txtTeam, setTxtTeam] = useState();
+    const [txtItem, seTtxtItem] = useState();
     
     // 각 상태를 업데이트 하는 함수
     const updateProjectData = (fieldName, value) => {
@@ -152,9 +170,22 @@ const ProjectDateplanCreate = () => {
             ...headerFormVo,
             [fieldName]: value,
         });
+        if(fieldName === 'txtDescription'){
+            setTxtDescription(value);
+        } else if(fieldName === 'txtBudget'){
+            setTxtBudget(value);
+        } else if(fieldName === 'txtSchedule'){
+            setTxtSchedule(value);
+        } else if(fieldName === 'txtTeam'){
+            setTxtTeam(value);
+        } else if(fieldName === 'txtItem'){
+            seTtxtItem(value);
+        }
+        setIsProjectInputChange(true); // 내용감지
+        setDataFrom('dateplan'); // Dateplan에서 보냄
     };
-    // console.log('headerFormVo', headerFormVo);
 
+    // quill 모듈
     const modules = useMemo(() => {
         return {
             toolbar: {
@@ -192,8 +223,8 @@ const ProjectDateplanCreate = () => {
                                     theme="snow"
                                     modules={modules}
                                     formats={formats}
-                                    value={descriptionValues}
-                                    onChange={(content) => updateProjectData("description", content)}
+                                    value={txtDescription}
+                                    onChange={(content) => updateProjectData("txtDescription", content)}
                                 />
                             </dd>
                         </dl>
@@ -205,8 +236,8 @@ const ProjectDateplanCreate = () => {
                                     theme="snow"
                                     modules={modules}
                                     formats={formats}
-                                    value={budgetValues}
-                                    onChange={(content) => setBudgetValues(content)}
+                                    value={txtBudget}
+                                    onChange={(content) => updateProjectData("txtBudget", content)}
                                 />
                             </dd>
                         </dl>
@@ -218,8 +249,8 @@ const ProjectDateplanCreate = () => {
                                     theme="snow"
                                     modules={modules}
                                     formats={formats}
-                                    value={scheduleValues}
-                                    onChange={(content) => setScheduleValues(content)}
+                                    value={txtSchedule}
+                                    onChange={(content) => updateProjectData("txtSchedule", content)}
                                 />
                             </dd>
                         </dl>
@@ -231,8 +262,8 @@ const ProjectDateplanCreate = () => {
                                     theme="snow"
                                     modules={modules}
                                     formats={formats}
-                                    value={teamValues}
-                                    onChange={(content) => setTeamValues(content)}
+                                    value={txtTeam}
+                                    onChange={(content) => updateProjectData("txtTeam", content)}
                                 />
                             </dd>
                         </dl>
@@ -244,8 +275,8 @@ const ProjectDateplanCreate = () => {
                                     theme="snow"
                                     modules={modules}
                                     formats={formats}
-                                    value={itemValues}
-                                    onChange={(content) => setItemValues(content)}
+                                    value={txtItem}
+                                    onChange={(content) => updateProjectData("txtItem", content)}
                                 />
                             </dd>
                         </dl>
