@@ -138,32 +138,40 @@ const PaymentCheck = () => {
 
         IMP.request_pay(paymentData, ({success, error_msg})=>{
             if(success) {
+                new Promise(resolve => {
+                    dataSet.setDataVo({
+                        ...back,
+                        "customerUid": paymentData.customer_uid
+                    });
+                    resolve();
+                }).then(() => {
+                    console.log("fetch 직전의 dataVo 확인", back);
 
-                dataSet.setDataVo({
-                    ...back,
-                    "customerUid": paymentData.customer_uid
-                })
-
-
-                fetch("http://127.0.0.1:8889/gamepound/back/process", {
-                    method: "post",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(dataSet.dataVo)
-                })
-                .then(resp => resp.json())
-                .then(data => {
-                    console.log(data);
-                    if(data.result==="success") {
-                            navigate("/back/completed/" + back.projectNo);
+                    if(back.customerUid) {
+                        fetch("http://127.0.0.1:8889/gamepound/back/process", {
+                            method: "post",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify(dataSet.dataVo)
+                        })
+                        .then(resp => resp.json())
+                        .then(data => {
+                            if(data.result==="success") {
+                                    navigate("/back/completed/" + back.projectNo);
+                            }
+                        })
+                    } else {
+                        alert("다시다시");
                     }
                 })
-            } else {
                 
+            } else {
+                alert(error_msg);
             }
         })
     }
+
 
     const handleBackBtnClick = (e) => {
 
