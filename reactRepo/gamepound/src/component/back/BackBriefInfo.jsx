@@ -73,6 +73,8 @@ const BackBriefInfo = ({item}) => {
 
     const {loginMemberVo} = useUserMemory();
 
+    console.log(item);
+
 
     const handleReviewWriteBtnClick = () => {
         if(reviewWrite===false) {
@@ -82,14 +84,22 @@ const BackBriefInfo = ({item}) => {
         }
     }
 
+    const [reviewVo, setReviewVo] = useState([]);
     const handleReviewViewBtnClick = () => {
         if(reviewView === false) {
             setReviewView(true);
 
-            fetch(`http://127.0.0.1:8889/gamepound/userpage/backed/review?memberNo=${loginMemberVo.no}&backNo=${item.no}`)
+            fetch("http://127.0.0.1:8889/gamepound/userpage/backed/review?reviewNo=" + item.reviewNo)
             .then(resp => resp.json())
             .then(data => {
-                
+                console.log(data);
+                if(data !== null) {
+                    console.log(data);
+                    setReviewVo(data);
+                } else {
+                    alert("작성한 리뷰가 없습니다.");
+                    setReviewView(false);
+                }
             });
 
         } else {
@@ -113,7 +123,7 @@ const BackBriefInfo = ({item}) => {
                 </div>
             </div>
             {
-                item.reviewNo === undefined
+                item.reviewNo === null
                 ? 
                 <button onClick={handleReviewWriteBtnClick}>
                     후기 작성
@@ -133,7 +143,7 @@ const BackBriefInfo = ({item}) => {
             {
                 reviewView===true
                 ?
-                <ReviewBox />
+                <ReviewBox item={reviewVo} />
                 :
                 <></>
             }
