@@ -1,9 +1,10 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 const StyledBackCanceledDiv = styled.div`
     width: 1200px;
+    margin: auto;
     height: 500px;
     font-size: 32px;
     color: #3d3d3d;
@@ -29,11 +30,18 @@ const StyledBackCanceledDiv = styled.div`
 
 
 const BackCanceled = () => {
+
+    const {no} = useParams();
+
+    // useEffect(()=>{
+    //     fetch("http://127.0.0.1:8889/gamepound/")
+    // }, [])
+
     return (
         <StyledBackCanceledDiv>
             <div>후원이 취소되었습니다.</div>
             <div>--후원 마감기한--까지 다시 후원하실 수 있습니다.</div>
-            <button><Link to='/back/detail'>후원 상세</Link></button>
+            <button><Link to={`/back/detail/${no}`}>후원 상세</Link></button>
         </StyledBackCanceledDiv>
     );
 };

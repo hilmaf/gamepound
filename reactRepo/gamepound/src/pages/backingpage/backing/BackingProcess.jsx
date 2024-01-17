@@ -13,7 +13,6 @@ const StyledBackingFormDiv = styled.div`
 
 const BackingProcess = () => {
 
-
     return (
         <BackingMemoryProvider>
             <StyledBackingFormDiv>

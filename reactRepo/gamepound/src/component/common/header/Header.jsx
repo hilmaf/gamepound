@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import logoImage from '../../../assets/images/logo.svg';
 import searchIco from '../../../assets/images/ico/ico_search.svg';
 import { Link, useNavigate } from 'react-router-dom';
@@ -238,34 +238,32 @@ const Header = () => {
         searchArea.classList.remove('active');
     }
 
+    /////////////////////////////////////////////////////////////////////////////////////////////
     // 검색 관련 코드
-    const {keyword, setKeyword, setSearchedVo} = useSearchContext();
-    const handleSearchInput = (e) => {
-        setKeyword(
-            e.target.value
-        );
-    }
-
-    console.log("keyword ::: ", keyword);
+    const {keywordRef, keyword, setKeyword, searchedVo, setSearchedVo} = useSearchContext();
 
     const handleSearch = (e) => {
         e.preventDefault();
 
-        if(keyword) {
-            fetch("http://127.0.0.1:8889/gamepound/project/search?query=" + keyword)
+        const searchInputTag = document.querySelector("input[name=searchInput]");
+        
+        sessionStorage.setItem('query', searchInputTag.value);
+        
+        if(sessionStorage.getItem('query')) {
+            fetch("http://127.0.0.1:8889/gamepound/project/search?query=" + sessionStorage.getItem('query'))
             .then(resp => resp.json())
             .then(data => {
                 
                 setSearchedVo({
                     data
                 });
-
-                console.log("fetched ::: ", data);
-                e.target.defaultValue = keyword;
-                navigate("/project/search/"+keyword);
-                console.log("navigated ::: ", data);
-
+                
+                // e.target.defaultValue = sessionStorage.getItem('query');
+                navigate("/project/search/"+sessionStorage.getItem('query'));
+                
             });
+        } else if(sessionStorage.getItem('query') === undefined){
+            
         } else {
 
         }
@@ -308,7 +306,7 @@ const Header = () => {
                     <Nav />
 
                     <div className="searchArea">
-                        <input type="text" name='searchInput' onChange={handleSearchInput} onFocus={handleSearchActive} onBlur={handleSearchBlur} placeholder='검색어를 입력해주세요.' />
+                        <input type="text" name='searchInput' onFocus={handleSearchActive} onBlur={handleSearchBlur} placeholder='검색어를 입력해주세요.' />
                         <button onClick={handleSearch}>검색</button>
                     </div>
 

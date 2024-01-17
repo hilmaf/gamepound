@@ -8,5 +8,4 @@ public class ProjectListVo {
 	private String statusNo;
 	private String achievementRateStart;
 	private String achievementRateEnd;
-	private String localDate;
 }

@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const StyledBackInfoDiv = styled.div`
@@ -84,6 +85,9 @@ const StyledBackInfoDiv = styled.div`
 
 const BackInfo = ({BackInfo}) => {
 
+    const navigate = useNavigate();
+
+
     const handleRewardChangeClick = () => {
         return ({
             
@@ -93,6 +97,30 @@ const BackInfo = ({BackInfo}) => {
     const handlePaymentChangeClick = () => {
 
     };
+
+
+    const handleCancelClick = () => {
+        fetch("http://127.0.0.1:8889/gamepound/back/canceled", {
+            method: "post",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({backNo: BackInfo.backNo})
+        })
+        .then(resp => resp.json())
+        .then(data => {
+            console.log(data);
+            if(data.msg === "canceled") {
+                navigate("/back/canceled/" + BackInfo.backNo);
+            } else {
+
+                alert("후원 취소 실패. 다시 시도해주세요.");
+            }
+        })
+        .catch(error => {
+            console.error("네트워크 요청 실패:", error);
+        })
+    }
 
     return (
         <StyledBackInfoDiv>
@@ -148,9 +176,15 @@ const BackInfo = ({BackInfo}) => {
                 </div>
             </div>
 
-            <div className='cancel_area'>
-                후원을 취소하시겠습니까?
-            </div>
+            {
+                BackInfo.retractYn === 'N'
+                ?
+                <div className='cancel_area' onClick={handleCancelClick}>
+                    후원을 취소하시겠습니까?
+                </div>
+                :
+                <></>
+            }
         </StyledBackInfoDiv>
     );
 };

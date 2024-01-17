@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 
 const StyledReviewBoxDiv = styled.div`
@@ -105,6 +105,8 @@ const StyledReviewBoxDiv = styled.div`
 `;
 
 const ReviewBox = ({item}) => {
+
+
     return (
         <StyledReviewBoxDiv key={item.reviewNo}>
             <div className='writer'>
@@ -123,7 +125,7 @@ const ReviewBox = ({item}) => {
                 <img src={item.reviewImg}></img>
             </div>
             <div className='project'>
-                <img></img>
+                <img src={item.projectImg}></img>
                 <div>{item.projectTitle}</div>
             </div>
             <div className='enroll_date'>

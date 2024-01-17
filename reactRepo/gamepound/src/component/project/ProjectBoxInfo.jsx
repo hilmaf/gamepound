@@ -67,15 +67,13 @@ const ProjectBoxInfo = ({no, project}) => {
 
     const navigate = useNavigate();
 
-    console.log("ProjectBoxInfo :::!!!!!!!!!" + project);
-
     const handleBoxClick= () => {
         navigate("/project/detail/" + project.projectNo);
     }
 
     return (
         <StyledProjectBoxInfoDiv no={no}>
-            <img src={project.projectImg} onClick={handleBoxClick} ></img>
+            <img src={project.projectImg ? project.projectImg : ""} onClick={handleBoxClick} ></img>
             <div className='category'>
                 <span>{project.categoryName} | {project.subCategoryName}</span>
             </div>

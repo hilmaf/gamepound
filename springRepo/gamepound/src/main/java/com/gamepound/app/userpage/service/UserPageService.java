@@ -37,7 +37,6 @@ public class UserPageService {
 	public Map<String, Object> listReview(String memberNo) {
 		// 리뷰 목록
 		List<ReviewVo> reviewList = dao.listReview(sst, memberNo);
-		System.out.println(reviewList);
 		
 		// 만족도 double 타입으로 변경해서 다시 셋팅하기
 		for(ReviewVo vo : reviewList) {
@@ -71,7 +70,6 @@ public class UserPageService {
 		
 		List<ProjectBriefVo> myProjectList = dao.listMyProjects(sst, memberNo);
 		
-		System.out.println("myProjectList ::: " + myProjectList);
 		// 달성률, 마감기한 d- setting
 		for(ProjectBriefVo vo : myProjectList) {
 			String achievementRate = util.achievementRate(vo.getGoalAmount(), vo.getCurrentAmount());
@@ -91,10 +89,16 @@ public class UserPageService {
 	public Map<String, Object> listMyBackedProjects(String memberNo) {
 		// 후원 성공 목록 : 프로젝트 펀딩 성공
 		List<BackDetailVo> successList = dao.backedSuccessfully(sst, memberNo);
-		System.out.println(successList);
+		
+		String url = "http://127.0.0.1:8889/gamepound/resources/images/projectImg/";
+		for (BackDetailVo backDetailVo : successList) {
+			backDetailVo.setProjectImg(url + backDetailVo.getProjectImg());
+		}
 		// 후원 실패 목록 : 프로젝트 펀딩 실패 OR 후원 취소
 		List<BackDetailVo> failList = dao.backedUnsuccessfully(sst, memberNo);
-		System.out.println(failList);
+		for (BackDetailVo backDetailVo : failList) {
+			backDetailVo.setProjectImg(url + backDetailVo.getProjectImg());
+		}
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("successList", successList);
@@ -124,8 +128,13 @@ public class UserPageService {
 		return fileName;
 	}
 
-	public ReviewVo viewMyReview(ReviewVo vo) {
-		return dao.viewMyReview(sst, vo);
+	public ReviewVo viewMyReview(String reviewNo) {
+		ReviewVo reviewVo = dao.viewMyReview(sst, reviewNo);
+		
+		String url = "http://127.0.0.1:8889/gamepound/resources/images/projectImg/";
+		reviewVo.setProjectImg(url + reviewVo.getProjectImg());
+		
+		return reviewVo;
 	}
 	 
 }

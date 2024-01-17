@@ -102,9 +102,10 @@ public class UserPageController {
 	
 	// 내 리뷰 조회
 	@GetMapping("backed/review")
-	public ReviewVo viewMyReview(ReviewVo vo) {
-		ReviewVo reviewVo = service.viewMyReview(vo);
-		
+	public ReviewVo viewMyReview(@RequestParam String reviewNo) {
+		System.out.println(reviewNo);
+		ReviewVo reviewVo = service.viewMyReview(reviewNo);
+		System.out.println(reviewVo);
 		return reviewVo;
 	}
 	

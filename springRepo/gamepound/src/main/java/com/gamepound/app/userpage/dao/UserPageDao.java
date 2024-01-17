@@ -55,8 +55,8 @@ public class UserPageDao {
 	}
 	
 	// 해당 후원에 대한 내 후기 보기
-	public ReviewVo viewMyReview(SqlSessionTemplate sst, ReviewVo vo) {
-		return sst.selectOne("UserPageMapper.myReview", vo);
+	public ReviewVo viewMyReview(SqlSessionTemplate sst, String reviewNo) {
+		return sst.selectOne("UserPageMapper.myReview", reviewNo);
 	}
 	
 }

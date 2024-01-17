@@ -9,9 +9,9 @@ import BackDetail from './BackDetail';
 const BackMain = () => {
     return (
         <Routes>
-            <Route path='process' element={<BackingProcess />}/>
+            <Route path='process/:projectNo/:rewardNo' element={<BackingProcess />}/>
             <Route path='completed/:no' element={<BackCompleted />}/>
-            <Route path='canceled' element={<BackCanceled />}/>
+            <Route path='canceled/:no' element={<BackCanceled />}/>
             <Route path='detail/:no' element={<BackDetail />}/>
         </Routes>
 
