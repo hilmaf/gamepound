@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import ReviewWrite from '../../pages/userpage/ReviewWrite';
 import { useNavigate } from 'react-router-dom';
 import ReviewBox from '../../pages/userpage/ReviewBox';
+import { useUserMemory } from '../context/UserContext';
 
 const StyledBackBriefInfoDiv = styled.div`
     width: 1100px;
@@ -69,6 +70,9 @@ const BackBriefInfo = ({item}) => {
     const navigate = useNavigate();
     const [reviewWrite, setReviewWrite] = useState(false);
     const [reviewView, setReviewView] = useState(false);
+
+    const {loginMemberVo} = useUserMemory();
+
 
     const handleReviewWriteBtnClick = () => {
         if(reviewWrite===false) {
