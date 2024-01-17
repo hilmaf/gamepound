@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 
@@ -36,23 +36,25 @@ const StyledSearchConditionDiv = styled.div`
 
 const Condition = (query) => {
 
-    console.log("Condition >> keyword", query);
+    const [condition, setCondition] = useState([]);
+
+    
 
     return (
         <StyledSearchConditionDiv>
             <div className='query'>
                 <span>검색어 :</span>  "{query.query}"
             </div>
-            <select className='project_status'>
-                <option>전체 프로젝트</option>
-                <option>진행 중인 프로젝트</option>
-                <option>성사된 프로젝트</option>
-                <option>공개예정 프로젝트</option>
+            <select className='project_status' value="">
+                <option value="">전체 프로젝트</option>
+                <option value="">진행 중인 프로젝트</option>
+                <option value="">성사된 프로젝트</option>
+                <option value="">공개예정 프로젝트</option>
             </select>
-            <select className='achieveRate'>
-                <option>75% 이하</option>
-                <option>75% ~ 100%</option>
-                <option>100% 이상</option>
+            <select className='achieveRate' value="">
+                <option value="">75% 이하</option>
+                <option value="">75% ~ 100%</option>
+                <option value="">100% 이상</option>
             </select>
         </StyledSearchConditionDiv>
     );
