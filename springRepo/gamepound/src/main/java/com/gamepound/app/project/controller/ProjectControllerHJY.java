@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -199,7 +200,30 @@ public class ProjectControllerHJY {
 		System.out.println("프로젝트 계획 : " + projectVo);
 		
 	}
-	// 프로젝트 작성저장 : 프로젝트 계획 작성시 TODO-현지연 : 이미지 업로드 메소드 추가 : 선생님이 갤러리 할 시 만들어야함
+	// 프로젝트 계획 이미지 업로드
+	@PostMapping("save/image")
+	public Map<String, String> saveImage(@RequestPart MultipartFile img, HttpServletRequest req) throws Exception {
+		System.out.println(img);
+		
+		// 파일저장 service
+		String uploadDir = "/resources/images/projectDateplanImg/";
+	    String root = req.getServletContext().getRealPath(uploadDir); // 저장경로
+	    String fileName = null;
+	    if(!(img == null) && !(img.isEmpty())) { // 이미지 파일 처리
+	    	fileName = service.imagefileSave(img, root);        	
+	    }
+	    
+	    // 결과
+	    String resultFileName = "http://localhost:8889/gamepound" + uploadDir + fileName;
+	    Map<String, String> map = new HashMap<>();
+	    map.put("msg", "good");
+	    map.put("fileUrl", resultFileName);
+	    if(fileName == null) {
+	    	map.put("msg", "bad");
+	    }
+		
+		return map;
+	}
 	// 프로젝트 작성저장 : 프로젝트 계획
 	@PostMapping("save/dateplan")
 	public void saveDateplan(ProjectVo vo) throws Exception {

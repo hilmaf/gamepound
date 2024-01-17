@@ -1,7 +1,11 @@
 package com.gamepound.app.project.service;
 
 import java.io.File;
-import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +24,7 @@ import com.gamepound.app.settlement.dao.SettlementDaoHJY;
 import com.gamepound.app.settlement.vo.SettlementVo;
 
 import lombok.RequiredArgsConstructor;
+
 
 @Service
 @RequiredArgsConstructor
@@ -228,20 +233,34 @@ public class ProjectServiceHJY {
 	}
 
 	// 이미지 파일저장
-	public String imagefileSave(MultipartFile imageUrl, String root) throws Exception {
+	public String imagefileSave(MultipartFile image, String root) throws Exception {
 
 		// 랜덤파일이름 생성
-		String fileName = imageUrl.getOriginalFilename();
+		String fileName = image.getOriginalFilename();
 		String fileExtension = fileName.substring(fileName.lastIndexOf('.') + 1);
 		UUID uuid = UUID.randomUUID();
 		fileName = uuid.toString() + "." + fileExtension;
 		
-		// 이미지 webapp/resources/images/projectImg 경로에 저장
-        String filePath = root + fileName;
-        File dest = new File(filePath);
-        imageUrl.transferTo(dest);
+		// 현재 날짜 기준으로 폴더 생성
+	    LocalDate currentDate = LocalDate.now();
+	    String currentDatePath = currentDate.format(DateTimeFormatter.ofPattern("yyyyMMdd")) + "/";
+	    String folderPath = root + currentDatePath;
+	    String filePath = folderPath + fileName;
+	    
+	    // 이미지를 저장할 디렉토리 경로
+	    Path directoryPath = Paths.get(folderPath);
 
-        return fileName;
+	    // 디렉토리가 없으면 생성
+	    if (!Files.exists(directoryPath)) {
+	        Files.createDirectories(directoryPath);
+	    }
+	    
+	    // 이미지 파일 저장
+	    File dest = new File(filePath);
+	    image.transferTo(dest);
+
+	    return currentDatePath + fileName; // 최종 파일이름 반환
 	}
+
 	
 }

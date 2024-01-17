@@ -1,8 +1,12 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
 import ReactQuill, { Quill } from 'react-quill';
 import ImageResize from '@looop/quill-image-resize-module-react';
 import 'react-quill/dist/quill.snow.css';
+import { useProjectCreateMemory } from '../../../component/context/ProjectCreateContext';
+import { useParams } from 'react-router';
+Quill.register('modules/ImageResize', ImageResize);
+
 
 const StyledCreateDateplanDiv = styled.div`
     & .inner {
@@ -42,19 +46,115 @@ const StyledCreateDateplanDiv = styled.div`
     }
     & .quill {
         background-color: #fff;
+        & .ql-container {
+            max-height: 350px;
+            overflow: auto;
+        }
     }
 `;
 const formats = [
     'font', 'header', 'bold', 'italic', 'underline', 'strike', 'blockquote', 'list', 'bullet', 'indent', 'link', 'align', 'color', 'background', 'size', 'h1', 'image', 'link'
 ];
-Quill.register('modules/ImageResize', ImageResize);
 
 const ProjectDateplanCreate = () => {
+
+    const { headerFormVo, setHeaderFormVo, setIsProjectInputChange, setDataFrom, setProjectCreateData, projectCreateData } = useProjectCreateMemory(); // 컨텍스트 데이터
+    const { projectNo } = useParams(); // 파라미터
+
+    // 컨텍스트 데이터에 프로젝트 넘버 저장
+    useEffect(() => {
+        setProjectCreateData({
+            ...projectCreateData,
+            'mainVo': {
+                'no': projectNo,
+            },
+        })
+        setHeaderFormVo({
+            ...headerFormVo,
+            'no': projectNo,
+        });
+    }, []);
+
+    // 에디터 접근을 위한 ref
+    const quillRefs = [
+        useRef(),
+        useRef(),
+        useRef(),
+        useRef(),
+        useRef(),
+    ];
+
+    // 이미지 리사이즈 모듈을 useEffect 내에서 초기화
+    useEffect(() => {
+        Quill.register('modules/ImageResize', ImageResize);
+    }, []);
+
+    // image를 서버로 전달하는 과정
+    const imageHandler = () => {
+
+        // input file DOM 만들기
+        const input = document.createElement('input');
+        input.setAttribute('type', 'file');
+        input.setAttribute('accept', 'image/*');
+        input.click();
+
+        input.addEventListener('change', () => {
+            const file = input.files[0];
+            
+            const formData = new FormData();
+            formData.append('img', file);
+
+            let imgUrl = null; // url 담을 변수
+            fetch('http://localhost:8889/gamepound/project/save/image', {
+                    method: 'post',
+                    body: formData,
+            })
+            .then(resp => resp.json())
+            .then(data => {
+                if(data.msg === 'good'){
+                    imgUrl = data.fileUrl;
+
+                    // quillRefs 배열에 있는 모든 참조에 대해 이미지 삽입 작업 수행
+                    quillRefs.forEach((quillRef) => {
+                        const editor = quillRef.current?.getEditor(); // 안전하게 에디터 객체 가져오기
+                        const range = editor?.getSelection(); // 안전하게 range 객체 가져오기
+
+                        // range 객체가 null이 아닌 경우에만 이미지 삽입
+                        if (editor && range) {
+                        editor.insertEmbed(range.index, 'image', imgUrl);
+                        }
+                    });
+                
+                } else {
+                    throw new Error();
+                }
+            })
+            .catch((e) => {
+                alert(e);
+            })
+            ;
+
+        });
+
+    };
+
+    // quill state
     const [descriptionValues, setDescriptionValues] = useState();
     const [budgetValues, setBudgetValues] = useState();
     const [scheduleValues, setScheduleValues] = useState();
     const [teamValues, setTeamValues] = useState();
     const [itemValues, setItemValues] = useState();
+
+    
+    // 각 상태를 업데이트 하는 함수
+    const updateProjectData = (fieldName, value) => {
+        setHeaderFormVo({
+            ...headerFormVo,
+            [fieldName]: value,
+        });
+    };
+    // console.log('headerFormVo', headerFormVo);
+
     const modules = useMemo(() => {
         return {
             toolbar: {
@@ -67,45 +167,16 @@ const ProjectDateplanCreate = () => {
                     ['link'],
                     ['image'],
                 ],
-                ImageResize: { modules: ['Resize'] },
+                handlers: {
+                    image: imageHandler,
+                },
             },
+            ImageResize: {
+                displaySize: true,
+                modules: ['Resize', 'DisplaySize']
+            }
         };
     }, []);
-
-    //image를 서버로 전달하는 과정
-    // const ImageHandler = () => {
-    //     //input type= file DOM을 만든다.
-    //     const input = document.createElement("input");
-    //     input.setAttribute("type", "file");
-    //     input.setAttribute("accept", "image/*");
-    //     input.click(); //toolbar 이미지를 누르게 되면 이 부분이 실행된다.
-    //     /*이미지를 선택하게 될 시*/
-    //     input.onchange = async () => {
-    //     /*이미지 선택에 따른 조건을 다시 한번 하게 된다.*/
-    //     const file: any = input.files ? input.files[0] : null;
-    //     /*선택을 안하면 취소버튼처럼 수행하게 된다.*/
-    //     if (!file) return;
-    //     /*서버에서 FormData형식으로 받기 때문에 이에 맞는 데이터형식으로 만들어준다.*/
-    //     const formData = new FormData();
-    //     formData.append("profile", file);
-    //     /*에디터 정보를 가져온다.*/
-    //     let quillObj = quillRef.current?.getEditor();
-    //     /*에디터 커서 위치를 가져온다.*/
-    //     const range = quillObj?.getSelection()!;
-    //     try {
-    //         /*서버에다가 정보를 보내준 다음 서버에서 보낸 url을 imgUrl로 받는다.*/
-    //         const res = await axios.post(
-    //         "api주소",
-    //         formData
-    //         );
-    //         const imgUrl = res.data;
-    //         /*에디터의 커서 위치에 이미지 요소를 넣어준다.*/
-    //         quillObj?.insertEmbed(range.index, "image", `${imgUrl}`);
-    //     } catch (error) {
-    //         console.log(error);
-    //     }
-    //     };
-    // };
 
     return (
         <StyledCreateDateplanDiv>
@@ -117,11 +188,12 @@ const ProjectDateplanCreate = () => {
                             <dt>프로젝트 소개</dt>
                             <dd>
                                 <ReactQuill
+                                    ref={quillRefs[0]}
                                     theme="snow"
                                     modules={modules}
                                     formats={formats}
                                     value={descriptionValues}
-                                    onChange={(content) => setDescriptionValues(content)}
+                                    onChange={(content) => updateProjectData("description", content)}
                                 />
                             </dd>
                         </dl>
@@ -129,6 +201,7 @@ const ProjectDateplanCreate = () => {
                             <dt>프로젝트 예산</dt>
                             <dd>
                                 <ReactQuill
+                                    ref={quillRefs[1]}
                                     theme="snow"
                                     modules={modules}
                                     formats={formats}
@@ -141,6 +214,7 @@ const ProjectDateplanCreate = () => {
                             <dt>프로젝트 일정</dt>
                             <dd>
                                 <ReactQuill
+                                    ref={quillRefs[2]}
                                     theme="snow"
                                     modules={modules}
                                     formats={formats}
@@ -153,6 +227,7 @@ const ProjectDateplanCreate = () => {
                             <dt>프로젝트 팀 소개</dt>
                             <dd>
                                 <ReactQuill
+                                    ref={quillRefs[3]}
                                     theme="snow"
                                     modules={modules}
                                     formats={formats}
@@ -165,6 +240,7 @@ const ProjectDateplanCreate = () => {
                             <dt>프로젝트 선물 소개</dt>
                             <dd>
                                 <ReactQuill
+                                    ref={quillRefs[4]}
                                     theme="snow"
                                     modules={modules}
                                     formats={formats}
