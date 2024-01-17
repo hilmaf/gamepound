@@ -72,8 +72,6 @@
 		AND DELETE_YN = 'N'
 	</select>
 	
-	
-	
 	<!-- 프로젝트 작성저장 : 기본정보 -->
 	<update id="saveBasic">
 	    UPDATE PROJECT
@@ -134,12 +132,13 @@
 	<!-- 프로젝트 작성저장 : 프로젝트 계획 -->
 	<update id="saveDateplan">
 		UPDATE PROJECT
-		    SET
-		        TXT_DESCRIPTION = #{txtDescription}
-		        , TXT_BUDGET = #{txtBudget}
-		        , TXT_SCHEDULE = #{txtSchedule}
-		        , TXT_TEAM = #{txtTeam}
-		        , TXT_ITEM = #{txtItem}
+		    <trim prefix="SET" suffixOverrides=",">
+		        <if test="txtDescription != null">TXT_DESCRIPTION = #{txtDescription},</if>
+		        <if test="txtBudget != null">TXT_BUDGET = #{txtBudget},</if>
+		        <if test="txtSchedule != null">TXT_SCHEDULE = #{txtSchedule},</if>
+		        <if test="txtTeam != null">TXT_TEAM = #{txtTeam},</if>
+		        <if test="txtItem != null">TXT_ITEM = #{txtItem},</if>
+		    </trim>
 		WHERE NO = #{no}
 	</update>
 	

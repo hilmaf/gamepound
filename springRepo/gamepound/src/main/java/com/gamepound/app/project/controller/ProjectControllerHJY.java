@@ -194,16 +194,20 @@ public class ProjectControllerHJY {
 	
 	// 프로젝트 작성조회 : 프로젝트 계획 프로젝트 넘버필요
 	@GetMapping("get/dateplan")
-	public void getDateplan(ProjectVo vo) {
+	public Map<String, Object> getDateplan(ProjectVo vo) {
 		
 		ProjectVo projectVo = service.getDateplan(vo);
-		System.out.println("프로젝트 계획 : " + projectVo);
+		System.out.println(projectVo);
+		Map<String, Object> map = new HashMap<>();
+		map.put("msg", "good");
+		map.put("projectVo", projectVo);
+		
+		return map;
 		
 	}
 	// 프로젝트 계획 이미지 업로드
 	@PostMapping("save/image")
 	public Map<String, String> saveImage(@RequestPart MultipartFile img, HttpServletRequest req) throws Exception {
-		System.out.println(img);
 		
 		// 파일저장 service
 		String uploadDir = "/resources/images/projectDateplanImg/";
@@ -226,13 +230,17 @@ public class ProjectControllerHJY {
 	}
 	// 프로젝트 작성저장 : 프로젝트 계획
 	@PostMapping("save/dateplan")
-	public void saveDateplan(ProjectVo vo) throws Exception {
+	public Map<String, String> saveDateplan(@RequestBody ProjectVo vo) throws Exception {
 		
 		int result = service.saveDateplan(vo);
+		
+		Map<String, String> map = new HashMap<>();
+		map.put("msg", "good");
 		if(result != 1) {
-			throw new Exception("프로젝트 계획 작성에 실패했습니다.");
+			map.put("msg", "bad");
 		}
-		System.out.println("프로젝트 계획 작성 결과 : " + result);
+		
+		return map;
 		
 	}
 	

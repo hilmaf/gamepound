@@ -58,6 +58,12 @@ const HeaderCreateProject = () => {
         // plan 저장
         if(name === 'plan'){
 
+            // 금액검증
+            if(headerFormVo.goalAmount < 500000){
+                alert('목표금액을 500,000원 이상으로 설정해주세요.');
+                return;
+            }
+
             fetch('http://localhost:8889/gamepound/project/save/plan', {
                 method: 'post',
                 headers: {
@@ -80,6 +86,46 @@ const HeaderCreateProject = () => {
             ;
             setIsProjectInputChange(false);
             
+        }
+
+        // dateplan 저장
+        if(name === 'dateplan'){
+            console.log('확인');
+            const fieldsToCheck = [
+                { field: headerFormVo.txtDescription, label: '프로젝트 소개' },
+                { field: headerFormVo.txtBudget, label: '프로젝트 예산' },
+                { field: headerFormVo.txtSchedule, label: '프로젝트 일정' },
+                { field: headerFormVo.txtTeam, label: '프로젝트 팀 소개' },
+                { field: headerFormVo.txtItem, label: '프로젝트 선물 소개' }
+            ];
+            // 프로젝트 내용 검증
+            for (const fieldData of fieldsToCheck) {
+                if (fieldData.field && fieldData.field.length > 2000) {
+                    alert(`${fieldData.label}은(는) 2000글자 이내로 작성해 주시기 바랍니다.`);
+                    return;
+                }
+            }
+
+            fetch('http://localhost:8889/gamepound/project/save/dateplan', {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(headerFormVo),
+            })
+            .then(resp => resp.json())
+            .then(data => {
+                if(data.msg === 'good'){
+                    alert('프로젝트 내용이 저장되었습니다.');
+                } else {
+                    throw new Error();
+                }
+            })
+            .catch(() => {
+                alert('오류가 발생했습니다. 다시 시도해주세요.');
+            })
+            ;
+            setIsProjectInputChange(false);
         }
     }
 
