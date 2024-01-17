@@ -37,14 +37,20 @@ public class UserPageService {
 	public Map<String, Object> listReview(String memberNo) {
 		// 리뷰 목록
 		List<ReviewVo> reviewList = dao.listReview(sst, memberNo);
+		System.out.println(reviewList);
 		
+		
+		// TODO: 만족도 DOUBLE 타입으로 변경하는 거 삭제하기 (더미데이터를 수정하는 방향으로)
 		// 만족도 double 타입으로 변경해서 다시 셋팅하기
-		for(ReviewVo vo : reviewList) {
-			vo.setRating(util.castToDouble(vo.getRating()));
+		if(reviewList.size() > 0) {
+			for(ReviewVo vo : reviewList) {
+				vo.setRating(util.castToDouble(vo.getRating()));
+			}			
 		}
 		
 		// 리뷰 통계
 		ReviewStatVo statVo = dao.getStat(sst, memberNo);
+		
 		
 		// 만족도 평균 double 타입으로 변경
 		statVo.setRatingAvg(util.castToDouble(statVo.getRatingAvg()));

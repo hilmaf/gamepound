@@ -18,19 +18,39 @@ const UserReview = () => {
 
     const [statVo, setStatVo] = useState([]);
     const [reviewList, setReviewList] = useState([]); 
+
+    const memberNo = {
+        "memberNo": loginMemberVo.no
+    }
     useEffect(()=>{
-        fetch("http://127.0.0.1:8889/gamepound/userpage/review?user=" + loginMemberVo.no)
+        fetch("http://127.0.0.1:8889/gamepound/userpage/review", {
+            method: "post",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(memberNo)
+        })
         .then(resp => resp.json())
         .then(data => {
             setReviewList(data.reviewList);
             setStatVo(data.statVo);
         })
-    }, [])
+    }, [statVo, reviewList])
 
     return (
         <StyledUserReviewDiv>
-            <ReviewStats statVo = {statVo}/>
-            <ReviewList reviewList = {reviewList}/>
+            {
+                reviewList !== null
+                ?
+                <>
+                    <ReviewStats statVo = {statVo}/>
+                    <ReviewList reviewList = {reviewList}/>
+                </>
+                :
+                <>
+                    <h3> 등록된 후기가 없습니다 </h3>
+                </>
+            }
         </StyledUserReviewDiv>
     );
 };
