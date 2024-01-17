@@ -15,14 +15,16 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("settings")
 @RequiredArgsConstructor
-@CrossOrigin("*")
 public class MemberControllerHYJ {
 
 	private final MemberServiceHYJ service;
 	
+	//로그인 유저 프로필 정보
 	@PostMapping
-	public void getProfile(@RequestBody MemberVo vo) {
+	public MemberVo getProfile(@RequestBody MemberVo vo) {
 		System.out.println(vo);
+		MemberVo loginMemberVo = service.getProfile(vo);
+		return loginMemberVo;
 	}
 	
 	//프로필 사진 변경
@@ -43,6 +45,7 @@ public class MemberControllerHYJ {
 	//프로필 이름 변경
 	@PostMapping("name")
 	public void editName(@RequestBody MemberVo vo) throws Exception {
+		System.out.println("setting > name > controller ::: " + vo);
 		int result = service.editName(vo);
 		
 		if(result != 1) {
