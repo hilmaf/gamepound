@@ -7,17 +7,16 @@ const StyledProjectBoxInfoDiv = styled.div`
     height: ${props => props.no === 3 ? '410px' : '370px'};
     cursor: pointer;
     margin-right: 25px;
+    color: var(--black-color);
 
     & > img {
         width: 100%;
         height: 205px;
-        background-size: cover;
-        object-fit: contain;
-        background-color: aliceblue;
+        object-fit: cover;
     }
 
     & > .category {
-        padding-top: 4px;
+        padding-top: 10px;
         font-size: 12px;
         
         & > span {
@@ -27,15 +26,27 @@ const StyledProjectBoxInfoDiv = styled.div`
     }
 
     & > .creator {
-        padding-top: 8px;
+        padding-top: 5px;
+        padding-bottom: 5px;
         font-size: 13px;
         color: rgba(0, 0, 0, 0.5);
     }
 
     & > .title {
-        padding-top: 5px;
-        height: 50px;
+        width: 100%;
+        height: 40px;
+        line-height: 30px;
         font-size: 16px;
+        overflow: hidden;
+        line-height: 20px;
+        display: -webkit-box;
+        text-overflow: ellipsis;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        margin-bottom: 10px;
+        /* padding-top: 5px;
+        height: 50px;
+        font-size: 16px; */
         /* letter-spacing: 0.01px; */
     }
 
@@ -46,14 +57,14 @@ const StyledProjectBoxInfoDiv = styled.div`
         & > .achievement {
 
             & > #achievement_rate {
-                font-size: 15px;
+                font-size: 16px;
                 font-weight: 600;
                 padding-right: 5px;
                 color: var(--red-color);
             }
 
             & > #achievement_amnt {
-                font-size: 12px;
+                font-size: 16px;
             }
         }
 
@@ -68,7 +79,7 @@ const ProjectBoxInfo = ({no, project}) => {
     const navigate = useNavigate();
 
     const handleBoxClick= () => {
-        navigate("/project/detail/" + project.projectNo);
+        navigate("/project/detail/story/" + project.projectNo);
     }
 
     return (
