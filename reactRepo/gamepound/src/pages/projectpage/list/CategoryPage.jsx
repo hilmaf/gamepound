@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import ProjectListBoxInfo from '../../../component/project/ProjectListBoxInfo';
+import Condition from '../../../component/search/Condition';
 
 const StyledAllDiv = styled.div`
     width: 100%;
@@ -11,15 +12,8 @@ const StyledAllDiv = styled.div`
         margin: 0 auto;
         & > div:first-child{
             & > div:first-child{
-                display: flex;
-                & > div{
-                    border: 1px solid #c9c9c9;
-                    border-radius: 5px;
-                    width: fit-content;
-                    height: fit-content;
-                    padding: 5px;
-                    margin-right: 5px;
-                }
+                font-size: 20px;
+                font-weight: 500;
             }
             & > div:last-child{
                 & > span{
@@ -49,6 +43,7 @@ const CategoryPage = () => {
         .then((data)=>{
             console.log("categoryPage > fetch");
             setCategoryVoList(data);
+            console.log(data);
         })
         .catch((e)=>{console.log("오류 : " + e);})
         ;
@@ -59,9 +54,9 @@ const CategoryPage = () => {
         <StyledAllDiv>
             <div className='inner'>
                 <div>
+                    <div>{categoryVoList[0]?categoryVoList[0].subCategory:null}</div>
                     <div>
-                        <div>상태 ▽</div>
-                        <div>달성률 ▽</div>
+                        <Condition />
                     </div>
                     <div><span>20</span>개의 프로젝트가 있습니다.</div>
                 </div>

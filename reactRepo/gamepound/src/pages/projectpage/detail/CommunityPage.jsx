@@ -7,7 +7,7 @@ const StyledAllDiv = styled.div`
 `;
 const StyledCommunityDiv = styled.div`
     height: 700px;
-    margin-top: 40px;
+    margin-top: 20px;
     & > div{
         padding-top: 20px;
         margin: 15px;
@@ -15,7 +15,6 @@ const StyledCommunityDiv = styled.div`
             & > li:first-child{
                 & > div:first-child{
                     display: flex;
-                    padding-left: 15px;
                     padding-top: 20px;
                     align-items: center;
                     & > div:first-child{
@@ -25,11 +24,11 @@ const StyledCommunityDiv = styled.div`
                 & > div > div > img{
                     width: 40px;
                     height: 40px;
-                    font-size: 8px;
+                    font-size: 5px;
                     object-fit: cover;
                 }
                 & > div:last-child{
-                    padding: 15px;
+                    padding: 15px 0px 15px 0px;
                 }
             }
             & > li:last-child{

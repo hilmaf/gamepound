@@ -37,17 +37,23 @@ const StyledProjectBoxInfoDiv = styled.div`
         }
         & > div{
             margin-top: 5px;
+            margin-bottom: 5px;
             font-weight: 500;
         }
     }
 
     & > .title {
-        height: 30px;
+        width: 100%;
+        height: 40px;
         line-height: 30px;
         font-size: 16px;
         overflow: hidden;
-        white-space: nowrap;
+        line-height: 20px;
+        display: -webkit-box;
         text-overflow: ellipsis;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        margin-bottom: 10px;
     }
 
     & > .progress {

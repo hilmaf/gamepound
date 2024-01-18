@@ -24,7 +24,6 @@ public class ProjectDaoHYJ {
 
 	//목록 조회 - 인기순
 	public List<ProjectVo> projectListPopular(SqlSessionTemplate sst, ProjectListVo vo) {
-		//TODO-HYJ : [list-popular] 달성률 순으로 작성
 		return sst.selectList("ProjectMapper.ListPopular", vo);
 	}
 

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import ProjectListBoxInfo from '../../../component/project/ProjectListBoxInfo';
+import Condition from '../../../component/search/Condition';
 
 const StyledAllDiv = styled.div`
     width: 100%;
@@ -9,13 +10,6 @@ const StyledAllDiv = styled.div`
         margin: 0 auto;
         padding: 20px;
         & > div:first-child{
-            & > div:first-child{
-                border: 1px solid #c9c9c9;
-                border-radius: 5px;
-                width: fit-content;
-                height: fit-content;
-                padding: 5px;
-            }
             & > div:last-child{
                 & > span{
                     color: var(--red-color);
@@ -51,7 +45,9 @@ const NewPage = () => {
         <StyledAllDiv>
             <div className='inner'>
                 <div>
-                    <div>달성률</div>
+                    <div>
+                        <Condition />
+                    </div>
                     <div><span>20</span>개의 프로젝트가 있습니다.</div>
                 </div>
                 <div>
