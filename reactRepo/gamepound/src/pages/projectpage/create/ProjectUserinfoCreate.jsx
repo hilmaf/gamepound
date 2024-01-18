@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
+import { useProjectCreateMemory } from '../../../component/context/ProjectCreateContext';
+import { useParams } from 'react-router';
 
 const StyledCreateUserinfoDiv = styled.div`
     & .inner {
@@ -60,6 +62,38 @@ const StyledCreateUserinfoDiv = styled.div`
 `;
 
 const ProjectUserinfoCreate = () => {
+
+    const { headerFormVo, setHeaderFormVo, setIsProjectInputChange, setDataFrom, setProjectCreateData, projectCreateData } = useProjectCreateMemory(); // 컨텍스트 데이터
+    const { projectNo } = useParams(); // 파라미터
+
+    // 컨텍스트 데이터에 프로젝트 넘버 저장
+    useEffect(() => {
+        setProjectCreateData({
+            ...projectCreateData,
+            'mainVo': {
+                'no': projectNo,
+            },
+        })
+        setHeaderFormVo({
+            ...headerFormVo,
+            'projectNo': projectNo,
+        });
+    }, [projectNo, setProjectCreateData, setHeaderFormVo]);
+    console.log('헤더폼브이오', headerFormVo);
+
+    
+
+    // headerFormVo 에 저장
+    const handleOnchange = (e) => {
+        const {name, value} = e.target;
+        setHeaderFormVo({
+            ...headerFormVo,
+            [name]: value,
+        });
+        setIsProjectInputChange(true);
+        setDataFrom('userinfo');
+    }
+
     return (
         <StyledCreateUserinfoDiv>
             <div className="inner">
@@ -69,20 +103,20 @@ const ProjectUserinfoCreate = () => {
                         <dl className='item'>
                             <dt>거래 은행</dt>
                             <dd>
-                                <select name="">
-                                    <option value="">선택</option>
-                                    <option value="">기업은행</option>
-                                    <option value="">국민은행</option>
-                                    <option value="">신한은행</option>
-                                    <option value="">농협은행</option>
-                                    <option value="">카카오뱅크</option>
+                                <select name="bankName" onChange={handleOnchange} >
+                                    <option value="0">선택</option>
+                                    <option value="기업은행">기업은행</option>
+                                    <option value="국민은행">국민은행</option>
+                                    <option value="신한은행">신한은행</option>
+                                    <option value="농협은행">농협은행</option>
+                                    <option value="카카오뱅크">카카오뱅크</option>
                                 </select>
                             </dd>
                         </dl>
                         <dl className='item'>
                             <dt>예금주명</dt>
                             <dd>
-                                <input type="text" />
+                                <input type="text" name='name' onChange={handleOnchange} />
                             </dd>
                         </dl>
                     </dd>
@@ -90,7 +124,7 @@ const ProjectUserinfoCreate = () => {
                         <dl className='item'>
                             <dt>계좌번호</dt>
                             <dd>
-                                <input type="text" placeholder="'-' 하이픈 없이 작성" />
+                                <input type="text" name='accountNum' onChange={handleOnchange}  placeholder="'-' 하이픈 없이 작성" />
                             </dd>
                         </dl>
                     </dd>

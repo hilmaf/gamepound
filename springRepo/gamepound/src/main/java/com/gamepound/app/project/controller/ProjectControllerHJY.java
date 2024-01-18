@@ -253,13 +253,18 @@ public class ProjectControllerHJY {
 	}
 	// 프로젝트 작성저장 : 창작자 정보
 	@PostMapping("save/userinfo")
-	public void saveUserinfo(SettlementVo vo) throws Exception {
+	public Map<String, String> saveUserinfo(@RequestBody SettlementVo vo) throws Exception {
 		
 		int result = service.saveUserinfo(vo);
+		
+		Map<String, String> map = new HashMap<>();
+		map.put("msg", "good");
 		if(result != 1) {
-			throw new Exception("창작자 정보 작성(저장)에 실패했습니다.");
+			map.put("msg", "bad");
 		}
 		System.out.println("창작자 정보 작성(저장) 결과 : " + result);
+		
+		return map;
 		
 	}
 	

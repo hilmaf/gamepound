@@ -3,12 +3,13 @@ import styled from 'styled-components';
 import { useProjectCreateMemory } from '../../context/ProjectCreateContext';
 import { useNavigate } from 'react-router-dom';
 
+const baseURL = process.env.REACT_APP_API_URL;
+
 const StyledHeaderCreateProjectDiv = styled.div`
 
 `;
-
 const HeaderCreateProject = () => {
-
+    
     const {projectCreateData, IsProjectInputChange, setIsProjectInputChange, dataFrom, headerFormVo, projectNo} = useProjectCreateMemory();
     const navigate = useNavigate();
     
@@ -40,7 +41,7 @@ const HeaderCreateProject = () => {
             formData.append('subCategoryNo', headerFormVo.subCategoryNo);
             formData.append('imageUrl', headerFormVo.imageUrl);
             
-            fetch('http://localhost:8889/gamepound/project/save/basic', {
+            fetch(`${baseURL}/project/save/basic`, {
                 method: 'post',
                 body: formData,
             })
@@ -64,7 +65,7 @@ const HeaderCreateProject = () => {
                 return;
             }
 
-            fetch('http://localhost:8889/gamepound/project/save/plan', {
+            fetch(`${baseURL}/project/save/plan`, {
                 method: 'post',
                 headers: {
                     'Content-Type': 'application/json'
@@ -90,7 +91,7 @@ const HeaderCreateProject = () => {
 
         // dateplan 저장
         if(name === 'dateplan'){
-            console.log('확인');
+
             const fieldsToCheck = [
                 { field: headerFormVo.txtDescription, label: '프로젝트 소개' },
                 { field: headerFormVo.txtBudget, label: '프로젝트 예산' },
@@ -106,7 +107,7 @@ const HeaderCreateProject = () => {
                 }
             }
 
-            fetch('http://localhost:8889/gamepound/project/save/dateplan', {
+            fetch(`${baseURL}/project/save/dateplan`, {
                 method: 'post',
                 headers: {
                     'Content-Type': 'application/json'
@@ -126,6 +127,46 @@ const HeaderCreateProject = () => {
             })
             ;
             setIsProjectInputChange(false);
+        }
+
+        // userinfo
+        if(name === 'userinfo'){
+
+            // 거래은행 검증
+            if(headerFormVo.bankName && headerFormVo.bankName === '0'){
+                alert('거래 은행을 선택해주세요.');
+                return;
+            }
+            // 계좌번호 검증
+            if(!headerFormVo.accountNum){
+                alert('계좌번호를 입력해주세요.');
+                return;
+            }
+            // 이름 검증
+            if(!headerFormVo.name){
+                alert('이름을 입력해주세요.');
+                return;
+            }
+
+            fetch(`${baseURL}/project/save/dateplan`, {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(headerFormVo),
+            })
+            .then(resp => resp.json())
+            .then(data => {
+                if(data === 'good'){
+                    alert('프로젝트 내용이 저장되었습니다.');
+                } else {
+                    throw new Error();
+                }
+            })
+            .catch(() => {
+                alert('오류가 발생했습니다. 다시 시도해주세요.');
+            })
+            ;
         }
     }
 
