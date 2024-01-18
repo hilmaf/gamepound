@@ -58,10 +58,13 @@ const StyledPaymentCheckDiv = styled.div`
         color: white;
         font-weight: 400;
         letter-spacing: 0.4px;
+        cursor: pointer;
     }
 `;
 
 const PaymentCheck = () => {
+
+    let customerUid = "defaulttttt";
 
     // useNavigate
     const navigate = useNavigate();
@@ -71,7 +74,6 @@ const PaymentCheck = () => {
 
     const dataSet = useBackingMemory();
     const back = dataSet.dataVo;
-    console.log(back);
     
     // 체크박스 체크여부 확인 함수
     const checkCheckInput = () => {
@@ -138,10 +140,7 @@ const PaymentCheck = () => {
             const result = await new Promise((resolve, reject) => {
                 IMP.request_pay(paymentData, ({ success, error_msg }) => {
                     if (success) {
-                        dataSet.setDataVo({
-                            ...back,
-                            "customerUid": paymentData.customer_uid
-                        });
+                        customerUid = paymentData.customer_uid;
                         resolve("success");
                     } else {
                         alert(error_msg);
@@ -157,11 +156,11 @@ const PaymentCheck = () => {
     }
 
 
+    // 후원하기 버튼 Click
     const handleBackBtnClick = async (e) => {
 
         e.preventDefault();
 
-        // 유효성 체크
         // PaymentType undefined체크
         let paymentTypeDefined = false;
         if(back.paymentType) {
@@ -170,54 +169,62 @@ const PaymentCheck = () => {
 
         // TODO: 이미 후원한 프로젝트는 또 후원 못하게 유효성 체크
         
+        if(!paymentTypeDefined){
+            alert("후원 정보가 빠진 곳 없이 작성되었는지 확인해주세요.");
+            return;
+        }
         
-        if(paymentTypeDefined) {
             
-            if(back.paymentType==='kakaopay') {
-                const response = await getKakaoPayApi();
+        if(back.paymentType==='kakaopay') {
+            const response = await getKakaoPayApi();
 
-                console.log("fetch 직전 데이터 확인", back);
-
-                if(back.customerUid && response === "success") {
-                    fetch("http://127.0.0.1:8889/gamepound/back/process", {
-                        method: "post",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify(dataSet.dataVo)
-                    })
-                    .then(resp => resp.json())
-                    .then(data => {
-                        if(data.result==="success") {
-                                navigate("/back/completed/" + back.projectNo);
-                        }
-                    })
-                } else {
-                    alert("다시다시");
-                }
-            } else {
-                // PaymentType이 카드 결제일 시 카드정보 null 및 길이 체크
-                const cardInfoOk = checkCardInput();
-                // 체크박스 체크 여부
-                const checkboxOk = checkCheckInput();
-                cardInfoOk && checkboxOk 
-                ? 
-                fetch("http://127.0.0.1:8889/gamepound/back/process", {
-                        method: "post",
-                        headers: {
-                            "Content-Type": "application/json"
-                        },
-                        body: JSON.stringify(back)
-                })
-                .then(resp => resp.json())
-                .then(data => {
-                    if(data.result==="success") {
-                            navigate("/back/completed/" + back.projectNo);
-                    }
-                })
-                : 
-                alert("후원 정보가 빠진 곳 없이 작성되었는지 확인해주세요.");
+            if(!customerUid || response !== "success") {
+                alert("다시다시");
             }
+
+            const sendVo = {
+                ...back,
+                "customerUid": customerUid
+            }
+
+
+            fetch("http://127.0.0.1:8889/gamepound/back/process", {
+                method: "post",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(sendVo)
+            })
+            .then(resp => resp.json())
+            .then(data => {
+                if(data.result==="success") {
+                        navigate("/back/completed/" + back.projectNo);
+                }
+            })
+
+        } else {
+            // PaymentType이 카드 결제일 시 카드정보 null 및 길이 체크
+            const cardInfoOk = checkCardInput();
+            // 체크박스 체크 여부
+            const checkboxOk = checkCheckInput();
+            
+            cardInfoOk && checkboxOk 
+            ? 
+            fetch("http://127.0.0.1:8889/gamepound/back/process", {
+                    method: "post",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(back)
+            })
+            .then(resp => resp.json())
+            .then(data => {
+                if(data.result==="success") {
+                        navigate("/back/completed/" + back.projectNo);
+                }
+            })
+            : 
+            alert("후원 정보가 빠진 곳 없이 작성되었는지 확인해주세요.");
         }
         
     }
