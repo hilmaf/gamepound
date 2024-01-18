@@ -33,10 +33,9 @@ public class BackControllerLKM {
 	// 후원하기(화면)
 	@GetMapping("process")
 	public BackVo viewBackPage(BackVo backVo) throws Exception {
-		
+		System.out.println(backVo.getProjectNo());
+		System.out.println(backVo.getRewardNo());
 		// 임의로 정보 세팅(임시) TODO: 정보세팅 지우기
-		backVo.setProjectNo("1");
-		backVo.setRewardNo("1");
 		
 		BackVo bvo = service.viewBackingPage(backVo);
 		return bvo;

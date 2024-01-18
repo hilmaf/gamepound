@@ -25,7 +25,6 @@ public class BackServiceLKM {
 		BackVo bvo = dao.viewBackingPage(sst, vo);
 		
 		// 달성률, 마감기한 d- setting
-		System.out.println(bvo.getEndDate());
 		String achievementRate = util.achievementRate(bvo.getGoalAmount(), bvo.getCurrentAmount());
 		String remainingPeriod = util.getRemainingPeriod(bvo.getEndDate(), "yyyy년 MM월 dd일");
 		String paymentDueDate = util.calcPaymentDueDate(bvo.getEndDate(), "yyyy년 MM월 dd일");
@@ -33,6 +32,9 @@ public class BackServiceLKM {
 		bvo.setAchievementRate(achievementRate);
 		bvo.setRemainingPeriod(remainingPeriod);
 		bvo.setPaymentDueDate(paymentDueDate);
+		
+		String url = "http://127.0.0.1:8889/gamepound/resources/images/projectImg/";
+		bvo.setProjectImg(url + bvo.getProjectImg());
 		
 		return bvo;
 		
@@ -51,13 +53,13 @@ public class BackServiceLKM {
 		}
 
 		// paymentType no setting
-		if(vo.getPaymentType() == "card") {	
+		if(vo.getPaymentType().equals("card")) {	
 			vo = validateCardInfo(vo);
 		} else {
-			// TODO: customerUid 유효성 체크
-			
 			vo.setPaymentTypeNo("2");
 		}
+		
+		System.out.println(vo);
 		
 		// rewardAmount 수정
 		vo.setRewardAmount(util.removeCommas(vo.getRewardAmount()));
@@ -68,7 +70,7 @@ public class BackServiceLKM {
 		int result1 = dao.insertBack(sst, vo);
 		int result2 = dao.insertPayment(sst, vo);
 		int result3 = 0;
-		if("1".equals(vo.getPaymentType())) {
+		if("1".equals(vo.getPaymentTypeNo())) {
 			// 카드 정보 테이블 insert
 			result3 = dao.insertCard(sst, vo);			
 		} else {
@@ -85,6 +87,8 @@ public class BackServiceLKM {
 	}
 	
 	private BackDetailVo validateCardInfo(BackDetailVo vo) throws Exception {
+		
+		System.out.println(1);
 		// 숫자only 정규표현식
 		String numRegex = "\\d+";
 		
@@ -153,6 +157,9 @@ public class BackServiceLKM {
 		
 		String achievementRate = util.achievementRate(bvo.getGoalAmount(), bvo.getCurrentAmount());
 		bvo.setAchievementRate(achievementRate);
+		
+		String url = "http://127.0.0.1:8889/gamepound/resources/images/projectImg/";
+		bvo.setProjectImg(url + bvo.getProjectImg());
 		
 		return bvo;
 	}

@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState, useTransition } from 'react';
 import { useUserMemory } from './UserContext';
+import { useParams } from 'react-router-dom';
 
 const BackingMemory = createContext();
 
@@ -14,10 +15,13 @@ const BackingMemoryProvider = ({children}) => {
     const {loginMemberVo} = useUserMemory();
     
     const [dataVo, setDataVo] = useState([]);
+
+    // useParams
+    const {projectNo, rewardNo} = useParams();
     
     // 프로젝트 정보, 후원 정보 fetch
     const loadBackingFormInfo = () => {
-        fetch("http://127.0.0.1:8889/gamepound/back/process")
+        fetch("http://127.0.0.1:8889/gamepound/back/process?projectNo=" + projectNo + "&rewardNo=" + rewardNo)
         .then(resp => {return resp.json()})
         .then(data => {
             setDataVo({
