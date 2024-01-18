@@ -275,7 +275,7 @@ CREATE TABLE CARD (
     , CARD_NUMBER           CHAR(16)    NOT NULL
     , VALID_THRU            CHAR(4)     NOT NULL
     , CARD_PWD              CHAR(2)     NOT NULL
-    , BIRTH_DATE            CHAR(4)     NOT NULL
+    , BIRTH_DATE            CHAR(6)     NOT NULL
 );
 COMMENT ON COLUMN CARD.NO IS '카드 번호';
 COMMENT ON COLUMN CARD.PAYMENT_NO IS '결제정보 번호';
