@@ -114,7 +114,7 @@ public class ProjectServiceHYJ {
 		//프로젝트 사진 경로 추가
 		String localAddr = "http://127.0.0.1:8889/gamepound";
 		String projectPath = "/resources/images/projectImg/";
-		String creatorPath = "/resources/images/memberProjectProfileImg/";
+		String creatorPath = "/resources/images/memberProfileImg/";
 		vo.setImageUrl(localAddr + projectPath + vo.getImageUrl());
 		vo.setMemberPic(localAddr + creatorPath + vo.getMemberPic());
 		
