@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import ProjectListBoxInfo from '../../../component/project/ProjectListBoxInfo';
+import Condition from '../../../component/search/Condition';
 
 const StyledAllDiv = styled.div`
     width: 100%;
@@ -9,12 +10,30 @@ const StyledAllDiv = styled.div`
         margin: 0 auto;
         padding: 20px;
         & > div:first-child{
-            & > div:first-child{
+            & > button {
+                display: flex;
+                gap: 10px;
+                align-items: center;
                 border: 1px solid #c9c9c9;
                 border-radius: 5px;
                 width: fit-content;
                 height: fit-content;
-                padding: 5px;
+                padding: 7px 15px;
+                background-color: #fff;
+                cursor: pointer;
+                transition: .2s;
+                &:hover {
+                    border-color: #333;
+                }
+                &::after {
+                    content: '';
+                    display: block;
+                    width: 5px;
+                    height: 5px;
+                    border: 2px solid #333;
+                    border-width: 0 2px 2px 0;
+                    transform: rotate(45deg);
+                }
             }
             & > div:last-child{
                 & > span{
@@ -51,7 +70,7 @@ const PopularPage = () => {
         <StyledAllDiv>
             <div className='inner'>
                 <div>
-                    <div>달성률 ▽</div>
+                    <Condition />
                     <div><span>20</span>개의 프로젝트가 있습니다.</div>
                 </div>
                 <div>
