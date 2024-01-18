@@ -170,10 +170,6 @@ public class ProjectServiceHJY {
 	public int saveBasic(ProjectVo vo) {
 		
 		// 타이틀 널체크
-		System.out.println("서비스에서 타이틀 :: " + vo.getTitle());
-		System.out.println("서비스에서 널 :: " + vo.getTitle() == null);
-		System.out.println("서비스에서 언디파인드 :: " + "undefined".equals(vo.getTitle()));
-		System.out.println("서비스에서 엠티결과 :: " + vo.getTitle().isEmpty());
 	    if (vo.getTitle() == null || "undefined".equals(vo.getTitle()) || vo.getTitle().isEmpty()) {
 	        vo.setTitle(null);
 	    }
