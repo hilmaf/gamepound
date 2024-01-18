@@ -68,13 +68,13 @@ const ReviewStats = ({statVo}) => {
                 <div id='avg'>{statVo.ratingAvg}</div>
             </div>
             <ul>
-                <li><span id='rating'>1점</span><span id='cnt'>n개</span></li>
-                <li><span id='rating'>2점</span><span id='cnt'>n개</span></li>
+                <li><span id='rating'>1점</span><span id='cnt'>{statVo.countRating1}개</span></li>
+                <li><span id='rating'>2점</span><span id='cnt'>{statVo.countRating2}개</span></li>
             </ul>
             <ul>
-                <li><span id='rating'>3점</span><span id='cnt'>n개</span></li>
-                <li><span id='rating'>4점</span><span id='cnt'>n개</span></li>
-                <li><span id='rating'>5점</span><span id='cnt'>n개</span></li>
+                <li><span id='rating'>3점</span><span id='cnt'>{statVo.countRating3}개</span></li>
+                <li><span id='rating'>4점</span><span id='cnt'>{statVo.countRating4}개</span></li>
+                <li><span id='rating'>5점</span><span id='cnt'>{statVo.countRating5}개</span></li>
             </ul>
         </StyledReviewStatsDiv>
     );
