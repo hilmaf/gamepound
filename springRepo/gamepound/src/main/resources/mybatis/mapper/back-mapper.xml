@@ -108,9 +108,10 @@
 	WHERE NO = #{backNo}
   </update>
   
-<!--   후원취소(결제정보 delete) -->
-	<delete id="deletePayment">
-		DELETE FROM PAYMENT
+<!--   후원취소(결제정보 update) -->
+	<delete id="updatePayment">
+		UPDATE PAYMENT P
+	    	SET P.PAYMENT_STATUS_NO = '2'
 		WHERE BACKER_NO = #{backNo}
 	</delete>
   
