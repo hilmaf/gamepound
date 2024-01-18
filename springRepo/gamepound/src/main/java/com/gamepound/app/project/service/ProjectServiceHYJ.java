@@ -39,6 +39,7 @@ public class ProjectServiceHYJ {
 
 	//목록 조회 - 인기순
 	public List<ProjectVo> projectListPopular(ProjectListVo vo) {
+		
 		List<ProjectVo> voList = dao.projectListPopular(sst, vo);
 		//추가
 		add(voList);
@@ -63,6 +64,7 @@ public class ProjectServiceHYJ {
 		//추가
 		add(voList);
 		listAddPath(voList);
+		
 		return voList;
 	}
 
@@ -70,6 +72,7 @@ public class ProjectServiceHYJ {
 	public List<ProjectVo> projectListPrelaunch() {
 		List<ProjectVo> voList = dao.projectListPrelaunch(sst);
 		listAddPath(voList);
+		
 		return voList;
 	}
 	
@@ -78,12 +81,11 @@ public class ProjectServiceHYJ {
 	public void add(List<ProjectVo>voList) {
 		for (ProjectVo vo : voList) {
 			vo.setAchievementRate(util.achievementRate(vo.getGoalAmount(), vo.getCurrentAmount()));
-			System.out.println(vo.getEndDate());
 			vo.setRemainingPeriod(util.getRemainingPeriod(vo.getEndDate(), "yyyy년 MM월 dd일"));
 		}
 	}
 	
-	//db에서 사진 가져올때 사진 경로 추가
+	//db에서 프로젝트 사진 가져올때 사진 경로 추가(List)
 	public void listAddPath(List<ProjectVo>voList) {
 		String localAddr = "http://127.0.0.1:8889/gamepound";
 		String path = "/resources/images/projectImg/";
@@ -109,10 +111,12 @@ public class ProjectServiceHYJ {
 		//남은 시간 추가
 		vo.setRemainingPeriod(util.getRemainingPeriod(vo.getEndDate(), "yyyy년 MM월 dd일"));
 		
-		//사진 경로 추가
+		//프로젝트 사진 경로 추가
 		String localAddr = "http://127.0.0.1:8889/gamepound";
-		String path = "/resources/images/projectImg/";
-		vo.setImageUrl(localAddr + path + vo.getImageUrl());
+		String projectPath = "/resources/images/projectImg/";
+		String creatorPath = "/resources/images/memberProjectProfileImg/";
+		vo.setImageUrl(localAddr + projectPath + vo.getImageUrl());
+		vo.setMemberPic(localAddr + creatorPath + vo.getMemberPic());
 		
 		return vo;
 	}
@@ -124,13 +128,34 @@ public class ProjectServiceHYJ {
 
 	//프로젝트 상세 조회 - 업데이트
 	public List<ProjectUpdateVo> projectDetailUpdate(String no) {
-		return dao.projectDetailUpdate(sst, no);
+		
+		String localAddr = "http://127.0.0.1:8889/gamepound";
+		String path = "/resources/images/memberProfileImg/";
+		
+		List<ProjectUpdateVo> voList = dao.projectDetailUpdate(sst, no);
+		for (ProjectUpdateVo vo : voList) {
+			vo.setMemberPic(localAddr + path + vo.getMemberPic());
+		}
+		
+		return voList;
 	}
 
 	//프로젝트 상세 조회 - 커뮤니티
 	public List<ProjectCommunityVo> projectDetailCommunity(String no) {
-		return dao.projectDetailCommunity(sst, no);
+		
+		String localAddr = "http://127.0.0.1:8889/gamepound";
+		String path = "/resources/images/memberProfileImg/";
+		
+		List<ProjectCommunityVo>voList = dao.projectDetailCommunity(sst, no);
+		for (ProjectCommunityVo vo : voList) {
+			vo.setMemberPic(localAddr + path + vo.getMemberPic());
+			vo.setReplyerPic(localAddr + path + vo.getReplyerPic());
+		}
+		
+		return voList;
 	}
+	
+	///////////////////////////////////////////////////////////////////////
 
 	//프로젝트 상세 조회 - 업데이트 작성
 	public int projectDetailUpdate(ProjectUpdateVo vo) {
@@ -147,9 +172,6 @@ public class ProjectServiceHYJ {
 		}
 		return result;
 	}
-	
-
-
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	
 
