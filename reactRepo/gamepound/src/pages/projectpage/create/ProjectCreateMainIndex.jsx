@@ -10,17 +10,12 @@ import { useHeaderMemory } from '../../../component/context/HeaderContext';
 import { useProjectCreateMemory } from '../../../component/context/ProjectCreateContext';
 
 const StyledCreateBasicIndexDiv = styled.div`
-    padding-top: 124px;
     box-sizing: border-box;
     min-height: calc(100vh - 202px);
     background-color: #f5f5f5;
     & .createMainHeader {
-        position: absolute;
-        top: 72px;
-        left: 0;
         width: 100%;
         background-color: #fff;
-        z-index: 9;
         & .inner {
             display: flex;
             align-items: center;
@@ -31,7 +26,7 @@ const StyledCreateBasicIndexDiv = styled.div`
             & .titleBox {
                 width: 100%;
                 & .title {
-                    padding: 30px 0 20px;
+                    padding: 0 0 20px;
                     font-size: 28px;
                     font-weight: 500;
                     color: #333;

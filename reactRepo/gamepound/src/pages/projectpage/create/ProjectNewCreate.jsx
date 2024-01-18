@@ -35,6 +35,10 @@ const StyledNewCreateDiv = styled.div`
                         overflow: hidden;
                         width: 60px;
                         height: 60px;
+                        & img {
+                            min-width: 100%;
+                            min-height: 100%;
+                        }
                     }
                     & strong {
                         width: calc(100% - 75px);
