@@ -97,7 +97,7 @@ const ProjectListBoxInfo = ({project}) => {
                 <span>{project.mainCategory}<span>|</span>{project.subCategory}</span>
                 <div>{project.memberName}</div>
             </div>
-            <div className='title' key={project.no}>
+            <div className='title'>
                 {project.title}
             </div>
             <div className='progress'>

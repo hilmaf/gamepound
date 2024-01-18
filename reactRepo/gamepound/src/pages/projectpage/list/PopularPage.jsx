@@ -55,12 +55,14 @@ const PopularPage = () => {
 
     const [popularVoList, setPopularVoList] = useState([]);
 
+    const [projectPcs, setProjectPcs] = useState([]);
+
     useEffect(()=>{
         fetch("http://127.0.0.1:8889/gamepound/project/list/popular")
         .then((resp)=>{return resp.json()})
         .then((data)=>{
-            console.log("popularPage > fetch");
-            setPopularVoList(data);
+            setPopularVoList(data.voList);
+            setProjectPcs(data.projectPcs);
         })
         .catch((e)=>{console.log("오류 : " + e);})
         ;
@@ -71,12 +73,12 @@ const PopularPage = () => {
             <div className='inner'>
                 <div>
                     <Condition />
-                    <div><span>20</span>개의 프로젝트가 있습니다.</div>
+                    <div><span>{projectPcs}</span>개의 프로젝트가 있습니다.</div>
                 </div>
                 <div>
                     {
                         popularVoList.map((vo)=>{
-                            return(<ProjectListBoxInfo project={vo}/>);
+                            return(<ProjectListBoxInfo project={vo} key={vo.no}/>);
                         })
                     }
                 </div>

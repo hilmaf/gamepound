@@ -30,12 +30,14 @@ const NewPage = () => {
 
     const [newVoList, setNewVoList] = useState([]);
 
+    const [projectPcs, setProjectPcs] = useState([]);
+
     useEffect(()=>{
         fetch("http://127.0.0.1:8889/gamepound/project/list/new")
         .then((resp)=>{return resp.json()})
         .then((data)=>{
-            console.log("newPage > fetch");
-            setNewVoList(data);
+            setNewVoList(data.voList);
+            setProjectPcs(data.projectPcs);
         })
         .catch((e)=>{console.log("오류 : " + e);})
         ;
@@ -48,12 +50,12 @@ const NewPage = () => {
                     <div>
                         <Condition />
                     </div>
-                    <div><span>20</span>개의 프로젝트가 있습니다.</div>
+                    <div><span>{projectPcs}</span>개의 프로젝트가 있습니다.</div>
                 </div>
                 <div>
                     {
                         newVoList.map((vo)=>{
-                            return(<ProjectListBoxInfo project={vo}/>);
+                            return(<ProjectListBoxInfo project={vo} key={vo.no}/>);
                         })
                     }
                 </div>

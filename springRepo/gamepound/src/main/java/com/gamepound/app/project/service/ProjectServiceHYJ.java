@@ -26,7 +26,7 @@ public class ProjectServiceHYJ {
 	private final DataProcessingUtil util;
 	
 	//목록 조회 - 카테고리
-	public List<ProjectVo> projectListCategory(ProjectListVo vo) {
+	public Map<String, Object> projectListCategory(ProjectListVo vo) {
 		
 		List<ProjectVo> voList = dao.projectListCategory(sst, vo);
 		
@@ -34,46 +34,56 @@ public class ProjectServiceHYJ {
 		add(voList);
 		listAddPath(voList);
 		
-		return voList;
+		Map<String, Object>map = cntProject(voList);
+		
+		return map;
 	}
 
 	//목록 조회 - 인기순
-	public List<ProjectVo> projectListPopular(ProjectListVo vo) {
+	public Map<String, Object> projectListPopular(ProjectListVo vo) {
 		
 		List<ProjectVo> voList = dao.projectListPopular(sst, vo);
 		//추가
 		add(voList);
 		listAddPath(voList);
 
-		return voList;
+		Map<String, Object>map = cntProject(voList);
+		
+		return map;
 	}
 
 	//목록 조회 - 신규
-	public List<ProjectVo> projectListNew(ProjectListVo vo) {
+	public Map<String, Object> projectListNew(ProjectListVo vo) {
 		List<ProjectVo> voList = dao.projectListNew(sst, vo);
 		//추가
 		add(voList);
 		listAddPath(voList);
 		
-		return voList;
+		Map<String, Object>map = cntProject(voList);
+		
+		return map;
 	}
 
 	//목록 조회 - 마감임박
-	public List<ProjectVo> projectListImminent(ProjectListVo vo) {
+	public Map<String, Object> projectListImminent(ProjectListVo vo) {
 		List<ProjectVo> voList = dao.projectListImminent(sst, vo);
 		//추가
 		add(voList);
 		listAddPath(voList);
 		
-		return voList;
+		Map<String, Object>map = cntProject(voList);
+		
+		return map;
 	}
 
 	//목록 조회 - 공개예정
-	public List<ProjectVo> projectListPrelaunch() {
+	public Map<String, Object> projectListPrelaunch() {
 		List<ProjectVo> voList = dao.projectListPrelaunch(sst);
 		listAddPath(voList);
 		
-		return voList;
+		Map<String, Object>map = cntProject(voList);
+		
+		return map;
 	}
 	
 	
@@ -92,6 +102,16 @@ public class ProjectServiceHYJ {
 		for (ProjectVo vo : voList) {
 			vo.setImageUrl(localAddr + path + vo.getImageUrl());
 		}
+	}
+	
+	//전체 개수 추가
+	public Map<String, Object> cntProject(List<ProjectVo> voList) {
+		int projectPcs = voList.size();
+		Map<String, Object> map = new HashMap<>();
+		map.put("projectPcs", projectPcs);
+		map.put("voList", voList);
+		
+		return map;
 	}
 	
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

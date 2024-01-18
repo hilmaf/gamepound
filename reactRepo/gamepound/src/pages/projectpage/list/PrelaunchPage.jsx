@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import ProjectListBoxInfo from '../../../component/project/ProjectListBoxInfo';
+import ProjectPrelaunchListBoxInfo from '../../../component/project/ProjectPrelaunchListBoxInfo';
 
 const StyledAllDiv = styled.div`
     width: 100%;
@@ -29,12 +29,14 @@ const PrelaunchPage = () => {
 
     const [prelaunchVoList, setPrelaunchVoList] = useState([]);
 
+    const [projectPcs, setProjectPcs] = useState([]);
+
     useEffect(()=>{
         fetch("http://127.0.0.1:8889/gamepound/project/list/prelaunch")
         .then((resp)=>{return resp.json()})
         .then((data)=>{
-            console.log("prelaunchPage > fetch");
-            setPrelaunchVoList(data);
+            setPrelaunchVoList(data.voList);
+            setProjectPcs(data.projectPcs);
         })
         .catch((e)=>{console.log("오류 : " + e);})
         ;
@@ -44,12 +46,12 @@ const PrelaunchPage = () => {
         <StyledAllDiv>
             <div className='inner'>
                 <div>
-                    <div><span>20</span>개의 프로젝트가 있습니다.</div>
+                    <div><span>{projectPcs}</span>개의 프로젝트가 있습니다.</div>
                 </div>
                 <div>
                     {
                         prelaunchVoList.map((vo)=>{
-                            return(<ProjectListBoxInfo project={vo}/>);
+                            return(<ProjectPrelaunchListBoxInfo project={vo} key={vo.no}/>);
                         })
                     }
                 </div>
