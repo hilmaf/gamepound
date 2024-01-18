@@ -307,11 +307,15 @@ const DetailMain = () => {
                                 ?
                                 <button>로그인 후 이용 가능</button>
                                 :
-                                selectReward
+                                loginMemberVo.no ===  detailVo.memberNo
                                     ?
-                                    <Link to={handleSupport()}><button>이 프로젝트 후원하기</button></Link>
+                                    null
                                     :
-                                    <button>이 프로젝트 후원하기</button>
+                                    selectReward
+                                        ?
+                                        <Link to={handleSupport()}><button>이 프로젝트 후원하기</button></Link>
+                                        :
+                                        <button>이 프로젝트 후원하기</button>
                                 }
                             </li>
                         </ul>
