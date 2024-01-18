@@ -15,6 +15,7 @@ import com.gamepound.app.member.dao.MemberDaoHJY;
 import com.gamepound.app.member.vo.MemberVo;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
@@ -44,6 +45,12 @@ public class MemberServiceHJY {
 		// 비밀번호 검증
 		if(!MemberValidation.isValidPwd(vo.getPwd())) {
 			throw new Exception("비밀번호가 유효하지 않습니다.");
+		}
+		
+		// 이미지 없을시 기본이미지 설정
+		if(vo.getPic() == null) {
+			System.out.println("pic이 널임");
+			vo.setPic("default_avatar.webp");
 		}
 		
 		return dao.join(sst, vo);

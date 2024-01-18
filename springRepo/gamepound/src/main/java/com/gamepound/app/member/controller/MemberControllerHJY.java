@@ -31,6 +31,7 @@ public class MemberControllerHJY {
 
 	private final MemberServiceHJY service;
 	private final MailSendService mailService;
+	public static final String IMG_URL = "http://localhost:8889/gamepound/resources/images";
 	
 	private int userCode = 0;
 	
@@ -39,7 +40,11 @@ public class MemberControllerHJY {
 	public Map<String, Object> login(@RequestBody MemberVo vo) throws Exception {
 		
 		MemberVo loginMember = service.login(vo);
-		
+		// 이미지 경로 붙여주기
+		if(loginMember != null) {			
+			loginMember.setPic(IMG_URL + "/memberProfileImg/" + loginMember.getPic());
+		}
+	    
 		Map<String, Object> map = new HashMap<String, Object>();
 
 		map.put("msg", "good");

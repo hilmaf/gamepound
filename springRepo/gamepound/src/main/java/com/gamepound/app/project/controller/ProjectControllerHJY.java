@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.gamepound.app.member.controller.MemberControllerHJY;
 import com.gamepound.app.member.vo.MemberVo;
 import com.gamepound.app.project.service.ProjectServiceHJY;
 import com.gamepound.app.project.vo.ProjectVo;
@@ -43,6 +44,12 @@ public class ProjectControllerHJY {
 	@PostMapping("getCurrentProject")
 	public List<ProjectVo> getCurrentProject(@RequestBody MemberVo vo) {
 		List<ProjectVo> voList = service.getCurrentProject(vo);
+		
+		// 이미지 경로 붙여주기
+		for (ProjectVo prjVo : voList) {
+			prjVo.setImageUrl(MemberControllerHJY.IMG_URL + "/projectImg/" + prjVo.getImageUrl());
+		}
+		
 		return voList;
 	}
 	
