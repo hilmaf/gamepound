@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import logoImage from '../../../assets/images/logo.svg';
 import searchIco from '../../../assets/images/ico/ico_search.svg';
 import { Link, useNavigate } from 'react-router-dom';
@@ -73,6 +73,9 @@ const StyledHeaderDiv = styled.header`
     }
     &.createMain {
         padding: 5px 0;
+        box-shadow: none;
+        border-bottom: 1px solid #ddd;
+        box-sizing: border-box;
         & .createMainBtn {
             display: flex;
             align-items: center;
@@ -120,6 +123,7 @@ const StyledHeaderDiv = styled.header`
         & .bottomArea {
             display: none;
         }
+
     }
 
     & .inner {
@@ -223,20 +227,27 @@ const Header = () => {
 
     const {pageType} = useHeaderMemory();
     const navigate = useNavigate();
+    const [isSearchShow, setIsSearchShow] = useState(false);
 
     const handleGoBack = (e) => {
         navigate(-1);
     }
 
-    const handleSearchActive = (e) => {
-        const searchArea = e.target.parentNode;
-        searchArea.classList.add('active');
-        
-    }
-    const handleSearchBlur = (e) => {
-        const searchArea = e.target.parentNode;
-        searchArea.classList.remove('active');
-    }
+
+    useEffect(() => {
+        console.log('dddd');
+        const handleDocumentClick = (e) => {
+            // 팝업이 열려 있고 팝업 외부를 클릭한 경우에만 팝업을 닫기
+            if (isSearchShow && !e.target.closest('.searchArea')) {
+                setIsSearchShow(false);
+            }
+        };
+        document.addEventListener('click', handleDocumentClick);
+        return () => {
+            document.removeEventListener('click', handleDocumentClick);
+        };
+    }, [isSearchShow]);
+
 
     /////////////////////////////////////////////////////////////////////////////////////////////
     // 검색 관련 코드
@@ -305,8 +316,8 @@ const Header = () => {
 
                     <Nav />
 
-                    <div className="searchArea">
-                        <input type="text" name='searchInput' onFocus={handleSearchActive} onBlur={handleSearchBlur} placeholder='검색어를 입력해주세요.' />
+                    <div className={`searchArea ${isSearchShow ? 'active' : ''}`}>
+                        <input type="text" name='searchInput' onFocus={() => {setIsSearchShow(true)}} placeholder='검색어를 입력해주세요.' />
                         <button onClick={handleSearch}>검색</button>
                     </div>
 
