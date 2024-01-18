@@ -92,18 +92,21 @@ const ProjectCreateMainIndex = () => {
 
     // NavLink를 클릭할 때 호출되는 함수
     const handleNavLinkClick = (e) => {
+
         // 작성 중인 내용이 있다면 경고창 띄우기
         if (IsProjectInputChange) {
             const confirmResult = window.confirm('작성 중인 내용이 있습니다. 정말로 이동하시겠습니까?');
             // 사용자가 확인을 선택한 경우에만 페이지 이동
             if (confirmResult) {
-                setHeaderFormVo({}); // headerFormVo 초기화
                 setIsProjectInputChange(false); // 이동 시 false로 바꿔줌
             } else {
                 // 사용자가 취소를 선택한 경우, 페이지 이동을 취소
                 e.preventDefault();
+                return;
             }
         }
+        
+        setHeaderFormVo({}); // headerFormVo 초기화
     };
 
     return (
