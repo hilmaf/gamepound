@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { NavLink, useParams } from 'react-router-dom';
+import { Link, NavLink, useParams } from 'react-router-dom';
 import PrelaunchStoryPage from "./PrelaunchStoryPage";
 import PrelaunchUpdatePage from "./PrelaunchUpdatePage";
 import styled from 'styled-components';
@@ -117,7 +117,7 @@ const PrelaunchStyledProjectSelectDiv = styled.div`
                     width: 40px;
                     height: 40px;
                     font-size: 5px;
-                    & > img{
+                    &  img{
                         width: 100%;
                         height: 100%;
                         object-fit: cover;
@@ -199,8 +199,8 @@ const PrelaunchDetailMain = () => {
                     <div>
                         <div>창작자 소개</div>
                         <div>
-                            <div><img src={detailPrelaunchVo.memberPic} alt="창작자 프로필 이미지" /></div>
-                            <span>{detailPrelaunchVo.memberName}</span>
+                            <div><Link to={`/userpage/created/${detailPrelaunchVo.memberNo}`}><img src={detailPrelaunchVo.memberPic} alt="창작자 프로필 이미지" /></Link></div>
+                            <span><Link to={`/userpage/created/${detailPrelaunchVo.memberNo}`}>{detailPrelaunchVo.memberName}</Link></span>
                         </div>
                         <div>
                             {detailPrelaunchVo.memberIntro}

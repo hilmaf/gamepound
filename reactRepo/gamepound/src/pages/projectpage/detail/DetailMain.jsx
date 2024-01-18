@@ -177,7 +177,7 @@ const StyledProjectSelectDiv = styled.div`
                         width: 40px;
                         height: 40px;
                         font-size: 5px;
-                        & > img{
+                        &  img{
                             width: 100%;
                             height: 100%;
                             object-fit: cover;
@@ -340,8 +340,8 @@ const DetailMain = () => {
                         <div>
                             <div>창작자 소개</div>
                             <div>
-                                <div><img src={detailVo.memberPic} alt="창작자 프로필 이미지" /></div>
-                                <span>{detailVo.memberName}</span>
+                                <div><Link to={`/userpage/created/${detailVo.memberNo}`}><img src={detailVo.memberPic} alt="창작자 프로필 이미지" /></Link></div>
+                                <span><Link to={`/userpage/created/${detailVo.memberNo}`}>{detailVo.memberName}</Link></span>
                             </div>
                             <div>
                                 {detailVo.memberIntro}
