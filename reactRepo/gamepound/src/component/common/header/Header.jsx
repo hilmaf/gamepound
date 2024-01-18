@@ -240,7 +240,7 @@ const Header = () => {
 
     /////////////////////////////////////////////////////////////////////////////////////////////
     // 검색 관련 코드
-    const {keywordRef, keyword, setKeyword, searchedVo, setSearchedVo} = useSearchContext();
+    const {keyword, setKeyword, searchedVo, setSearchedVo} = useSearchContext();
 
     const handleSearch = (e) => {
         e.preventDefault();
@@ -288,9 +288,9 @@ const Header = () => {
                     <h1><Link to='/'></Link></h1>
                     <div className='userArea'>
                         <Link to='/projectCreate/start' className='projectUploadBtn'>프로젝트 올리기</Link>
-                        <Link to='' className=''>관심</Link>
+                        {/* <Link to='' className=''>관심</Link>
                         <Link to='' className=''>알림</Link>
-                        
+                         */}
                         { // createMain 버튼
                             pageType === 'createMain' ?  
                             <HeaderCreateProject />

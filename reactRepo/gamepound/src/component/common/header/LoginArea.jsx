@@ -117,7 +117,7 @@ const LoginArea = () => {
                         </ul>
                         <ul>
                             <li><Link to='/userpage/backed'>후원한 프로젝트</Link></li>
-                            <li><Link to='/'>관심 프로젝트</Link></li>
+                            {/* <li><Link to='/'>관심 프로젝트</Link></li> */}
                         </ul>
                         <ul>
                             <li><Link to='/userpage/created'>내가 만든 프로젝트</Link></li>

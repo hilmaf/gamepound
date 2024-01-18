@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
+import { useSearchContext } from '../context/SearchContext';
 
 
 const StyledSearchConditionDiv = styled.div`
@@ -36,25 +37,46 @@ const StyledSearchConditionDiv = styled.div`
 
 const Condition = (query) => {
 
-    const [condition, setCondition] = useState([]);
+    const {conditionVo, setConditionVo} = useSearchContext({
+        projectStatus: "",
+        achieveRate: ""
+    });
 
-    
+    const handleSelectChange = (e) => {
+
+        const {name, value} = e.target;
+
+        setConditionVo({
+            ...conditionVo,
+            [name]: value
+        });
+
+        console.log(conditionVo);
+
+        fetch("http://127.0.0.1:8889/")
+    }
 
     return (
         <StyledSearchConditionDiv>
-            <div className='query'>
-                <span>검색어 :</span>  "{query.query}"
-            </div>
-            <select className='project_status' value="">
-                <option value="">전체 프로젝트</option>
-                <option value="">진행 중인 프로젝트</option>
-                <option value="">성사된 프로젝트</option>
-                <option value="">공개예정 프로젝트</option>
+            {
+                window.location.pathname === '/search'
+                ?
+                <div className='query'>
+                    <span>검색어 :</span>  "{query.query}"
+                </div>
+                :
+                <></>
+            }
+            <select name='status' className='project_status' onChange={handleSelectChange}>
+                <option value="all">전체 프로젝트</option>
+                <option value="ing">진행 중인 프로젝트</option>
+                <option value="success">성사된 프로젝트</option>
+                <option value="prelaunch">공개예정 프로젝트</option>
             </select>
-            <select className='achieveRate' value="">
-                <option value="">75% 이하</option>
-                <option value="">75% ~ 100%</option>
-                <option value="">100% 이상</option>
+            <select className='achieveRate' onChange={handleSelectChange}>
+                <option value="under75">75% 이하</option>
+                <option value="between">75% ~ 100%</option>
+                <option value="over100">100% 이상</option>
             </select>
         </StyledSearchConditionDiv>
     );

@@ -21,7 +21,6 @@ import lombok.RequiredArgsConstructor;
 
 @Service
 @RequiredArgsConstructor
-
 public class UserPageService {
 
 	private final SqlSessionTemplate sst;
@@ -76,6 +75,7 @@ public class UserPageService {
 		
 		List<ProjectBriefVo> myProjectList = dao.listMyProjects(sst, memberNo);
 		
+		String url = "http://127.0.0.1:8889/gamepound/resources/images/projectImg/";
 		// 달성률, 마감기한 d- setting
 		for(ProjectBriefVo vo : myProjectList) {
 			String achievementRate = util.achievementRate(vo.getGoalAmount(), vo.getCurrentAmount());
@@ -83,6 +83,7 @@ public class UserPageService {
 			
 			vo.setAchievementRate(achievementRate);
 			vo.setRemainingPeriod(remainingPeriod);
+			vo.setProjectImg(url + vo.getProjectImg());
 		}
 		
 		listMap.put("projectsCnt", cnt);

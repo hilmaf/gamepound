@@ -52,6 +52,7 @@ public class BackControllerLKM {
 	@PostMapping("process")
 	public Map<String, String> back(@RequestBody BackDetailVo vo) throws Exception {
 		System.out.println("server side backing process start ::: !!");
+		System.out.println(vo);
 		boolean backed = service.back(vo);
 		
 		Map<String, String> map = new HashMap<String, String>();
