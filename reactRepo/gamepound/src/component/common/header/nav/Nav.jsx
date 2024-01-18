@@ -125,11 +125,11 @@ const Nav = () => {
         <StyledNavDiv>
 
             <div className="categoryArea">
-                <NavLink to='/ff0'>카테고리</NavLink>
+                <NavLink>카테고리</NavLink>
                 <ul>
                     <div className="inner">
                         <li>
-                            <Link to=''>전체</Link>
+                            <Link>전체</Link>
                         </li>
                         {
                             navVoList.length === 0 ?
@@ -137,7 +137,7 @@ const Nav = () => {
                             :
                             navVoList.map(vo => (
                                 <li key={vo.no}>
-                                    <Link to=''>{vo.mainCategory}</Link>
+                                    <Link>{vo.mainCategory}</Link>
                                     <ul>
                                         {vo.subCategoryList.map(sub => (
                                             <li key={sub.no}><Link to={`/project/list/category/${sub.no}`}>{sub.subCategory}</Link></li>
