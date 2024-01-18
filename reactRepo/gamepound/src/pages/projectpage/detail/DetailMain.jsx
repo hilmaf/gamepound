@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import CommunityPage from "./CommunityPage";
 import StoryPage from "./StoryPage";
 import UpdatePage from "./UpdatePage";
-import { NavLink, useParams } from 'react-router-dom';
+import { Link, NavLink, useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import { useUserMemory } from '../../../component/context/UserContext';
 
 const StyledAllDiv = styled.div`
     width: 100%;
@@ -94,7 +95,7 @@ const StyledProjectDetailDiv = styled.div`
                     }
                 }
             }
-            & > li > button{
+            & > li button{
                 width: 85%;
                 height: 60px;
                 font-size: 16px;
@@ -103,6 +104,7 @@ const StyledProjectDetailDiv = styled.div`
                 font-weight: 500;
                 border-radius: 5px;
                 margin-top: 40px;
+                cursor: pointer;
             }
             & > li:last-child{
                 margin: 0px;
@@ -190,18 +192,34 @@ const StyledProjectSelectDiv = styled.div`
             & > div:last-child{
                 //리워드 공간
                 width: 100%;
-                & > div{
+                
+                & > button{
+                    background-color: white;
+                    width: 100%;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: flex-start;
                     //리워드 박스
                     border: 1px solid #d6d6d6;
                     border-radius: 5px;
                     padding: 25px;
                     margin-bottom: 10px;
+                    cursor: pointer;
                     & > div:first-child{
                         //가격부분
                         font-size: 23px;
                         font-weight: 500;
                         margin-bottom: 7px;
                     }
+                    & > div:nth-child(2) {
+                        text-align: left;
+                        word-break: keep-all;
+                    }
+                }
+                .select{
+                    border: 1px solid var(--red-color);
+                    border-radius: 5px;
+                    color: var(--red-color);
                 }
             }
         }
@@ -211,27 +229,50 @@ const StyledProjectSelectDiv = styled.div`
 
 const DetailMain = () => {
 
+    //회원번호
+    const {loginMemberVo} = useUserMemory();
+    console.log(loginMemberVo);
+
     const {temp, no} = useParams();
     const [detailVo, setDetailVo] = useState([]);
     const [rewardVoList, setRewardVoList] = useState([]);
+    const [selectReward, setSelectReward] = useState();
+    
+    
 
     useEffect(()=>{
         fetch("http://127.0.0.1:8889/gamepound/project/detail?no=" + no)
         .then((resp)=>{return resp.json()})
         .then((data)=>{
             setDetailVo(data);
+            console.log(data);
             setRewardVoList(data.rewardVoList)
         })
         .catch((e)=>{console.log("오류 : " + e);})
         ;
     }, [no]);
 
+    //선택한 선물 색변경
+    const handleRewardClick = (rewardNo, e)=>{
+        setSelectReward(rewardNo);
+        const rewardList= document.querySelectorAll(".reward");
+        rewardList.forEach((e)=>{
+            e.classList.remove("select");
+        })
+        e.currentTarget.classList.add("select");
+    }
+    
+    const handleSupport = ()=>{
+        return '/back/process/' + no + '/' + selectReward;
+    }
+
+    console.log(selectReward);
     return (
         <StyledAllDiv>
             <StyledProjectDetailDiv>
                 <div className="inner">
                     <div>
-                        <div><div>{detailVo.subCategory}</div></div>
+                        <div><div><Link to={`/project/list/category/${detailVo.categoryNo}`}>{detailVo.subCategory}</Link></div></div>
                         <h1>{detailVo.title}</h1>
                     </div>            
                     <div>
@@ -261,7 +302,18 @@ const DetailMain = () => {
                                     </tbody>
                                 </table>
                             </li>
-                            <li><button>이 프로젝트 후원하기</button></li>
+                            <li>
+                                {!loginMemberVo
+                                ?
+                                <button>로그인 후 이용 가능</button>
+                                :
+                                selectReward
+                                    ?
+                                    <Link to={handleSupport()}><button>이 프로젝트 후원하기</button></Link>
+                                    :
+                                    <button>이 프로젝트 후원하기</button>
+                                }
+                            </li>
                         </ul>
                     </div>
                 </div>
@@ -295,10 +347,10 @@ const DetailMain = () => {
                         {
                             rewardVoList.map((vo)=>{
                                 return(
-                                    <div key={vo.no}>
+                                    <button key={vo.no} onClick={(e)=>{handleRewardClick(vo.no, e)}} className='reward'>
                                         <div>{vo.amount}원 + </div>
                                         <div>{vo.name}</div>
-                                    </div>
+                                    </button>
                                 );
                             })
                         }
