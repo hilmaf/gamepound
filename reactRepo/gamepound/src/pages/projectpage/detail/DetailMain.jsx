@@ -305,7 +305,7 @@ const DetailMain = () => {
                             <li>
                                 {!loginMemberVo
                                 ?
-                                <button>로그인 후 이용 가능</button>
+                                <Link to='/login'><button>로그인 후 이용 가능</button></Link>
                                 :
                                 loginMemberVo.no ===  detailVo.memberNo
                                     ?

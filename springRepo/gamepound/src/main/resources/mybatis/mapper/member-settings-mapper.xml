@@ -21,28 +21,33 @@
   <update id="editPic">
   	UPDATE MEMBER
 	SET PIC = #{pic}
+		, UPDATE_DATE = SYSDATE
 	WHERE NO = #{no}
   </update>
   <!-- 이름 변경 -->
   <update id="editName">
 	UPDATE MEMBER
 	SET NAME = #{name}
+			, UPDATE_DATE = SYSDATE
 	WHERE NO = #{no}
   </update>
   <!-- 소개 변경 -->
   <update id="editIntro">
   	UPDATE MEMBER
   	SET INTRO = #{intro}
+  			, UPDATE_DATE = SYSDATE
   	WHERE NO = #{no}
   </update>
   <update id="editSiteUrl">
   	UPDATE MEMBER
   	SET SITE_URL = #{siteUrl}
+  			, UPDATE_DATE = SYSDATE
   	WHERE NO = #{no}
   </update>
   <update id="editPwd">
   	UPDATE MEMBER
   	SET PWD = #{pwd}
+  			, UPDATE_DATE = SYSDATE
   	WHERE NO = #{no}
   </update>
 </mapper>
