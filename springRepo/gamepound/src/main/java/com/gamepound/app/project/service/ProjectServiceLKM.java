@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.gamepound.app.project.dao.ProjectDaoLKM;
 import com.gamepound.app.project.vo.ProjectBriefVo;
+import com.gamepound.app.project.vo.ProjectListVo;
 
 import lombok.RequiredArgsConstructor;
 
@@ -18,14 +19,20 @@ public class ProjectServiceLKM {
 	private final ProjectDaoLKM dao;
 	
 	// 프로젝트 검색
-	public List<ProjectBriefVo> searchProject(String query) {
+	public List<ProjectBriefVo> searchProject(ProjectListVo vo) {
 		
-		List<ProjectBriefVo> searchedList = dao.searchProject(sst, query);
+		System.out.println(vo);
+		
+		
+		
+		
+		
+		List<ProjectBriefVo> searchedList = dao.searchProject(sst, vo);
 		
 		String url = "http://127.0.0.1:8889/gamepound/resources/images/projectImg/";
 		
-		for (ProjectBriefVo vo : searchedList) {
-			vo.setProjectImg(url + vo.getProjectImg());
+		for (ProjectBriefVo projectVo : searchedList) {
+			projectVo.setProjectImg(url + projectVo.getProjectImg());
 		}
 		
 		return searchedList;

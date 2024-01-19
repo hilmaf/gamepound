@@ -30,7 +30,12 @@
 	    JOIN CATEGORY C ON P.CATEGORY_NO = C.NO
 	    JOIN MEMBER M ON P.MEMBER_NO = M.NO
 	    JOIN PROJECT_STATUS PS ON P.STATUS_NO = PS.NO
-	    WHERE P.STATUS_NO NOT IN(1, 2, 4, 7) AND (P.TITLE LIKE '%' || '#{query}' || '%' OR P.TXT_DESCRIPTION LIKE '%' || '#{query}' || '%') 
+	    WHERE P.STATUS_NO NOT IN(1, 2, 4, 7) 
+	    <if test="query != null and query != ''">
+	    	<trim prefixOverrides="AND">
+			    (P.TITLE LIKE '%' || '#{query}' || '%' OR P.TXT_DESCRIPTION LIKE '%' || '#{query}' || '%')	    		
+	    	</trim>
+	    </if>
 	    <if test="statusConditionNo != null and statusConditionNo != ''">
 	    	<trim prefixOverrides="AND">
 	    		<![CDATA[

@@ -11,7 +11,12 @@ const SearchContextProvider = ({children}) => {
 
     const [keyword, setKeyword] = useState();
     const [searchedVo, setSearchedVo] = useState([]);
-    const [conditionVo, setConditionVo] = useState([]);
+    const [conditionVo, setConditionVo] = useState([{
+        "query": "",
+        "categoryNo": "",
+        "status": "",
+        "achievementRate": ""
+    }]);
 
     return (
         <SearchContext.Provider value={{keyword, setKeyword, searchedVo, setSearchedVo, conditionVo, setConditionVo}}>

@@ -37,10 +37,7 @@ const StyledSearchConditionDiv = styled.div`
 
 const Condition = (query) => {
 
-    const {conditionVo, setConditionVo} = useSearchContext({
-        projectStatus: "",
-        achieveRate: ""
-    });
+    const {conditionVo, setConditionVo} = useSearchContext();
 
     const handleSelectChange = (e) => {
 
@@ -53,7 +50,17 @@ const Condition = (query) => {
 
         console.log(conditionVo);
 
-        fetch("http://127.0.0.1:8889/")
+        fetch("http://127.0.0.1:8889/gamepound/project/search", {
+            method: "post",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(conditionVo)
+        })
+        .then(resp => resp.json())
+        .then(data => {
+            console.log(data);
+        })
     }
 
     return (
@@ -73,7 +80,7 @@ const Condition = (query) => {
                 <option value="success">성사된 프로젝트</option>
                 <option value="prelaunch">공개예정 프로젝트</option>
             </select>
-            <select className='achieveRate' onChange={handleSelectChange}>
+            <select name='achievementRate' onChange={handleSelectChange}>
                 <option value="under75">75% 이하</option>
                 <option value="between">75% ~ 100%</option>
                 <option value="over100">100% 이상</option>
