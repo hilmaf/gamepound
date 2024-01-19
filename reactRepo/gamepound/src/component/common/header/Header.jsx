@@ -251,17 +251,28 @@ const Header = () => {
 
     /////////////////////////////////////////////////////////////////////////////////////////////
     // 검색 관련 코드
-    const {keyword, setKeyword, searchedVo, setSearchedVo} = useSearchContext();
+    const {keyword, setKeyword, conditionVo, setConditionVo, searchedVo, setSearchedVo} = useSearchContext();
 
     const handleSearch = (e) => {
         e.preventDefault();
+        sessionStorage.removeItem('query');
 
         const searchInputTag = document.querySelector("input[name=searchInput]");
-        
         sessionStorage.setItem('query', searchInputTag.value);
+
+        const searchCondition = {
+            query: sessionStorage.getItem('query')
+        }
         
         if(sessionStorage.getItem('query')) {
-            fetch("http://127.0.0.1:8889/gamepound/project/search?query=" + sessionStorage.getItem('query'))
+            console.log(conditionVo);
+            fetch("http://127.0.0.1:8889/gamepound/project/search", {
+                method: "post",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(searchCondition)
+            })
             .then(resp => resp.json())
             .then(data => {
                 

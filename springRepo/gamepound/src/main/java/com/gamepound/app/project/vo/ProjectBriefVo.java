@@ -26,6 +26,7 @@ public class ProjectBriefVo {
 	private String achievementRate;
 	
 	// 기한 정보
+	private String startDate;
 	private String endDate;
 	private String remainingPeriod;
 	

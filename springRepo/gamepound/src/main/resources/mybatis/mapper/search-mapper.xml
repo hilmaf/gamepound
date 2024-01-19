@@ -6,57 +6,52 @@
 
 <select id="searchProject" resultType="com.gamepound.app.project.vo.ProjectBriefVo">
 	SELECT
-	    PROJECT_NO
-	    , MAIN_CATEGORY
-	    , SUB_CATEGORY
-	    , MEMBER_NAME
-	    , PROJECT_TITLE
-	    , REGEXP_REPLACE(REVERSE(REGEXP_REPLACE(REVERSE(TO_CHAR(CURRENT_AMOUNT)), '(\d{3})', '\1,')), '^,', '') AS CURRENT_AMOUNT
-	    , REGEXP_REPLACE(REVERSE(REGEXP_REPLACE(REVERSE(TO_CHAR(CURRENT_AMOUNT)), '(\d{3})', '\1,')), '^,', '') AS GOAL_AMOUNT
-	    , START_DATE
-	    , PROJECT_STATUS
+		    PROJECT_NO
+		    , CATEGORY_NAME
+		    , SUB_CATEGORY_NAME
+		    , MEMBER_NAME
+		    , PROJECT_TITLE
+		    , REGEXP_REPLACE(REVERSE(REGEXP_REPLACE(REVERSE(TO_CHAR(CURRENT_AMOUNT)), '(\d{3})', '\1,')), '^,', '') AS CURRENT_AMOUNT
+		    , REGEXP_REPLACE(REVERSE(REGEXP_REPLACE(REVERSE(TO_CHAR(CURRENT_AMOUNT)), '(\d{3})', '\1,')), '^,', '') AS GOAL_AMOUNT
+		    , START_DATE
+		    , PROJECT_STATUS
 	FROM (
-	    SELECT
-	        P.NO AS PROJECT_NO
-	        , C.MAIN_CATEGORY AS MAIN_CATEGORY
-	        , C.SUB_CATEGORY AS SUB_CATEGORY
-	        , M.NAME AS MEMBER_NAME
-	        , P.TITLE AS PROJECT_TITLE
-	        , P.CURRENT_AMOUNT AS CURRENT_AMOUNT
-	        , P.GOAL_AMOUNT AS GOAL_AMOUNT
-	        , P.START_DATE AS START_DATE
-	        , PS.STATUS AS PROJECT_STATUS
-	    FROM PROJECT P
-	    JOIN CATEGORY C ON P.CATEGORY_NO = C.NO
-	    JOIN MEMBER M ON P.MEMBER_NO = M.NO
-	    JOIN PROJECT_STATUS PS ON P.STATUS_NO = PS.NO
-	    WHERE P.STATUS_NO NOT IN(1, 2, 4, 7) 
-	    <if test="query != null and query != ''">
-	    	<trim prefixOverrides="AND">
-			    (P.TITLE LIKE '%' || '#{query}' || '%' OR P.TXT_DESCRIPTION LIKE '%' || '#{query}' || '%')	    		
-	    	</trim>
-	    </if>
-	    <if test="statusConditionNo != null and statusConditionNo != ''">
-	    	<trim prefixOverrides="AND">
-	    		<![CDATA[
-	    		P.STATUS_NO = #{statusConditionNo}
-	    		]]>
-	    	</trim>
-	    </if>
-	    <if test="achievementRateStart != null and achievementRateStart != ''">
-	    	<trim prefixOverrides="AND">
-	    		<![CDATA[
-	    			CURRENT_AMOUNT*100/GOAL_AMOUNT >= #{achievementRateStart}
-	    		]]>
-	    	</trim>
-	    </if>
-	    <if test="achievementRateEnd != null and achievementRateEnd != ''">
-	    	<trim prefixOverrides="AND">
-	    		<![CDATA[AND CURRENT_AMOUNT*100/GOAL_AMOUNT <= #{achievementRateEnd}]]>
-	    	</trim>
-	    </if>
-	    ORDER BY DECODE(PS.NO, 5, 1), DECODE(PS.NO, 3, 2), PS.NO DESC
-	)
+		    SELECT
+		        P.NO PROJECT_NO
+		        , C.MAIN_CATEGORY CATEGORY_NAME
+		        , C.SUB_CATEGORY SUB_CATEGORY_NAME
+		        , M.NAME MEMBER_NAME
+		        , P.TITLE PROJECT_TITLE
+		        , P.CURRENT_AMOUNT CURRENT_AMOUNT
+		        , P.GOAL_AMOUNT GOAL_AMOUNT
+		        , P.START_DATE START_DATE
+		        , PS.STATUS PROJECT_STATUS
+	            , PS.NO PROJECT_STATUS_NO
+		    FROM PROJECT P
+		    JOIN CATEGORY C ON P.CATEGORY_NO = C.NO
+		    JOIN MEMBER M ON P.MEMBER_NO = M.NO
+		    JOIN PROJECT_STATUS PS ON P.STATUS_NO = PS.NO
+		    WHERE
+		    P.STATUS_NO NOT IN(1, 2, 4, 7) 
+		    <if test="query != null and query != ''">
+				AND (P.TITLE LIKE '%' || #{query} || '%' OR P.TXT_DESCRIPTION LIKE '%' || #{query} || '%')	    		
+		    </if>
+		    <if test="statusNo != null and statusNo != ''">
+		    	AND P.STATUS_NO = #{statusNo}
+		    </if>
+		    <if test="achievementRateStart != null and achievementRateStart != ''">
+		    	<![CDATA[
+	   			AND P.CURRENT_AMOUNT*100/P.GOAL_AMOUNT >= #{achievementRateStart}
+	   			]]>
+		    </if>
+		    <if test="achievementRateEnd != null and achievementRateEnd != ''">
+		    	<![CDATA[
+		    	AND P.CURRENT_AMOUNT*100/P.GOAL_AMOUNT <= #{achievementRateEnd}
+		    	]]>
+		    </if>				    
+	    	
+	    ) A
+	ORDER BY CASE WHEN A.PROJECT_STATUS_NO = 5 THEN 1 WHEN A.PROJECT_STATUS_NO = 3 THEN 2 ELSE 0 END, A.PROJECT_STATUS_NO DESC
 </select>
   
 </mapper>

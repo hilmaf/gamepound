@@ -17,27 +17,6 @@ const SearchMain = () => {
     const navigate = useNavigate();
     const {setSearchedVo} = useSearchContext();
 
-    useEffect(()=>{
-        
-        if(sessionStorage.getItem('query')) {
-            fetch("http://127.0.0.1:8889/gamepound/project/search?query=" + sessionStorage.getItem('query'))
-            .then(resp => resp.json())
-            .then(data => {
-                
-                setSearchedVo({
-                    data
-                });
-                
-                navigate("/project/search/"+sessionStorage.getItem('query'));
-                
-            });
-        } else if(sessionStorage.getItem('query') === undefined){
-            
-        } else {
-
-        }
-    }, [])
-
     return (
         <StyledProjectSearchDiv>
             <Condition query={query}/>

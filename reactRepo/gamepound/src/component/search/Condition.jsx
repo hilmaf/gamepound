@@ -75,12 +75,13 @@ const Condition = (query) => {
                 <></>
             }
             <select name='status' className='project_status' onChange={handleSelectChange}>
-                <option value="all">전체 프로젝트</option>
+                <option value="all" selected>전체 프로젝트</option>
                 <option value="ing">진행 중인 프로젝트</option>
                 <option value="success">성사된 프로젝트</option>
                 <option value="prelaunch">공개예정 프로젝트</option>
             </select>
             <select name='achievementRate' onChange={handleSelectChange}>
+                <option value="all">달성률</option>
                 <option value="under75">75% 이하</option>
                 <option value="between">75% ~ 100%</option>
                 <option value="over100">100% 이상</option>
