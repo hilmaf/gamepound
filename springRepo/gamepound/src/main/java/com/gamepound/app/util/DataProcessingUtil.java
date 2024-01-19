@@ -14,6 +14,9 @@ public class DataProcessingUtil {
 	// 달성률 계산
 	public String achievementRate(String goalAmount, String currentAmount) {
 		
+		System.out.println(goalAmount);
+		System.out.println(currentAmount);
+		
 		// amount 가공
 		int goalA = Integer.parseInt(removeCommas(goalAmount));
 		int currentA = Integer.parseInt(removeCommas(currentAmount));
