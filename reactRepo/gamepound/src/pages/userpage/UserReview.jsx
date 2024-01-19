@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import ReviewStats from './ReviewStats';
 import ReviewList from './ReviewList';
 import { useUserMemory } from '../../component/context/UserContext';
+import { useParams } from 'react-router-dom';
 
 const StyledUserReviewDiv = styled.div`
     width: 1120px;
@@ -15,12 +16,13 @@ const StyledUserReviewDiv = styled.div`
 const UserReview = () => {
 
     const {loginMemberVo} = useUserMemory();
+    const {no} = useParams();
 
     const [statVo, setStatVo] = useState([]);
     const [reviewList, setReviewList] = useState([]); 
 
     const memberNo = {
-        "memberNo": loginMemberVo.no
+        "memberNo": no
     }
     useEffect(()=>{
         fetch("http://127.0.0.1:8889/gamepound/userpage/review", {

@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useUserMemory } from '../../component/context/UserContext';
+import { useParams } from 'react-router-dom';
 
 const StyledReviewStatsDiv = styled.div`
     color: var(--black-color);
@@ -60,6 +61,7 @@ const StyledReviewStatsDiv = styled.div`
 const ReviewStats = ({statVo}) => {
 
     const {loginMemberVo} = useUserMemory();
+    const {no} = useParams();
 
     return (
         <StyledReviewStatsDiv>
