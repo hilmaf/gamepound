@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.gamepound.app.member.vo.MemberVo;
+import com.gamepound.app.review.vo.ReviewStatVo;
 import com.gamepound.app.review.vo.ReviewVo;
 import com.gamepound.app.userpage.service.UserPageService;
 
@@ -61,16 +62,25 @@ public class UserPageController {
 		}
 	}
 	
-	// 유저페이지 - 리뷰목록, 리뷰 통계 조회
+	// 유저페이지 - 리뷰목록 조회
 	@PostMapping("review")
 	public Map<String, Object> listReview(@RequestBody Map<String, String> memberMap) {
-		
-		System.out.println(memberMap);
-		System.out.println(memberMap.get("memberNo"));
+		System.out.println("review목록 조회");
 		
 		Map<String, Object> map = service.listReview(memberMap.get("memberNo"));
 		
 		return map;
+	}
+	
+	// 유저페이지 - 리뷰통계 조회
+	@PostMapping("review/stat")
+	public ReviewStatVo statReview(@RequestBody Map<String, String> memberMap) {
+		System.out.println("review통계 조회");
+		
+		ReviewStatVo statVo = service.statReview(memberMap.get("memberNo"));
+		
+		return statVo;
+		
 	}
 	
 	// 리뷰 작성하기

@@ -15,10 +15,19 @@
   
   <select id="userProfile" resultType="MemberVo">
   	SELECT
-	    NAME
+  		NO
+	    , NAME
 	    , PIC
 	FROM MEMBER
 	WHERE NO = #{memberNo}
+  </select>
+  
+  <select id="userReviewCnt" resultType="java.lang.String">
+  	SELECT
+  		COUNT(*) CNT_REVIEW
+  	FROM REVIEW R
+	JOIN MEMBER M ON M.NO = R.MEMBER_NO
+	WHERE M.NO = #{memberNo}
   </select>
   
   <!-- 리뷰 목록 조회 -->

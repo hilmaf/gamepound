@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useUserMemory } from '../context/UserContext';
 import { useParams } from 'react-router-dom';
+import {useUserPageContext} from '../context/UserPageContext';
 
 const StyledProfileAreaDiv = styled.div`
     width: 1200px;
@@ -37,19 +38,8 @@ const StyledProfileAreaDiv = styled.div`
 
 const ProfileArea = () => {
 
-    const {no} = useParams();
-    const [profileVo, setProfileVo] = useState();
-
-    useEffect(()=> {
-        fetch("http://127.0.0.1:8889/gamepound/userpage/profile?memberNo="+no)
-        .then(resp => resp.json())
-        .then(data => {
-            setProfileVo(data);
-            console.log(data);
-        })
-    }, [])
-
     const {loginMemberVo} = useUserMemory();
+    const {profileVo} = useUserPageContext();
 
     return (
         <StyledProfileAreaDiv>

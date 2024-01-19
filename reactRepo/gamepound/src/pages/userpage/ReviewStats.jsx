@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useUserMemory } from '../../component/context/UserContext';
 import { useParams } from 'react-router-dom';
+import { useUserPageContext } from '../../component/context/UserPageContext';
 
 const StyledReviewStatsDiv = styled.div`
     color: var(--black-color);
@@ -58,26 +59,57 @@ const StyledReviewStatsDiv = styled.div`
     }
 `;
 
-const ReviewStats = ({statVo}) => {
+const ReviewStats = () => {
 
-    const {loginMemberVo} = useUserMemory();
-    const {no} = useParams();
+    const {profileVo} = useUserPageContext();
+
+    const memberNo = {
+        "memberNo": profileVo.no
+    }
+
+    const [statVo, setStatVo] = useState([]);
+
+    useEffect(()=> {
+        fetch("http://127.0.0.1:8889/gamepound/userpage/review/stat", {
+            method: "post",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(memberNo)
+        })
+        .then(resp => resp.json())
+        .then(data => {
+            console.log(data);
+            setStatVo(data);
+            console.log(statVo);
+        })
+    }, [])
 
     return (
         <StyledReviewStatsDiv>
-            <div className='rating_avg'>
-                <div id='title'>{loginMemberVo.name}<span> 님의 프로젝트 만족도</span></div>
-                <div id='avg'>{statVo.ratingAvg}</div>
-            </div>
-            <ul>
-                <li><span id='rating'>1점</span><span id='cnt'>{statVo.countRating1}개</span></li>
-                <li><span id='rating'>2점</span><span id='cnt'>{statVo.countRating2}개</span></li>
-            </ul>
-            <ul>
-                <li><span id='rating'>3점</span><span id='cnt'>{statVo.countRating3}개</span></li>
-                <li><span id='rating'>4점</span><span id='cnt'>{statVo.countRating4}개</span></li>
-                <li><span id='rating'>5점</span><span id='cnt'>{statVo.countRating5}개</span></li>
-            </ul>
+            {
+                statVo === null || statVo === undefined
+                ?
+                <></>
+                :
+                <>
+                    <div className='rating_avg'>
+                        <div id='title'>{profileVo.name}<span> 님의 프로젝트 만족도</span></div>
+                        <div id='avg'>{statVo.ratingAvg}</div>
+                    </div>
+                    <ul>
+                        <li><span id='rating'>1점</span><span id='cnt'>{statVo.countRating1}개</span></li>
+                        <li><span id='rating'>2점</span><span id='cnt'>{statVo.countRating2}개</span></li>
+                    </ul>
+                    <ul>
+                        <li><span id='rating'>3점</span><span id='cnt'>{statVo.countRating3}개</span></li>
+                        <li><span id='rating'>4점</span><span id='cnt'>{statVo.countRating4}개</span></li>
+                        <li><span id='rating'>5점</span><span id='cnt'>{statVo.countRating5}개</span></li>
+                    </ul>
+                </>
+            }
+
+            
         </StyledReviewStatsDiv>
     );
 };

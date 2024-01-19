@@ -2,12 +2,13 @@ package com.gamepound.app.userpage.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
 import com.gamepound.app.back.vo.BackDetailVo;
 import com.gamepound.app.member.vo.MemberVo;
+import com.gamepound.app.page.vo.PageVo;
 import com.gamepound.app.project.vo.ProjectBriefVo;
 import com.gamepound.app.review.vo.ReviewStatVo;
 import com.gamepound.app.review.vo.ReviewVo;
@@ -20,8 +21,17 @@ public class UserPageDao {
 		return sst.selectOne("UserPageMapper.userIntro", memberNo);
 	}
 	
+	// 특정 유저에게 달린 리뷰 CNT
+	public String userReviewCnt(SqlSessionTemplate sst, String memberNo) {
+		return sst.selectOne("UserPageMapper.userReviewCnt", memberNo);
+	}
+	
 	// 리뷰 목록
 	public List<ReviewVo> listReview(SqlSessionTemplate sst, String memberNo) {
+//		int offset = (pvo.getCurrentPage()-1) * pvo.getBoardLimit();
+//		int limit = pvo.getBoardLimit();
+//		RowBounds rb = new RowBounds(offset, limit);
+		
 		return sst.selectList("UserPageMapper.listReview", memberNo);
 	}
 
