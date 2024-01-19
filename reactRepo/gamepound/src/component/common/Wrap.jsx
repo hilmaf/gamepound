@@ -14,6 +14,7 @@ import { UserMemoryProvider } from '../context/UserContext';
 import { IsFirstMemoryProvider } from '../context/IsFirstContext';
 import { ProjectCreateMemoryProvider } from '../context/ProjectCreateContext';
 import { SearchContextProvider } from '../context/SearchContext';
+import AdminMain from '../../admin/component/main/AdminMain';
 
 const StyledWrapDiv = styled.div`
     display: flex;
@@ -42,6 +43,7 @@ const Wrap = () => {
                                 <Route path='/pwd' element={<FindPwdPage />} />
                                 <Route path='/newPwd' element={<NewPwdPage />} />
                                 <Route path='/quit' element={<QuitPage />} />
+                                <Route path='/admin/*' element={<AdminMain />} />
                             </Routes>
                         </ProjectCreateMemoryProvider>
                     </SearchContextProvider>
