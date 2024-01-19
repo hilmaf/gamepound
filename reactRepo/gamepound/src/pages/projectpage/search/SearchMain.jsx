@@ -13,7 +13,6 @@ const StyledProjectSearchDiv = styled.div`
 const SearchMain = () => {
     
     const {query} = useParams();
-    console.log(query);
 
     const navigate = useNavigate();
     const {setSearchedVo} = useSearchContext();
@@ -29,7 +28,6 @@ const SearchMain = () => {
                     data
                 });
                 
-                // e.target.defaultValue = sessionStorage.getItem('query');
                 navigate("/project/search/"+sessionStorage.getItem('query'));
                 
             });
