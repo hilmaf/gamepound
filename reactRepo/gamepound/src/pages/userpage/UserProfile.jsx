@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useUserMemory } from '../../component/context/UserContext';
 import { useParams } from 'react-router-dom';
 
 const StyledUserProfileDiv = styled.div`
@@ -9,8 +8,8 @@ const StyledUserProfileDiv = styled.div`
     & > div {
         height: 300px;
         display: flex;
-        align-items: center;
-        font-size: 20px;
+        padding-top: 30px;
+        font-size: 16px;
     }
 `;
 
