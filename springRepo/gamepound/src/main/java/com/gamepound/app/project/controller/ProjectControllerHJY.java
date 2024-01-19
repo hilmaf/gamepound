@@ -254,13 +254,14 @@ public class ProjectControllerHJY {
 	
 	// 프로젝트 작성조회 : 창작자 정보 프로젝트 넘버필요
 	@GetMapping("get/userinfo")
-	public void getUserinfo(ProjectVo vo) {
+	public SettlementVo getUserinfo(ProjectVo vo) {
 		SettlementVo settlementVo = service.getUserinfo(vo);
-		System.out.println("창작자 정보 : " + settlementVo);
+
+		return settlementVo;
 	}
 	// 프로젝트 작성저장 : 창작자 정보
 	@PostMapping("save/userinfo")
-	public Map<String, String> saveUserinfo(@RequestBody SettlementVo vo) throws Exception {
+	public Map<String, String> saveUserinfo(SettlementVo vo) throws Exception {
 		
 		int result = service.saveUserinfo(vo);
 		
@@ -273,6 +274,21 @@ public class ProjectControllerHJY {
 		
 		return map;
 		
+	}
+	
+	// 프로젝트 승인 요청
+	@GetMapping("save/approval")
+	public Map<String, String> approvalProject(ProjectVo vo) {
+		System.out.println(vo);
+		int result = service.approvalProject(vo);
+		
+		Map<String, String> map = new HashMap<>();
+		map.put("msg", "good");
+		if(result != 1) {
+			map.put("msg", "bad");
+		}
+		
+		return map;
 	}
 	
 }

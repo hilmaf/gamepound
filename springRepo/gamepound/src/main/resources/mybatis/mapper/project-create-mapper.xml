@@ -175,4 +175,11 @@
 		    )
 	</update>
 	
+	<!-- 프로젝트 승인요청 -->
+	<update id="approvalProject">
+		UPDATE PROJECT
+			SET STATUS_NO = 2
+		WHERE NO = #{no}
+	</update>
+	
 </mapper>

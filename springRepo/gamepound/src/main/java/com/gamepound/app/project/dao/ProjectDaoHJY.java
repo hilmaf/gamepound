@@ -87,4 +87,9 @@ public class ProjectDaoHJY {
 		return sst.update("ProjectCreateMapper.saveUserinfo", vo);
 	}
 
+	// 프로젝트 승인 요청
+	public int approvalProject(SqlSessionTemplate sst, ProjectVo vo) {
+		return sst.update("ProjectCreateMapper.approvalProject", vo);
+	}
+
 }

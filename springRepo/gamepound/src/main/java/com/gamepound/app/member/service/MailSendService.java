@@ -61,7 +61,7 @@ public class MailSendService {
 		String title = "[gamepound] 새로운 비밀번호 설정 안내"; // 이메일 제목
 		// 이메일 내용
 		String content = "[인증번호] "
-				+ "url : http://localhost:3001/newPwd?token=" + emailToken; 
+				+ "url : http://localhost:3000/newPwd?token=" + emailToken; 
 		
 		Map<String, Object> resultMap = mailSend(setFrom, toMail, title, content);
 		
