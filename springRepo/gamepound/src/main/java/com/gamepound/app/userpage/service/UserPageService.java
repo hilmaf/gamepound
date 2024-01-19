@@ -81,9 +81,14 @@ public class UserPageService {
 		List<ProjectBriefVo> myProjectList = dao.listMyProjects(sst, memberNo);
 		
 		String url = "http://127.0.0.1:8889/gamepound/resources/images/projectImg/";
+		
+		System.out.println(myProjectList);
 		// 달성률, 마감기한 d- setting
 		for(ProjectBriefVo vo : myProjectList) {
-			String achievementRate = util.achievementRate(vo.getGoalAmount(), vo.getCurrentAmount());
+			String achievementRate = null;
+			if(vo.getGoalAmount() != null) {
+				achievementRate = util.achievementRate(vo.getGoalAmount(), vo.getCurrentAmount());
+			}
 			String remainingPeriod = util.getRemainingPeriod(vo.getEndDate(), "yyyy년 MM월 dd일");
 			
 			vo.setAchievementRate(achievementRate);

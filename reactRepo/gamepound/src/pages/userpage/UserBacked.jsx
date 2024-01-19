@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import BackBriefInfo from '../../component/back/BackBriefInfo';
 import { useUserMemory } from '../../component/context/UserContext';
+import { useParams } from 'react-router-dom';
 
 const StyledUserBackedDiv = styled.div`
     padding-left: 20px;
@@ -28,8 +29,10 @@ const UserBacked = () => {
     const [backedVo, setBackedVo] = useState({});
     let {cnt, successList, failList, successCnt, failCnt} = backedVo
 
+    const {no} = useParams();
+
     useEffect(()=>{
-        fetch("http://127.0.0.1:8889/gamepound/userpage/backed?user=" + loginMemberVo.no)
+        fetch("http://127.0.0.1:8889/gamepound/userpage/backed?user=" + no)
         .then(resp => resp.json())
         .then(data => {
             setBackedVo(data);
