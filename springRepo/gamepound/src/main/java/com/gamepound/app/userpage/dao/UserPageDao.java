@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
 
 import com.gamepound.app.back.vo.BackDetailVo;
+import com.gamepound.app.member.vo.MemberVo;
 import com.gamepound.app.project.vo.ProjectBriefVo;
 import com.gamepound.app.review.vo.ReviewStatVo;
 import com.gamepound.app.review.vo.ReviewVo;
@@ -15,8 +16,8 @@ import com.gamepound.app.review.vo.ReviewVo;
 public class UserPageDao {
 
 	// 프로필 소개
-	public String userProfile(SqlSessionTemplate sst, String memberNo) {
-		return sst.selectOne("UserPageMapper.userProfile", memberNo);
+	public String userIntro(SqlSessionTemplate sst, String memberNo) {
+		return sst.selectOne("UserPageMapper.userIntro", memberNo);
 	}
 	
 	// 리뷰 목록
@@ -57,6 +58,11 @@ public class UserPageDao {
 	// 해당 후원에 대한 내 후기 보기
 	public ReviewVo viewMyReview(SqlSessionTemplate sst, String reviewNo) {
 		return sst.selectOne("UserPageMapper.myReview", reviewNo);
+	}
+
+	// 유저페이지 - 프로필
+	public MemberVo userProfile(SqlSessionTemplate sst, String memberNo) {
+		return sst.selectOne("UserPageMapper.userProfile", memberNo);
 	}
 	
 }

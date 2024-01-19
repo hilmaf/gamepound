@@ -26,7 +26,7 @@ const Main = () => {
                 <h1>메인페이지</h1>
                 }></Route>
                 <Route path='/project/*' element={<ProjectMain/>}></Route>
-                <Route path='/userpage/*' element={<UserPageMain />}></Route>
+                <Route path='/userpage/:temp/:no' element={<UserPageMain />}></Route>
                 <Route path='/back/*' element={<BackMain />}></Route>
                 <Route path='/projectCreate/*' element={<CreateMain />}></Route>
                 <Route path='/settings' element={<ProfileSetting/>}/>

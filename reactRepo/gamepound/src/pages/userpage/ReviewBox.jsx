@@ -99,7 +99,7 @@ const StyledReviewBoxDiv = styled.div`
         display: block;
         text-align: right;
         padding-top: 20px;
-        font-size: 14px;
+        font-size: 13px;
         padding-bottom: 30px;
     }
 `;
@@ -110,7 +110,7 @@ const ReviewBox = ({item}) => {
     return (
         <StyledReviewBoxDiv key={item.reviewNo}>
             <div className='writer'>
-                <img id='profile_img' src='https://cdn.akamai.steamstatic.com/steam/apps/416600/capsule_616x353.jpg?t=1689347261'></img>
+                <img id='profile_img' src={item.profileImg} alt='리뷰사진영역'></img>
                 <div id='nick'>{item.memberName}</div>
             </div>
             <div className='rating'>
@@ -129,7 +129,7 @@ const ReviewBox = ({item}) => {
                 <div>{item.projectTitle}</div>
             </div>
             <div className='enroll_date'>
-                2024년 1월 9일
+                {item.enrollDate}
             </div>
         </StyledReviewBoxDiv>
     );

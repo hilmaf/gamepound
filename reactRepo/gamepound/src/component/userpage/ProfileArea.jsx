@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useUserMemory } from '../context/UserContext';
+import { useParams } from 'react-router-dom';
 
 const StyledProfileAreaDiv = styled.div`
     width: 1200px;
@@ -36,15 +37,35 @@ const StyledProfileAreaDiv = styled.div`
 
 const ProfileArea = () => {
 
+    const {no} = useParams();
+    const [profileVo, setProfileVo] = useState();
+
+    useEffect(()=> {
+        fetch("http://127.0.0.1:8889/gamepound/userpage/profile?memberNo="+no)
+        .then(resp => resp.json())
+        .then(data => {
+            setProfileVo(data);
+            console.log(data);
+        })
+    }, [])
+
     const {loginMemberVo} = useUserMemory();
 
     return (
         <StyledProfileAreaDiv>
-            <img src={loginMemberVo.pic} alt="Profile" />
-            <div className='nick_area'>
-                <div id='nick'>{loginMemberVo.name}</div>
-                <button>계정 관리</button>
-            </div>
+            {
+                profileVo !== undefined && profileVo !== null
+                ?
+                <>
+                <img src={profileVo.pic} alt="Profile" />
+                <div className='nick_area'>
+                    <div id='nick'>{profileVo.name}</div>
+                    <button>계정 관리</button>
+                </div>
+                </>
+                :
+                <></>
+            }
         </StyledProfileAreaDiv>
     );    
     

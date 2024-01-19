@@ -67,7 +67,7 @@
 		    NO
 		    , PAYMENT_NO
 		    , CARD_NUMBER
-		    , EXPIRATION_DATE
+		    , VALID_THRU
 		    , CARD_PWD
 		    , BIRTH_DATE
 		) VALUES(

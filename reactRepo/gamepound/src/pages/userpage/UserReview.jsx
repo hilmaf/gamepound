@@ -35,7 +35,7 @@ const UserReview = () => {
             setReviewList(data.reviewList);
             setStatVo(data.statVo);
         })
-    }, [statVo, reviewList])
+    }, [])
 
     return (
         <StyledUserReviewDiv>

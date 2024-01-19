@@ -35,6 +35,10 @@ const StyledProjectBriefInfoDiv = styled.div`
             font-size: 13px;
             
             & > span {
+                margin-right: 5px;
+            }
+
+            & > strong {
                 margin-right: 10px;
             }
         }
@@ -54,8 +58,8 @@ const ProjectBriefInfo = ({ProjectBriefInfo}) => {
                 <div className='category'>{conditionalVo.categoryName}</div>
                 <div className='title'>{conditionalVo.projectTitle}</div>
                 <div className='achievement'>
-                    <span>{conditionalVo.currentAmount}</span>
-                    <span>{conditionalVo.achievementRate}%</span> 
+                    <span>{conditionalVo.currentAmount}원</span>
+                    <strong>{conditionalVo.achievementRate}%</strong> 
                     <span>{conditionalVo.remainingPeriod}일 남음</span>
                 </div>
             </div>

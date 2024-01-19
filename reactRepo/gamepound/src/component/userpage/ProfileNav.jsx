@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 
 const StyledProfileNavDiv = styled.div`
@@ -30,13 +30,14 @@ const StyledProfileNavDiv = styled.div`
 
 const ProfileNav = () => {
 
+    const {no} = useParams();
 
     return (
         <StyledProfileNavDiv>
-            <NavLink to='/userpage/'><span>프로필 소개</span></NavLink>
-            <NavLink to='/userpage/created'><span>올린 프로젝트</span></NavLink>
-            <NavLink to='/userpage/backed'><span>후원한 프로젝트</span></NavLink>
-            <NavLink to='/userpage/review'><span>프로젝트 후기</span></NavLink>
+            <NavLink to={`/userpage/profile/${no}`}><span>프로필 소개</span></NavLink>
+            <NavLink to={`/userpage/created/${no}`}><span>올린 프로젝트</span></NavLink>
+            <NavLink to={`/userpage/backed/${no}`}><span>후원한 프로젝트</span></NavLink>
+            <NavLink to={`/userpage/review/${no}`}><span>프로젝트 후기</span></NavLink>
         </StyledProfileNavDiv>
     );
 };

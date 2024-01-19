@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.gamepound.app.member.vo.MemberVo;
 import com.gamepound.app.review.vo.ReviewVo;
 import com.gamepound.app.userpage.service.UserPageService;
 
@@ -33,10 +34,19 @@ public class UserPageController {
 	
 	private final UserPageService service;
 	
+	
 	// 유저페이지 - 프로필
+	@GetMapping("profile")
+	public MemberVo userProfile(String memberNo) {
+		MemberVo vo = service.userProfile(memberNo);
+		
+		return vo;
+	}
+	
+	// 유저페이지 - 인트로
 	@GetMapping("")
-	public ResponseEntity<String> userProfile(@RequestParam("user") String memberNo) {
-		String profile = service.userProfile(memberNo);
+	public ResponseEntity<String> userIntro(@RequestParam("user") String memberNo) {
+		String profile = service.userIntro(memberNo);
 		
 		HttpHeaders header = getHttpHeaders("String");
 		
