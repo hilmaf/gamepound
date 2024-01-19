@@ -24,6 +24,7 @@ public class MemberControllerHYJ {
 	public MemberVo getProfile(@RequestBody MemberVo vo) {
 		System.out.println(vo);
 		MemberVo loginMemberVo = service.getProfile(vo);
+		System.out.println(loginMemberVo);
 		return loginMemberVo;
 	}
 	
