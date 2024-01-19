@@ -275,7 +275,7 @@ CREATE TABLE CARD (
     , CARD_NUMBER           CHAR(16)    NOT NULL
     , VALID_THRU            CHAR(4)     NOT NULL
     , CARD_PWD              CHAR(2)     NOT NULL
-    , BIRTH_DATE            CHAR(4)     NOT NULL
+    , BIRTH_DATE            CHAR(6)     NOT NULL
 );
 COMMENT ON COLUMN CARD.NO IS '카드 번호';
 COMMENT ON COLUMN CARD.PAYMENT_NO IS '결제정보 번호';
@@ -378,7 +378,7 @@ VALUES (SEQ_MEMBER_NO.NEXTVAL, '나래꿈', 'nareggoum@naver.com', '1234', 'defa
 INSERT INTO MEMBER (NO, NAME, EMAIL, PWD, PIC, INTRO, SITE_URL, ENROLL_DATE, UPDATE_DATE, QUIT_YN)
 VALUES (SEQ_MEMBER_NO.NEXTVAL, '하이꽈베트남어', 'betnam@gmail.com', '1234', 'default_avatar.webp', '<도전! 베트남 요리왕>을 통해 다 함께 베트남의 매력 속에 빠져 보세요!', 'http://www.example.com/john', SYSDATE, NULL, 'N');
 INSERT INTO MEMBER (NO, NAME, EMAIL, PWD, PIC, INTRO, SITE_URL, ENROLL_DATE, UPDATE_DATE, QUIT_YN)
-VALUES (SEQ_MEMBER_NO.NEXTVAL, '위콘 게임즈 (WeCon Games)', 'wecon@naver.com', 'default_avatar.webp', 'image.jpg', '안녕하세요! 보드게임 작가 도지 입니다.', 'http://www.example.com/john', SYSDATE, NULL, 'N');
+VALUES (SEQ_MEMBER_NO.NEXTVAL, '위콘 게임즈 (WeCon Games)', 'wecon@naver.com', '1234', 'default_avatar.webp', '안녕하세요! 보드게임 작가 도지 입니다.', 'http://www.example.com/john', SYSDATE, NULL, 'N');
 INSERT INTO MEMBER (NO, NAME, EMAIL, PWD, PIC, INTRO, SITE_URL, ENROLL_DATE, UPDATE_DATE, QUIT_YN)
 VALUES (SEQ_MEMBER_NO.NEXTVAL, '야생의 멧씨', 'metcy@naver.com', '1234', 'default_avatar.webp', '솔직한 즐거움으로 보드게임을 만들고 있는 멧씨입니다.', 'http://www.example.com/john', SYSDATE, NULL, 'N');
 commit;

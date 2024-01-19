@@ -10,17 +10,13 @@ import ProjectUserinfoCreate from './ProjectUserinfoCreate';
 import { useProjectCreateMemory } from '../../../component/context/ProjectCreateContext';
 
 const StyledCreateMainDiv = styled.div`
-    padding-top: 184px;
     box-sizing: border-box;
     min-height: calc(100vh - 202px);
     background-color: #f5f5f5;
     & .createMainHeader {
-        position: absolute;
-        top: 72px;
-        left: 0;
         width: 100%;
         background-color: #fff;
-        padding: 40px 0;
+        padding: 10px 0 40px;
         z-index: 9;
         & .inner {
             display: flex;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useUserMemory } from '../../context/UserContext';
@@ -27,6 +27,9 @@ const StyledLoginAreaDiv = styled.ul`
                 height: 25px;
                 border-radius: 50%;
                 background-color: #ddd;
+                & img {
+                    width: 100%;
+                }
             }
             & strong {
                 font-size: 13px;
@@ -35,7 +38,7 @@ const StyledLoginAreaDiv = styled.ul`
         }
 
         & .userInfoMenu {
-            display: none;
+            display: block;
             position: absolute;
             top: 45px;
             right: 0;
@@ -44,6 +47,7 @@ const StyledLoginAreaDiv = styled.ul`
             border-radius: 5px;
             width: 150px;
             box-shadow: 0px 0px 12px 2px rgba(0, 0, 0, .1);
+            z-index: 10;
             & ul {
                 display: flex;
                 flex-direction: column;
@@ -71,10 +75,6 @@ const StyledLoginAreaDiv = styled.ul`
                 }
             }
         }
-        &.userInfo.active .userInfoMenu {
-            display: block;
-            z-index: 10;
-        }
     }
 `;
 
@@ -82,16 +82,31 @@ const LoginArea = () => {
 
     const navigate = useNavigate();
     const {loginMemberVo, setLoginMemberVo} = useUserMemory();
+    const [isShow, setIsShow] = useState(false);
 
-    const handleUserInfo = (e) => {
-        const target = e.currentTarget;
-        target.parentNode.classList.toggle('active');
-    }
+    // 유저정보 팝업 보여주기
+    const handleUserInfo = () => {
+        setIsShow(!isShow);
+    };
+
+    useEffect(() => {
+        const handleDocumentClick = (e) => {
+            // 팝업이 열려 있고 팝업 외부를 클릭한 경우에만 팝업을 닫기
+            if (isShow && !e.target.closest('.userInfo')) {
+                setIsShow(false);
+            }
+        };
+        document.addEventListener('click', handleDocumentClick);
+        return () => {
+            document.removeEventListener('click', handleDocumentClick);
+        };
+    }, [isShow]);
 
     const handleLogout = (e) => {
         sessionStorage.removeItem('loginMemberVo');
         setLoginMemberVo(null);
     }
+    console.log(isShow);
 
     return (
         <StyledLoginAreaDiv>
@@ -111,20 +126,25 @@ const LoginArea = () => {
                         <span><img src={loginMemberVo.pic} alt='유저이미지' /></span>
                         <strong>{loginMemberVo.name}</strong>
                     </button>
-                    <div className="userInfoMenu">
-                        <ul>
-                            <li><Link to='/'>프로필</Link></li>
-                        </ul>
-                        <ul>
-                            <li><Link to='/userpage/backed'>후원한 프로젝트</Link></li>
-                            {/* <li><Link to='/'>관심 프로젝트</Link></li> */}
-                        </ul>
-                        <ul>
-                            <li><Link to='/userpage/created'>내가 만든 프로젝트</Link></li>
-                            <li><Link to='/settings'>설정</Link></li>
-                            <li><button onClick={handleLogout}>로그아웃</button></li>
-                        </ul>
-                    </div>
+                    
+                        {isShow ?
+                        <div className="userInfoMenu">
+                            <ul>
+                                <li><Link to={`/userpage/profile/${loginMemberVo.no}`}>프로필</Link></li>
+                            </ul>
+                            <ul>
+                                <li><Link to={`/userpage/backed/${loginMemberVo.no}`}>후원한 프로젝트</Link></li>
+                                {/* <li><Link to='/'>관심 프로젝트</Link></li> */}
+                            </ul>
+                            <ul>
+                                <li><Link to={`/userpage/created/${loginMemberVo.no}`}>내가 만든 프로젝트</Link></li>
+                                <li><Link to='/settings'>설정</Link></li>
+                                <li><button onClick={handleLogout}>로그아웃</button></li>
+                            </ul>
+                        </div>
+                        :
+                        ''
+                        }
                 </li>
             )}
             

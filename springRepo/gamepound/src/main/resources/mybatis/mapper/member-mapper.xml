@@ -15,8 +15,8 @@
 	
 	<!-- 회원가입 처리 -->
 	<insert id="join">
-		INSERT INTO MEMBER (NO, NAME, EMAIL, PWD, ENROLL_DATE)
-		VALUES (SEQ_MEMBER_NO.NEXTVAL, #{name}, #{email}, #{pwd}, SYSDATE)
+		INSERT INTO MEMBER (NO, NAME, EMAIL, PWD, PIC, ENROLL_DATE)
+		VALUES (SEQ_MEMBER_NO.NEXTVAL, #{name}, #{email}, #{pwd}, #{pic}, SYSDATE)
 	</insert>
 	
 	<!-- 이메일 중복검사 -->
