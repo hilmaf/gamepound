@@ -37,7 +37,7 @@ const UserCreated = () => {
     const {no} = useParams();
 
     useEffect(()=>{
-        fetch("http://127.0.0.1:8889/gamepound/userpage/created?user=" + loginMemberVo.no)
+        fetch("http://127.0.0.1:8889/gamepound/userpage/created?user=" + no)
         .then(resp => resp.json())
         .then(data => {
             setMyProjectsList(data.myProjectsList);
