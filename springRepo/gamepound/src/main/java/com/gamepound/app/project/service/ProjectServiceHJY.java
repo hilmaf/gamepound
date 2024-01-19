@@ -258,5 +258,10 @@ public class ProjectServiceHJY {
 	    return currentDatePath + fileName; // 최종 파일이름 반환
 	}
 
+	// 프로젝트 승인 요청
+	public int approvalProject(ProjectVo vo) {
+		return dao.approvalProject(sst, vo);
+	}
+
 	
 }

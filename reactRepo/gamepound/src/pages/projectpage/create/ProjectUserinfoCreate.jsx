@@ -1,7 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useProjectCreateMemory } from '../../../component/context/ProjectCreateContext';
 import { useParams } from 'react-router';
+
+const baseURL = process.env.REACT_APP_API_URL;
 
 const StyledCreateUserinfoDiv = styled.div`
     & .inner {
@@ -65,6 +67,36 @@ const ProjectUserinfoCreate = () => {
 
     const { headerFormVo, setHeaderFormVo, setIsProjectInputChange, setDataFrom, setProjectCreateData, projectCreateData } = useProjectCreateMemory(); // 컨텍스트 데이터
     const { projectNo } = useParams(); // 파라미터
+    const [dataVo, setDataVo] = useState(); // 받아온 데이터
+    const [bankOptions, setBankOptions] = useState([]); // 은행 데이터
+    const [selectedBank, setSelectedBank] = useState(''); // 은행 셀렉트
+
+    // 데이터 조회
+    useEffect(() => {
+        fetch(`${baseURL}/project/get/userinfo?no=${projectNo}`)
+        .then(resp => resp.json())
+        .then(data => {
+            setDataVo(data);
+            setSelectedBank(data.bankName ? data.bankName : '');
+        })
+        .catch(() => {
+            alert('창작자 정보조회에 실패했습니다.');
+        })
+        ;
+    }, []);
+
+    // 은행 테이블 하드코딩
+    useEffect(() => {
+        const fetchedBankOptions = [
+          { value: '0', label: '선택' },
+          { value: '기업은행', label: '기업은행' },
+          { value: '국민은행', label: '국민은행' },
+          { value: '신한은행', label: '신한은행' },
+          { value: '농협은행', label: '농협은행' },
+          { value: '카카오뱅크', label: '카카오뱅크' },
+        ];
+        setBankOptions(fetchedBankOptions);
+    }, []);
 
     // 컨텍스트 데이터에 프로젝트 넘버 저장
     useEffect(() => {
@@ -79,9 +111,6 @@ const ProjectUserinfoCreate = () => {
             'projectNo': projectNo,
         });
     }, [projectNo, setProjectCreateData, setHeaderFormVo]);
-    console.log('헤더폼브이오', headerFormVo);
-
-    
 
     // headerFormVo 에 저장
     const handleOnchange = (e) => {
@@ -93,6 +122,19 @@ const ProjectUserinfoCreate = () => {
         setIsProjectInputChange(true);
         setDataFrom('userinfo');
     }
+    
+    // 선택된 은행을 업데이트하는 함수
+    const handleBankChange = (e) => {
+        setSelectedBank(e.target.value);
+
+        const {name, value} = e.target;
+        setHeaderFormVo({
+            ...headerFormVo,
+            [name]: value,
+        });
+        setIsProjectInputChange(true);
+        setDataFrom('userinfo');
+    };
 
     return (
         <StyledCreateUserinfoDiv>
@@ -103,20 +145,19 @@ const ProjectUserinfoCreate = () => {
                         <dl className='item'>
                             <dt>거래 은행</dt>
                             <dd>
-                                <select name="bankName" onChange={handleOnchange} >
-                                    <option value="0">선택</option>
-                                    <option value="기업은행">기업은행</option>
-                                    <option value="국민은행">국민은행</option>
-                                    <option value="신한은행">신한은행</option>
-                                    <option value="농협은행">농협은행</option>
-                                    <option value="카카오뱅크">카카오뱅크</option>
+                                <select name="bankName" onChange={handleBankChange} value={selectedBank}>
+                                    {bankOptions.map((option) => (
+                                    <option key={option.value} value={option.value}>
+                                        {option.label}
+                                    </option>
+                                    ))}
                                 </select>
                             </dd>
                         </dl>
                         <dl className='item'>
                             <dt>예금주명</dt>
                             <dd>
-                                <input type="text" name='name' onChange={handleOnchange} />
+                                <input type="text" name='name' defaultValue={dataVo?.name} onChange={handleOnchange} />
                             </dd>
                         </dl>
                     </dd>
@@ -124,7 +165,7 @@ const ProjectUserinfoCreate = () => {
                         <dl className='item'>
                             <dt>계좌번호</dt>
                             <dd>
-                                <input type="text" name='accountNum' onChange={handleOnchange}  placeholder="'-' 하이픈 없이 작성" />
+                                <input type="text" name='accountNum' defaultValue={dataVo?.accountNum} onChange={handleOnchange}  placeholder="'-' 하이픈 없이 작성" />
                             </dd>
                         </dl>
                     </dd>

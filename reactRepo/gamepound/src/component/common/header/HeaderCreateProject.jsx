@@ -13,6 +13,7 @@ const HeaderCreateProject = () => {
     const {projectCreateData, IsProjectInputChange, setIsProjectInputChange, dataFrom, headerFormVo, projectNo} = useProjectCreateMemory();
     const navigate = useNavigate();
     
+    // 저장하기
     const handleSaveData = (e) => {
         const { name } = e.target;
         // basic 저장
@@ -51,6 +52,9 @@ const HeaderCreateProject = () => {
                     alert('프로젝트 내용이 저장되었습니다.');
                     navigate(`/projectCreate/main/index/basic/${projectNo.no}`);
                 }
+            })
+            .catch(() => {
+                alert('오류가 발생했습니다. 다시 시도해주세요.');
             })
             ;
             setIsProjectInputChange(false);
@@ -129,7 +133,7 @@ const HeaderCreateProject = () => {
             setIsProjectInputChange(false);
         }
 
-        // userinfo
+        // userinfo 저장
         if(name === 'userinfo'){
 
             // 거래은행 검증
@@ -148,16 +152,19 @@ const HeaderCreateProject = () => {
                 return;
             }
 
-            fetch(`${baseURL}/project/save/dateplan`, {
+            const formData = new FormData();
+            formData.append('projectNo', headerFormVo.projectNo);
+            formData.append('bankName', headerFormVo.bankName);
+            formData.append('name', headerFormVo.name);
+            formData.append('accountNum', headerFormVo.accountNum);
+
+            fetch(`${baseURL}/project/save/userinfo`, {
                 method: 'post',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(headerFormVo),
+                body: formData,
             })
             .then(resp => resp.json())
             .then(data => {
-                if(data === 'good'){
+                if(data.msg === 'good'){
                     alert('프로젝트 내용이 저장되었습니다.');
                 } else {
                     throw new Error();
@@ -167,8 +174,39 @@ const HeaderCreateProject = () => {
                 alert('오류가 발생했습니다. 다시 시도해주세요.');
             })
             ;
+            setIsProjectInputChange(false);
         }
     }
+
+    // 승인요청 
+    const handleApproval = async (e) => { // 비동기 함수로 선언
+        const target = e.target;
+        
+        // 승인요청이 아니면 return
+        if (target.innerHTML !== '승인요청') {
+          return;
+        }
+      
+        // 사용자로부터 승인 여부를 확인받음
+        const isApproved = window.confirm('프로젝트 승인을 요청하시겠습니까?');
+        if (!isApproved) {
+          return;
+        }
+      
+        try {
+          const response = await fetch(`${baseURL}/project/save/approval?no=${projectNo.no}`);
+          const data = await response.json();
+      
+            if (data.msg === 'good') {
+                alert('승인 요청이 완료되었습니다.');
+                navigate('/');
+            } else {
+                throw new Error();
+            }
+        } catch (error) {
+          alert('승인 요청에 실패했습니다. 다시 시도해주세요.');
+        }
+    };
 
     return (
         <StyledHeaderCreateProjectDiv>
@@ -184,6 +222,7 @@ const HeaderCreateProject = () => {
                             <button
                                 className="createMainStateBtn"
                                 disabled={!(projectCreateData.totalCompletionRate === 100)}
+                                onClick={handleApproval}
                             >
                             {
                                 projectCreateData.totalCompletionRate === 100 ?
