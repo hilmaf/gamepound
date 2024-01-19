@@ -59,33 +59,19 @@ const StyledProjectBoxInfoDiv = styled.div`
     & > .progress {
         display: flex;
         justify-content: space-between;
-
-        & > .achievement {
-
-            & > #achievement_rate {
-                font-size: 15px;
-                font-weight: 900;
-                padding-right: 5px;
-                color: var(--red-color);
-            }
-
-            & > #achievement_amnt {
-                font-size: 12px;
-            }
+        & > div:last-child{
+            color: var(--red-color);
         }
 
-        & > .status {
-            font-size: 13px;
-        }
     }
 `;
 
-const ProjectListBoxInfo = ({project}) => {
+const ProjectPrelaunchListBoxInfo = ({project}) => {
     
     const navigate = useNavigate();
 
     const handleBoxClick= () => {
-        navigate("/project/detail/story/" + project.no);
+        navigate("/project/detail/prelaunch/story/" + project.no);
     }
 
     return (
@@ -97,19 +83,15 @@ const ProjectListBoxInfo = ({project}) => {
                 <span>{project.mainCategory}<span>|</span>{project.subCategory}</span>
                 <div>{project.memberName}</div>
             </div>
-            <div className='title'>
+            <div className='title' key={project.no}>
                 {project.title}
             </div>
             <div className='progress'>
-                <div className='achievement'>
-                    <span id='achievement_rate'>{project.achievementRate}%</span>
-                    <span id='achievement_amnt'>{project.currentAmount}원</span>
-                </div>
-                {project.remainingPeriod === "펀딩 종료" ? <div className='status'>{project.remainingPeriod}</div>:<div className='status'>{project.remainingPeriod}일 남음</div>}
-                
+                <div>공개 예정</div>
+                <div>{project.startDateStr}</div>
             </div>
         </StyledProjectBoxInfoDiv>
     );
 };
 
-export default ProjectListBoxInfo;
+export default ProjectPrelaunchListBoxInfo;

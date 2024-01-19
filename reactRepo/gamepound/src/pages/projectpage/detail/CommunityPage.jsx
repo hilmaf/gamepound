@@ -36,6 +36,16 @@ const StyledCommunityDiv = styled.div`
                 margin-left: 25px;
                 & > div:first-child{
                     margin-bottom: 15px;
+                    & > div:first-child{
+                        & > span{
+                            border-radius: 5px;
+                            background-color: #f05a5a1a;
+                            padding-left: 5px;
+                            padding-right: 5px;
+                            margin-left: 5px;
+                            color: var(--red-color);
+                        }
+                    }
                 }
             }
         }
@@ -70,7 +80,7 @@ const CommunityPage = () => {
                                 <li>
                                     <div>
                                         <div>
-                                            <img src={vo.memberPid} alt="프로필 이미지" />
+                                            <img src={vo.memberPic} alt="프로필 이미지" />
                                         </div>
                                         <div>
                                             <div>{vo.memberName}</div>
@@ -81,7 +91,7 @@ const CommunityPage = () => {
                                 </li>
                                 <li>
                                     <div>
-                                        <div>{vo.memberName}</div>
+                                        <div>{vo.replyerName}<span>창작자</span></div>
                                         <div>{vo.replyEnrollDate}</div>
                                     </div>
                                     <div>{vo.reply}</div>

@@ -35,6 +35,7 @@ public class ProjectVo {
 	private String okDate;
 	private String enrollDate;
 	private String startDate;
+	private String startDateStr;	//yyyy년 mm월 dd일
 	private String endDate;
 	private String calDate;
 	
