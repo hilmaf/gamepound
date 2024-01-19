@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
-import InpText from '../memberPage/input/InpText';
-import InpTextNon from '../memberPage/input/InpTextNon';
 import { useUserMemory } from '../../component/context/UserContext';
 
 const StyledAllDiv = styled.div`
@@ -25,14 +23,18 @@ const StyledSettingsDiv = styled.div`
         & > ul{
             & > li{
                 border-bottom: 1px solid lightgray;
-                padding: 15px 0px 15px 20px;
+                padding: 20px 0px 20px 20px;
+                & > div:first-child{
+                    font-size: 18px;
+                    font-weight: 500;
+                }
             }
         }
     }
 `;
 
 
-const ProfileSetting = () => {
+const ProfileSettingMain = () => {
 
     //회원번호
     const {loginMemberVo} = useUserMemory();
@@ -73,6 +75,7 @@ const ProfileSetting = () => {
             [name] : value
         })
     }
+
     const handleNameSave = ()=>{
         fetch("http://127.0.0.1:8889/gamepound/settings/name",{
             method: "post",
@@ -87,9 +90,6 @@ const ProfileSetting = () => {
         })
         .catch((e)=>{console.log("handleNameSave 오류 ::: " , e);})
     }
-
-
-
 
     return (
         <StyledAllDiv>
@@ -149,4 +149,4 @@ const ProfileSetting = () => {
     );
 };
 
-export default ProfileSetting;
+export default ProfileSettingMain;
