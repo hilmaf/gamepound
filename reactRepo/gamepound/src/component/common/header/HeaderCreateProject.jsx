@@ -104,12 +104,12 @@ const HeaderCreateProject = () => {
                 { field: headerFormVo.txtItem, label: '프로젝트 선물 소개' }
             ];
             // 프로젝트 내용 검증
-            for (const fieldData of fieldsToCheck) {
-                if (fieldData.field && fieldData.field.length > 2000) {
-                    alert(`${fieldData.label}은(는) 2000글자 이내로 작성해 주시기 바랍니다.`);
-                    return;
-                }
-            }
+            // for (const fieldData of fieldsToCheck) {
+            //     if (fieldData.field && fieldData.field.length > 2000) {
+            //         alert(`${fieldData.label}은(는) 2000글자 이내로 작성해 주시기 바랍니다.`);
+            //         return;
+            //     }
+            // }
 
             fetch(`${baseURL}/project/save/dateplan`, {
                 method: 'post',
