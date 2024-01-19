@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.gamepound.app.back.vo.BackDetailVo;
+import com.gamepound.app.member.vo.MemberVo;
 import com.gamepound.app.project.vo.ProjectBriefVo;
 import com.gamepound.app.review.vo.ReviewStatVo;
 import com.gamepound.app.review.vo.ReviewVo;
@@ -28,8 +29,8 @@ public class UserPageService {
 	private final DataProcessingUtil util;
 	
 	// 유저페이지 - 프로필 소개
-	public String userProfile(String memberNo) {
-		return dao.userProfile(sst, memberNo);
+	public String userIntro (String memberNo) {
+		return dao.userIntro(sst, memberNo);
 	}
 	
 	// 유저페이지 - 리뷰목록, 리뷰 통계 조회
@@ -41,9 +42,13 @@ public class UserPageService {
 		
 		// TODO: 만족도 DOUBLE 타입으로 변경하는 거 삭제하기 (더미데이터를 수정하는 방향으로)
 		// 만족도 double 타입으로 변경해서 다시 셋팅하기
+		String url = "http://127.0.0.1:8889/gamepound/resources/images/projectImg/";
+		String url2 = "http://127.0.0.1:8889/gamepound/resources/images/memberProfileImg/";
 		if(reviewList.size() > 0) {
 			for(ReviewVo vo : reviewList) {
 				vo.setRating(util.castToDouble(vo.getRating()));
+				vo.setProjectImg(url + vo.getProjectImg());
+				vo.setProfileImg(url2 + vo.getProfileImg());
 			}			
 		}
 		
@@ -101,11 +106,13 @@ public class UserPageService {
 		for (BackDetailVo backDetailVo : successList) {
 			backDetailVo.setProjectImg(url + backDetailVo.getProjectImg());
 		}
+		System.out.println(successList);
 		// 후원 실패 목록 : 프로젝트 펀딩 실패 OR 후원 취소
 		List<BackDetailVo> failList = dao.backedUnsuccessfully(sst, memberNo);
 		for (BackDetailVo backDetailVo : failList) {
 			backDetailVo.setProjectImg(url + backDetailVo.getProjectImg());
 		}
+		System.out.println(failList);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("successList", successList);
@@ -142,6 +149,15 @@ public class UserPageService {
 		reviewVo.setProjectImg(url + reviewVo.getProjectImg());
 		
 		return reviewVo;
+	}
+
+	// 유저페이지 - 프로필
+	public MemberVo userProfile(String memberNo) {
+		MemberVo vo = dao.userProfile(sst, memberNo);
+		String url = "http://127.0.0.1:8889/gamepound/resources/images/memberProfileImg/";
+		vo.setPic(url + vo.getPic());
+		
+		return vo;
 	}
 	 
 }
