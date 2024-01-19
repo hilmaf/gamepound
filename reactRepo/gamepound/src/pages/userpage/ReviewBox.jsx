@@ -108,7 +108,7 @@ const ReviewBox = ({item}) => {
 
 
     return (
-        <StyledReviewBoxDiv key={item.reviewNo}>
+        <StyledReviewBoxDiv>
             <div className='writer'>
                 <img id='profile_img' src={item.profileImg} alt='리뷰사진영역'></img>
                 <div id='nick'>{item.memberName}</div>
@@ -117,7 +117,7 @@ const ReviewBox = ({item}) => {
                 <span>만족도</span>
                 <span>{item.rating}</span>
             </div>
-            <div className='content'>
+            <div className='content' key={item.reviewNo}>
                 <span>후기</span>
                 <span>{item.reviewContent}</span>
             </div>

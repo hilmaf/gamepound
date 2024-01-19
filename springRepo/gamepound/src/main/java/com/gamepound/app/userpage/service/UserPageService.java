@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.gamepound.app.back.vo.BackDetailVo;
 import com.gamepound.app.member.vo.MemberVo;
+import com.gamepound.app.page.vo.PageVo;
 import com.gamepound.app.project.vo.ProjectBriefVo;
 import com.gamepound.app.review.vo.ReviewStatVo;
 import com.gamepound.app.review.vo.ReviewVo;
@@ -28,22 +29,50 @@ public class UserPageService {
 	private final UserPageDao dao;
 	private final DataProcessingUtil util;
 	
+	private String url = "http://127.0.0.1:8889/gamepound/resources/images/projectImg/";
+	private String url2 = "http://127.0.0.1:8889/gamepound/resources/images/memberProfileImg/";
+	
 	// 유저페이지 - 프로필 소개
 	public String userIntro (String memberNo) {
 		return dao.userIntro(sst, memberNo);
 	}
 	
-	// 유저페이지 - 리뷰목록, 리뷰 통계 조회
+	// 유저페이지 - 리뷰 통계 조회
+	public ReviewStatVo statReview(String memberNo) {
+		ReviewStatVo statVo = dao.getStat(sst, memberNo);
+		
+		return statVo;
+	}
+	 
+	
+	// 유저페이지 - 리뷰목록
 	public Map<String, Object> listReview(String memberNo) {
+		// 리뷰 개수
+		String cnt = dao.userReviewCnt(sst, memberNo);
+		
+		
+		// 만족도 평균 double 타입으로 변경
+
+		int listCount = Integer.parseInt(cnt);
+//		String currentPage_= 
+//		if(currentPage_ == null) {
+//			currentPage_ = "1";
+//		}
+//		
+//		int currentPage = Integer.parseInt(currentPage_);
+//		int pageLimit = 5;
+//		int boardLimit = 10;
+//		
+//		PageVo pvo = new PageVo(listCount, currentPage, pageLimit, boardLimit);
+		
+//		, pvo
 		// 리뷰 목록
 		List<ReviewVo> reviewList = dao.listReview(sst, memberNo);
-		System.out.println(reviewList);
 		
 		
 		// TODO: 만족도 DOUBLE 타입으로 변경하는 거 삭제하기 (더미데이터를 수정하는 방향으로)
 		// 만족도 double 타입으로 변경해서 다시 셋팅하기
-		String url = "http://127.0.0.1:8889/gamepound/resources/images/projectImg/";
-		String url2 = "http://127.0.0.1:8889/gamepound/resources/images/memberProfileImg/";
+		
 		if(reviewList.size() > 0) {
 			for(ReviewVo vo : reviewList) {
 				vo.setRating(util.castToDouble(vo.getRating()));
@@ -52,17 +81,11 @@ public class UserPageService {
 			}			
 		}
 		
-		// 리뷰 통계
-		ReviewStatVo statVo = dao.getStat(sst, memberNo);
-		
-		
-		// 만족도 평균 double 타입으로 변경
-		statVo.setRatingAvg(util.castToDouble(statVo.getRatingAvg()));
 		
 		// map에 넣기
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("reviewList", reviewList);
-		map.put("statVo", statVo);
+		map.put("size", reviewList.size());
 		
 		return map;
 	}
@@ -80,9 +103,6 @@ public class UserPageService {
 		
 		List<ProjectBriefVo> myProjectList = dao.listMyProjects(sst, memberNo);
 		
-		String url = "http://127.0.0.1:8889/gamepound/resources/images/projectImg/";
-		
-		System.out.println(myProjectList);
 		// 달성률, 마감기한 d- setting
 		for(ProjectBriefVo vo : myProjectList) {
 			String achievementRate = null;
@@ -164,5 +184,6 @@ public class UserPageService {
 		
 		return vo;
 	}
-	 
+
+	
 }
