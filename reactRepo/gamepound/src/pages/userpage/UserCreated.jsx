@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import ProjectBoxInfo from '../../component/project/ProjectBoxInfo';
 import styled from 'styled-components';
 import {useUserMemory} from '../../component/context/UserContext';
+import { useParams } from 'react-router-dom';
 
 const StyledUserCreatedDiv = styled.div`
         padding-left: 20px;
@@ -33,13 +34,13 @@ const UserCreated = () => {
     const [projectsCnt, setProjectsCnt] = useState(0);
     const [myProjectsList, setMyProjectsList] = useState([]);
 
+    const {no} = useParams();
+
     useEffect(()=>{
         fetch("http://127.0.0.1:8889/gamepound/userpage/created?user=" + loginMemberVo.no)
         .then(resp => resp.json())
         .then(data => {
-            console.log(data);
             setMyProjectsList(data.myProjectsList);
-            console.log(myProjectsList);
             setProjectsCnt(data.projectsCnt);
         });    
     }, [projectsCnt])
