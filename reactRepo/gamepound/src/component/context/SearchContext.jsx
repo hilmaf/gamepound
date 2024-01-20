@@ -13,7 +13,6 @@ const SearchContextProvider = ({children}) => {
     const [searchedVo, setSearchedVo] = useState([]);
     const [conditionVo, setConditionVo] = useState([{
         "query": "",
-        "categoryNo": "",
         "status": "",
         "achievementRate": ""
     }]);

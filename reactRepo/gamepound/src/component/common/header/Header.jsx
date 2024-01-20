@@ -235,7 +235,6 @@ const Header = () => {
 
 
     useEffect(() => {
-        console.log('dddd');
         const handleDocumentClick = (e) => {
             // 팝업이 열려 있고 팝업 외부를 클릭한 경우에만 팝업을 닫기
             if (isSearchShow && !e.target.closest('.searchArea')) {
@@ -252,42 +251,25 @@ const Header = () => {
     /////////////////////////////////////////////////////////////////////////////////////////////
     // 검색 관련 코드
     const {keyword, setKeyword, conditionVo, setConditionVo, searchedVo, setSearchedVo} = useSearchContext();
-
     const handleSearch = (e) => {
         e.preventDefault();
-        sessionStorage.removeItem('query');
 
         const searchInputTag = document.querySelector("input[name=searchInput]");
         sessionStorage.setItem('query', searchInputTag.value);
-
-        const searchCondition = {
+        
+        const query = {
             query: sessionStorage.getItem('query')
         }
         
         if(sessionStorage.getItem('query')) {
-            console.log(conditionVo);
-            fetch("http://127.0.0.1:8889/gamepound/project/search", {
-                method: "post",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(searchCondition)
-            })
+            fetch("http://127.0.0.1:8889/gamepound/project/search?query=" + sessionStorage.getItem('query'))
             .then(resp => resp.json())
             .then(data => {
                 
-                setSearchedVo({
-                    data
-                });
+                setSearchedVo(data);
                 
-                // e.target.defaultValue = sessionStorage.getItem('query');
                 navigate("/project/search/"+sessionStorage.getItem('query'));
-                
             });
-        } else if(sessionStorage.getItem('query') === undefined){
-            
-        } else {
-
         }
     }
 
