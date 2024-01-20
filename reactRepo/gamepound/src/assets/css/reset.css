@@ -50,6 +50,9 @@ table caption {
     top: -9999px;
     left: -9999px;
 }
+button, input, optgroup, select, textarea {
+    font-size: 14px;
+}
 
 /* skip nav
 .skip_nav a {
