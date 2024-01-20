@@ -37,8 +37,85 @@ const StyledSettingsDiv = styled.div`
 
 const ProfileSettingMain = () => {
 
+    //스프링 기본 경로
+    const baseURL = process.env.REACT_APP_API_URL;
+
     //회원번호
     const {loginMemberVo} = useUserMemory();
+
+    //기초세팅
+    const [profile, setProfile] = useState({});
+    const [changeValue, setChangeValue] = useState({});
+    const [object, setObject] = useState({});
+
+    
+
+    useEffect(()=>{
+        fetch(baseURL + "/settings",{
+            method: 'post',
+            headers:{
+                "Content-Type" : 'application/json'
+            },
+            body: JSON.stringify(loginMemberVo),
+        })
+        .then(resp=>resp.json())
+        .then(data=>{
+            console.log("data",data);
+            setProfile(data);
+        })
+        .catch((e)=>console.log(e))
+        ;
+    }, [loginMemberVo])
+
+    const handleChangeValue = (e) =>{
+        console.log("e.target ::: ",e.target);
+        console.log("e.target.name ::: ",e.target.name);
+        setChangeValue({
+            'name' : e.target.name,
+            'value' : e.target.value,
+        })
+        setObject({
+            [e.target.name] : e.target.value,
+            no : profile.no
+        })
+        const {name, value} = e.target;
+        setProfile({
+            ...profile,
+            [name] :value
+        })
+    }
+
+    const handleSave = ()=>{
+        console.log("changeValue ::: ",changeValue);
+        console.log("object ::: ",object);
+        if(object.no){
+            fetch(baseURL + "/settings/" + changeValue.name,{
+                method: 'post',
+                headers:{
+                    "Content-Type" : 'application/json'
+                },
+                body: JSON.stringify(object),
+            })
+            .then(resp=>resp.json())
+            .then(data=>{
+                console.log("ProfileSettingMain > handleSave ::: ",data);
+                if(data.msg === "good"){
+                    alert('변경 성공');
+                }else{
+                    alert('변경 실패');
+                }
+            })
+            .catch(e=>console.log(e))
+            .finally(()=>{
+                setChangeValue({});
+            })
+
+        }
+    }
+
+
+
+
 
     return (
         <StyledAllDiv>
@@ -57,20 +134,24 @@ const ProfileSettingMain = () => {
                             </div>
                         </li>
                         <li>
-                            <NameSetting loginMemberVo={loginMemberVo}/>
+                            <div>이름</div>
+                            <div><input type="text" value={profile.name} name='name' onChange={(e)=>{handleChangeValue(e)}}/></div>
+                            <div>
+                                <button onClick={handleSave}>저장</button>
+                            </div>
                         </li>
                         <li>
                             <div>소개</div>
-                            <div><input type="text" value=''/></div>
+                            <div><input type="text" value={profile.intro} name='intro' onChange={(e)=>{handleChangeValue(e)}}/></div>
                             <div>
-                                <button>저장</button>
+                                <button onClick={handleSave}>저장</button>
                             </div>
                         </li>
                         <li>
                             <div>웹사이트</div>
-                            <div><input type="text" value=""/></div>
+                            <div><input type="text" value={profile.siteUrl} name='siteUrl' onChange={(e)=>{handleChangeValue(e)}}/></div>
                             <div>
-                                <button>저장</button>
+                                <button onClick={handleSave}>저장</button>
                             </div>
                         </li>
                         <li>

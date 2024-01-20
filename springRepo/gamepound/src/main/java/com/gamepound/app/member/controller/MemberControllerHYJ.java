@@ -1,5 +1,7 @@
 package com.gamepound.app.member.controller;
 
+import java.util.Map;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,13 +20,14 @@ import lombok.RequiredArgsConstructor;
 public class MemberControllerHYJ {
 
 	private final MemberServiceHYJ service;
+	private final Map<String, String>map;
 	
 	//로그인 유저 프로필 정보
 	@PostMapping
 	public MemberVo getProfile(@RequestBody MemberVo vo) {
-		System.out.println(vo);
+		System.out.println("MemberControllerHYJ > getProfile > vo ::: " + vo);
 		MemberVo loginMemberVo = service.getProfile(vo);
-		System.out.println(loginMemberVo);
+		System.out.println("MemberControllerHYJ > getProfile > loginMember ::: " + loginMemberVo);
 		return loginMemberVo;
 	}
 	
@@ -45,22 +48,22 @@ public class MemberControllerHYJ {
 	
 	//프로필 이름 변경
 	@PostMapping("name")
-	public void editName(@RequestBody MemberVo vo) throws Exception {
-		System.out.println("setting > name > controller ::: " + vo);
+	public Map<String, String> editName(@RequestBody MemberVo vo) throws Exception {
+		System.out.println("MemberControllerHYJ > editName > vo::: " + vo);
 		int result = service.editName(vo);
 		
+		map.put("msg", "good");
 		if(result != 1) {
-			System.out.println("[MSN-C]이름 변경 실패");
-			throw new Exception();
+			map.put("msg", "bad");
 		}
 		
-		//TODO-HYJ : [setting-name] syso말고 ajax처리해야함ㅠㅠ
-		System.out.println("[MSN-C]이름 변경 성공");
+		return map;
 	}
 	
 	//프로필 소개 변경
 	@PostMapping("intro")
 	public void editIntro(@RequestBody MemberVo vo) throws Exception {
+		System.out.println("MemberControllerHYJ > editIntro > vo::: " + vo);
 		int result = service.editIntro(vo);
 		
 		if(result != 1) {
@@ -76,6 +79,7 @@ public class MemberControllerHYJ {
 	//프로필 웹사이트 변경
 	@PostMapping("siteUrl")
 	public void editSiteUrl(@RequestBody MemberVo vo) throws Exception {
+		System.out.println("MemberControllerHYJ > editSiteUrl > vo::: " + vo);
 		int result = service.editSiteUrl(vo);
 		
 		if(result != 1) {
