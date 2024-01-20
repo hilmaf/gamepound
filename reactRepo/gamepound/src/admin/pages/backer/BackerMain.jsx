@@ -3,7 +3,7 @@ import React from 'react';
 const BackerMain = () => {
     return (
         <div>
-            backer
+            <h2>후원 관리</h2>
         </div>
     );
 };

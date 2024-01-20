@@ -1,31 +1,65 @@
 import React from 'react';
 import styled from 'styled-components';
 import AdminLogin from '../common/AdminLogin';
-import BackerMain from '../../pages/backer/BackerMain';
+import { Route, Routes } from 'react-router-dom';
+import Aside from '../common/Aside';
+import Header from '../common/Header';
 import CategoryMain from '../../pages/category/CategoryMain';
+import BackerMain from '../../pages/backer/BackerMain';
 import PaymentMain from '../../pages/payment/PaymentMain';
 import ProjectMain from '../../pages/project/ProjectMain';
 import UserMain from '../../pages/user/UserMain';
-import { Route, Routes } from 'react-router-dom';
+import CategoryDetail from '../../pages/category/CategoryDetail';
 
-const StyledMainDiv = styled.div`
+const StyledWrapDiv = styled.div`
+    display: flex;
+    background-color: #f5f5f5;
+    & aside {
+        width: 220px;
+        min-height: 100vh;
+        background-color: #333;
+        color: #fff;
+        box-sizing: border-box;
+    }
+`;
 
+const StyledContainerDiv = styled.div`
+    width: calc(100% - 220px);
+    box-sizing: border-box;
+    & > div {
+        padding: 30px;
+        box-sizing: border-box;
+        & > h2 {
+            font-size: 20px;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 40px;
+        }
+    }
 `;
 
 const AdminMain = () => {
     return (
-        <div>
-            <StyledMainDiv>
-                <Routes>
-                    <Route path='/' element={<AdminLogin />}></Route>
-                    <Route path='/backer/*' element={<BackerMain />}></Route>
-                    <Route path='/category/*' element={<CategoryMain />}></Route>
-                    <Route path='/payment/*' element={<PaymentMain />}></Route>
-                    <Route path='/project/*' element={<ProjectMain />}></Route>
-                    <Route path='/user/*' element={<UserMain/>}/>
-                </Routes>
-            </StyledMainDiv>
-        </div>
+        <Routes>
+            <Route path='/' element={<AdminLogin />} />
+            <Route path="/*" element={
+                <StyledWrapDiv>
+                    <Aside />
+                    <StyledContainerDiv>
+                        <Header />
+                        <Routes>
+                            <Route path='/category/*' element={<CategoryMain />} />
+                            <Route path='/category/detail' element={<CategoryDetail />} />
+                            <Route path='/backer/*' element={<BackerMain />} />
+                            <Route path='/payment/*' element={<PaymentMain />} />
+                            <Route path='/project/*' element={<ProjectMain />} />
+                            <Route path='/user/*' element={<UserMain />} />
+                            <Route path='/*' element={<h1>에러페이지</h1>} />
+                        </Routes>
+                    </StyledContainerDiv>
+                </StyledWrapDiv>
+            } />
+        </Routes>
     );
 };
 
