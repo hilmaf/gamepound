@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useSearchContext } from '../context/SearchContext';
 
@@ -23,7 +23,8 @@ const StyledSearchConditionDiv = styled.div`
     }
     
     & > .project_status {
-        background-color: #f5f5f5;
+        border: 1px solid #112155;
+        border-radius: 5px;
         padding: 5px 10px;
         margin-right: 10px;
     }
@@ -37,7 +38,7 @@ const StyledSearchConditionDiv = styled.div`
 
 const Condition = (query) => {
 
-    const {conditionVo, setConditionVo} = useSearchContext();
+    const {conditionVo, setConditionVo, searchedVo, setSearchedVo} = useSearchContext();
 
     const handleSelectChange = (e) => {
 
@@ -45,31 +46,23 @@ const Condition = (query) => {
 
         setConditionVo({
             ...conditionVo,
+            "query": sessionStorage.getItem('query'),
             [name]: value
         });
 
-        console.log(conditionVo);
 
-        fetch("http://127.0.0.1:8889/gamepound/project/search", {
-            method: "post",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify(conditionVo)
-        })
-        .then(resp => resp.json())
-        .then(data => {
-            console.log(data);
-        })
     }
+
+    const statusSelectTag = document.querySelector(".project_status");
+
 
     return (
         <StyledSearchConditionDiv>
             {
-                window.location.pathname === '/search'
+                sessionStorage.getItem('query')
                 ?
                 <div className='query'>
-                    <span>검색어 :</span>  "{query.query}"
+                    <span>검색어 :</span>  "{sessionStorage.getItem('query')}"
                 </div>
                 :
                 <></>
@@ -80,11 +73,18 @@ const Condition = (query) => {
                 <option value="success">성사된 프로젝트</option>
                 <option value="prelaunch">공개예정 프로젝트</option>
             </select>
-            <select name='achievementRate' onChange={handleSelectChange}>
-                <option value="under75">75% 이하</option>
-                <option value="between">75% ~ 100%</option>
-                <option value="over100">100% 이상</option>
-            </select>
+            {
+                statusSelectTag.value === 'prelaunch'
+                ?
+                <></>
+                :
+                <select name='achievementRate' onChange={handleSelectChange}>
+                    <option value="all">달성률</option>
+                    <option value="under75">75% 이하</option>
+                    <option value="between">75% ~ 100%</option>
+                    <option value="over100">100% 이상</option>
+                </select>
+            }
         </StyledSearchConditionDiv>
     );
 };

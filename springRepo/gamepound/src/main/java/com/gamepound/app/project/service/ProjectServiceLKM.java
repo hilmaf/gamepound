@@ -23,9 +23,12 @@ public class ProjectServiceLKM {
 		
 		System.out.println(vo);
 		
+		String transformedStatus = transformStatus(vo.getStatus());
+		vo.setStatusNo(transformedStatus);
 		
-		
-		
+		String[] scales = transformAchievementRate(vo.getAchievementRate());
+		vo.setAchievementRateStart(scales[0]);
+		vo.setAchievementRateEnd(scales[1]);
 		
 		List<ProjectBriefVo> searchedList = dao.searchProject(sst, vo);
 		
@@ -35,8 +38,55 @@ public class ProjectServiceLKM {
 			projectVo.setProjectImg(url + projectVo.getProjectImg());
 		}
 		
+		System.out.println(searchedList);
+		
 		return searchedList;
 	}
 	
+	private String transformStatus(String status) {
+		
+		String statusNo = null;
+		
+		if(status == null) {
+			return "";
+		}
+		
+		switch(status) {
+		case "all": statusNo = ""; break;
+		case "ing": statusNo = "5"; break;
+		case "success": statusNo = "6"; break;
+		case "prelaunch": statusNo = "3"; break;
+		}
+		
+		return statusNo;
+	}
+	
+	private String[] transformAchievementRate(String achievementRate) {
+		
+		String achievementRateStart = null;
+		String achievementRateEnd = null;
+		
+		if(achievementRate == null) {
+			String[] scales = {"", ""};
+			return scales;
+		}
+		
+		switch(achievementRate) {
+		case "all": achievementRateStart = "";
+					achievementRateEnd = ""; break;
+		case "under75": achievementRateStart = "";
+						achievementRateEnd = "75"; break;
+		case "between": achievementRateStart = "75";
+						achievementRateEnd = "100"; break;
+		case "over100": achievementRateStart = "100";
+						achievementRateEnd = ""; break;
+		default: achievementRateStart = "";
+				achievementRateEnd = "";
+		}
+		
+		String[] scales = {achievementRateStart, achievementRateEnd};
+		
+		return scales;
+	}
 	
 }

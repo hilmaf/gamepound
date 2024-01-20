@@ -14,34 +14,29 @@ const SearchMain = () => {
     
     const {query} = useParams();
 
-    const navigate = useNavigate();
-    const {setSearchedVo} = useSearchContext();
+    const {conditionVo, setConditionVo, searchedVo, setSearchedVo} = useSearchContext();
 
+    let searchedResult;
     useEffect(()=>{
-        
-        if(sessionStorage.getItem('query')) {
-            fetch("http://127.0.0.1:8889/gamepound/project/search?query=" + sessionStorage.getItem('query'))
-            .then(resp => resp.json())
-            .then(data => {
-                
-                setSearchedVo({
-                    data
-                });
-                
-                navigate("/project/search/"+sessionStorage.getItem('query'));
-                
-            });
-        } else if(sessionStorage.getItem('query') === undefined){
-            
-        } else {
 
-        }
-    }, [])
+        // const searchCondition = {
+        //     ...conditionVo,
+        //     "query": sessionStorage.getItem('query')
+        // }
+
+        
+
+        fetch(`http://127.0.0.1:8889/gamepound/project/search?query=${query}&status=${conditionVo.status}&achievementRate=${conditionVo.achievementRate}`)
+        .then(resp => resp.json())
+        .then(data => {
+            setSearchedVo(data);
+        })
+    }, [conditionVo])
 
     return (
         <StyledProjectSearchDiv>
             <Condition query={query}/>
-            <ProjectSearch />
+            <ProjectSearch searched={searchedVo}/>
         </StyledProjectSearchDiv>
     );
 };

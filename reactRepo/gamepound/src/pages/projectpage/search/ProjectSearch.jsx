@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components';
 import ProjectBoxInfo from '../../../component/project/ProjectBoxInfo';
 import { useSearchContext } from '../../../component/context/SearchContext';
@@ -9,19 +9,15 @@ const StyledProjectSearchDiv = styled.div`
     flex-wrap: wrap;
 `;
 
-const ProjectSearch = () => {
-
-    const {searchedVo, setSearchedVo} = useSearchContext();
-    
-    const searchedList = searchedVo.data;
-
+const ProjectSearch = ({searched}) => {
+ 
     return (
         <StyledProjectSearchDiv>
             
-            {searchedList!==undefined
+            {searched!==undefined && searched!==null
             ?
-            searchedList.map((vo)=> {
-                return <ProjectBoxInfo no={4} project={vo}/>
+            searched.map((vo)=> {
+                return <ProjectBoxInfo key={vo.projectNo} no={4} project={vo}/>
             })
             :
             <div>

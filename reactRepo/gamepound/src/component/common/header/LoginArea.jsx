@@ -106,7 +106,6 @@ const LoginArea = () => {
         sessionStorage.removeItem('loginMemberVo');
         setLoginMemberVo(null);
     }
-    console.log(isShow);
 
     return (
         <StyledLoginAreaDiv>
