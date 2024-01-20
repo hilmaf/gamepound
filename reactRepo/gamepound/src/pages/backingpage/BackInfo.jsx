@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
+import RewardChangeModal from './RewardChangeModal';
+import PaymentChangeModal from './PaymentChangeModal';
 
 const StyledBackInfoDiv = styled.div`
     & > .detail_box {
@@ -86,16 +88,23 @@ const StyledBackInfoDiv = styled.div`
 const BackInfo = ({BackInfo}) => {
 
     const navigate = useNavigate();
-
+    const [rewardChange, setRewardChange] = useState(false);
+    const [paymentChange, setPaymentChange] = useState(false);
 
     const handleRewardChangeClick = () => {
-        return ({
-            
-        });
+        if(rewardChange===false) {
+            setRewardChange(true);
+        } else {
+            setRewardChange(false);
+        }
     };
 
     const handlePaymentChangeClick = () => {
-
+        if(paymentChange===false) {
+            setPaymentChange(true);
+        } else {
+            setPaymentChange(false);
+        }
     };
 
 
