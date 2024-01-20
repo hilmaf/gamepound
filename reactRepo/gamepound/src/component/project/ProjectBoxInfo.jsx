@@ -50,7 +50,7 @@ const StyledProjectBoxInfoDiv = styled.div`
         /* letter-spacing: 0.01px; */
     }
 
-    & > .progress {
+    & > .progressInfo {
         display: flex;
         justify-content: space-between;
 
@@ -91,10 +91,10 @@ const ProjectBoxInfo = ({no, project}) => {
             <div className='creator'>
                 <span>{project.memberName}</span>
             </div>
-            <div className='title' onClick={handleBoxClick} key={project.projectNo}>
+            <div className='title' onClick={handleBoxClick}>
                 {project.projectTitle}
             </div>
-            <div className='progress'>
+            <div className='progressInfo'>
                 <div className='achievement'>
                     <span id='achievement_rate'>{project.achievementRate}%</span>
                     <span id='achievement_amnt'>{project.currentAmount}원</span>
