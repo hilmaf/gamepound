@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useProjectCreateMemory } from '../../context/ProjectCreateContext';
 import { useNavigate } from 'react-router-dom';
+import Loading from '../Loading';
 
 const baseURL = process.env.REACT_APP_API_URL;
 
@@ -12,6 +13,7 @@ const HeaderCreateProject = () => {
     
     const {projectCreateData, IsProjectInputChange, setIsProjectInputChange, dataFrom, headerFormVo, projectNo} = useProjectCreateMemory();
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
     
     // 저장하기
     const handleSaveData = (e) => {
@@ -42,6 +44,7 @@ const HeaderCreateProject = () => {
             formData.append('subCategoryNo', headerFormVo.subCategoryNo);
             formData.append('imageUrl', headerFormVo.imageUrl);
             
+            setLoading(true); // 로딩중 화면 표시
             fetch(`${baseURL}/project/save/basic`, {
                 method: 'post',
                 body: formData,
@@ -49,6 +52,7 @@ const HeaderCreateProject = () => {
             .then(resp => resp.json())
             .then(data => {
                 if(data.msg === 'good'){
+                    setLoading(false); // 로딩중 화면 끝
                     alert('프로젝트 내용이 저장되었습니다.');
                     navigate(`/projectCreate/main/index/basic/${projectNo.no}`);
                 }
@@ -69,6 +73,7 @@ const HeaderCreateProject = () => {
                 return;
             }
 
+            setLoading(true); // 로딩중 화면 표시
             fetch(`${baseURL}/project/save/plan`, {
                 method: 'post',
                 headers: {
@@ -79,6 +84,7 @@ const HeaderCreateProject = () => {
             .then(resp => resp.json())
             .then(data => {
                 if(data.msg === 'good'){
+                    setLoading(false); // 로딩중 화면 끝
                     alert('프로젝트 내용이 저장되었습니다.');
                     navigate(`/projectCreate/main/index/plan/${projectNo.no}`);
                 } else {
@@ -86,6 +92,7 @@ const HeaderCreateProject = () => {
                 }
             })
             .catch((e) => {
+                setLoading(false); // 로딩중 화면 끝
                 alert('오류가 발생했습니다. 다시 시도해주세요.');
             })
             ;
@@ -111,6 +118,7 @@ const HeaderCreateProject = () => {
             //     }
             // }
 
+            setLoading(true); // 로딩중 화면 표시
             fetch(`${baseURL}/project/save/dateplan`, {
                 method: 'post',
                 headers: {
@@ -121,12 +129,14 @@ const HeaderCreateProject = () => {
             .then(resp => resp.json())
             .then(data => {
                 if(data.msg === 'good'){
+                    setLoading(false); // 로딩중 화면 끝
                     alert('프로젝트 내용이 저장되었습니다.');
                 } else {
                     throw new Error();
                 }
             })
             .catch(() => {
+                setLoading(false); // 로딩중 화면 끝
                 alert('오류가 발생했습니다. 다시 시도해주세요.');
             })
             ;
@@ -158,6 +168,7 @@ const HeaderCreateProject = () => {
             formData.append('name', headerFormVo.name);
             formData.append('accountNum', headerFormVo.accountNum);
 
+            setLoading(true); // 로딩중 화면 표시
             fetch(`${baseURL}/project/save/userinfo`, {
                 method: 'post',
                 body: formData,
@@ -165,12 +176,14 @@ const HeaderCreateProject = () => {
             .then(resp => resp.json())
             .then(data => {
                 if(data.msg === 'good'){
+                    setLoading(false); // 로딩중 화면 끝
                     alert('프로젝트 내용이 저장되었습니다.');
                 } else {
                     throw new Error();
                 }
             })
             .catch(() => {
+                setLoading(false); // 로딩중 화면 끝
                 alert('오류가 발생했습니다. 다시 시도해주세요.');
             })
             ;
@@ -194,17 +207,20 @@ const HeaderCreateProject = () => {
         }
       
         try {
-          const response = await fetch(`${baseURL}/project/save/approval?no=${projectNo.no}`);
-          const data = await response.json();
-      
+            setLoading(true); // 로딩중 화면 표시
+            const response = await fetch(`${baseURL}/project/save/approval?no=${projectNo.no}`);
+            const data = await response.json();
+        
             if (data.msg === 'good') {
+                setLoading(false); // 로딩중 화면 끝
                 alert('승인 요청이 완료되었습니다.');
                 navigate('/');
             } else {
                 throw new Error();
             }
         } catch (error) {
-          alert('승인 요청에 실패했습니다. 다시 시도해주세요.');
+            setLoading(false); // 로딩중 화면 끝
+            alert('승인 요청에 실패했습니다. 다시 시도해주세요.');
         }
     };
 
@@ -236,6 +252,7 @@ const HeaderCreateProject = () => {
                     ''
                 )
             }
+            {loading ? <Loading /> : ''}
         </StyledHeaderCreateProjectDiv>
     );
 };

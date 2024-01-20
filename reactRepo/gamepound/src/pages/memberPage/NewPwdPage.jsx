@@ -4,6 +4,7 @@ import logoImage from '../../assets/images/logo_big.svg';
 import styled from 'styled-components';
 import InpText from './input/InpText';
 import InpTextNon from './input/InpTextNon';
+import Loading from '../../component/common/Loading';
 
 const StyledNewPwdPageDiv = styled.div`
     display: flex;
@@ -75,10 +76,12 @@ const NewPwdPage = () => {
 
     const [formVo, setFormVo] = useState({});
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
     
     const handleNewPwd = (e) => {
         e.preventDefault();
         
+        setLoading(true); // 로딩중 화면 표시
         fetch('http://localhost:8889/gamepound/resetPassword', {
             method: 'post',
             headers: {
@@ -90,6 +93,7 @@ const NewPwdPage = () => {
         .then(data => {
             console.log(data);
             if (data.msg === 'good') {
+                setLoading(false); // 로딩중 화면 끝
                 alert('비밀번호 변경이 완료되었습니다.');
                 navigate('/');
             } else {
@@ -137,6 +141,7 @@ const NewPwdPage = () => {
                     <span>이미 게임파운드 계정이 있으신가요? <Link to='/login'>기존계정으로 로그인하기</Link></span>
                 </div>
             </div>
+            {loading ? <Loading /> : ''}
         </StyledNewPwdPageDiv>
     );
 };
