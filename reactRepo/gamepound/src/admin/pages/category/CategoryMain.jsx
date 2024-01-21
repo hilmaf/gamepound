@@ -1,10 +1,12 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { AgGridReact } from 'ag-grid-react'; // React Grid Logic
 import "ag-grid-community/styles/ag-grid.css"; // Core CSS
 import "ag-grid-community/styles/ag-theme-quartz.css"; // Theme
 import styled from 'styled-components';
 import { Button, Form, InputGroup, Pagination } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+
+const baseURL = process.env.REACT_APP_API_URL;
 
 const StyledCategoryDiv = styled.div`
     // search
@@ -59,6 +61,11 @@ const StyledCategoryDiv = styled.div`
             }
         }
     }
+    .ag-header-cell-center {
+        & .ag-header-cell-label {
+            justify-content: center;
+        }
+    }
 
     & .totalArea {
         font-size: 14px;
@@ -73,39 +80,65 @@ const StyledCategoryDiv = styled.div`
 const CategoryMain = () => {
 
     const navigate = useNavigate();
+    const [dataVo, setDataVo] = useState([]);
+
+    // 카테고리 조회
+    useEffect(() => {
+        fetch(`${baseURL}/category/list`)
+        .then(resp => resp.json())
+        .then(data => {
+            setDataVo(data);
+        })
+        .catch(() => {
+            alert('데이터를 가져오는데 실패했습니다.');
+        })
+        ;
+    }, []);
+    console.log(dataVo);
+
     // Row Data: The data to be displayed.
-    const [rowData, setRowData] = useState([
-        { 세로1: "Tesla", 세로2: "내용확인내용확인내용확인내용확인내용확인내용확인내용확인내용확인내용확인내용확인내용확인내용확인내용확인내용확인내용확인내용확인내용확인내용확인내용확인내용확인내용확인내용확인내용확인내용확인내용확인내용확인내용확인", 세로3: 64950, 세로4: true},
-        { 세로1: "Ford", 세로2: "F-Series", 세로3: 33850, 세로4: false },
-        { 세로1: "Ford", 세로2: "F-Series", 세로3: 33850, 세로4: false },
-        { 세로1: "Ford", 세로2: "F-Series", 세로3: 33850, 세로4: false },
-        { 세로1: "Ford", 세로2: "F-Series", 세로3: 33850, 세로4: false },
-        { 세로1: "Ford", 세로2: "F-Series", 세로3: 33850, 세로4: false },
-        { 세로1: "Ford", 세로2: "F-Series", 세로3: 33850, 세로4: false },
-        { 세로1: "Ford", 세로2: "F-Series", 세로3: 33850, 세로4: false },
-        { 세로1: "Ford", 세로2: "F-Series", 세로3: 33850, 세로4: false },
-        { 세로1: "Ford", 세로2: "F-Series", 세로3: 33850, 세로4: false },
-    ]);
+    const [rowData, setRowData] = useState([]); // 데이터
+
+    // 컬럼 데이터 채우기
+    useEffect(() => {
+        const allSubCategories = dataVo.map(item => item.subCategoryList).flat();
+        setRowData(allSubCategories);
+    }, [dataVo]);
 
     // Column Definitions: Defines & controls grid columns.
     const [colDefs, setColDefs] = useState([
-        { field: "세로1", autoHeight: true  },
-        { field: "세로2" , autoHeight: true },
-        { field: "세로3", autoHeight: true  },
-        { field: "세로4", autoHeight: true  }
+        { headerName: "번호", field: "no", autoHeight: true, width: 50, headerClass: 'ag-header-cell-center', cellStyle: {textAlign: 'center'}},
+        { headerName: "대분류명", field: "mainCategory" , autoHeight: true, headerClass: 'ag-header-cell-center'},
+        { headerName: "소분류명", field: "subCategory", autoHeight: true, headerClass: 'ag-header-cell-center' },
     ]);
+
+    // useEffect(() => {
+    //     const title = dataVo.subCategoryList.map(vo => {
+    //         vo.
+    //     });
+    //     setColDefs();
+    // }, []);
+
+    let active = 0; // 활성화
+    const handlePageNum = (e) => {
+        console.log(e.target.innerHTML);
+        active = e.target.innerHTML;
+    }
+
     const pageSize = 10;
 
     // 페이지네이션
-    let active = 1; // 활성화
     let items = [];
     for (let number = 1; number <= 10; number++) {
         items.push(
-            <Pagination.Item key={number} active={number === active}>
-            {number}
+            <Pagination.Item key={number} active={number === active} onClick={handlePageNum}>
+                {number}
             </Pagination.Item>,
         );
     }
+    // const onFirstDataRendered = useCallback((params) => {
+    //     params.api.paginationGoToPage(4);
+    // }, []);
 
     const rowClicked = (e) => {
         navigate('../category/detail')
