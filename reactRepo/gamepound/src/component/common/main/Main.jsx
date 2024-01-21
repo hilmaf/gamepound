@@ -8,6 +8,7 @@ import { useUserMemory } from '../../context/UserContext';
 import ProjectMain from '../../../pages/projectpage/ProjectMain';
 import ProfileSettingMain from '../../../pages/settingPage/ProfileSettingMain';
 import Error from '../Error';
+import MainPage from '../../../pages/mainpage/MainPage';
 
 const StyledMainDiv = styled.div`
     width: 100%;
@@ -23,9 +24,7 @@ const Main = () => {
     return (
         <StyledMainDiv>
             <Routes>
-                <Route path='/' element={
-                <h1>메인페이지</h1>
-                }></Route>
+                <Route path='/' element={<MainPage />}></Route>
                 <Route path='/project/*' element={<ProjectMain/>} />
                 <Route path='/userpage/:temp/:no' element={<UserPageMain />} />
                 <Route path='/back/*' element={<BackMain />} />
