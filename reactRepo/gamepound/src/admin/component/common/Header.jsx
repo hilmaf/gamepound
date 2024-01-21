@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const StyledHeader = styled.header`
@@ -29,12 +30,30 @@ const StyledHeader = styled.header`
 `;
 
 const Header = () => {
+
+    const navigate = useNavigate();
+    const [adminMember, setAdminMember] = useState();
+
+    useEffect(() => {
+        // 로그인 체크
+        if(!sessionStorage.getItem('adminMember')){
+            alert('로그인 후 이용하실 수 있습니다.');
+            navigate(-1);
+        }
+        setAdminMember(JSON.parse(sessionStorage.getItem('adminMember')));
+    }, []);
+
+    const handleLogout = () => {
+        sessionStorage.removeItem('adminMember');
+        navigate('../');
+    }
+
     return (
         <StyledHeader>
             <div className="txt">
-                <span>관리자</span>님 환영합니다.
+                <span>{adminMember ? adminMember.name : ''}</span>님 환영합니다.
             </div>
-            <Button variant="secondary">로그아웃</Button>
+            <Button variant="secondary" onClick={handleLogout}>로그아웃</Button>
         </StyledHeader>
     );
 };

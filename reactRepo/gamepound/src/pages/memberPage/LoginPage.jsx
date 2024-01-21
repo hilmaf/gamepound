@@ -108,11 +108,13 @@ const LoginPage = () => {
                 setLoginMemberVo(JSON.parse(sessionStorage.getItem('loginMemberVo')));
                 navigate('/')
             } else {
+                setLoading(false); // 로딩중 화면 끝
                 alert('로그인에 실패했습니다.');
             }
         })
-        .catch(error => {
-            console.error('Error during login:', error);
+        .catch(() => {
+            setLoading(false); // 로딩중 화면 끝
+            alert('로그인에 실패했습니다.');
         });
         ;
     }
