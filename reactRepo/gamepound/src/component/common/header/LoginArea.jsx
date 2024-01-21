@@ -45,7 +45,7 @@ const StyledLoginAreaDiv = styled.ul`
             padding: 20px;
             background-color: #fff;
             border-radius: 5px;
-            width: 150px;
+            width: 185px;
             box-shadow: 0px 0px 12px 2px rgba(0, 0, 0, .1);
             z-index: 10;
             & ul {

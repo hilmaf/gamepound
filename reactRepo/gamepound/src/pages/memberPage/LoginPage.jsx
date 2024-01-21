@@ -4,6 +4,7 @@ import InpText from './input/InpText';
 import { Link, useNavigate } from 'react-router-dom';
 import logoImage from '../../assets/images/logo_big.svg';
 import { useUserMemory } from '../../component/context/UserContext';
+import Loading from '../../component/common/Loading';
 
 const StyledLoginPageDiv = styled.div`
     display: flex;
@@ -77,6 +78,7 @@ const LoginPage = () => {
     const [formVo, setFormVo] = useState({});
     const {setLoginMemberVo} = useUserMemory();
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
 
 
     const handleInputChange = (e) => {
@@ -89,6 +91,7 @@ const LoginPage = () => {
 
     const handleLogin = (e) => {
         e.preventDefault();
+        setLoading(true); // 로딩중 화면 표시
         fetch('http://localhost:8889/gamepound/login', {
             method: 'post',
             headers: {
@@ -99,6 +102,7 @@ const LoginPage = () => {
         .then(resp => resp.json())
         .then((data) => {
             if(data.msg === 'good'){
+                setLoading(false); // 로딩중 화면 끝
                 sessionStorage.setItem("loginMemberVo" , JSON.stringify(data.loginMember));
                 
                 setLoginMemberVo(JSON.parse(sessionStorage.getItem('loginMemberVo')));
@@ -130,6 +134,7 @@ const LoginPage = () => {
                     <span>혹시 비밀번호를 잊으셨나요? <Link to='/pwd'>비밀번호 재설정</Link></span>
                 </div>
             </div>
+            {loading ? <Loading /> : ''}
         </StyledLoginPageDiv>
     );
 };

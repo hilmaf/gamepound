@@ -4,6 +4,7 @@ import logoImage from '../../assets/images/logo_big.svg';
 import { Link, useNavigate } from 'react-router-dom';
 import InpText from './input/InpText';
 import InpTextNon from './input/InpTextNon';
+import Loading from './../../component/common/Loading';
 
 const StyledJoinPageDiv = styled.div`
     display: flex;
@@ -157,6 +158,7 @@ const JoinPage = () => {
     const [isSendEmail, setIsSendEmail] = useState(false); // 인증메일 보내기 상태
     const [isAuthentication, setIsAuthentication] = useState(false); // 인증번호 인증 상태
     const [userCode, setUserCode] = useState({}); // 인증번호Vo
+    const [loading, setLoading] = useState(false); // 로딩중 표시
 
     const navigate = useNavigate();
 
@@ -175,6 +177,7 @@ const JoinPage = () => {
         }
     
         // 가입진행
+        setLoading(true); // 로딩중 화면 표시
         fetch('http://localhost:8889/gamepound/join', {
             method: 'post',
             headers: {
@@ -185,9 +188,11 @@ const JoinPage = () => {
         .then(resp => resp.json())
         .then(data => {
             if(data.msg === 'good'){
+                setLoading(false); // 로딩중 화면 끝
                 alert('가입 완료되었습니다.');
                 navigate('/login')
             } else {
+                setLoading(false); // 로딩중 화면 끝
                 alert('가입 실패되었습니다. 입력하신 정보를 확인해주세요.');
             }
         })
@@ -208,6 +213,7 @@ const JoinPage = () => {
         }
         
         // 중복확인
+        setLoading(true); // 로딩중 화면 표시
         fetch('http://localhost:8889/gamepound/emailUnique', {
             method: 'post',
             headers: {
@@ -218,12 +224,14 @@ const JoinPage = () => {
         .then(resp => resp.json())
         .then(data => {
             if(data.msg === 'good'){
+                setLoading(false); // 로딩중 화면 끝
                 alert('이 이메일로 가입하실 수 있습니다.');
                 const sendBtn = document.querySelector('.send');
                 sendBtn.parentNode.classList.add('active');
                 const emailInput = document.querySelector('input[name=email]');
                 emailInput.disabled = true;
             } else {
+                setLoading(false); // 로딩중 화면 끝
                 alert('이미 가입된 이메일 입니다.');
             }
         })
@@ -235,6 +243,7 @@ const JoinPage = () => {
     const handleSendEmail = () => {
         if(!isSendEmail){
 
+            setLoading(true); // 로딩중 화면 표시
             fetch('http://localhost:8889/gamepound/mailCheck', {
                 method: 'post',
                 headers: {
@@ -244,6 +253,7 @@ const JoinPage = () => {
             })
             .then(resp => resp.json())
             .then(data => {
+                setLoading(false); // 로딩중 화면 끝
                 console.log(data.msg);
                 console.log(data.verificationCode);
             })
@@ -254,6 +264,7 @@ const JoinPage = () => {
 
     // 인증하기
     const handleCodeComplete = () => {
+        setLoading(true); // 로딩중 화면 표시
         fetch('http://localhost:8889/gamepound/mailauthCheck', {
             method: 'post',
             headers: {
@@ -268,6 +279,7 @@ const JoinPage = () => {
             const msg = document.querySelector('.email.msg');
 
             if (data.msg === 'good') {
+                setLoading(false); // 로딩중 화면 끝
                 alert('인증이 성공했습니다.');
                 authenticationBtn.disabled = true;
                 authenticationBtn.innerHTML = '인증완료';
@@ -275,6 +287,7 @@ const JoinPage = () => {
                 sendBtn.disabled = true;
                 msg.innerHTML = '인증완료 되었습니다.';
             } else {
+                setLoading(false); // 로딩중 화면 끝
                 alert('인증번호가 틀렸습니다.');
                 sendBtn.innerHTML = '다시보내기';
                 sendBtn.disabled = false;
@@ -413,6 +426,8 @@ const JoinPage = () => {
                     <span>이미 게임파운드 계정이 있으신가요? <Link to='/login'>기존계정으로 로그인하기</Link></span>
                 </div>
             </div>
+
+            {loading ? <Loading /> : ''}
         </StyledJoinPageDiv>
     );
 };

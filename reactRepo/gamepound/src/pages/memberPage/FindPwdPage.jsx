@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import logoImage from '../../assets/images/logo_big.svg';
 import InpText from './input/InpText';
 import { Link, useNavigate } from 'react-router-dom';
+import Loading from '../../component/common/Loading';
 
 const StyledFindPwdPageDiv = styled.div`
     display: flex;
@@ -85,6 +86,7 @@ const FindPwdPage = () => {
     const navigate = useNavigate();
     const [formVo, setFormVo] = useState({});
     const [isValidEmail, setIsValidEmail] = useState(true); // 이메일 검증 상태
+    const [loading, setLoading] = useState(false); // 로딩중표시
 
     // 비밀번호 확인 메일 보내기
     const handleFindPwd = (e) => {
@@ -93,6 +95,8 @@ const FindPwdPage = () => {
         if(!isValidEmail){
             alert('이메일 형식이 맞지 않습니다.');
         }
+
+        setLoading(true); // 로딩중 화면 표시
         fetch('http://localhost:8889/gamepound/confirmPassword', {
             method: 'post',
             headers: {
@@ -103,6 +107,7 @@ const FindPwdPage = () => {
         .then(resp => resp.json())
         .then(data => {
             if(data.msg === 'good'){
+                setLoading(false); // 로딩중 화면 끝
                 alert('새 비밀번호 관리 메일이 발송되었습니다.');
                 navigate('/');
             } else {
@@ -157,6 +162,7 @@ const FindPwdPage = () => {
                     <span>이미 게임파운드 계정이 있으신가요? <Link to='/login'>기존계정으로 로그인하기</Link></span>
                 </div>
             </div>
+            {loading ? <Loading /> : ''}
         </StyledFindPwdPageDiv>
     );
 };

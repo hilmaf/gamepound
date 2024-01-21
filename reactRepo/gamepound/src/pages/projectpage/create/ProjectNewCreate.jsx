@@ -53,6 +53,7 @@ const StyledNewCreateDiv = styled.div`
                     border: 1px solid #ddd;
                     border-radius: 30px;
                     color: #999;
+                    font-size: 14px;
                     cursor: pointer;
                     &:hover {
                         border-color: #333;
