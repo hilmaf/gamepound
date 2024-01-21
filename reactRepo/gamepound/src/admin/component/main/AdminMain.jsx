@@ -10,6 +10,7 @@ import PaymentMain from '../../pages/payment/PaymentMain';
 import ProjectMain from '../../pages/project/ProjectMain';
 import UserMain from '../../pages/user/UserMain';
 import CategoryDetail from '../../pages/category/CategoryDetail';
+import ProjectDetail from '../../pages/project/ProjectDetail';
 
 const StyledWrapDiv = styled.div`
     display: flex;
@@ -53,6 +54,7 @@ const AdminMain = () => {
                             <Route path='/backer/*' element={<BackerMain />} />
                             <Route path='/payment/*' element={<PaymentMain />} />
                             <Route path='/project/*' element={<ProjectMain />} />
+                            <Route path='/project/detail' element={<ProjectDetail />} />
                             <Route path='/user/*' element={<UserMain />} />
                             <Route path='/*' element={<h1>에러페이지</h1>} />
                         </Routes>
