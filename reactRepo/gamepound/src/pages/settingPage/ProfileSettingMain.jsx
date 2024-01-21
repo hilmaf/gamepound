@@ -2,10 +2,75 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import { useUserMemory } from '../../component/context/UserContext';
-import NameSetting from './NameSetting';
 
 const StyledAllDiv = styled.div`
     width: 100%;
+`;
+const StyledStartDiv = styled.div`
+    width: 1200px;
+    margin: 0 auto;
+    & > div{
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        height: 700px;
+        & > div{
+            & > div:first-child{
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                font-size: 20px;
+                & > div > span{
+                    color: red;
+                }
+            }
+            & > div:nth-child(2){
+                display: flex;
+                align-items: center;
+                margin-top: 20px;
+                & > div:first-child{
+                    width: 70px;
+                }
+                & > div:last-child{
+                    margin-top: 5px;
+                    font-size: 18px;
+                    font-weight: 500;
+                }
+            }
+            & > div:nth-child(3){
+                display: flex;
+                margin-top: 10px;
+                align-items: center;
+                & > div:first-child{
+                    width: 70px;
+                }
+                & > input{
+                    margin-top: 5px;
+                    height: 40px;
+                    width: 200px;
+                    border: 1px solid #e0e0e0;
+                    border-radius: 5px;
+                    padding: 8px 0px 8px 10px;
+                }
+            }
+            & > div:nth-child(4){
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin-top: 10px;
+                width: 100%;
+                & > button{
+                    width: 100%;
+                    height: 40px;
+                    font-size: 15px;
+                    border-radius: 5px;
+                    background-color: var(--red-color);
+                    color: #ffffff;
+                }
+            }
+        }
+    }
 `;
 const StyledSettingsDiv = styled.div`
     width: 1200px;
@@ -24,7 +89,7 @@ const StyledSettingsDiv = styled.div`
         & > ul{
             & > li{
                 border-bottom: 1px solid lightgray;
-                padding: 20px 0px 20px 20px;
+                padding: 20px 0px 20px 0px;
                 & > div:first-child{
                     font-size: 18px;
                     font-weight: 500;
@@ -40,18 +105,44 @@ const ProfileSettingMain = () => {
     //스프링 기본 경로
     const baseURL = process.env.REACT_APP_API_URL;
 
+
     //회원번호
     const {loginMemberVo} = useUserMemory();
 
     //기초세팅
-    const [profile, setProfile] = useState({});
+    const [profile, setProfile] = useState({
+        "name" : "",
+        "intro" : "",
+        "siteUrl" : ""
+    });
     const [changeValue, setChangeValue] = useState({});
     const [object, setObject] = useState({});
+    const [start, setStart] = useState();
+    const [checkPwd, setCheckPwd] = useState({});
 
-    
+    const handleCheckPwd = ()=>{
+        const classCheckPwd = document.querySelector('.checkPwd')
+        setCheckPwd({
+            pwd : classCheckPwd.value
+        });
+        console.log(checkPwd);
+        fetch(process.env.REACT_APP_API_URL + "/settings/checkPwd",{
+            method: 'post',
+            headers:{
+                "Content-Type" : 'application/json'
+            },
+            body: JSON.stringify(checkPwd),
+        })
+        .then(resp=>resp.json())
+        .then(data=>{
+            if(data.msg === "good"){
+                setStart(1);
+            }
+        })
+    }
 
     useEffect(()=>{
-        fetch(baseURL + "/settings",{
+        fetch(process.env.REACT_APP_API_URL + "/settings",{
             method: 'post',
             headers:{
                 "Content-Type" : 'application/json'
@@ -60,7 +151,6 @@ const ProfileSettingMain = () => {
         })
         .then(resp=>resp.json())
         .then(data=>{
-            console.log("data",data);
             setProfile(data);
         })
         .catch((e)=>console.log(e))
@@ -113,12 +203,33 @@ const ProfileSettingMain = () => {
         }
     }
 
-
-
-
-
     return (
         <StyledAllDiv>
+            {
+            start===undefined
+            ?
+            <StyledStartDiv>
+                <div>
+                    <div>
+                        <div>
+                            <div>정보를 안전하게 보호하기 위해</div>
+                            <div><span>비밀번호를 다시 한 번 확인</span>합니다</div>
+                        </div>
+                        <div>
+                            <div>아이디</div>
+                            <div>{profile.name}</div>
+                        </div>
+                        <div>
+                            <div>비밀번호</div>
+                            <input type="password" placeholder='비밀번호를 입력해주세요.' className='checkPwd'/>
+                        </div>
+                        <div>
+                            <button onClick={handleCheckPwd}>확인</button>
+                        </div>
+                    </div>
+                </div>
+            </StyledStartDiv>
+            :
             <StyledSettingsDiv>
                 <div>
                     설정
@@ -156,7 +267,6 @@ const ProfileSettingMain = () => {
                         </li>
                         <li>
                             <div>비밀번호</div>
-                            <div>현재 비밀번호 : <input type="password" /></div>
                             <div>변경할 비밀번호 : <input type="password" /></div>
                             <div>
                                 <button>저장</button>
@@ -171,6 +281,7 @@ const ProfileSettingMain = () => {
                     </ul>
                 </div>
             </StyledSettingsDiv>
+            }
         </StyledAllDiv>
     );
 };

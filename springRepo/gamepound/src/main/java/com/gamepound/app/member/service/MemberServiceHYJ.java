@@ -14,6 +14,11 @@ public class MemberServiceHYJ {
 	
 	private final MemberDaoHYJ dao;
 	private final SqlSessionTemplate sst;
+	
+	//비밀번호 체크
+	public MemberVo checkPwd(MemberVo vo) {
+		return dao.checkPwd(sst, vo);
+	}
 
 	//로그인 유저 프로필 정보
 	public MemberVo getProfile(MemberVo vo) {
@@ -68,6 +73,8 @@ public class MemberServiceHYJ {
 		
 		return dao.editPwd(sst, vo);
 	}
+
+
 
 	
 }
