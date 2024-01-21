@@ -22,12 +22,22 @@ public class MemberControllerHYJ {
 	private final MemberServiceHYJ service;
 	private final Map<String, String>map;
 	
+	//비밀번호 체크
+	@PostMapping("checkPwd")
+	public Map<String, String> checkPwd(@RequestBody MemberVo vo) {
+		System.out.println(vo);
+		MemberVo checkVo = service.checkPwd(vo);
+		map.put("msg", "good");
+		if(checkVo==null) {
+			map.put("msg", "bad");
+		}
+		return map;
+	}
+	
 	//로그인 유저 프로필 정보
 	@PostMapping
 	public MemberVo getProfile(@RequestBody MemberVo vo) {
-		System.out.println("MemberControllerHYJ > getProfile > vo ::: " + vo);
 		MemberVo loginMemberVo = service.getProfile(vo);
-		System.out.println("MemberControllerHYJ > getProfile > loginMember ::: " + loginMemberVo);
 		return loginMemberVo;
 	}
 	

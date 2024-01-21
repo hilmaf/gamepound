@@ -56,7 +56,7 @@ const StyledProjectBoxInfoDiv = styled.div`
         margin-bottom: 10px;
     }
 
-    & > .progress {
+    & > .projectStatus {
         display: flex;
         justify-content: space-between;
 
@@ -100,7 +100,7 @@ const ProjectListBoxInfo = ({project}) => {
             <div className='title'>
                 {project.title}
             </div>
-            <div className='progress'>
+            <div className='projectStatus'>
                 <div className='achievement'>
                     <span id='achievement_rate'>{project.achievementRate}%</span>
                     <span id='achievement_amnt'>{project.currentAmount}원</span>

@@ -54,7 +54,6 @@ public class ProjectDetailControllerHYJ {
 	//공개예정 프로젝트 상세 조회 - 타이틀
 	@GetMapping("prelaunch")
 	public ProjectDetailVo projectDetailPrelaunch(String no) {
-		System.out.println(no);
 		ProjectDetailVo detailPrelaunchVo = service.projectDetail(no);
 		return detailPrelaunchVo;
 	}

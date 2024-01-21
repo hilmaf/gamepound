@@ -56,7 +56,7 @@ const StyledProjectBoxInfoDiv = styled.div`
         margin-bottom: 10px;
     }
 
-    & > .progress {
+    & > .status {
         display: flex;
         justify-content: space-between;
         & > div:last-child{
@@ -86,7 +86,7 @@ const ProjectPrelaunchListBoxInfo = ({project}) => {
             <div className='title' key={project.no}>
                 {project.title}
             </div>
-            <div className='progress'>
+            <div className='status'>
                 <div>공개 예정</div>
                 <div>{project.startDateStr}</div>
             </div>

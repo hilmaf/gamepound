@@ -3,6 +3,16 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="MemberSettingsMapper">
+
+  <!-- 로그인 유저 비밀번호 체크 -->
+  <select id="checkPwd" resultType="com.gamepound.app.member.vo.MemberVo">
+  	SELECT
+  		NO
+  	FROM MEMBER
+  	WHERE NO = #{no}
+  		AND PWD = #{pwd}
+  </select>
+  
   <!-- 로그인 유저 프로필 정보 -->
   <select id="getProfile" resultType="com.gamepound.app.member.vo.MemberVo">
   	SELECT 
