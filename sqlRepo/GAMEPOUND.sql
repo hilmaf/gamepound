@@ -48,7 +48,7 @@ CREATE TABLE MEMBER (
 	NO	                NUMBER	            PRIMARY KEY
 	, NAME	            VARCHAR2(42)	    NOT NULL
 	, EMAIL	            VARCHAR2(150)	    NOT NULL        UNIQUE
-	, PWD	            VARCHAR2(50)	    NOT NULL
+	, PWD	            VARCHAR2(100)	    NOT NULL
 	, PIC	            VARCHAR2(500)	    NULL
 	, INTRO	            VARCHAR2(2500)	    NULL
 	, SITE_URL	        VARCHAR2(500)	    NULL
@@ -88,7 +88,7 @@ CREATE TABLE AD_MEMBER (
 	NO	                NUMBER		        NOT NULL PRIMARY KEY
 	, ID	            VARCHAR2(60)		NOT NULL
 	, NAME	            VARCHAR2(42)		NOT NULL
-	, PWD	            VARCHAR2(30)		NOT NULL
+	, PWD	            VARCHAR2(100)		NOT NULL
 	, PIC	            VARCHAR2(500)		NULL
 	, ENROLL_DATE	    TIMESTAMP	        DEFAULT SYSDATE	NOT NULL
 	, QUIT_YN	        CHAR(1)	            DEFAULT 'N'	CHECK( QUIT_YN IN ('Y','N') )
@@ -362,38 +362,38 @@ ALTER TABLE KAKAOPAY ADD CONSTRAINT FK_KAKAOPAY_PAYMENT FOREIGN KEY(PAYMENT_NO) 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- MEMBER(회원) 테이블 더미 데이터
 INSERT INTO MEMBER (NO, NAME, EMAIL, PWD, PIC, INTRO, SITE_URL, ENROLL_DATE, UPDATE_DATE, QUIT_YN)
-VALUES (SEQ_MEMBER_NO.NEXTVAL, '현지연', 'clsrnclsrn1111@naver.com', '1234', 'default_avatar.webp', '향수 애호가를 위한 프래그런스 브랜드. 세이리.', 'http://www.example.com/john', SYSDATE, NULL, 'N');
+VALUES (SEQ_MEMBER_NO.NEXTVAL, '현지연', 'clsrnclsrn1111@naver.com', '$2a$10$EAUCN4zA7ZBj6CZwAoCIbeSmQ9ujAXECLR.cx0T1CydXJ7cU.7JgG', 'default_avatar.webp', '향수 애호가를 위한 프래그런스 브랜드. 세이리.', 'http://www.example.com/john', SYSDATE, NULL, 'N');
 INSERT INTO MEMBER (NO, NAME, EMAIL, PWD, PIC, INTRO, SITE_URL, ENROLL_DATE, UPDATE_DATE, QUIT_YN)
-VALUES (SEQ_MEMBER_NO.NEXTVAL, '한윤지', 'gksdbswl@gmail.com', '1234', 'default_avatar.webp', '창작자분들을 위한 유니크한 자료를 만듭니다.', 'http://www.example.com/john', SYSDATE, NULL, 'N');
+VALUES (SEQ_MEMBER_NO.NEXTVAL, '한윤지', 'gksdbswl@gmail.com', '$2a$10$EAUCN4zA7ZBj6CZwAoCIbeSmQ9ujAXECLR.cx0T1CydXJ7cU.7JgG', 'default_avatar.webp', '창작자분들을 위한 유니크한 자료를 만듭니다.', 'http://www.example.com/john', SYSDATE, NULL, 'N');
 INSERT INTO MEMBER (NO, NAME, EMAIL, PWD, PIC, INTRO, SITE_URL, ENROLL_DATE, UPDATE_DATE, QUIT_YN)
-VALUES (SEQ_MEMBER_NO.NEXTVAL, '이경민', 'dlrudals@naver.com', '1234', 'default_avatar.webp', '<지난 펀딩 소재 스토어 - 오픈중>', 'http://www.example.com/john', SYSDATE, NULL, 'N');
+VALUES (SEQ_MEMBER_NO.NEXTVAL, '이경민', 'dlrudals@naver.com', '$2a$10$EAUCN4zA7ZBj6CZwAoCIbeSmQ9ujAXECLR.cx0T1CydXJ7cU.7JgG', 'default_avatar.webp', '<지난 펀딩 소재 스토어 - 오픈중>', 'http://www.example.com/john', SYSDATE, NULL, 'N');
 INSERT INTO MEMBER (NO, NAME, EMAIL, PWD, PIC, INTRO, SITE_URL, ENROLL_DATE, UPDATE_DATE, QUIT_YN)
-VALUES (SEQ_MEMBER_NO.NEXTVAL, '판타지문학사', 'fantasy@naver.com', '1234', 'default_avatar.webp', '판타지 세계의 모든 것들을 다루고 있습니다.', 'http://www.example.com/john', SYSDATE, NULL, 'N');
+VALUES (SEQ_MEMBER_NO.NEXTVAL, '판타지문학사', 'fantasy@naver.com', '$2a$10$EAUCN4zA7ZBj6CZwAoCIbeSmQ9ujAXECLR.cx0T1CydXJ7cU.7JgG', 'default_avatar.webp', '판타지 세계의 모든 것들을 다루고 있습니다.', 'http://www.example.com/john', SYSDATE, NULL, 'N');
 INSERT INTO MEMBER (NO, NAME, EMAIL, PWD, PIC, INTRO, SITE_URL, ENROLL_DATE, UPDATE_DATE, QUIT_YN)
-VALUES (SEQ_MEMBER_NO.NEXTVAL, 'TextPlanet', 'textplanet@gmail.com', '1234', 'default_avatar.webp', 'TextPlanet(텍스트플래닛)은 창작자를 위한 새로운 세계를 언어를 통해 창조하는 언어학 창작 그룹입니다. 높은 완성도로 여러분께 만족감을 드리겠습니다.', 'http://www.example.com/john', SYSDATE, NULL, 'N');
+VALUES (SEQ_MEMBER_NO.NEXTVAL, 'TextPlanet', 'textplanet@gmail.com', '$2a$10$EAUCN4zA7ZBj6CZwAoCIbeSmQ9ujAXECLR.cx0T1CydXJ7cU.7JgG', 'default_avatar.webp', 'TextPlanet(텍스트플래닛)은 창작자를 위한 새로운 세계를 언어를 통해 창조하는 언어학 창작 그룹입니다. 높은 완성도로 여러분께 만족감을 드리겠습니다.', 'http://www.example.com/john', SYSDATE, NULL, 'N');
 INSERT INTO MEMBER (NO, NAME, EMAIL, PWD, PIC, INTRO, SITE_URL, ENROLL_DATE, UPDATE_DATE, QUIT_YN)
-VALUES (SEQ_MEMBER_NO.NEXTVAL, '나랑하', 'narangha@naver.com', '1234', 'default_avatar.webp', '우리 주변의 다양한 이야기를 소개하는 출판 전문 스튜디오, 스튜디오 나랑하입니다.', 'http://www.example.com/john', SYSDATE, NULL, 'N');
+VALUES (SEQ_MEMBER_NO.NEXTVAL, '나랑하', 'narangha@naver.com', '$2a$10$EAUCN4zA7ZBj6CZwAoCIbeSmQ9ujAXECLR.cx0T1CydXJ7cU.7JgG', 'default_avatar.webp', '우리 주변의 다양한 이야기를 소개하는 출판 전문 스튜디오, 스튜디오 나랑하입니다.', 'http://www.example.com/john', SYSDATE, NULL, 'N');
 INSERT INTO MEMBER (NO, NAME, EMAIL, PWD, PIC, INTRO, SITE_URL, ENROLL_DATE, UPDATE_DATE, QUIT_YN)
-VALUES (SEQ_MEMBER_NO.NEXTVAL, '나래꿈', 'nareggoum@naver.com', '1234', 'default_avatar.webp', '트위터 : @naredream 인스타 : naredream', 'http://www.example.com/john', SYSDATE, NULL, 'N');
+VALUES (SEQ_MEMBER_NO.NEXTVAL, '나래꿈', 'nareggoum@naver.com', '$2a$10$EAUCN4zA7ZBj6CZwAoCIbeSmQ9ujAXECLR.cx0T1CydXJ7cU.7JgG', 'default_avatar.webp', '트위터 : @naredream 인스타 : naredream', 'http://www.example.com/john', SYSDATE, NULL, 'N');
 INSERT INTO MEMBER (NO, NAME, EMAIL, PWD, PIC, INTRO, SITE_URL, ENROLL_DATE, UPDATE_DATE, QUIT_YN)
-VALUES (SEQ_MEMBER_NO.NEXTVAL, '하이꽈베트남어', 'betnam@gmail.com', '1234', 'default_avatar.webp', '<도전! 베트남 요리왕>을 통해 다 함께 베트남의 매력 속에 빠져 보세요!', 'http://www.example.com/john', SYSDATE, NULL, 'N');
+VALUES (SEQ_MEMBER_NO.NEXTVAL, '하이꽈베트남어', 'betnam@gmail.com', '$2a$10$EAUCN4zA7ZBj6CZwAoCIbeSmQ9ujAXECLR.cx0T1CydXJ7cU.7JgG', 'default_avatar.webp', '<도전! 베트남 요리왕>을 통해 다 함께 베트남의 매력 속에 빠져 보세요!', 'http://www.example.com/john', SYSDATE, NULL, 'N');
 INSERT INTO MEMBER (NO, NAME, EMAIL, PWD, PIC, INTRO, SITE_URL, ENROLL_DATE, UPDATE_DATE, QUIT_YN)
-VALUES (SEQ_MEMBER_NO.NEXTVAL, '위콘 게임즈 (WeCon Games)', 'wecon@naver.com', '1234', 'default_avatar.webp', '안녕하세요! 보드게임 작가 도지 입니다.', 'http://www.example.com/john', SYSDATE, NULL, 'N');
+VALUES (SEQ_MEMBER_NO.NEXTVAL, '위콘 게임즈 (WeCon Games)', 'wecon@naver.com', '$2a$10$EAUCN4zA7ZBj6CZwAoCIbeSmQ9ujAXECLR.cx0T1CydXJ7cU.7JgG', 'default_avatar.webp', '안녕하세요! 보드게임 작가 도지 입니다.', 'http://www.example.com/john', SYSDATE, NULL, 'N');
 INSERT INTO MEMBER (NO, NAME, EMAIL, PWD, PIC, INTRO, SITE_URL, ENROLL_DATE, UPDATE_DATE, QUIT_YN)
-VALUES (SEQ_MEMBER_NO.NEXTVAL, '야생의 멧씨', 'metcy@naver.com', '1234', 'default_avatar.webp', '솔직한 즐거움으로 보드게임을 만들고 있는 멧씨입니다.', 'http://www.example.com/john', SYSDATE, NULL, 'N');
+VALUES (SEQ_MEMBER_NO.NEXTVAL, '야생의 멧씨', 'metcy@naver.com', '$2a$10$EAUCN4zA7ZBj6CZwAoCIbeSmQ9ujAXECLR.cx0T1CydXJ7cU.7JgG', 'default_avatar.webp', '솔직한 즐거움으로 보드게임을 만들고 있는 멧씨입니다.', 'http://www.example.com/john', SYSDATE, NULL, 'N');
 commit;
 
 -- AD_MEMBER(관리자) 테이블 더미 데이터
 INSERT INTO AD_MEMBER (NO, ID, NAME, PWD, PIC, ENROLL_DATE, QUIT_YN)
-VALUES (SEQ_AD_MEMBER_NO.NEXTVAL, 'admin1', '관리자1', '1234', 'admin_pic1.jpg', SYSDATE, 'N');
+VALUES (SEQ_AD_MEMBER_NO.NEXTVAL, 'admin1', '관리자1', '$2a$10$EAUCN4zA7ZBj6CZwAoCIbeSmQ9ujAXECLR.cx0T1CydXJ7cU.7JgG', 'admin_pic1.jpg', SYSDATE, 'N');
 INSERT INTO AD_MEMBER (NO, ID, NAME, PWD, PIC, ENROLL_DATE, QUIT_YN)
-VALUES (SEQ_AD_MEMBER_NO.NEXTVAL, 'admin2', '관리자2', '1234', 'admin_pic2.jpg', SYSDATE, 'N');
+VALUES (SEQ_AD_MEMBER_NO.NEXTVAL, 'admin2', '관리자2', '$2a$10$EAUCN4zA7ZBj6CZwAoCIbeSmQ9ujAXECLR.cx0T1CydXJ7cU.7JgG', 'admin_pic2.jpg', SYSDATE, 'N');
 INSERT INTO AD_MEMBER (NO, ID, NAME, PWD, PIC, ENROLL_DATE, QUIT_YN)
-VALUES (SEQ_AD_MEMBER_NO.NEXTVAL, 'admin3', '관리자3', '1234', 'admin_pic3.jpg', SYSDATE, 'N');
+VALUES (SEQ_AD_MEMBER_NO.NEXTVAL, 'admin3', '관리자3', '$2a$10$EAUCN4zA7ZBj6CZwAoCIbeSmQ9ujAXECLR.cx0T1CydXJ7cU.7JgG', 'admin_pic3.jpg', SYSDATE, 'N');
 INSERT INTO AD_MEMBER (NO, ID, NAME, PWD, PIC, ENROLL_DATE, QUIT_YN)
-VALUES (SEQ_AD_MEMBER_NO.NEXTVAL, 'admin4', '관리자4', '1234', 'admin_pic4.jpg', SYSDATE, 'N');
+VALUES (SEQ_AD_MEMBER_NO.NEXTVAL, 'admin4', '관리자4', '$2a$10$EAUCN4zA7ZBj6CZwAoCIbeSmQ9ujAXECLR.cx0T1CydXJ7cU.7JgG', 'admin_pic4.jpg', SYSDATE, 'N');
 INSERT INTO AD_MEMBER (NO, ID, NAME, PWD, PIC, ENROLL_DATE, QUIT_YN)
-VALUES (SEQ_AD_MEMBER_NO.NEXTVAL, 'admin5', '관리자5', '1234', 'admin_pic5.jpg', SYSDATE, 'N');
+VALUES (SEQ_AD_MEMBER_NO.NEXTVAL, 'admin5', '관리자5', '$2a$10$EAUCN4zA7ZBj6CZwAoCIbeSmQ9ujAXECLR.cx0T1CydXJ7cU.7JgG', 'admin_pic5.jpg', SYSDATE, 'N');
 commit;
 
 -- CATEGORY(카테고리) 테이블 더미 데이터

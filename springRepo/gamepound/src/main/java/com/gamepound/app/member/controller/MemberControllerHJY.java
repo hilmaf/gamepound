@@ -103,9 +103,7 @@ public class MemberControllerHJY {
 	// 비밀번호 찾기
 	@PostMapping("confirmPassword")
 	public Map<String, Object> confirmPassword(@RequestBody MemberVo vo) throws Exception {
-		System.out.println(vo);
 		Map<String, Object> resultMap = mailService.newPwdEmail(vo.getEmail());
-        
 		return resultMap;
 	}
 		
@@ -124,7 +122,7 @@ public class MemberControllerHJY {
 	public Map<String, String> quit(@RequestBody MemberVo vo) {
 		
 		int result = service.quit(vo);
-		System.out.println(result);
+		
 		Map<String, String> map = new HashMap<>();
 		map.put("msg", "good");
 		if(result != 1) {

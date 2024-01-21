@@ -5,9 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.mybatis.spring.SqlSessionTemplate;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.gamepound.app.member.controller.TokenUtil;
@@ -15,7 +13,6 @@ import com.gamepound.app.member.dao.MemberDaoHJY;
 import com.gamepound.app.member.vo.MemberVo;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
@@ -23,10 +20,20 @@ public class MemberServiceHJY {
 	
 	private final MemberDaoHJY dao;
 	private final SqlSessionTemplate sst;
+	private final BCryptPasswordEncoder encoder;
 	
 	// 로그인 처리
 	public MemberVo login(MemberVo vo) throws Exception {
-		return dao.login(sst, vo);
+		
+		MemberVo dbVo = dao.login(sst, vo);
+		
+		// 암호화 비밀번호 비교
+		boolean isOk = encoder.matches(vo.getPwd(), dbVo.getPwd());
+		if(!isOk) {
+			return null;
+		}
+		
+		return dbVo;
 	}
 
 	// 회원가입 처리
@@ -49,9 +56,12 @@ public class MemberServiceHJY {
 		
 		// 이미지 없을시 기본이미지 설정
 		if(vo.getPic() == null) {
-			System.out.println("pic이 널임");
 			vo.setPic("default_avatar.webp");
 		}
+		
+		// 비밀번호 암호화
+		String securityPwd = encoder.encode(vo.getPwd());
+		vo.setPwd(securityPwd);
 		
 		return dao.join(sst, vo);
 	}
@@ -95,6 +105,9 @@ public class MemberServiceHJY {
 			map.put("badMsg", "토큰이 만료되었습니다.");
 			return map;
 		}
+		
+		// 비밀번호 암호화
+		vo.setPwd(encoder.encode(vo.getPwd()));
 		
 		// 결과 리턴
 		int result = dao.resetPassword(sst, vo);

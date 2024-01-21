@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="AdMemberMapper">
+	
+	<!-- 로그인 -->
+	<select id="login" resultType="com.gamepound.app.admember.vo.AdMemberVo">
+		SELECT NO, ID, NAME, PWD, PIC, ENROLL_DATE, QUIT_YN
+		FROM AD_MEMBER
+		WHERE ID = #{id}
+		AND QUIT_YN = 'N'
+	</select>
+	
+</mapper>

@@ -175,13 +175,11 @@ public class ProjectServiceHJY {
 	    }
 
 	    // 메인카테고리 넘버 널체크
-		System.out.println("서비스에서 메인카테고리 넘버 :: " + vo.getMainCategoryNo());
 	    if (vo.getMainCategoryNo() == null || "undefined".equals(vo.getMainCategoryNo()) || vo.getMainCategoryNo().isEmpty()) {
 	        vo.setMainCategory(null);
 	    }
 
 	    // 카테고리 넘버 널체크
-		System.out.println("서비스에서 카테고리 넘버 :: " + vo.getCategoryNo());
 	    if (vo.getCategoryNo() == null || "undefined".equals(vo.getCategoryNo()) || vo.getCategoryNo().isEmpty()) {
 	        vo.setCategoryNo(null);
 	    }
