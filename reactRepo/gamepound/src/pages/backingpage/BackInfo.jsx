@@ -144,7 +144,7 @@ const BackInfo = ({BackInfo}) => {
                 },
                 content: {
                   width: '400px',
-                  height: '300px',
+                  height: '400px',
                   margin: 'auto',
                   borderRadius: '10px',
                 },
