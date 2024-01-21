@@ -34,26 +34,29 @@ const StyledSearchConditionDiv = styled.div`
         padding: 5px 10px;
         margin-right: 10px;
     }
-`;
+    `;
 
 const Condition = (query) => {
-
-    const {conditionVo, setConditionVo, searchedVo, setSearchedVo} = useSearchContext();
-
+    
+    const {conditionVo, setConditionVo} = useSearchContext();
+    const [status, setStatus] = useState('all');
+    
     const handleSelectChange = (e) => {
-
+        
         const {name, value} = e.target;
 
+        setStatus(value);
+        
         setConditionVo({
             ...conditionVo,
             "query": sessionStorage.getItem('query'),
             [name]: value
         });
-
-
+        
+        
     }
+    
 
-    const statusSelectTag = document.querySelector(".project_status");
 
 
     return (
@@ -67,24 +70,24 @@ const Condition = (query) => {
                 :
                 <></>
             }
-            <select name='status' className='project_status' onChange={handleSelectChange}>
+            <select name='status' className='project_status' defaultValue='all' onChange={handleSelectChange}>
                 <option value="all">전체 프로젝트</option>
                 <option value="ing">진행 중인 프로젝트</option>
                 <option value="success">성사된 프로젝트</option>
                 <option value="prelaunch">공개예정 프로젝트</option>
             </select>
-            {/* {
-                statusSelectTag.value === 'prelaunch'
+            {
+                status === 'prelaunch'
                 ?
                 <></>
-                : */}
+                :
                 <select name='achievementRate' onChange={handleSelectChange}>
                     <option value="all">달성률</option>
                     <option value="under75">75% 이하</option>
                     <option value="between">75% ~ 100%</option>
                     <option value="over100">100% 이상</option>
                 </select>
-            {/* } */}
+            }
         </StyledSearchConditionDiv>
     );
 };

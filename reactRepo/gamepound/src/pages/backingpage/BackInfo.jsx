@@ -133,6 +133,13 @@ const BackInfo = ({BackInfo}) => {
 
     return (
         <StyledBackInfoDiv>
+            {
+                paymentChange === true
+                ?
+                <PaymentChangeModal />
+                :
+                <></>
+            }
             <div className='detail_box' id='reward_info'>
                 <div className='title'>
                     후원 정보
