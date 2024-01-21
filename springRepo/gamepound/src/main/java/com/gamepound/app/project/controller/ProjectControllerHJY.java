@@ -156,7 +156,7 @@ public class ProjectControllerHJY {
 	// 프로젝트 작성 : 선물구성
 	@PostMapping("create/reword")
 	public Map<String, String> createReword(@RequestBody RewardVo vo) throws Exception {
-		System.out.println("제대로잘오나 선물작성" + vo);
+		
 		int result = service.createReword(vo);
 		
 		Map<String, String> map = new HashMap<>();
@@ -204,7 +204,7 @@ public class ProjectControllerHJY {
 	public Map<String, Object> getDateplan(ProjectVo vo) {
 		
 		ProjectVo projectVo = service.getDateplan(vo);
-		System.out.println(projectVo);
+		
 		Map<String, Object> map = new HashMap<>();
 		map.put("msg", "good");
 		map.put("projectVo", projectVo);
@@ -270,7 +270,6 @@ public class ProjectControllerHJY {
 		if(result != 1) {
 			map.put("msg", "bad");
 		}
-		System.out.println("창작자 정보 작성(저장) 결과 : " + result);
 		
 		return map;
 		
@@ -279,7 +278,7 @@ public class ProjectControllerHJY {
 	// 프로젝트 승인 요청
 	@GetMapping("save/approval")
 	public Map<String, String> approvalProject(ProjectVo vo) {
-		System.out.println(vo);
+		
 		int result = service.approvalProject(vo);
 		
 		Map<String, String> map = new HashMap<>();
