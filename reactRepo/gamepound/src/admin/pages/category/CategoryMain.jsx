@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AgGridReact } from 'ag-grid-react'; // React Grid Logic
 import "ag-grid-community/styles/ag-grid.css"; // Core CSS
 import "ag-grid-community/styles/ag-theme-quartz.css"; // Theme
@@ -81,6 +81,7 @@ const CategoryMain = () => {
 
     const navigate = useNavigate();
     const [dataVo, setDataVo] = useState([]);
+    const gridRef = useRef();
 
     // 카테고리 조회
     useEffect(() => {
@@ -123,6 +124,7 @@ const CategoryMain = () => {
     const handlePageNum = (e) => {
         console.log(e.target.innerHTML);
         active = e.target.innerHTML;
+        gridRef.current.api.paginationGoToPage(active - 1);
     }
 
     const pageSize = 10;
@@ -136,9 +138,9 @@ const CategoryMain = () => {
             </Pagination.Item>,
         );
     }
-    // const onFirstDataRendered = useCallback((params) => {
-    //     params.api.paginationGoToPage(4);
-    // }, []);
+    const onFirstDataRendered = useCallback((params) => {
+        params.api.paginationGoToPage(active);
+    }, []);
 
     const rowClicked = (e) => {
         navigate('../category/detail')
@@ -175,6 +177,7 @@ const CategoryMain = () => {
             </div>
             <div className="agGridBox ag-theme-quartz">
                 <AgGridReact 
+                    ref={gridRef}
                     rowData={rowData} 
                     columnDefs={colDefs}
                     animateRows={true} // 행 애니메이션
@@ -184,6 +187,7 @@ const CategoryMain = () => {
                     paginationPageSize={pageSize} // 한 페이지당 보여줄 열의 개수
                     suppressPaginationPanel={true} // ag-grid에서 제공하는 페이징 컨트롤패널 안씀
                     onRowClicked={(e) => {rowClicked(e)}} // 행 클릭시 이벤트
+                    onFirstDataRendered={onFirstDataRendered} // 페이징
                 />
             </div>
 
