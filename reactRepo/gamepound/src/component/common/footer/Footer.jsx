@@ -7,7 +7,7 @@ const StyledFooterDiv = styled.div`
     display: flex;
     justify-content: center;
     align-items: center;
-    border-top: 1px solid #3d3d3d;
+    border-top: 1px solid #f5f5f5;
     opacity: 0.7;
     
     & > div {
