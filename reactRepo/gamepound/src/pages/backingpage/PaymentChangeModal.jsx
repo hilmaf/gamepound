@@ -1,19 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
+import EnrollCard from '../../component/payment/EnrollCard';
 
 const StyledPaymentChangeDiv = styled.div`
-    width: 400px;
-    height: 500px;
-    background-color: white;
-    display: position;
-    position: absolute;
-    z-index: 5;
+    width: 200px;
+    height: 400px;
 `;
 
+
 const PaymentChangeModal = () => {
+    
     return (
         <StyledPaymentChangeDiv>
-            
+            <div class='cardNo'>
+                
+                
+            </div>
         </StyledPaymentChangeDiv>
     );
 };

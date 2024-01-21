@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import RewardChangeModal from './RewardChangeModal';
 import PaymentChangeModal from './PaymentChangeModal';
+import ReactModal from 'react-modal';
 
 const StyledBackInfoDiv = styled.div`
     & > .detail_box {
@@ -85,6 +86,8 @@ const StyledBackInfoDiv = styled.div`
     }
 `;
 
+
+
 const BackInfo = ({BackInfo}) => {
 
     const navigate = useNavigate();
@@ -92,19 +95,20 @@ const BackInfo = ({BackInfo}) => {
     const [paymentChange, setPaymentChange] = useState(false);
 
     const handleRewardChangeClick = () => {
-        if(rewardChange===false) {
-            setRewardChange(true);
-        } else {
-            setRewardChange(false);
-        }
-    };
+        setRewardChange(true);
+    }
+
+    const closeRewardChange = () => {
+        setRewardChange(false);
+    }
 
     const handlePaymentChangeClick = () => {
-        if(paymentChange===false) {
-            setPaymentChange(true);
-        } else {
-            setPaymentChange(false);
-        }
+        setPaymentChange(true);
+        return true;
+    };
+
+    const closePaymentChange = () => {
+        setPaymentChange(false);
     };
 
 
@@ -133,13 +137,41 @@ const BackInfo = ({BackInfo}) => {
 
     return (
         <StyledBackInfoDiv>
-            {
+            <ReactModal isOpen={paymentChange} onRequestClose={closePaymentChange}
+            style={{
+                overlay: {
+                  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                },
+                content: {
+                  width: '400px',
+                  height: '300px',
+                  margin: 'auto',
+                  borderRadius: '10px',
+                },
+              }}>
+                <PaymentChangeModal />
+            </ReactModal>
+            <ReactModal isOpen={rewardChange} onRequestClose={closeRewardChange}
+             style={{
+                overlay: {
+                  backgroundColor: 'rgba(0, 0, 0, 0.5)',
+                },
+                content: {
+                  width: '400px',
+                  height: '300px',
+                  margin: 'auto',
+                  borderRadius: '10px',
+                },
+              }}>
+                <RewardChangeModal />
+            </ReactModal>
+            {/* {
                 paymentChange === true
                 ?
                 <PaymentChangeModal />
                 :
                 <></>
-            }
+            } */}
             <div className='detail_box' id='reward_info'>
                 <div className='title'>
                     후원 정보
