@@ -46,28 +46,26 @@ public class UserPageService {
 	 
 	
 	// 유저페이지 - 리뷰목록
-	public Map<String, Object> listReview(String memberNo) {
+	public Map<String, Object> listReview(Map<String, String> map) {
 		// 리뷰 개수
-		String cnt = dao.userReviewCnt(sst, memberNo);
+		String cnt = dao.userReviewCnt(sst, map.get("memberNo"));
 		
 		
 		// 만족도 평균 double 타입으로 변경
-
 		int listCount = Integer.parseInt(cnt);
-//		String currentPage_= 
-//		if(currentPage_ == null) {
-//			currentPage_ = "1";
-//		}
-//		
-//		int currentPage = Integer.parseInt(currentPage_);
-//		int pageLimit = 5;
-//		int boardLimit = 10;
-//		
-//		PageVo pvo = new PageVo(listCount, currentPage, pageLimit, boardLimit);
+		String currentPage_= map.get("currentPage");
+		if(currentPage_ == null) {
+			currentPage_ = "1";
+		}
 		
-//		, pvo
+		int currentPage = Integer.parseInt(currentPage_);
+		int pageLimit = 5;
+		int boardLimit = 10;
+		
+		PageVo pvo = new PageVo(listCount, currentPage, pageLimit, boardLimit);
+		
 		// 리뷰 목록
-		List<ReviewVo> reviewList = dao.listReview(sst, memberNo);
+		List<ReviewVo> reviewList = dao.listReview(sst, map.get("memberNo"), pvo);
 		
 		
 		// TODO: 만족도 DOUBLE 타입으로 변경하는 거 삭제하기 (더미데이터를 수정하는 방향으로)
@@ -83,15 +81,18 @@ public class UserPageService {
 		
 		
 		// map에 넣기
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("reviewList", reviewList);
-		map.put("size", reviewList.size());
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("reviewList", reviewList);
+		resultMap.put("size", cnt);
 		
-		return map;
+		return resultMap;
 	}
 
 	// 리뷰 작성
 	public int write(ReviewVo vo) {	
+		// TODO: review 파일명 변경
+		
+		
 		return dao.write(sst, vo);
 	}
 	

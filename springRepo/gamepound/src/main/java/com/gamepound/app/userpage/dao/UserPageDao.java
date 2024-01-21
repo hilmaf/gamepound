@@ -27,12 +27,12 @@ public class UserPageDao {
 	}
 	
 	// 리뷰 목록
-	public List<ReviewVo> listReview(SqlSessionTemplate sst, String memberNo) {
-//		int offset = (pvo.getCurrentPage()-1) * pvo.getBoardLimit();
-//		int limit = pvo.getBoardLimit();
-//		RowBounds rb = new RowBounds(offset, limit);
+	public List<ReviewVo> listReview(SqlSessionTemplate sst, String memberNo, PageVo pvo) {
+		int offset = (pvo.getCurrentPage()-1) * pvo.getBoardLimit();
+		int limit = pvo.getBoardLimit();
+		RowBounds rb = new RowBounds(offset, limit);
 		
-		return sst.selectList("UserPageMapper.listReview", memberNo);
+		return sst.selectList("UserPageMapper.listReview", memberNo, rb);
 	}
 
 	// 리뷰 통계 정보
