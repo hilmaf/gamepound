@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { AgGridReact } from 'ag-grid-react'; // React Grid Logic
 import "ag-grid-community/styles/ag-grid.css"; // Core CSS
 import "ag-grid-community/styles/ag-theme-quartz.css"; // Theme
@@ -75,7 +75,6 @@ const ProjectMain = () => {
     const navigate = useNavigate();
     // Row Data: The data to be displayed.
     const [rowData, setRowData] = useState([
-        { 번호: "Tesla", 대분류: "내용확인내용확인내용확인내용확인내용확인내용확인내용확인내용확인내용확인내용확인내용확인내용확인내용확인내용확인내용확인내용확인내용확인내용확인내용확인내용확인내용확인내용확인내용확인내용확인내용확인내용확인내용확인", 세로3: 64950, 세로4: true},
         { 번호: "Ford", 대분류: "F-Series", 소분류: 33850, 프로젝트명: false, 현황: '승인됨' },
         { 번호: "Ford", 대분류: "F-Series", 소분류: 33850, 프로젝트명: false, 현황: '승인됨' },
         { 번호: "Ford", 대분류: "F-Series", 소분류: 33850, 프로젝트명: false, 현황: '승인됨' },
@@ -112,6 +111,10 @@ const ProjectMain = () => {
     const rowClicked = (e) => {
         navigate('../project/detail')
     }
+
+    useEffect(()=>{
+        
+    }, [])
 
     return (
         <StyledProjectDiv>
