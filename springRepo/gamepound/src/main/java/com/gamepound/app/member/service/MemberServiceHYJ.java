@@ -32,7 +32,12 @@ public class MemberServiceHYJ {
 
 	//로그인 유저 프로필 정보
 	public MemberVo getProfile(MemberVo vo) {
-		return dao.getProfile(sst, vo);
+		MemberVo memberVo = dao.getProfile(sst, vo);
+		String localAddr = "http://127.0.0.1:8889/gamepound";
+		String path = "/resources/images/memberProfileImg/";
+		memberVo.setPic(localAddr + path + memberVo.getPic());
+		
+		return memberVo; 
 	}
 	
 	////////////////////////////////////////////////////////////////////////////////////

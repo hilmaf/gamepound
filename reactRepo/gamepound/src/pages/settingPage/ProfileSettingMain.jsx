@@ -107,38 +107,50 @@ const StyledSettingsDiv = styled.div`
                     font-weight: 500;
                 }
                 & > span > a > button{
-                background-color: var(--red-color);
-                color: white;
-                padding: 5px 15px 5px 15px;
-                border-radius: 5px;
-            }
+                    background-color: var(--red-color);
+                    color: white;
+                    padding: 5px 15px 5px 15px;
+                    border-radius: 5px;
+                }
             }
         }
     }
+
     .changeArea{
         width: 100%;
         display: flex;
         flex-wrap: wrap;
         align-items: center;
         justify-content: space-between;
-        .inputArea{
-            width: calc(100% - 60px);
-            & > input{
-                width: 100%;
-                border-radius: 5px;
-                border: 1px solid #d8d8d8;
-                padding: 5px 0px 5px 5px;
-                margin: 5px 0px 5px 0px;
-                color: #707070;
-            }
+    }
+    .inputArea{
+        width: calc(100% - 60px);
+        & > input{
+            width: 100%;
+            border-radius: 5px;
+            border: 1px solid #d8d8d8;
+            padding: 5px 0px 5px 5px;
+            margin: 5px 0px 5px 0px;
+            color: #707070;
         }
-        .buttonArea{
-            & > button{
-                background-color: var(--red-color);
-                color: white;
-                padding: 5px 15px 5px 15px;
-                border-radius: 5px;
-            }
+    }
+    .buttonArea{
+        & > button{
+            background-color: var(--red-color);
+            color: white;
+            padding: 5px 15px 5px 15px;
+            border-radius: 5px;
+        }
+    }
+    .imgArea{
+        width: 100px;
+        height: 100px;
+        border-radius: 50px;
+        & > img{
+            width: 100px;
+            height: 100px;
+            border-radius: 50px;
+            object-fit: cover;
         }
     }
 `;
@@ -384,10 +396,13 @@ const ProfileSettingMain = () => {
                         <ul>
                             <li>
                                 <div>프로필 사진</div>
-                                <span><img src='' alt="프로필 사진" /></span>
-                                <span>
-                                    <button>저장</button>
-                                </span>
+                                <div>
+                                    <div className='imgArea'>
+                                        <img src={profile.pic ? profile.pic : null} alt="프로필 사진" />
+                                        <button>이미지 업로드</button>
+                                    </div>
+                                    <span className='buttonArea'><button>저장</button></span>
+                                </div>
                             </li>
                             <li>
                                 <div>이름</div>
