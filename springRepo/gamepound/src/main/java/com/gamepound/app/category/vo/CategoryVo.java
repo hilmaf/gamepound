@@ -12,6 +12,7 @@ public class CategoryVo {
 	private String subCategoryNo;
 	private String mainCategory;
 	private String subCategory;
+	private String delYn;
 	
 	private List<SubCategoryVo> subCategoryList = new ArrayList<SubCategoryVo>();
 }

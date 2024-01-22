@@ -1,10 +1,11 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { AgGridReact } from 'ag-grid-react'; // React Grid Logic
 import "ag-grid-community/styles/ag-grid.css"; // Core CSS
 import "ag-grid-community/styles/ag-theme-quartz.css"; // Theme
 import styled from 'styled-components';
-import { Button, Form, InputGroup, Pagination } from 'react-bootstrap';
+import { Button, Col, Container, Form, InputGroup, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import Pagination from 'react-js-pagination';
 
 const baseURL = process.env.REACT_APP_API_URL;
 
@@ -68,11 +69,40 @@ const StyledCategoryDiv = styled.div`
     }
 
     & .totalArea {
-        font-size: 14px;
-        padding: 10px;
-        letter-spacing: 1px;
-        & strong {
-            font-weight: 500;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+        & .total {
+            font-size: 14px;
+            padding: 10px;
+            letter-spacing: 1px;
+            & strong {
+                font-weight: 500;
+            }
+        }
+        & .btnArea {
+            & button {
+                font-size: 14px;
+            }
+        }
+    }
+
+    // 페이지네이션
+    .pagination {
+        & li {
+
+            & a {
+                display: flex;
+                width: 30px;
+                height: 30px;
+                justify-content: center;
+                align-items: center;
+            }
+            &.active a {
+                background-color: #333;
+                color: #fff;
+            }
         }
     }
 `;
@@ -80,70 +110,52 @@ const StyledCategoryDiv = styled.div`
 const CategoryMain = () => {
 
     const navigate = useNavigate();
-    const [dataVo, setDataVo] = useState([]);
     const gridRef = useRef();
+    const [loading, setLoading] = useState(false); // 로딩중 표시
+    const [dataVo, setDataVo] = useState([]); // 데이터
+    const [pvo, setPvo] = useState(); // pvo
+    const [activePage, setActivePage] = useState(1); // 현재페이지
+    const [rowData, setRowData] = useState([]); // 행 데이터
+    const [colDefs, setColDefs] = useState([ // 제목 데이터
+        { headerName: "번호", field: "no", autoHeight: true, width: 50, headerClass: 'ag-header-cell-center', cellStyle: {textAlign: 'center'}},
+        { headerName: "대분류명", field: "mainCategory" , autoHeight: true, headerClass: 'ag-header-cell-center'},
+        { headerName: "소분류명", field: "subCategory", autoHeight: true, headerClass: 'ag-header-cell-center' },
+        { headerName: "삭제상태", field: "delYn", autoHeight: true, width: 60, headerClass: 'ag-header-cell-center', cellStyle: {textAlign: 'center'} }
+    ]);
 
     // 카테고리 조회
     useEffect(() => {
-        fetch(`${baseURL}/category/list`)
+        setLoading(true);
+        fetch(`${baseURL}/category/admin/list?pageNum=${activePage}`)
         .then(resp => resp.json())
         .then(data => {
-            setDataVo(data);
+            console.log(data);
+            setDataVo(data.categoryList);
+            setPvo(data.pvo);
         })
         .catch(() => {
             alert('데이터를 가져오는데 실패했습니다.');
         })
+        .finally(() => {
+            setLoading(false); // 로딩중 화면 끝
+        });
         ;
-    }, []);
-    console.log(dataVo);
-
-    // Row Data: The data to be displayed.
-    const [rowData, setRowData] = useState([]); // 데이터
-
+    }, [activePage]);
+    
     // 컬럼 데이터 채우기
     useEffect(() => {
-        const allSubCategories = dataVo.map(item => item.subCategoryList).flat();
-        setRowData(allSubCategories);
+        setRowData(dataVo);
     }, [dataVo]);
 
-    // Column Definitions: Defines & controls grid columns.
-    const [colDefs, setColDefs] = useState([
-        { headerName: "번호", field: "no", autoHeight: true, width: 50, headerClass: 'ag-header-cell-center', cellStyle: {textAlign: 'center'}},
-        { headerName: "대분류명", field: "mainCategory" , autoHeight: true, headerClass: 'ag-header-cell-center'},
-        { headerName: "소분류명", field: "subCategory", autoHeight: true, headerClass: 'ag-header-cell-center' },
-    ]);
-
-    // useEffect(() => {
-    //     const title = dataVo.subCategoryList.map(vo => {
-    //         vo.
-    //     });
-    //     setColDefs();
-    // }, []);
-
-    let active = 0; // 활성화
-    const handlePageNum = (e) => {
-        console.log(e.target.innerHTML);
-        active = e.target.innerHTML;
-        gridRef.current.api.paginationGoToPage(active - 1);
+    // 숫자페이지 눌렀을때 데이터 불러오기
+    const handlePageNumBtn = (pageNumber) => {
+        setActivePage(pageNumber);
     }
 
-    const pageSize = 10;
-
-    // 페이지네이션
-    let items = [];
-    for (let number = 1; number <= 10; number++) {
-        items.push(
-            <Pagination.Item key={number} active={number === active} onClick={handlePageNum}>
-                {number}
-            </Pagination.Item>,
-        );
-    }
-    const onFirstDataRendered = useCallback((params) => {
-        params.api.paginationGoToPage(active);
-    }, []);
-
+    // 행 클릭시 해당 detail로 이동
     const rowClicked = (e) => {
-        navigate('../category/detail')
+        const no = e.data.no;
+        navigate(`../category/detail/${no}`);
     }
 
     return (
@@ -152,18 +164,25 @@ const CategoryMain = () => {
             
             <div className="searchArea">
                 <Form>
-                    <InputGroup className="mb-2">
-                        <InputGroup.Text>검색조건</InputGroup.Text>
-                        <Form.Control placeholder="Username" />
-                    </InputGroup>
-                    <InputGroup className="mb-2">
-                        <InputGroup.Text>검색조건</InputGroup.Text>
-                        <Form.Control placeholder="Username" />
-                    </InputGroup>
-                    <InputGroup className="mb-2">
-                        <InputGroup.Text>검색조건</InputGroup.Text>
-                        <Form.Control placeholder="Username" />
-                    </InputGroup>
+                    <Container>
+                        <Row>
+
+                            <Col>
+                                <InputGroup className="mb-2">
+                                    <InputGroup.Text>대분류명</InputGroup.Text>
+                                    <Form.Control />
+                                </InputGroup>
+                            </Col>
+
+                            <Col>
+                                <InputGroup className="mb-2">
+                                    <InputGroup.Text>소분류명</InputGroup.Text>
+                                    <Form.Control />
+                                </InputGroup>
+                            </Col>
+
+                        </Row>
+                    </Container>
 
                     <div className="btnArea">
                         <Button variant="secondary">초기화</Button>
@@ -173,7 +192,8 @@ const CategoryMain = () => {
             </div>
 
             <div className="totalArea">
-                total <strong>30</strong>
+                <div className="total">total <strong>{pvo ? pvo.listCount : ''}</strong></div>
+                <div className="btnArea"><Button variant="primary">카테고리 추가</Button></div>
             </div>
             <div className="agGridBox ag-theme-quartz">
                 <AgGridReact 
@@ -183,23 +203,22 @@ const CategoryMain = () => {
                     animateRows={true} // 행 애니메이션
                     domLayout='autoHeight' // 자동높이
                     onGridReady={(e) => {e.api.sizeColumnsToFit();}} // 칼럼꽉차게
-                    pagination={true} // 페이징처리
-                    paginationPageSize={pageSize} // 한 페이지당 보여줄 열의 개수
-                    suppressPaginationPanel={true} // ag-grid에서 제공하는 페이징 컨트롤패널 안씀
                     onRowClicked={(e) => {rowClicked(e)}} // 행 클릭시 이벤트
-                    onFirstDataRendered={onFirstDataRendered} // 페이징
                 />
             </div>
-
-            <Pagination size="sm">
-                <Pagination.First />
-                <Pagination.Prev />
-                
-                {items}
-
-                <Pagination.Next />
-                <Pagination.Last />
-            </Pagination>
+            {
+                pvo ? 
+                <Pagination
+                    activePage={activePage} // 현재 보고있는 페이지 
+                    itemsCountPerPage={pvo.boardLimit} // 한페이지에 출력할 아이템수
+                    totalItemsCount={pvo.listCount} // 총 아이템수
+                    pageRangeDisplayed={pvo.maxPage} // 표시할 페이지수
+                    onChange={handlePageNumBtn}> 
+                </Pagination>
+                :
+                ''
+            }
+            
             
         </StyledCategoryDiv>
     );
