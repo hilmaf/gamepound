@@ -5,11 +5,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.gamepound.app.category.vo.CategoryVo;
 import com.gamepound.app.category.vo.SubCategoryVo;
+import com.gamepound.app.page.vo.PageVo;
 
 @Repository
 public class CategoryDaoHJY {
@@ -41,6 +43,24 @@ public class CategoryDaoHJY {
 		ArrayList<CategoryVo> result = new ArrayList<CategoryVo>(map.values());
 		
 		return result;
+	}
+
+	// 카테고리 전체 개수 조회
+	public int selectCategoryCount(SqlSessionTemplate sst) {
+		return sst.selectOne("CategoryMapper.selectCategoryCount");
+	}
+
+	// 어드민 카테고리 리스트 조회
+	public List<CategoryVo> getCategoryList(SqlSessionTemplate sst, PageVo pvo) {
+		int offset = (pvo.getCurrentPage() - 1) * pvo.getBoardLimit(); // 몇개의 게시물 건너뛸건지
+		int limit = pvo.getBoardLimit();
+		RowBounds rb = new RowBounds(offset, limit);
+		return sst.selectList("CategoryMapper.getCategoryList", null, rb);
+	}
+
+	// 어드민 카테고리 상세 조회
+	public CategoryVo getCategoryDetail(SqlSessionTemplate sst, String no) {
+		return sst.selectOne("CategoryMapper.getCategoryDetail", no);
 	}
 
 }

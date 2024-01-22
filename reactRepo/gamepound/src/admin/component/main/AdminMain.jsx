@@ -50,7 +50,7 @@ const AdminMain = () => {
                         <Header />
                         <Routes>
                             <Route path='/category/*' element={<CategoryMain />} />
-                            <Route path='/category/detail' element={<CategoryDetail />} />
+                            <Route path='/category/detail/:no' element={<CategoryDetail />} />
                             <Route path='/backer/*' element={<BackerMain />} />
                             <Route path='/payment/*' element={<PaymentMain />} />
                             <Route path='/project/*' element={<ProjectMain />} />
