@@ -26,8 +26,10 @@
   	SELECT
   		COUNT(*) CNT_REVIEW
   	FROM REVIEW R
+  	JOIN BACKER B ON B.NO = R.BACKER_NO
+  	JOIN PROJECT P ON B.PROJECT_NO = P.NO
 	JOIN MEMBER M ON M.NO = R.MEMBER_NO
-	WHERE M.NO = #{memberNo}
+	WHERE P.MEMBER_NO = #{memberNo}
   </select>
   
   <!-- 리뷰 목록 조회 -->
