@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useUserMemory } from '../../component/context/UserContext';
 
@@ -7,14 +7,14 @@ const StyledAllDiv = styled.div`
     width: 100%;
 `;
 const StyledStartDiv = styled.div`
-    width: 1200px;
+    width: 100%;
     margin: 0 auto;
     & > div{
         display: flex;
         flex-wrap: wrap;
         align-items: center;
         justify-content: center;
-        height: 700px;
+        height: calc(100vh - 260px);
         & > div{
             & > div:first-child{
                 display: flex;
@@ -73,7 +73,8 @@ const StyledStartDiv = styled.div`
     }
 `;
 const StyledSettingsDiv = styled.div`
-    width: 1200px;
+    width: 100%;
+    max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
     & > div:first-child{
@@ -90,10 +91,53 @@ const StyledSettingsDiv = styled.div`
             & > li{
                 border-bottom: 1px solid lightgray;
                 padding: 20px 0px 20px 0px;
+                width: 100%;
                 & > div:first-child{
                     font-size: 18px;
                     font-weight: 500;
                 }
+            }
+            & > li:last-child > div {
+                width: 100%;
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                justify-content: space-between;
+                & > span:first-child{
+                    font-weight: 500;
+                }
+                & > span > a > button{
+                background-color: var(--red-color);
+                color: white;
+                padding: 5px 15px 5px 15px;
+                border-radius: 5px;
+            }
+            }
+        }
+    }
+    .changeArea{
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        .inputArea{
+            width: calc(100% - 60px);
+            & > input{
+                width: 100%;
+                border-radius: 5px;
+                border: 1px solid #d8d8d8;
+                padding: 5px 0px 5px 5px;
+                margin: 5px 0px 5px 0px;
+                color: #707070;
+            }
+        }
+        .buttonArea{
+            & > button{
+                background-color: var(--red-color);
+                color: white;
+                padding: 5px 15px 5px 15px;
+                border-radius: 5px;
             }
         }
     }
@@ -105,27 +149,32 @@ const ProfileSettingMain = () => {
     //스프링 기본 경로
     const baseURL = process.env.REACT_APP_API_URL;
 
-
     //회원번호
     const {loginMemberVo} = useUserMemory();
+    const navigate = useNavigate();
+    if(loginMemberVo === null){
+        navigate('/login');
+    }
 
-    //기초세팅
+    //기초세팅(안하면 콘솔창 빨간색됨)
     const [profile, setProfile] = useState({
         "name" : "",
         "intro" : "",
         "siteUrl" : ""
     });
-    const [changeValue, setChangeValue] = useState({});
-    const [object, setObject] = useState({});
+    const [changePic, setChangePic] = useState({});
+    const [changeName, setChangeName] = useState({});
+    const [changeIntro, setChangeIntro] = useState({});
+    const [changeSiteUrl, setChangeSiteUrl] = useState({});
+    const [changeNewPwd, setChangeNewPwd] = useState({});
     const [start, setStart] = useState();
-    const [checkPwd, setCheckPwd] = useState({});
 
     const handleCheckPwd = ()=>{
         const classCheckPwd = document.querySelector('.checkPwd')
-        setCheckPwd({
-            pwd : classCheckPwd.value
-        });
-        console.log(checkPwd);
+        const checkPwd = {
+            "no" : profile.no,
+            "pwd" : classCheckPwd.value
+        };
         fetch(process.env.REACT_APP_API_URL + "/settings/checkPwd",{
             method: 'post',
             headers:{
@@ -135,8 +184,11 @@ const ProfileSettingMain = () => {
         })
         .then(resp=>resp.json())
         .then(data=>{
+            console.log(data);
             if(data.msg === "good"){
                 setStart(1);
+            }else{
+                alert('비밀번호를 다시 입력해주시기 바랍니다.')
             }
         })
     }
@@ -157,130 +209,224 @@ const ProfileSettingMain = () => {
         ;
     }, [loginMemberVo])
 
-    const handleChangeValue = (e) =>{
-        console.log("e.target ::: ",e.target);
-        console.log("e.target.name ::: ",e.target.name);
-        setChangeValue({
-            'name' : e.target.name,
-            'value' : e.target.value,
-        })
-        setObject({
-            [e.target.name] : e.target.value,
+    //이름변경
+    const handleChangeName = (e) =>{
+        setChangeName({
+            "name" : e.target.value,
             no : profile.no
         })
-        const {name, value} = e.target;
         setProfile({
             ...profile,
-            [name] :value
+            "name" : e.target.value
+        })
+    }
+    const handleNameSave = ()=>{
+        fetch(baseURL + "/settings/name",{
+            method: 'post',
+            headers:{
+                "Content-Type" : 'application/json'
+            },
+            body: JSON.stringify(changeName),
+        })
+        .then(resp=>resp.json())
+        .then(data=>{
+            if(data.msg === "good"){
+                alert('이름 변경 성공');
+            }else{
+                alert('이름 변경 실패');
+            }
+        })
+        .catch(e=>console.log(e))
+        .finally(()=>{
+            setChangeName({});
+        })
+
+    }
+
+    //소개변경
+    const handleChangeIntro = (e)=>{
+        setChangeIntro({
+            "intro": e.target.value,
+            no : profile.no
+        })
+        setProfile({
+            ...profile,
+            "intro" : e.target.value
+        })
+    }
+    const handleIntroSave = ()=>{
+        fetch(baseURL + "/settings/intro",{
+            method: 'post',
+            headers:{
+                "Content-Type" : 'application/json'
+            },
+            body: JSON.stringify(changeIntro),
+        })
+        .then(resp=>resp.json())
+        .then(data=>{
+            if(data.msg === "good"){
+                alert('소개 변경 성공');
+            }else{
+                alert('소개 변경 실패');
+            }
+        })
+        .catch(e=>console.log(e))
+        .finally(()=>{
+            setChangeIntro({});
         })
     }
 
-    const handleSave = ()=>{
-        console.log("changeValue ::: ",changeValue);
-        console.log("object ::: ",object);
-        if(object.no){
-            fetch(baseURL + "/settings/" + changeValue.name,{
-                method: 'post',
-                headers:{
-                    "Content-Type" : 'application/json'
-                },
-                body: JSON.stringify(object),
-            })
-            .then(resp=>resp.json())
-            .then(data=>{
-                console.log("ProfileSettingMain > handleSave ::: ",data);
-                if(data.msg === "good"){
-                    alert('변경 성공');
-                }else{
-                    alert('변경 실패');
-                }
-            })
-            .catch(e=>console.log(e))
-            .finally(()=>{
-                setChangeValue({});
-            })
+    //웹사이트 변경
+    const handleChangeSiteUrl = (e)=>{
+        setChangeSiteUrl({
+            "siteUrl" : e.target.value,
+            no : profile.no
+        })
+        setProfile({
+            ...profile,
+            "siteUrl" : e.target.value
+        })
+    }
+    const handleSiteUrlSave = ()=>{
+        fetch(baseURL + "/settings/siteUrl",{
+            method: 'post',
+            headers:{
+                "Content-Type" : 'application/json'
+            },
+            body: JSON.stringify(changeSiteUrl),
+        })
+        .then(resp=>resp.json())
+        .then(data=>{
+            if(data.msg === "good"){
+                alert('소개 변경 성공');
+            }else{
+                alert('소개 변경 실패');
+            }
+        })
+        .catch(e=>console.log(e))
+        .finally(()=>{
+            setChangeSiteUrl({});
+        })
+    }
 
-        }
+    //비밀번호 변경
+    const handleChangeNewPwd = (e)=>{
+        setChangeNewPwd({
+            "pwd" : e.target.value,
+            no : profile.no
+        })
+        setProfile({
+            ...profile,
+            "pwd" : e.target.value
+        })
+
+    }
+    const handleNewPwdSave = ()=>{
+        fetch(baseURL + "/settings/pwd",{
+            method: 'post',
+            headers:{
+                "Content-Type" : 'application/json'
+            },
+            body: JSON.stringify(changeNewPwd),
+        })
+        .then(resp=>resp.json())
+        .then(data=>{
+            if(data.msg === "good"){
+                alert('비밀번호 변경 성공');
+            }else{
+                alert('비밀번호 변경 실패');
+            }
+        })
+        .catch(e=>console.log(e))
+        .finally(()=>{
+            setChangeNewPwd({});
+            document.querySelector('#password').value = "";
+        })
     }
 
     return (
         <StyledAllDiv>
             {
-            start===undefined
+            loginMemberVo===null
             ?
-            <StyledStartDiv>
-                <div>
+            <Link to='/'/>
+            :    
+                start===undefined
+                ?
+                <StyledStartDiv>
                     <div>
                         <div>
-                            <div>정보를 안전하게 보호하기 위해</div>
-                            <div><span>비밀번호를 다시 한 번 확인</span>합니다</div>
-                        </div>
-                        <div>
-                            <div>아이디</div>
-                            <div>{profile.name}</div>
-                        </div>
-                        <div>
-                            <div>비밀번호</div>
-                            <input type="password" placeholder='비밀번호를 입력해주세요.' className='checkPwd'/>
-                        </div>
-                        <div>
-                            <button onClick={handleCheckPwd}>확인</button>
+                            <div>
+                                <div>정보를 안전하게 보호하기 위해</div>
+                                <div><span>비밀번호를 다시 한 번 확인</span>합니다</div>
+                            </div>
+                            <div>
+                                <div>아이디</div>
+                                <div>{profile.name}</div>
+                            </div>
+                            <div>
+                                <div>비밀번호</div>
+                                <input type="password" placeholder='비밀번호를 입력해주세요.' className='checkPwd'/>
+                            </div>
+                            <div>
+                                <button onClick={handleCheckPwd}>확인</button>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </StyledStartDiv>
-            :
-            <StyledSettingsDiv>
-                <div>
-                    설정
-                </div>
-                <div>
-                    <div>프로필/계정</div>
-                    <ul>
-                        <li>
-                            <div>프로필 사진</div>
-                            <div><img src='' alt="프로필 사진" /></div>
-                            <div>
-                                <button>저장</button>
-                            </div>
-                        </li>
-                        <li>
-                            <div>이름</div>
-                            <div><input type="text" value={profile.name} name='name' onChange={(e)=>{handleChangeValue(e)}}/></div>
-                            <div>
-                                <button onClick={handleSave}>저장</button>
-                            </div>
-                        </li>
-                        <li>
-                            <div>소개</div>
-                            <div><input type="text" value={profile.intro} name='intro' onChange={(e)=>{handleChangeValue(e)}}/></div>
-                            <div>
-                                <button onClick={handleSave}>저장</button>
-                            </div>
-                        </li>
-                        <li>
-                            <div>웹사이트</div>
-                            <div><input type="text" value={profile.siteUrl} name='siteUrl' onChange={(e)=>{handleChangeValue(e)}}/></div>
-                            <div>
-                                <button onClick={handleSave}>저장</button>
-                            </div>
-                        </li>
-                        <li>
-                            <div>비밀번호</div>
-                            <div>변경할 비밀번호 : <input type="password" /></div>
-                            <div>
-                                <button>저장</button>
-                            </div>
-                        </li>
-                        <li>
-                            <div>회원탈퇴</div>
-                            <div>
-                                <Link to='/quit'><button type="button">이동</button></Link>
-                            </div>
-                        </li>
-                    </ul>
-                </div>
-            </StyledSettingsDiv>
+                </StyledStartDiv>
+                :
+                <StyledSettingsDiv>
+                    <div>
+                        설정
+                    </div>
+                    <div>
+                        <div>프로필/계정</div>
+                        <ul>
+                            <li>
+                                <div>프로필 사진</div>
+                                <span><img src='' alt="프로필 사진" /></span>
+                                <span>
+                                    <button>저장</button>
+                                </span>
+                            </li>
+                            <li>
+                                <div>이름</div>
+                                <div className='changeArea'>
+                                    <span className='inputArea'><input type="text" value={profile.name} onChange={(e)=>{handleChangeName(e)}}/></span>
+                                    <span className='buttonArea'><button onClick={handleNameSave}>저장</button></span>
+                                </div>
+                            </li>
+                            <li>
+                                <div>소개</div>
+                                <div className='changeArea'>
+                                    <span className='inputArea'><input type="text" value={profile.intro} onChange={(e)=>{handleChangeIntro(e)}}/></span>
+                                    <span className='buttonArea'><button onClick={handleIntroSave}>저장</button></span>
+                                </div>
+                            </li>
+                            <li>
+                                <div>웹사이트</div>
+                                <div className='changeArea'>
+                                    <span className='inputArea'><input type="text" value={profile.siteUrl} onChange={(e)=>{handleChangeSiteUrl(e)}}/></span>
+                                    <span className='buttonArea'><button onClick={handleSiteUrlSave}>저장</button></span>
+                                </div>
+                            </li>
+                            <li>
+                                <div>비밀번호</div>
+                                <div>변경할 비밀번호</div>
+                                <div className='changeArea'>
+                                    <span className='inputArea'><input type="password" onChange={(e)=>{handleChangeNewPwd(e)}} id='password'/></span>
+                                    <span className='buttonArea'><button onClick={handleNewPwdSave}>저장</button></span>
+                                </div>
+                            </li>
+                            <li>
+                                <div>
+                                    <span>회원탈퇴</span>
+                                    <span><Link to='/quit'><button type="button">이동</button></Link></span>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </StyledSettingsDiv>
             }
         </StyledAllDiv>
     );
