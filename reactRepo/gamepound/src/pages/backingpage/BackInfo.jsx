@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import RewardChangeModal from './RewardChangeModal';
@@ -147,6 +147,7 @@ const BackInfo = ({BackInfo}) => {
                   height: '400px',
                   margin: 'auto',
                   borderRadius: '10px',
+                  zIndex: '100'
                 },
               }}>
                 <PaymentChangeModal />
