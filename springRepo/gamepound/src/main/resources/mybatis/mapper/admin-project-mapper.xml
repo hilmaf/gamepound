@@ -49,5 +49,47 @@
 	JOIN SETTLEMENT_INFO SI ON SI.PROJECT_NO = P.NO
 	WHERE P.NO = #{projectNo}
 </select>
-  
+
+<update id="approve">
+	UPDATE PROJECT
+	    SET STATUS_NO = 3
+	WHERE NO = #{projectNo}
+</update>
+ 
+<update id="reject">
+	UPDATE PROJECT
+	    SET STATUS_NO = 4
+	WHERE NO = #{projectNo}
+</update>
+
+<select id="search">
+	SELECT
+	    P.NO NO
+	    , C.MAIN_CATEGORY MAIN_CATEGORY
+	    , C.SUB_CATEGORY SUB_CATEGORY
+	    , P.TITLE TITLE 
+	    , PS.STATUS STATUS_NAME
+	    , M.NAME MEMBER_NAME
+	FROM PROJECT P
+	JOIN CATEGORY C ON P.CATEGORY_NO = C.NO
+	JOIN PROJECT_STATUS PS ON PS.NO = P.STATUS_NO
+	JOIN MEMBER M ON P.MEMBER_NO = M.NO
+	<if test="memberName != null || memberName != ''">
+		<trim prefixOverrides="when">
+			WHERE M.NAME = #{memberName}
+		</trim>
+	</if>
+	<if test="projectTitle != null || projectTitle != ''">
+		<trim prefixOverrides="when">
+			WHERE P.TITLE LIKE '%' || #{projectTitle} || '%'			
+		</trim>
+	</if>
+	<if test="statusNo != null || statusNo != ''">
+		AND PS.NO = #{statusNo}
+	</if>
+	<if test="categoryNo != null || categoryNo != ''">
+		AND C.NO = #{categoryNo}	
+	</if>
+	ORDER BY P.NO DESC
+</select>
 </mapper>
