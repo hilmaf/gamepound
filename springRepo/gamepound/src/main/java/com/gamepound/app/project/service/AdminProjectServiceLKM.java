@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.gamepound.app.project.dao.AdminProjectDaoLKM;
 import com.gamepound.app.project.vo.ProjectDetailVo;
+import com.gamepound.app.project.vo.ProjectSearchVo;
 import com.gamepound.app.project.vo.ProjectVo;
 import com.gamepound.app.reward.vo.RewardVoLKM;
 
@@ -22,6 +23,10 @@ public class AdminProjectServiceLKM {
 	private final AdminProjectDaoLKM dao;
 	
 	public List<ProjectVo> list() {
+		
+		
+		
+		
 		return dao.list(sst);
 	}
 
@@ -44,6 +49,18 @@ public class AdminProjectServiceLKM {
 		}
 		
 		return map.get(projectNo);
+	}
+
+	public int approve(String projectNo) {
+		return dao.approve(sst, projectNo);
+	}
+
+	public int reject(String projectNo) {
+		return dao.reject(sst, projectNo);
+	}
+
+	public List<ProjectVo> search(ProjectSearchVo vo) {
+		return dao.search(sst, vo);
 	}
 
 	

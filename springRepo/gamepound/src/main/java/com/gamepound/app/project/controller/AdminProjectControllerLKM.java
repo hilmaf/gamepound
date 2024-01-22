@@ -1,6 +1,8 @@
 package com.gamepound.app.project.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gamepound.app.project.service.AdminProjectServiceLKM;
 import com.gamepound.app.project.vo.ProjectDetailVo;
+import com.gamepound.app.project.vo.ProjectSearchVo;
 import com.gamepound.app.project.vo.ProjectVo;
 
 import lombok.RequiredArgsConstructor;
@@ -38,14 +41,38 @@ public class AdminProjectControllerLKM {
 	
 	// 프로젝트 승인 처리
 	@PostMapping("approve")
-	public void approve() {
+	public Map<String, String> approve(String projectNo) {
+		int result = service.approve(projectNo);
 		
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("msg", "good");
+		
+		if(result != 1) {
+			map.put("msg", "bad");
+		}
+		
+		return map;
 	}
 
 	
 	// 프로젝트 반려 처리
 	@PostMapping("reject")
-	public void reject() {
+	public Map<String, String> reject(String projectNo) {
+		int result = service.reject(projectNo);
 		
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("msg", "good");
+		
+		if(result != 1) {
+			map.put("msg", "bad");
+		}
+		
+		return map;
+	}
+
+	// 프로젝트 검색
+	@PostMapping("search")
+	public void search(ProjectSearchVo vo) {
+		List<ProjectVo> searchedList = service.search(vo);
 	}
 }
