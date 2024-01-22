@@ -72,11 +72,6 @@ const ReviewList = () => {
         });
     }, [activePage])
 
-        
-
-
-
-
 
     return (
         <StyledReviewListDiv>
@@ -88,7 +83,7 @@ const ReviewList = () => {
                 :
                 <>
                     {reviewList.map((item)=> (
-                        <ReviewBox item={item}/>
+                        <ReviewBox key={item.reviewNo} item={item}/>
                     ))} 
                 </>
                 

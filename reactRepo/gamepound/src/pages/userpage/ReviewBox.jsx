@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 const StyledReviewBoxDiv = styled.div`
     width: 760px;
     color: var(--black-color);
     border-bottom: 1px solid rgb(0, 0, 0, 0.1);
+    margin-left: 150px;
     
     & > .writer {
         display: flex;
@@ -64,9 +65,18 @@ const StyledReviewBoxDiv = styled.div`
     & .reviewImg {
         margin-left: 20px;
         margin-bottom: 20px;
-        width: 100px;
-        height: 100px;
-        background-color: aquamarine;
+
+        & > img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            
+            /* &:hover {
+                width: 100%;
+                height: 100%;
+            } */
+        }
+        
     }
 
     & .project {
@@ -106,6 +116,11 @@ const StyledReviewBoxDiv = styled.div`
 
 const ReviewBox = ({item}) => {
 
+    const [clicked, setClicked] = useState(false);
+
+    const handleImgClick = (e) => {
+
+    }
 
     return (
         <StyledReviewBoxDiv>
@@ -122,10 +137,10 @@ const ReviewBox = ({item}) => {
                 <span>{item.reviewContent}</span>
             </div>
             <div className='reviewImg'>
-                <img src={item.reviewImg}></img>
+                <img id='img' src={item.reviewImg} onClick={handleImgClick} alt='리뷰이미지'></img>
             </div>
             <div className='project'>
-                <img src={item.projectImg}></img>
+                <img src={item.projectImg} alt='프로젝트이미지'></img>
                 <div>{item.projectTitle}</div>
             </div>
             <div className='enroll_date'>

@@ -31,6 +31,7 @@ public class UserPageService {
 	
 	private String url = "http://127.0.0.1:8889/gamepound/resources/images/projectImg/";
 	private String url2 = "http://127.0.0.1:8889/gamepound/resources/images/memberProfileImg/";
+	private String url3 = "http://127.0.0.1:8889/gamepound/resources/images/reviewImg/";
 	
 	// 유저페이지 - 프로필 소개
 	public String userIntro (String memberNo) {
@@ -50,8 +51,7 @@ public class UserPageService {
 		// 리뷰 개수
 		String cnt = dao.userReviewCnt(sst, map.get("memberNo"));
 		
-		
-		// 만족도 평균 double 타입으로 변경
+		// PageVo 생성
 		int listCount = Integer.parseInt(cnt);
 		String currentPage_= map.get("currentPage");
 		if(currentPage_ == null) {
@@ -66,6 +66,7 @@ public class UserPageService {
 		
 		// 리뷰 목록
 		List<ReviewVo> reviewList = dao.listReview(sst, map.get("memberNo"), pvo);
+		System.out.println(reviewList.size());
 		
 		
 		// TODO: 만족도 DOUBLE 타입으로 변경하는 거 삭제하기 (더미데이터를 수정하는 방향으로)
@@ -76,6 +77,7 @@ public class UserPageService {
 				vo.setRating(util.castToDouble(vo.getRating()));
 				vo.setProjectImg(url + vo.getProjectImg());
 				vo.setProfileImg(url2 + vo.getProfileImg());
+				vo.setReviewImg(url3 + vo.getReviewImg());
 			}			
 		}
 		
