@@ -11,6 +11,7 @@ import ProjectMain from '../../pages/project/ProjectMain';
 import UserMain from '../../pages/user/UserMain';
 import CategoryDetail from '../../pages/category/CategoryDetail';
 import ProjectDetail from '../../pages/project/ProjectDetail';
+import CategoryCreate from '../../pages/category/CategoryCreate';
 
 const StyledWrapDiv = styled.div`
     display: flex;
@@ -51,6 +52,7 @@ const AdminMain = () => {
                         <Routes>
                             <Route path='/category/*' element={<CategoryMain />} />
                             <Route path='/category/detail/:no' element={<CategoryDetail />} />
+                            <Route path='/category/create' element={<CategoryCreate />} />
                             <Route path='/backer/*' element={<BackerMain />} />
                             <Route path='/payment/*' element={<PaymentMain />} />
                             <Route path='/project/*' element={<ProjectMain />} />
