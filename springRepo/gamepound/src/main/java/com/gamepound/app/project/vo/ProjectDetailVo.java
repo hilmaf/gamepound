@@ -3,6 +3,7 @@ package com.gamepound.app.project.vo;
 import java.util.List;
 
 import com.gamepound.app.reward.vo.RewardVo;
+import com.gamepound.app.reward.vo.RewardVoLKM;
 
 import lombok.Data;
 
@@ -48,5 +49,15 @@ public class ProjectDetailVo {
 	
 	//프로젝트 선물
 	private List<RewardVo> rewardVoList;
+	private List<RewardVoLKM> rewardList;
+	// rewardList에 담기 위한 필드
+	private String rewardNo;
+	private String rewardAmount;
+	private String rewardName;
+	
+	//프로젝트 정산정보
+	private String bankName;
+	private String ownerName;
+	private String accountNum;
 	
 }
