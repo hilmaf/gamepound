@@ -113,6 +113,7 @@ const CategoryMain = () => {
     const gridRef = useRef();
     const [loading, setLoading] = useState(false); // 로딩중 표시
     const [dataVo, setDataVo] = useState([]); // 데이터
+    const [searchVo, setSearchVo] = useState({ mainCategory: '', subCategory: '' }); // 검색데이터
     const [pvo, setPvo] = useState(); // pvo
     const [activePage, setActivePage] = useState(1); // 현재페이지
     const [rowData, setRowData] = useState([]); // 행 데이터
@@ -129,9 +130,8 @@ const CategoryMain = () => {
         fetch(`${baseURL}/category/admin/list?pageNum=${activePage}`)
         .then(resp => resp.json())
         .then(data => {
-            console.log(data);
-            setDataVo(data.categoryList);
-            setPvo(data.pvo);
+            setDataVo(data?.categoryList);
+            setPvo(data?.pvo);
         })
         .catch(() => {
             alert('데이터를 가져오는데 실패했습니다.');
@@ -158,6 +158,54 @@ const CategoryMain = () => {
         navigate(`../category/detail/${no}`);
     }
 
+    // 카테고리 생성페이지로 이동
+    const createBtnClicked = (e) => {
+        navigate(`../category/create`);
+    }
+
+    // 검색어 저장
+    const searchInputChange = (e) => {
+        const { name, value } = e.target;
+        setSearchVo({
+            ...searchVo,
+            [name]: value,
+        });
+    }
+
+    // 초기화 버튼
+    const resetBtnClick = () => {
+        setSearchVo({
+            mainCategory: '',
+            subCategory: ''
+        });
+    }
+    
+    // 검색버튼
+    const searchBtnClick = () => {
+        searchCategory();
+    }
+
+    // 검색 조회 함수
+    const searchCategory = () => {
+        const { mainCategory, subCategory } = searchVo; // 검색어
+
+        fetch(`${baseURL}/category/admin/search?mainCategory=${mainCategory}&subCategory=${subCategory}&pageNum=${activePage}`)
+        .then(resp => resp.json())
+        .then(data => {
+            console.log(data);
+            setDataVo(data?.categoryList);
+            setPvo(data?.pvo);
+        })
+        .catch(() => {
+            alert('데이터를 가져오는데 실패했습니다.');
+        })
+        .finally(() => {
+            setLoading(false); // 로딩중 화면 끝
+        });
+        ;
+    };
+    console.log(searchVo);
+
     return (
         <StyledCategoryDiv>
             <h2>카테고리 관리</h2>
@@ -170,14 +218,14 @@ const CategoryMain = () => {
                             <Col>
                                 <InputGroup className="mb-2">
                                     <InputGroup.Text>대분류명</InputGroup.Text>
-                                    <Form.Control />
+                                    <Form.Control name='mainCategory' onChange={searchInputChange} value={searchVo?.mainCategory} />
                                 </InputGroup>
                             </Col>
 
                             <Col>
                                 <InputGroup className="mb-2">
                                     <InputGroup.Text>소분류명</InputGroup.Text>
-                                    <Form.Control />
+                                    <Form.Control name='subCategory' onChange={searchInputChange} value={searchVo?.subCategory} />
                                 </InputGroup>
                             </Col>
 
@@ -185,15 +233,15 @@ const CategoryMain = () => {
                     </Container>
 
                     <div className="btnArea">
-                        <Button variant="secondary">초기화</Button>
-                        <Button variant="primary">검색</Button>
+                        <Button variant="secondary" onClick={resetBtnClick}>초기화</Button>
+                        <Button variant="primary" onClick={searchBtnClick}>검색</Button>
                     </div>
                 </Form>
             </div>
 
             <div className="totalArea">
                 <div className="total">total <strong>{pvo ? pvo.listCount : ''}</strong></div>
-                <div className="btnArea"><Button variant="primary">카테고리 추가</Button></div>
+                <div className="btnArea"><Button variant="primary" onClick={createBtnClicked}>카테고리 추가</Button></div>
             </div>
             <div className="agGridBox ag-theme-quartz">
                 <AgGridReact 
