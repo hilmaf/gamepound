@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 const StyledFooterDiv = styled.div`
-    width: 1200px;
+    width: 100%;
     height: 50px;
     display: flex;
     justify-content: center;

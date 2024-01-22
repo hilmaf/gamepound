@@ -7,10 +7,9 @@
   <!-- 로그인 유저 비밀번호 체크 -->
   <select id="checkPwd" resultType="com.gamepound.app.member.vo.MemberVo">
   	SELECT
-  		NO
+  		PWD
   	FROM MEMBER
   	WHERE NO = #{no}
-  		AND PWD = #{pwd}
   </select>
   
   <!-- 로그인 유저 프로필 정보 -->

@@ -13,10 +13,12 @@ import com.gamepound.app.member.service.MemberServiceHYJ;
 import com.gamepound.app.member.vo.MemberVo;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequestMapping("settings")
 @RequiredArgsConstructor
+@Slf4j
 public class MemberControllerHYJ {
 
 	private final MemberServiceHYJ service;
@@ -24,8 +26,7 @@ public class MemberControllerHYJ {
 	
 	//비밀번호 체크
 	@PostMapping("checkPwd")
-	public Map<String, String> checkPwd(@RequestBody MemberVo vo) {
-		System.out.println(vo);
+	public Map<String, String> checkPwd(@RequestBody MemberVo vo) throws Exception {
 		MemberVo checkVo = service.checkPwd(vo);
 		map.put("msg", "good");
 		if(checkVo==null) {
@@ -59,7 +60,6 @@ public class MemberControllerHYJ {
 	//프로필 이름 변경
 	@PostMapping("name")
 	public Map<String, String> editName(@RequestBody MemberVo vo) throws Exception {
-		System.out.println("MemberControllerHYJ > editName > vo::: " + vo);
 		int result = service.editName(vo);
 		
 		map.put("msg", "good");
@@ -72,47 +72,40 @@ public class MemberControllerHYJ {
 	
 	//프로필 소개 변경
 	@PostMapping("intro")
-	public void editIntro(@RequestBody MemberVo vo) throws Exception {
-		System.out.println("MemberControllerHYJ > editIntro > vo::: " + vo);
+	public Map<String, String> editIntro(@RequestBody MemberVo vo) throws Exception {
 		int result = service.editIntro(vo);
 		
+		map.put("msg", "good");
 		if(result != 1) {
-			System.out.println("[MSI-C]소개 변경 샐패");
-			throw new Exception();
+			map.put("msg", "bad");
 		}
 		
-		//TODO-HYJ : [setting-intro] syso말고 ajax처리
-		System.out.println("[MSI-C]소개 변경 성공");
-		
+		return map;
 	}
 	
 	//프로필 웹사이트 변경
 	@PostMapping("siteUrl")
-	public void editSiteUrl(@RequestBody MemberVo vo) throws Exception {
-		System.out.println("MemberControllerHYJ > editSiteUrl > vo::: " + vo);
+	public Map<String, String> editSiteUrl(@RequestBody MemberVo vo) throws Exception {
 		int result = service.editSiteUrl(vo);
 		
+		map.put("msg", "good");
 		if(result != 1) {
-			System.out.println("[MSS-C]웹사이트 변경 실패");
-			throw new Exception();
+			map.put("msg", "bad");
 		}
 		
-		//TODO-HYJ : [setting-siteUrl] syso말고 ajax처리ㄱㄱ
-		System.out.println("[MSS-C]웹사이트 변경 성공");
+		return map;
 	}
 	
 	//프로필 비밀번호 변경
 	@PostMapping("pwd")
-	public void editPwd(@RequestBody MemberVo vo) throws Exception {
+	public Map<String, String> editPwd(@RequestBody MemberVo vo) throws Exception {
 		int result = service.editPwd(vo);
-		
+		map.put("msg", "good");
 		if(result != 1) {
-			System.out.println("[MSP-C]비밀번호 변경 실패");
-			throw new Exception();
+			map.put("msg", "bad");
 		}
 		
-		//TODO-HYJ : [setting-pwd] syso ㄴㄴ ajax ㄱㄱ
-		System.out.println("[MSP-C]비밀번호 변경 성공");
+		return map;
 	}
 	
 
