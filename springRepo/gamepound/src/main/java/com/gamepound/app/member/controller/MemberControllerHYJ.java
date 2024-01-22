@@ -2,12 +2,17 @@ package com.gamepound.app.member.controller;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.gamepound.app.member.service.MemberServiceHYJ;
 import com.gamepound.app.member.vo.MemberVo;
@@ -44,17 +49,16 @@ public class MemberControllerHYJ {
 	
 	//프로필 사진 변경
 	@PostMapping("pic")
-	public void editPic(@RequestBody MemberVo vo) throws Exception {
+	public Map<String, String> editPic(@ModelAttribute MemberVo vo, @RequestParam("f") MultipartFile f, HttpServletRequest req) throws Exception {
+		System.out.println(vo);
+		System.out.println(f);
+		int result = service.editPic(vo, f, req);
 		
-		int result = service.editPic(vo);
-		
+		map.put("msg", "good");
 		if(result != 1) {
-			System.out.println("[MSP-C]사진 변경 실패");
-			throw new Exception();
+			map.put("msg", "bad");
 		}
-		
-		//TODO-HYJ : [setting-pic]syso말고 ajax해야함
-		System.out.println("[MSP-C]사진 변경 성공");
+		return map;
 	}
 	
 	//프로필 이름 변경

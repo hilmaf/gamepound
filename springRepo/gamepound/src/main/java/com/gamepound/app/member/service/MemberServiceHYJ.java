@@ -1,8 +1,20 @@
 package com.gamepound.app.member.service;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.gamepound.app.member.dao.MemberDaoHYJ;
 import com.gamepound.app.member.vo.MemberVo;
@@ -43,11 +55,52 @@ public class MemberServiceHYJ {
 	////////////////////////////////////////////////////////////////////////////////////
 
 	//프로필 사진 변경
-	public int editPic(MemberVo vo) throws Exception {
+	public int editPic(MemberVo vo, MultipartFile f, HttpServletRequest req) throws Exception {
+		
+		//저장한 사진 이름 가져오기
+		String pic = savePic(f, req);
+		vo.setPic(pic);
 		if(vo.getPic() == null || vo.getPic()=="") {
 			return -1;
 		}
 		return dao.editPic(vo, sst);
+	}
+	
+	//프로필 사진 저장
+	private String savePic(MultipartFile f, HttpServletRequest req) throws Exception {
+		String uploadDir = "/resources/images/memberProfileImg/";
+		String root = req.getServletContext().getRealPath(uploadDir);
+		String fileName = null;
+		if(!(f == null) && !(f.isEmpty())) {
+			//랜덤 파일 이름 생성
+			fileName = f.getOriginalFilename();
+			String fileExtension = fileName.substring(fileName.lastIndexOf('.') + 1);
+			UUID uuid = UUID.randomUUID();
+			fileName = uuid.toString() + "." + fileExtension;
+			
+			//현재 날짜 기준으로 폴더 생성
+			LocalDate currentDate = LocalDate.now();
+			String currentDatePath = currentDate.format(DateTimeFormatter.ofPattern("yyyyMMdd")) + "/";
+			String folderPath = root + currentDatePath;
+			String filePath = folderPath + fileName;
+			
+			//이미지를 저장할 디렉토리 경로
+			Path directoryPath = Paths.get(folderPath);
+			
+			//디렉토리가 없으면 생성
+			if(!Files.exists(directoryPath)) {
+				Files.createDirectories(directoryPath);
+			}
+			
+			//이미지 파일 저장
+			File dest = new File(filePath);
+			f.transferTo(dest);
+			
+			fileName = currentDatePath + fileName;
+		}
+		
+		return fileName;
+		
 	}
 
 	//프로필 이름 변경

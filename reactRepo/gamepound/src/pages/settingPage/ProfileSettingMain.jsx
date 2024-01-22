@@ -142,15 +142,27 @@ const StyledSettingsDiv = styled.div`
             border-radius: 5px;
         }
     }
-    .imgArea{
-        width: 100px;
-        height: 100px;
-        border-radius: 50px;
-        & > img{
+    .profilePicArea{
+        display: flex;
+        justify-content: space-between;
+        margin-top: 15px;
+        .imgArea{
             width: 100px;
             height: 100px;
             border-radius: 50px;
-            object-fit: cover;
+            display: flex;
+            & > div {
+                & > img{
+                    width: 100px;
+                    height: 100px;
+                    border-radius: 50px;
+                    object-fit: cover;
+
+                }
+                #profileUploadBtn{
+                    margin-left: 20px;
+                }
+            }
         }
     }
 `;
@@ -221,7 +233,39 @@ const ProfileSettingMain = () => {
         ;
     }, [loginMemberVo])
 
-    //이름변경
+    //사진 변경
+    const handleChangePic = (e)=>{
+        setChangePic(e.target.files[0]);
+
+        const preview = document.querySelector("#preview");
+
+        const fr = new FileReader();
+        fr.addEventListener("load",(e)=>{
+            preview.src = e.target.result;
+        })
+        fr.readAsDataURL(e.target.files[0]);
+    }
+    const handlePicSave = ()=>{
+        const fd = new FormData();
+        fd.append("f", changePic);
+        fd.append("no", profile.no);
+
+        fetch(process.env.REACT_APP_API_URL + "/settings/pic",{
+            method: "post",
+            body : fd,
+        })
+        .then(resp => resp.json())
+        .then(data=>{
+            if(data.msg === "good"){
+                alert("프로필 사진 변경 성공");
+            }else{
+                alert("프로필 사진 변경 실패");
+            }
+        })
+        .catch(e=>{console.log(e);})
+    }
+
+    //이름 변경
     const handleChangeName = (e) =>{
         setChangeName({
             "name" : e.target.value,
@@ -255,7 +299,7 @@ const ProfileSettingMain = () => {
 
     }
 
-    //소개변경
+    //소개 변경
     const handleChangeIntro = (e)=>{
         setChangeIntro({
             "intro": e.target.value,
@@ -396,12 +440,12 @@ const ProfileSettingMain = () => {
                         <ul>
                             <li>
                                 <div>프로필 사진</div>
-                                <div>
+                                <div className='profilePicArea'>
                                     <div className='imgArea'>
-                                        <img src={profile.pic ? profile.pic : null} alt="프로필 사진" />
-                                        <button>이미지 업로드</button>
+                                        <div><img src={profile.pic ? profile.pic : null} alt="프로필 사진" id='preview'/></div>
+                                        <div><input type="file" name="f" id="profileUploadBtn" onChange={handleChangePic}/></div>
                                     </div>
-                                    <span className='buttonArea'><button>저장</button></span>
+                                    <div className='buttonArea'><button onClick={handlePicSave}>저장</button></div>
                                 </div>
                             </li>
                             <li>
