@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import { useUserMemory } from '../../component/context/UserContext';
-import { useParams } from 'react-router-dom';
 import { useUserPageContext } from '../../component/context/UserPageContext';
 
 const StyledReviewStatsDiv = styled.div`

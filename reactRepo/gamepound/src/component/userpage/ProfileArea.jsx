@@ -1,7 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { useUserMemory } from '../context/UserContext';
-import { useParams } from 'react-router-dom';
 import {useUserPageContext} from '../context/UserPageContext';
 
 const StyledProfileAreaDiv = styled.div`
@@ -28,17 +26,19 @@ const StyledProfileAreaDiv = styled.div`
         }
 
         & > button {
-            background-color: var(--red-color);
             padding: 5px 8px;
             margin-top: 8px;
             cursor: pointer;
+            border-radius: 5px;
+            border: 1px solid var(--red-color);
+            background-color: white;
+            color: var(--red-color);
         }
     }
 `;
 
 const ProfileArea = () => {
 
-    const {loginMemberVo} = useUserMemory();
     const {profileVo} = useUserPageContext();
 
     return (

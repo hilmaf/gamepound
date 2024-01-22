@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="AdminProjectMapper">
+
+<select id="list" resultType="ProjectVo">
+	SELECT
+	    P.NO
+	    , C.MAIN_CATEGORY
+	    , C.SUB_CATEGORY
+	    , P.TITLE
+	    , P.STATUS_NO
+	    , PS.STATUS
+	FROM PROJECT P
+	JOIN CATEGORY C ON P.CATEGORY_NO = C.NO
+	JOIN PROJECT_STATUS PS ON PS.NO = P.STATUS_NO
+	ORDER BY P.NO DESC
+</select>
+
+<select id="detail" resultType="com.gamepound.app.project.vo.ProjectDetailVo">
+	SELECT
+	    P.NO NO
+	    , C.MAIN_CATEGORY MAIN_CATEGORY
+	    , C.SUB_CATEGORY SUB_CATEGORY
+	    , M.NAME MEMBER_NAME
+	    , P.TITLE TITLE
+	    , REGEXP_REPLACE(REVERSE(REGEXP_REPLACE(REVERSE(TO_CHAR(P.GOAL_AMOUNT)), '(\d{3})', '\1,')), '^,', '') GOAL_AMOUNT
+	    , REGEXP_REPLACE(REVERSE(REGEXP_REPLACE(REVERSE(TO_CHAR(P.CURRENT_AMOUNT)), '(\d{3})', '\1,')), '^,', '') CURRENT_AMOUNT
+	    , P.IMAGE_URL IMAGE_URL
+	    , P.OK_YN OK_YN
+	    , P.OK_DATE OK_DATE
+	    , P.ENROLL_DATE ENROLL_DATE
+	    , P.START_DATE START_DATE
+	    , P.END_DATE END_DATE
+	    , P.CAL_DATE CAL_DATE
+	    , P.DELETE_YN DELETE_YN
+	    , R.NO REWARD_NO
+	    , R.AMOUNT REWARD_AMOUNT
+	    , R.NAME REWARD_NAME
+	    , SI.BANK_NAME
+	    , SI.NAME
+	    , SI.ACCOUNT_NUM
+	FROM PROJECT P
+	JOIN CATEGORY C ON P.CATEGORY_NO = C.NO
+	JOIN PROJECT_STATUS PS ON PS.NO = P.STATUS_NO
+	JOIN MEMBER M ON M.NO = P.MEMBER_NO
+	JOIN REWARD R ON R.PROJECT_NO = P.NO 
+	JOIN SETTLEMENT_INFO SI ON SI.PROJECT_NO = P.NO
+	WHERE P.NO = #{projectNo}
+</select>
+  
+</mapper>

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import com.gamepound.app.project.dao.ProjectDaoLKM;
 import com.gamepound.app.project.vo.ProjectBriefVo;
 import com.gamepound.app.project.vo.ProjectListVo;
+import com.gamepound.app.util.DataProcessingUtil;
 
 import lombok.RequiredArgsConstructor;
 
@@ -17,11 +18,10 @@ public class ProjectServiceLKM {
 
 	private final SqlSessionTemplate sst;
 	private final ProjectDaoLKM dao;
+	private final DataProcessingUtil util;
 	
 	// 프로젝트 검색
 	public List<ProjectBriefVo> searchProject(ProjectListVo vo) {
-		
-		System.out.println(vo);
 		
 		String transformedStatus = transformStatus(vo.getStatus());
 		vo.setStatusNo(transformedStatus);
@@ -36,6 +36,8 @@ public class ProjectServiceLKM {
 		
 		for (ProjectBriefVo projectVo : searchedList) {
 			projectVo.setProjectImg(url + projectVo.getProjectImg());
+			String achievementRate = util.achievementRate(projectVo.getGoalAmount(), projectVo.getCurrentAmount());
+			projectVo.setAchievementRate(achievementRate);
 		}
 		
 		System.out.println(searchedList);
