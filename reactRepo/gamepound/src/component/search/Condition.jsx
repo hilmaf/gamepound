@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { useSearchContext } from '../context/SearchContext';
+import { useLocation } from 'react-router-dom';
 
 
 const StyledSearchConditionDiv = styled.div`
@@ -57,12 +58,12 @@ const Condition = (query) => {
     }
     
 
-
+    const location = useLocation();
 
     return (
         <StyledSearchConditionDiv>
             {
-                sessionStorage.getItem('query')
+                location.pathname.includes('search') && sessionStorage.getItem('query')
                 ?
                 <div className='query'>
                     <span>검색어 :</span>  "{sessionStorage.getItem('query')}"
