@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import BackBriefInfo from '../../component/back/BackBriefInfo';
-import { useUserMemory } from '../../component/context/UserContext';
+// import { useUserMemory } from '../../component/context/UserContext';
 import { useParams } from 'react-router-dom';
 
 const StyledUserBackedDiv = styled.div`
@@ -24,7 +24,7 @@ const StyledUserBackedDiv = styled.div`
 
 const UserBacked = () => {
 
-    const {loginMemberVo} = useUserMemory();
+    // const {loginMemberVo} = useUserMemory();
 
     const [backedVo, setBackedVo] = useState({});
     let {cnt, successList, failList, successCnt, failCnt} = backedVo
@@ -39,6 +39,8 @@ const UserBacked = () => {
         })
         ;
     }, [])
+
+    
     return (
         <StyledUserBackedDiv>
                 <div id="cnt">{cnt}건의 후원 내역이 있습니다.</div>
@@ -48,7 +50,7 @@ const UserBacked = () => {
                         successCnt>0
                         ?
                         successList.map((item)=>{
-                            return <BackBriefInfo item={item}/>
+                            return <BackBriefInfo key={item.backNo} item={item}/>
                         })
                         :
                         <div id='noItems'>
