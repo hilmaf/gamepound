@@ -57,4 +57,47 @@ public class CategoryServiceHJY {
 		return dao.getCategoryDetail(sst, no);
 	}
 
+	// 어드민 카테고리 수정하기
+	public int categoryEdit(CategoryVo vo) {
+		return dao.categoryEdit(sst, vo);
+	}
+
+	// 어드민 카테고리 생성하기
+	public int categoryCreate(CategoryVo vo) {
+		return dao.categoryCreate(sst, vo);
+	}
+
+	// 어드민 카테고리 검색하기
+	public Map<String, Object> categorySearch(Map<String, String> searchVo) {
+		log.info("search serviceVo : {}", searchVo);
+		log.info("search serviceVo mainCategory : {}", searchVo.get("mainCategory"));
+		log.info("search serviceVo subCategory : {}", searchVo.get("subCategory"));
+		
+		CategoryVo searchCategoryVo = new CategoryVo();
+		searchCategoryVo.setMainCategory(searchVo.get("mainCategory"));
+		searchCategoryVo.setSubCategory(searchVo.get("subCategory"));
+		
+		
+		int listCount = dao.categorySearchCnt(sst, searchCategoryVo);       // 검색 게시글 갯수
+        log.info("검색 게시글 갯수 : {}", listCount);
+        
+        String currentPage_= searchVo.get("pageNum");
+        if(currentPage_ == null) {
+        	currentPage_ = "1";
+        }
+        int currentPage = Integer.parseInt(currentPage_);   		//현재 페이지
+        int pageLimit = 5; 											// 페이지 영역 페이지 개수
+        int boardLimit = 10; 										// 한 페이지에 보여줄 게시글 개수
+        PageVo pvo = new PageVo(listCount, currentPage, pageLimit, boardLimit);
+        log.info("pvo : {}", pvo);
+        List<CategoryVo> listVo = dao.getSearchCategoryList(sst, searchCategoryVo, pvo);
+		
+        // 카테고리 검색 리스트와 pvo 같이 전달
+        Map<String, Object> map = new HashMap<>();
+        map.put("categoryList", listVo);
+        map.put("pvo", pvo);
+        
+		return map;
+	}
+
 }

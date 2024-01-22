@@ -12,26 +12,80 @@
 		ORDER BY NO
 	</select>
 
-	<!-- 카테고리 리스트 전체 개수 조회 -->
+	<!-- 어드민 카테고리 리스트 전체 개수 조회 -->
 	<select id="selectCategoryCount" resultType="int">
 		SELECT COUNT(*) FROM CATEGORY 
-		WHERE DEL_YN = 'N'
 	</select>
 	
-	<!-- 카테고리 리스트 조회 (페이징적용) -->
+	<!-- 어드민 카테고리 리스트 조회 (페이징적용) -->
 	<select id="getCategoryList" resultType="com.gamepound.app.category.vo.CategoryVo">
 		SELECT NO, MAIN_CATEGORY_NO, SUB_CATEGORY_NO, MAIN_CATEGORY, SUB_CATEGORY, DEL_YN
 		FROM CATEGORY
-		WHERE DEL_YN = 'N'
 		ORDER BY NO DESC
 	</select>
 	
-	<!-- 카테고리 디테일 조회 -->
+	<!-- 어드민 카테고리 디테일 조회 -->
 	<select id="getCategoryDetail" resultType="com.gamepound.app.category.vo.CategoryVo">
 		SELECT NO, MAIN_CATEGORY_NO, SUB_CATEGORY_NO, MAIN_CATEGORY, SUB_CATEGORY, DEL_YN
 		FROM CATEGORY
 		WHERE NO = #{no}
-		AND DEL_YN = 'N'
+	</select>
+	
+	<!-- 어드민 카테고리 수정 -->
+	<update id="categoryEdit">
+		UPDATE CATEGORY
+		<set>
+	        <if test="mainCategory != null">MAIN_CATEGORY = #{mainCategory},</if>
+	        <if test="mainCategoryNo != null">MAIN_CATEGORY_NO = #{mainCategoryNo},</if>
+	        <if test="subCategory != null">SUB_CATEGORY = #{subCategory},</if>
+	        <if test="subCategoryNo != null">SUB_CATEGORY_NO = #{subCategoryNo},</if>
+	        <if test="delYn != null">DEL_YN = #{delYn}</if>
+	    </set>
+		WHERE NO = #{no}
+	</update>
+	
+	<!-- 어드민 카테고리 생성 -->
+	<update id="categoryCreate">
+		INSERT INTO CATEGORY (NO, MAIN_CATEGORY_NO, SUB_CATEGORY_NO, MAIN_CATEGORY, SUB_CATEGORY, DEL_YN)
+		VALUES (
+		SEQ_CATEGORY_NO.NEXTVAL
+			, #{mainCategoryNo}
+			, #{subCategoryNo}
+			, #{mainCategory}
+			, #{subCategory}
+			, <choose>
+	            <when test="delYn != null">#{delYn}</when>
+	            <otherwise>'N'</otherwise>
+	        </choose>
+		)
+	</update>
+	
+	<!-- 어드민 카테고리 리스트 검색 전체 개수 조회 -->
+	<select id="categorySearchCnt" resultType="int">
+	    SELECT COUNT(*) FROM CATEGORY 
+	    <trim prefix="WHERE" prefixOverrides="AND">
+	        <if test="mainCategory != null and !mainCategory.isEmpty()">
+	            (MAIN_CATEGORY LIKE '%' || #{mainCategory} || '%') 
+	        </if>
+	        <if test="subCategory != null and !subCategory.isEmpty()">
+	            AND (SUB_CATEGORY LIKE '%' || #{subCategory} || '%')
+	        </if>
+	    </trim>
+	</select>
+	
+	<!-- 어드민 카테고리 검색 리스트 조회 (페이징적용) -->
+	<select id="getSearchCategoryList" resultType="com.gamepound.app.category.vo.CategoryVo">
+		SELECT NO, MAIN_CATEGORY_NO, SUB_CATEGORY_NO, MAIN_CATEGORY, SUB_CATEGORY, DEL_YN
+		FROM CATEGORY
+	    <trim prefix="WHERE" prefixOverrides="AND">
+	        <if test="mainCategory != null and !mainCategory.isEmpty()">
+	            (MAIN_CATEGORY LIKE '%' || #{mainCategory} || '%') 
+	        </if>
+	        <if test="subCategory != null and !subCategory.isEmpty()">
+	            AND (SUB_CATEGORY LIKE '%' || #{subCategory} || '%')
+	        </if>
+	    </trim>
+		ORDER BY NO DESC
 	</select>
 	
 </mapper>

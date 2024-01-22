@@ -63,4 +63,27 @@ public class CategoryDaoHJY {
 		return sst.selectOne("CategoryMapper.getCategoryDetail", no);
 	}
 
+	// 어드민 카테고리 수정하기
+	public int categoryEdit(SqlSessionTemplate sst, CategoryVo vo) {
+		return sst.update("CategoryMapper.categoryEdit", vo);
+	}
+
+	// 어드민 카테고리 생성하기
+	public int categoryCreate(SqlSessionTemplate sst, CategoryVo vo) {
+		return sst.update("CategoryMapper.categoryCreate", vo);
+	}
+
+	// 어드민 카테고리 검색하기 총 갯수
+	public int categorySearchCnt(SqlSessionTemplate sst, CategoryVo searchVo) {
+		return sst.selectOne("CategoryMapper.categorySearchCnt");
+	}
+
+	// 어드민 카테고리 검색하기 결과
+	public List<CategoryVo> getSearchCategoryList(SqlSessionTemplate sst, CategoryVo searchCategoryVo, PageVo pvo) {
+		int offset = (pvo.getCurrentPage() - 1) * pvo.getBoardLimit(); // 몇개의 게시물 건너뛸건지
+		int limit = pvo.getBoardLimit();
+		RowBounds rb = new RowBounds(offset, limit);
+		return sst.selectList("CategoryMapper.getSearchCategoryList", searchCategoryVo, rb);
+	}
+
 }
