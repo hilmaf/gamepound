@@ -1,6 +1,7 @@
 package com.gamepound.app.userpage.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -46,13 +47,13 @@ public class UserPageDao {
 	}
 
 	// 내가 올린 프로젝트 목록 조회
-	public List<ProjectBriefVo> listMyProjects(SqlSessionTemplate sst, String memberNo) {
-		return sst.selectList("UserPageMapper.listMyProjects", memberNo);
+	public List<ProjectBriefVo> listMyProjects(SqlSessionTemplate sst, Map<String, Object> map) {
+		return sst.selectList("UserPageMapper.listMyProjects", map);
 	}
 	
 	// 내가 올린 프로젝트 목록 cnt
-	public String myProjectsCnt(SqlSessionTemplate sst, String memberNo) {
-		return sst.selectOne("UserPageMapper.myProjectCnt", memberNo);
+	public String myProjectsCnt(SqlSessionTemplate sst, Map<String, Object> map) {
+		return sst.selectOne("UserPageMapper.myProjectCnt", map);
 	}
 
 	// 내 후원 목록 - 후원 성공

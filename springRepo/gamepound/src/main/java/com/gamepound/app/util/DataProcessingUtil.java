@@ -17,12 +17,8 @@ public class DataProcessingUtil {
 		int goalA = Integer.parseInt(removeCommas(goalAmount));
 		int currentA = Integer.parseInt(removeCommas(currentAmount));
 		
-		System.out.println("goalA ::" + goalA);
-		System.out.println("currentA ::" + currentA);
-		
 		// 달성률 계산
 		int result = (goalA == 0) ? result = 0 : (currentA*100)/goalA;			
-		System.out.println(result);
 		return Integer.toString(result);
 	}
 	

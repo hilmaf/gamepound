@@ -33,11 +33,15 @@ const UserCreated = () => {
 
     const [projectsCnt, setProjectsCnt] = useState(0);
     const [myProjectsList, setMyProjectsList] = useState([]);
-
     const {no} = useParams();
 
     useEffect(()=>{
-        fetch("http://127.0.0.1:8889/gamepound/userpage/created?user=" + no)
+        let matchYn;
+
+        loginMemberVo?.no === no ? matchYn = 'y' : matchYn = 'n';
+        console.log(matchYn);
+
+        fetch("http://127.0.0.1:8889/gamepound/userpage/created?user=" + no + "&yn=" + matchYn)
         .then(resp => resp.json())
         .then(data => {
             setMyProjectsList(data.myProjectsList);
@@ -57,7 +61,7 @@ const UserCreated = () => {
                     <div id="project_items">
                         {
                             myProjectsList.map((vo) => {
-                                return <ProjectBoxInfo no={3} project={vo}/>
+                                return <ProjectBoxInfo key={vo.projectNo} no={3} project={vo}/>
                             })
                         }
                     </div>
