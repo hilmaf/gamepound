@@ -3,8 +3,9 @@ import { AgGridReact } from 'ag-grid-react'; // React Grid Logic
 import "ag-grid-community/styles/ag-grid.css"; // Core CSS
 import "ag-grid-community/styles/ag-theme-quartz.css"; // Theme
 import styled from 'styled-components';
-import { Button, Form, InputGroup, Pagination } from 'react-bootstrap';
+import { Button, Form, InputGroup } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import Pagination from 'react-js-pagination';
 
 const baseURL = process.env.REACT_APP_API_URL;
 
@@ -81,45 +82,48 @@ const ProjectMain = () => {
         subCategory: '',
         status: '',
         projectTitle: '',
-        creator: '',
-        currentPage: ''
+        creator: ''
     }); // 검색조건
-    const {mainCategory, subCategory, status, projectTitle, creator, currentPage} = conditionVo;
-    const [pageVo, setPageVo] = useState();
+    const {mainCategory, subCategory, status, projectTitle, creator} = conditionVo;
     const [activePage, setActivePage] = useState(1);
-    const [dataVo, setDataVo] = useState({});
+    const [pageVo, setPageVo] = useState({
+        listCount:0,
+        activePage:activePage,
+        boardLimit: 10,
+        pageLimit: 5
+    });
     const [rowData, setRowData] = useState([]);
     const [colDefs, setColDefs] = useState([
-        { field: "번호", autoHeight: true  },
-        { field: "대분류" , autoHeight: true },
-        { field: "소분류", autoHeight: true  },
-        { field: "프로젝트명", autoHeight: true  },
-        { field: "현황", autoHeight: true  },
+        { headerName: "번호", field: "no", autoHeight: true  },
+        { headerName: "대분류", field: "mainCategory", autoHeight: true },
+        { headerName: "소분류", field: "subCategory", autoHeight: true  },
+        { headerName: "프로젝트명", field: "title", autoHeight: true  },
+        { headerName: "현황", field: "statusName", autoHeight: true  },
     ]);
-    const pageSize = 10;
 
-    // 페이지네이션
-    let active = 1; // 활성화
-    let items = [];
-    for (let number = 1; number <= 10; number++) {
-        items.push(
-            <Pagination.Item key={number} active={number === active}>
-            {number}
-            </Pagination.Item>,
-        );
+    // 숫자페이지 눌렀을때 데이터 불러오기
+    const handlePageNumBtn = (pageNumber) => {
+        setActivePage(pageNumber);
     }
 
+    // 행 클릭 시 해당 detail페이지로 이동
     const rowClicked = (e) => {
-        navigate('../project/detail')
+        navigate('../project/detail/${no}')
     }
 
     // 프로젝트 조회
     useEffect(()=>{
         setLoading(true);
-        fetch(`${baseURL}/admin/project?currentPage=${currentPage}`)
+        fetch(`${baseURL}/admin/project?currentPage=${activePage}`)
         .then(resp => resp.json())
         .then(data => {
-            setDataVo(data);
+            console.log(data?.projectList);
+            setPageVo({
+                ...pageVo,
+                listCount: parseInt(data?.cnt)
+            })
+
+            setRowData(data?.projectList);
         })
         .catch(()=> {
             alert('데이터를 가져오는 데 실패했습니다.');
@@ -128,7 +132,31 @@ const ProjectMain = () => {
             setLoading(false)
         )
         ;
+    }, [activePage])
+
+    // 검색조건 불러오기(카테고리)
+    useEffect(()=>{
+        fetch(`${baseURL}/category/list`)
+        .then(resp => resp.json())
+        .then(data => {
+            console.log(data);
+            // const mainCategorySelect = document.querySelector("#mainCategorySelect");
+            // for(let i=0; i<data?.length(); i++) {
+            //     const newOption = document.createElement("option");
+            //     newOption.value = data[i].categoryNo;
+            //     newOption.text = data[i].categoryNo;
+            //     mainCategorySelect.add(newOption);
+            //     console.log(mainCategorySelect.value);
+            // }
+        })
+        .catch()
+        .finally()
     }, [])
+
+    // 프로젝트 검색
+    const handleSearchBtn = () => {
+
+    }
 
     return (
         <StyledProjectDiv>
@@ -138,19 +166,17 @@ const ProjectMain = () => {
                 <Form>
                     <InputGroup className="mb-2">
                         <InputGroup.Text>대분류</InputGroup.Text>
-                        <Form.Select name='mainCategory'>
+                        <Form.Select name='mainCategory' id='mainCategory'>
                             <option value='all'>전체</option>
-                            <option value='video'>비디오게임</option>
-                            <option value='mobile'>모바일게임</option>
+                            <option value='all'>전체</option>
+                            <option value='all'>전체</option>
                         </Form.Select>
                         <InputGroup.Text>소분류</InputGroup.Text>
-                        <Form.Select name='subCategory'>
+                        <Form.Select name='subCategory' id='subCategory'>
                             <option value='all'>전체</option>
-                            <option>전체</option>
-                            <option>전체</option>
-                            <option>전체</option>
-                            <option>전체</option>
-                            <option>전체</option>
+                            <option value='all'>전체</option>
+                            <option value='all'>전체</option>
+                            <option value='all'>전체</option>
                         </Form.Select>
                         <InputGroup.Text>현황</InputGroup.Text>
                         <Form.Select name='status'>
@@ -174,13 +200,13 @@ const ProjectMain = () => {
 
                     <div className="btnArea">
                         <Button variant="secondary">초기화</Button>
-                        <Button variant="primary">검색</Button>
+                        <Button variant="primary" onClick={handleSearchBtn}>검색</Button>
                     </div>
                 </Form>
             </div>
 
             <div className="totalArea">
-                total <strong>30</strong>
+                total <strong>{pageVo ? pageVo.listCount : ''}</strong>
             </div>
             <div className="agGridBox ag-theme-quartz">
                 <AgGridReact
@@ -189,22 +215,22 @@ const ProjectMain = () => {
                     animateRows={true} // 행 애니메이션
                     domLayout='autoHeight' // 자동높이
                     onGridReady={(e) => {e.api.sizeColumnsToFit();}} // 칼럼꽉차게
-                    pagination={true} // 페이징처리
-                    paginationPageSize={pageSize} // 한 페이지당 보여줄 열의 개수
-                    suppressPaginationPanel={true} // ag-grid에서 제공하는 페이징 컨트롤패널 안씀
                     onRowClicked={(e) => {rowClicked(e)}} // 행 클릭시 이벤트
                 />
             </div>
 
-            <Pagination size="sm">
-                <Pagination.First />
-                <Pagination.Prev />
-                
-                {items}
-
-                <Pagination.Next />
-                <Pagination.Last />
-            </Pagination>
+            {
+                pageVo ? 
+                <Pagination
+                    activePage={activePage} // 현재 보고있는 페이지 
+                    itemsCountPerPage={pageVo.boardLimit} // 한페이지에 출력할 아이템수
+                    totalItemsCount={pageVo.listCount} // 총 아이템수
+                    pageRangeDisplayed={pageVo.pageLimit} // 표시할 페이지수
+                    onChange={handlePageNumBtn}> 
+                </Pagination>
+                :
+                ''
+            }
             
         </StyledProjectDiv>
     );

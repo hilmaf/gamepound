@@ -4,14 +4,20 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="AdminProjectMapper">
 
+<select id="cntProjects" resultType="java.lang.String">
+	SELECT
+		COUNT(*)
+	FROM PROJECT P
+</select>
+
 <select id="list" resultType="ProjectVo">
 	SELECT
 	    P.NO
-	    , C.MAIN_CATEGORY
-	    , C.SUB_CATEGORY
-	    , P.TITLE
-	    , P.STATUS_NO
-	    , PS.STATUS
+	    , C.MAIN_CATEGORY MAIN_CATEGORY
+	    , C.SUB_CATEGORY SUB_CATEGORY
+	    , P.TITLE TITLE
+	    , P.STATUS_NO STATUS_NO
+	    , PS.STATUS STATUS_NAME
 	FROM PROJECT P
 	JOIN CATEGORY C ON P.CATEGORY_NO = C.NO
 	JOIN PROJECT_STATUS PS ON PS.NO = P.STATUS_NO
@@ -35,12 +41,13 @@
 	    , P.END_DATE END_DATE
 	    , P.CAL_DATE CAL_DATE
 	    , P.DELETE_YN DELETE_YN
+	    , PS.STATUS STATUS_NAME
 	    , R.NO REWARD_NO
 	    , R.AMOUNT REWARD_AMOUNT
 	    , R.NAME REWARD_NAME
-	    , SI.BANK_NAME
-	    , SI.NAME
-	    , SI.ACCOUNT_NUM
+	    , SI.BANK_NAME BANK_NAME
+	    , SI.NAME OWNER_NAME
+	    , SI.ACCOUNT_NUM ACCOUNT_NUM
 	FROM PROJECT P
 	JOIN CATEGORY C ON P.CATEGORY_NO = C.NO
 	JOIN PROJECT_STATUS PS ON PS.NO = P.STATUS_NO
