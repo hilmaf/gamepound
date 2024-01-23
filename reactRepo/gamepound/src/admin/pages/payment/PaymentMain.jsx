@@ -7,6 +7,8 @@ import "ag-grid-community/styles/ag-theme-quartz.css"; // Theme
 import Loading from '../../../component/common/Loading';
 import { useNavigate } from 'react-router-dom';
 import Pagination from 'react-js-pagination';
+import ReactDatePicker from 'react-datepicker';
+import { format } from 'date-fns';
 
 const baseURL = process.env.REACT_APP_API_URL;
 
@@ -106,28 +108,41 @@ const StyledPaymentMainDiv = styled.div`
             }
         }
     }
+
+    // 데이트피커
+    .react-datepicker__input-container {
+        height: 100%;
+        & input {
+            height: 100%;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+    }
 `;
 
 const PaymentMain = () => {
 
     const navigate = useNavigate();
-    const gridRef = useRef();
     const [loading, setLoading] = useState(false); // 로딩중 표시
     const [dataVo, setDataVo] = useState([]); // 데이터
-    const [searchVo, setSearchVo] = useState({ mainCategory: '', subCategory: '' }); // 검색데이터
+    const [formVo, setFormVo] = useState({}); // 보낼 데이터
+    const [searchVo, setSearchVo] = useState({}); // 검색데이터
     const [pvo, setPvo] = useState({}); // pvo
     const [activePage, setActivePage] = useState(1); // 현재페이지
     const [rowData, setRowData] = useState([]); // 행 데이터
     const [colDefs, setColDefs] = useState([ // 제목 데이터
         { headerName: "번호", field: "no", autoHeight: true, width: 80, headerClass: 'ag-header-cell-center', cellStyle: {textAlign: 'center'}},
-        { headerName: "후원자명", field: "backName" , autoHeight: true, headerClass: 'ag-header-cell-center'},
         { headerName: "프로젝트명", field: "projectTitle", autoHeight: true, width: 300, headerClass: 'ag-header-cell-center' },
         { headerName: "프로젝트 상태", field: "projectStatus", autoHeight: true, headerClass: 'ag-header-cell-center', cellStyle: {textAlign: 'center'}},
+        { headerName: "후원자명", field: "backName" , autoHeight: true, headerClass: 'ag-header-cell-center'},
         { headerName: "결제 타입", field: "paymentType" , autoHeight: true, headerClass: 'ag-header-cell-center', cellStyle: {textAlign: 'center'}},
         { headerName: "결제 상태", field: "paymentStatus", autoHeight: true, headerClass: 'ag-header-cell-center', cellStyle: {textAlign: 'center'}},
         { headerName: "후원금액", field: "amount", autoHeight: true, headerClass: 'ag-header-cell-center', cellStyle: {textAlign: 'center'} },
         { headerName: "결제 날짜", field: "paymentDate", autoHeight: true, headerClass: 'ag-header-cell-center', cellStyle: {textAlign: 'center'}}
     ]);
+    const [startDate, setStartDate] = useState(null); // 데이트피커
+    const [endDate, setEndDate] = useState(null); // 데이트피커
 
     // 데이터 조회
     useEffect(() => {
@@ -157,18 +172,42 @@ const PaymentMain = () => {
         
     }
 
-    // 행 클릭시 해당 detail로 이동
-    const rowClicked = (e) => {
-        const no = e.data.no;
-        navigate(`../category/detail/${no}`);
-    }
-
     // 숫자페이지 눌렀을때 데이터 불러오기
     const handlePageNumBtn = (pageNumber) => {
         setActivePage(pageNumber);
     }
+
+    // 후원날짜 change
+    const handleStartDateChange = (date) => {
+        setStartDate(date);
+        setSearchVo({
+            ...searchVo,
+            'paymentDate': date ? format(date, 'yyyy-MM-dd') : '',
+        });
+    };
+
+    // searchVo 저장
+    const handleInputChange = (e) => {
+        const {name, value} = e.target;
+        setSearchVo({
+            ...searchVo,
+            [name]: value,
+        });
+    }
+
+    // 결제상태/프로젝트상태 데이터 가져오기
+    // useEffect(() => {
+    //     fetch(``)
+    //     .then()
+    //     .then()
+    //     .catch()
+    //     .finally()
+    //     ;
+    // });
+
     console.log('pvo :: ', pvo);
     console.log('dataVo :: ', dataVo);
+    console.log('searchVo :: ', searchVo);
 
     return (
         <StyledPaymentMainDiv>
@@ -181,7 +220,7 @@ const PaymentMain = () => {
                             <Col>
                                 <InputGroup className="mb-2">
                                     <InputGroup.Text>결제 상태</InputGroup.Text>
-                                    <Form.Select aria-label="전체">
+                                    <Form.Select aria-label="전체" name='paymentStatus' onChange={handleInputChange}>
                                         <option>전체</option>
                                         <option value="1">One</option>
                                         <option value="2">Two</option>
@@ -189,7 +228,7 @@ const PaymentMain = () => {
                                     </Form.Select>
 
                                     <InputGroup.Text>프로젝트 상태</InputGroup.Text>
-                                    <Form.Select aria-label="전체">
+                                    <Form.Select aria-label="전체" name='projectStatus' onChange={handleInputChange}>
                                         <option>전체</option>
                                         <option value="1">One</option>
                                         <option value="2">Two</option>
@@ -197,12 +236,16 @@ const PaymentMain = () => {
                                     </Form.Select>
 
                                     <InputGroup.Text>후원날짜</InputGroup.Text>
-                                    <Form.Select aria-label="전체">
-                                        <option>전체</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
-                                    </Form.Select>
+                                    <ReactDatePicker 
+                                        name='paymentDate'
+                                        dateFormat='yyyy-MM-dd' // 날짜 형태
+                                        shouldCloseOnSelect // 날짜를 선택하면 datepicker가 자동으로 닫힘
+                                        selected={startDate}
+                                        onChange={handleStartDateChange}
+                                        selectsStart
+                                        startDate={startDate}
+                                        endDate={endDate}
+                                    />
                                 </InputGroup>
                             </Col>
                         </Row>
@@ -210,15 +253,15 @@ const PaymentMain = () => {
                             <Col>
                                 <InputGroup className="mb-2">
                                     <InputGroup.Text>프로젝트명</InputGroup.Text>
-                                    <Form.Control name='subCategory' />
+                                    <Form.Control name='projectTitle' onChange={handleInputChange}/>
                                 </InputGroup>
                             </Col>
                         </Row>
                         <Row>
                             <Col>
                                 <InputGroup className="mb-2">
-                                    <InputGroup.Text>후원자명</InputGroup.Text>
-                                    <Form.Control name='mainCategory' />
+                                    <InputGroup.Text name='backName' onChange={handleInputChange}>후원자명</InputGroup.Text>
+                                    <Form.Control name='backName' onChange={handleInputChange}/>
                                 </InputGroup>
                             </Col>
                         </Row>
@@ -232,7 +275,7 @@ const PaymentMain = () => {
             </div>
 
             <div className="totalArea">
-                <div className="total">total <strong>{/*pvo ? pvo.listCount : ''*/}</strong></div>
+                <div className="total">total <strong>{pvo ? pvo.listCount : ''}</strong></div>
             </div>
             <div className="agGridBox ag-theme-quartz">
                 <AgGridReact 
@@ -241,11 +284,10 @@ const PaymentMain = () => {
                     animateRows={true} // 행 애니메이션
                     domLayout='autoHeight' // 자동높이
                     onGridReady={(e) => {e.api.sizeColumnsToFit();}} // 칼럼꽉차게
-                    onRowClicked={(e) => {rowClicked(e)}} // 행 클릭시 이벤트
                 />
             </div>
             {
-                pvo ? 
+                pvo.listCount ? 
                 <Pagination
                     activePage={activePage} // 현재 보고있는 페이지 
                     itemsCountPerPage={pvo.boardLimit} // 한페이지에 출력할 아이템수
