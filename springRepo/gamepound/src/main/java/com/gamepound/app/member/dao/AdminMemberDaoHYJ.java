@@ -20,4 +20,9 @@ public class AdminMemberDaoHYJ {
 		return sst.selectOne("AdminMemberMapper.detail", vo);
 	}
 
+	//사용자관리 수정
+	public int memberEdit(SqlSessionTemplate sst, MemberVo vo) {
+		return sst.update("AdminMemberMapper.edit", vo);
+	}
+
 }

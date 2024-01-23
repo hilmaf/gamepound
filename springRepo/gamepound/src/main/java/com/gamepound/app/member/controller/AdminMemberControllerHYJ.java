@@ -37,4 +37,11 @@ public class AdminMemberControllerHYJ {
 		
 		System.out.println(vo);
 	}
+	
+	@PostMapping("edit")
+	public void memberEdit(MemberVo vo) {
+		int result = service.memberEdit(vo);
+		
+		System.out.println(result);
+	}
 }

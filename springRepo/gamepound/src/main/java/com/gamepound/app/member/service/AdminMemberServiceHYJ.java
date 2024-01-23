@@ -27,4 +27,9 @@ public class AdminMemberServiceHYJ {
 	public MemberVo memberDetail(MemberVo vo) {
 		return dao.memberDetail(sst, vo);
 	}
+
+	
+	public int memberEdit(MemberVo vo) {
+		return dao.memberEdit(sst, vo);
+	}
 }
