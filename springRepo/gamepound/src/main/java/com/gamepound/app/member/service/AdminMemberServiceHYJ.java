@@ -18,13 +18,23 @@ public class AdminMemberServiceHYJ {
 	private final AdminMemberDaoHYJ dao;
 	private final SqlSessionTemplate sst;
 	
-	//사용자관리 목록
+	//목록
 	public List<MemberVo> memberList(MemberVo vo) {
 		return dao.memberList(vo,sst);
 	}
 
-	//사용자관리 상세
+	//상세
 	public MemberVo memberDetail(MemberVo vo) {
 		return dao.memberDetail(sst, vo);
+	}
+
+	//수정
+	public int memberEdit(MemberVo vo) {
+		return dao.memberEdit(sst, vo);
+	}
+
+	//삭제
+	public int memberDelete(MemberVo vo) {
+		return dao.memberDelete(sst, vo);
 	}
 }

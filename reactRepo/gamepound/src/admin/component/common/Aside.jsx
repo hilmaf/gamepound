@@ -101,7 +101,7 @@ const Aside = () => {
                         <em><FontAwesomeIcon icon={faCaretRight} /></em>
                     </NavLink>
                     <NavLink to="backer">
-                        <span><FontAwesomeIcon icon={faMoneyCheck} /></span>후원 관리
+                        <span><FontAwesomeIcon icon={faMoneyCheck} /></span>후원자 관리
                         <em><FontAwesomeIcon icon={faCaretRight} /></em>
                     </NavLink>
                 </div>
