@@ -14,8 +14,8 @@
 		<selectKey keyProperty="no" resultType="ProjectVo" order="BEFORE">
 	        SELECT SEQ_PROJECT_NO.NEXTVAL AS no FROM DUAL
 	    </selectKey>
-		INSERT INTO PROJECT(NO, CATEGORY_NO, MEMBER_NO, TITLE) 
-		VALUES (#{no}, #{categoryNo}, #{memberNo}, #{title})
+		INSERT INTO PROJECT(NO, CATEGORY_NO, MEMBER_NO, TITLE, IMAGE_URL) 
+		VALUES (#{no}, #{categoryNo}, #{memberNo}, #{title}, #{imageUrl})
 	</insert>
 	
 	<!-- 프로젝트 내용 조회 (메인) -->
