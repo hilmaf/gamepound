@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import ReviewWrite from '../../pages/userpage/ReviewWrite';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import ReviewBox from '../../pages/userpage/ReviewBox';
+import { useUserMemory } from '../context/UserContext';
 
 const StyledBackBriefInfoDiv = styled.div`
     width: 1100px;
@@ -66,6 +67,12 @@ const StyledBackBriefInfoDiv = styled.div`
 
 const BackBriefInfo = ({item}) => {
 
+    const {loginMemberVo} = useUserMemory();
+    const {no} = useParams();
+
+    let matchYn;
+    loginMemberVo?.no === no ? matchYn = 'true' : matchYn = 'false';
+
     const navigate = useNavigate();
     const [reviewWrite, setReviewWrite] = useState(false);
     const [reviewView, setReviewView] = useState(false);
@@ -117,7 +124,7 @@ const BackBriefInfo = ({item}) => {
                 </div>
             </div>
             {
-                item.retractYn === 'Y' || item.projectStatus === '펀딩 무산' || item.paymentStatus === '결제예약취소'
+                matchYn === 'false' || item.retractYn === 'Y' || item.projectStatus === '펀딩 무산' || item.paymentStatus === '결제예약취소' || item.paymentStatus === '결제대기'
                 ?
                 <></>
                 :
