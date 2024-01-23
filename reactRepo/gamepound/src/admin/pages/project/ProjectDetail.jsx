@@ -26,7 +26,7 @@ const ProjectDetail = () => {
     // 데이터
     useEffect(() => {
         setLoading(true);
-        fetch(`${baseURL}/category/admin/detail?no=${no}`)
+        fetch(`${baseURL}/admin/project/detail?no=${no}`)
         .then(resp => resp.json())
         .then(data => {
             setDataVo(data);
@@ -75,33 +75,100 @@ const ProjectDetail = () => {
 
             <Table bordered responsive>
                 <colgroup>
-                    <col width='20%'/>
-                    <col width='*'/>
-                    <col width='20%'/>
-                    <col width='*'/>
+                    <col width='10%'/>
+                    <col width='10%'/>
+                    <col width='10%'/>
+                    <col width='10%'/>
+                    <col width='10%'/>
+                    <col width='10%'/>
+                    <col width='10%'/>
+                    <col width='10%'/>
                 </colgroup>
                 <tbody>
                     <tr>
-                        <td>번호</td>
-                        <td colSpan={3}><Form.Control size="sm" type="text" defaultValue={dataVo.no} disabled /></td>
+                        <td>프로젝트명</td>
+                        <td colSpan={7}><Form.Control size="sm" type="text" disabled /></td>
                     </tr>
                     <tr>
-                        <td>대분류 번호</td>
-                        <td><Form.Control size="sm" type="text" defaultValue={dataVo.mainCategoryNo} disabled /></td>
+                        <td>프로젝트 번호</td>
+                        <td><Form.Control size="sm" type="text" disabled /></td>
                         <td>대분류 명</td>
-                        <td><Form.Control size="sm" name='mainCategory' type="text" defaultValue={dataVo.mainCategory} onChange={handleInputChange} /></td>
-                    </tr>
-                    <tr>
-                        <td>소분류 번호</td>
-                        <td><Form.Control size="sm" type="text" defaultValue={dataVo.subCategoryNo} disabled /></td>
+                        <td><Form.Control size="sm" name='mainCategory' type="text" defaultValue={dataVo.mainCategory} disabled /></td>
                         <td>소분류 명</td>
-                        <td><Form.Control size="sm" name='subCategory' type="text" defaultValue={dataVo.subCategory} onChange={handleInputChange} /></td>
+                        <td><Form.Control size="sm" name='subCategory' type="text" defaultValue={dataVo.subCategory} onChange={handleInputChange} disabled/></td>
+                        <td>창작자 명</td>
+                        <td><Form.Control size="sm" type="text" name='member' disabled/></td>
                     </tr>
                     <tr>
-                        <td>삭제여부</td>
-                        <td colSpan={3}>
-                            <Form.Check type="switch" name='delYn' defaultChecked={isChecked} onChange={handleRadioChange} />
-                        </td>
+                        <td>목표 금액</td>
+                        <td><Form.Control size="sm" type="text" disabled /></td>
+                        <td>모인 금액</td>
+                        <td><Form.Control size="sm" type="text" disabled /></td>
+                        <td>달성률</td>
+                        <td><Form.Control size="sm" type="text" disabled /></td>
+                        <td colSpan={2}></td>
+                    </tr>
+                    <tr>
+                        <td>URL</td>
+                        <td colSpan={7}><Form.Control size="sm" type="text" disabled /></td>
+                    </tr>
+                    <tr>
+                        <td colSpan={8}></td>
+                    </tr>
+                    <tr>
+                        <td colSpan={8}><strong>현황 정보</strong></td>
+                    </tr>
+                    <tr>
+                        <td>현황</td>
+                        <td><Form.Select size="sm" type="select">
+                            <option value="checking">심사중</option>
+                            <option value="approved">승인됨</option>
+                            <option value="rejected">반려됨</option>
+                            <option value="process">진행중</option>
+                            <option value="success">펀딩종료(성공)</option>
+                            <option value="fail">펀딩종료(실패)</option>
+                            </Form.Select></td>
+                        <td colSpan={2}></td>
+                        <td>등록일</td>
+                        <td><Form.Control size="sm" type="text" disabled /></td>
+                        <td>승인일</td>
+                        <td><Form.Control size="sm" type="text" name='okDate' disabled/></td>
+                    </tr>
+                    <tr>
+                        <td colSpan={4}></td>
+                        <td>펀딩 시작일</td>
+                        <td><Form.Control size="sm" type="text" disabled /></td>
+                        <td>펀딩 종료일</td>
+                        <td><Form.Control size="sm" type="text" disabled /></td>
+                    </tr>
+                    <tr>
+                        <td colSpan={8}></td>
+                    </tr>
+                    <tr>
+                        <td colSpan={8}><strong>선물 정보</strong></td>
+                    </tr>
+                    <tr>
+                        <td colSpan={8}><Form.Control size="sm" type="text" disabled /></td>
+                    </tr>
+                    <tr>
+                        <td colSpan={8}><Form.Control size="sm" type="text" disabled /></td>
+                    </tr>
+                    <tr>
+                        <td colSpan={8}><Form.Control size="sm" type="text" disabled /></td>
+                    </tr>
+                    <tr>
+                        <td colSpan={8}></td>
+                    </tr>
+                    <tr>
+                        <td colSpan={8}><strong>정산 정보</strong></td>
+                    </tr>
+                    <tr>
+                        <td>거래은행</td>
+                        <td><Form.Control size="sm" type="text" disabled /></td>
+                        <td>예금주 명</td>
+                        <td><Form.Control size="sm" type="text" disabled /></td>
+                        <td>계좌번호</td>
+                        <td colSpan={3}><Form.Control size="sm" type="text" disabled /></td>
                     </tr>
                 </tbody>
             </Table>
