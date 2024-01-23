@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { Button, Col, Container, Form, InputGroup, Row } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import Pagination from 'react-js-pagination';
+import Loading from '../../../component/common/Loading';
 
 const baseURL = process.env.REACT_APP_API_URL;
 
@@ -260,14 +261,14 @@ const CategoryMain = () => {
                     activePage={activePage} // 현재 보고있는 페이지 
                     itemsCountPerPage={pvo.boardLimit} // 한페이지에 출력할 아이템수
                     totalItemsCount={pvo.listCount} // 총 아이템수
-                    pageRangeDisplayed={pvo.maxPage} // 표시할 페이지수
+                    pageRangeDisplayed={pvo.pageLimit} // 표시할 페이지수
                     onChange={handlePageNumBtn}> 
                 </Pagination>
                 :
                 ''
             }
             
-            
+            {loading ? <Loading /> : ''}
         </StyledCategoryDiv>
     );
 };

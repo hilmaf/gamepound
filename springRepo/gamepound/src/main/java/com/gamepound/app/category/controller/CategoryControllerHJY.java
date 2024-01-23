@@ -24,7 +24,6 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("category")
 @RequiredArgsConstructor
 @RestController
-@CrossOrigin("*")
 public class CategoryControllerHJY {
 	
 	private final CategoryServiceHJY service;

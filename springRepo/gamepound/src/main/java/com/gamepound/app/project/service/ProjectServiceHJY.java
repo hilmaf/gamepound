@@ -57,6 +57,11 @@ public class ProjectServiceHJY {
 			vo.setTitle("프로젝트 타이틀을 설정해주세요.");
 		}
 		
+		// 이미지 null이면 디폴트이미지 insert
+		if(vo.getImageUrl() == null || vo.getImageUrl().isEmpty()) {
+			vo.setImageUrl("default_prj.svg");
+		}
+		
 		// 결과
 		ProjectVo resultVo = dao.newProject(sst, vo); // 프로젝트 정보 가져오기
 		
