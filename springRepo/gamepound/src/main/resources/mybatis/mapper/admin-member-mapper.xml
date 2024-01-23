@@ -25,24 +25,38 @@
 			NO
 			, NAME
 			, EMAIL
-			, PIC
 			, INTRO
 			, SITE_URL
 			, ENROLL_DATE
 			, QUIT_YN
 		FROM MEMBER
-		WHERE NO = {no}
+		WHERE NO = #{no}
 	</select>
 	
-<!-- 사용자 관리  -->
+<!-- 사용자 관리 수정 -->
 	<update id="edit">
 		UPDATE MEMBER
 		SET
+		<if test=" name != null and name != '' " >
 			NAME = #{name},
+		</if>
+		<if test=" email != null and email != '' " >
 			EMAIL = #{email},
-			PIC = #{pic},
+		</if>		
+		<if test=" intro != null and intro != '' " >			
 			INTRO = #{intro},
+		</if>			
+		<if test=" siteUrl != null and siteUrl != '' " >
 			SITE_URL = #{siteUrl}
+		</if>			
+		WHERE NO = #{no}
+	</update>
+	
+<!-- 사용자 관리 삭제 -->
+	<update id="delete">
+		UPDATE MEMBER
+		SET
+			QUIT_YN = 'Y'
 		WHERE NO = #{no}
 	</update>
   

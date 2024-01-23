@@ -10,19 +10,24 @@ import com.gamepound.app.member.vo.MemberVo;
 @Repository
 public class AdminMemberDaoHYJ {
 
-	//사용자관리 목록
+	//목록
 	public List<MemberVo> memberList(MemberVo vo, SqlSessionTemplate sst) {
 		return sst.selectList("AdminMemberMapper.List", vo);
 	}
 
-	//사용자관리 상세
+	//상세
 	public MemberVo memberDetail(SqlSessionTemplate sst, MemberVo vo) {
 		return sst.selectOne("AdminMemberMapper.detail", vo);
 	}
 
-	//사용자관리 수정
+	//수정
 	public int memberEdit(SqlSessionTemplate sst, MemberVo vo) {
 		return sst.update("AdminMemberMapper.edit", vo);
+	}
+
+	//삭제
+	public int memberDelete(SqlSessionTemplate sst, MemberVo vo) {
+		return sst.update("AdminMemberMapper.delete", vo);
 	}
 
 }

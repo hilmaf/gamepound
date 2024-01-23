@@ -23,25 +23,39 @@ import lombok.extern.slf4j.Slf4j;
 public class AdminMemberControllerHYJ {
 	private final AdminMemberServiceHYJ service;
 	
+	//목록
 	@GetMapping
 	public void memberList(MemberVo vo) {
+		log.info("시작");
 		List<MemberVo> voList = service.memberList(vo);
 		for (MemberVo memberVo : voList) {
-			System.out.println(memberVo);
+			log.info("memberVo ::: {}",memberVo);
+			
 		}
 	}
 	
+	//상세
 	@GetMapping("detail")
 	public void memberDetail(MemberVo vo) {
+		System.out.println(vo);
 		MemberVo detailVo = service.memberDetail(vo);
 		
-		System.out.println(vo);
+		log.info("detailVo ::: {}" , detailVo);
 	}
 	
+	//수정
 	@PostMapping("edit")
 	public void memberEdit(MemberVo vo) {
 		int result = service.memberEdit(vo);
 		
-		System.out.println(result);
+		log.info("result ::: {}", result);
+	}
+	
+	//삭제
+	@GetMapping("delete")
+	public void memberDelete(MemberVo vo) {
+		int result = service.memberDelete(vo);
+		
+		log.info("result ::: {}", result);
 	}
 }
