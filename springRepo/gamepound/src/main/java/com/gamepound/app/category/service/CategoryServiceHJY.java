@@ -70,13 +70,12 @@ public class CategoryServiceHJY {
 	// 어드민 카테고리 검색하기
 	public Map<String, Object> categorySearch(Map<String, String> searchVo) {
 		log.info("search serviceVo : {}", searchVo);
-		log.info("search serviceVo mainCategory : {}", searchVo.get("mainCategory"));
-		log.info("search serviceVo subCategory : {}", searchVo.get("subCategory"));
+		log.info("search serviceVo mainCategory : '{}'", searchVo.get("mainCategory"));
+		log.info("search serviceVo subCategory : '{}'", searchVo.get("subCategory"));
 		
 		CategoryVo searchCategoryVo = new CategoryVo();
 		searchCategoryVo.setMainCategory(searchVo.get("mainCategory"));
 		searchCategoryVo.setSubCategory(searchVo.get("subCategory"));
-		
 		
 		int listCount = dao.categorySearchCnt(sst, searchCategoryVo);       // 검색 게시글 갯수
         log.info("검색 게시글 갯수 : {}", listCount);

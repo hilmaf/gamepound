@@ -115,6 +115,7 @@ const CategoryDetail = () => {
         })
         .finally(() => {
             setLoading(false); // 로딩끝
+            navigate('../category');
         })
         ;
     }

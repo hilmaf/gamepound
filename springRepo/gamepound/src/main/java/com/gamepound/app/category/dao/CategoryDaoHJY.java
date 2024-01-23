@@ -75,7 +75,7 @@ public class CategoryDaoHJY {
 
 	// 어드민 카테고리 검색하기 총 갯수
 	public int categorySearchCnt(SqlSessionTemplate sst, CategoryVo searchVo) {
-		return sst.selectOne("CategoryMapper.categorySearchCnt");
+		return sst.selectOne("CategoryMapper.categorySearchCnt", searchVo);
 	}
 
 	// 어드민 카테고리 검색하기 결과

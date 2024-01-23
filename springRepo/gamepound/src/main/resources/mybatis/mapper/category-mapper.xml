@@ -67,7 +67,7 @@
 	        <if test="mainCategory != null and !mainCategory.isEmpty()">
 	            (MAIN_CATEGORY LIKE '%' || #{mainCategory} || '%') 
 	        </if>
-	        <if test="subCategory != null and !subCategory.isEmpty()">
+	        <if test="subCategory != null and subCategory != ''">
 	            AND (SUB_CATEGORY LIKE '%' || #{subCategory} || '%')
 	        </if>
 	    </trim>
