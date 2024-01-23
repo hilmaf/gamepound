@@ -99,12 +99,10 @@ public class UserPageService {
 	}
 	
 	// 유저페이지 - 내가 올린 프로젝트 목록 조회
-	public Map<String, Object> listMyProjects(String memberNo) {
-		Map<String, Object> listMap = new HashMap<>();
+	public Map<String, Object> listMyProjects(Map<String, Object> map) {
+		String cnt = dao.myProjectsCnt(sst, map);
 		
-		String cnt = dao.myProjectsCnt(sst, memberNo);
-		
-		List<ProjectBriefVo> myProjectList = dao.listMyProjects(sst, memberNo);
+		List<ProjectBriefVo> myProjectList = dao.listMyProjects(sst, map);
 		
 		// 달성률, 마감기한 d- setting
 		for(ProjectBriefVo vo : myProjectList) {
@@ -119,6 +117,7 @@ public class UserPageService {
 			vo.setProjectImg(url + vo.getProjectImg());
 		}
 		
+		Map<String, Object> listMap = new HashMap<>();
 		listMap.put("projectsCnt", cnt);
 		listMap.put("myProjectsList", myProjectList);
 

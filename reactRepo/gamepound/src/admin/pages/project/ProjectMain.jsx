@@ -1,10 +1,12 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { AgGridReact } from 'ag-grid-react'; // React Grid Logic
 import "ag-grid-community/styles/ag-grid.css"; // Core CSS
 import "ag-grid-community/styles/ag-theme-quartz.css"; // Theme
 import styled from 'styled-components';
 import { Button, Form, InputGroup, Pagination } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+
+const baseURL = process.env.REACT_APP_API_URL;
 
 const StyledProjectDiv = styled.div`
     // search
@@ -73,27 +75,26 @@ const StyledProjectDiv = styled.div`
 const ProjectMain = () => {
 
     const navigate = useNavigate();
-    // Row Data: The data to be displayed.
-    const [rowData, setRowData] = useState([
-        { 번호: "Ford", 대분류: "F-Series", 소분류: 33850, 프로젝트명: false, 현황: '승인됨' },
-        { 번호: "Ford", 대분류: "F-Series", 소분류: 33850, 프로젝트명: false, 현황: '승인됨' },
-        { 번호: "Ford", 대분류: "F-Series", 소분류: 33850, 프로젝트명: false, 현황: '승인됨' },
-        { 번호: "Ford", 대분류: "F-Series", 소분류: 33850, 프로젝트명: false, 현황: '승인됨' },
-        { 번호: "Ford", 대분류: "F-Series", 소분류: 33850, 프로젝트명: false, 현황: '승인됨' },
-        { 번호: "Ford", 대분류: "F-Series", 소분류: 33850, 프로젝트명: false, 현황: '승인됨' },
-        { 번호: "Ford", 대분류: "F-Series", 소분류: 33850, 프로젝트명: false, 현황: '승인됨' },
-        { 번호: "Ford", 대분류: "F-Series", 소분류: 33850, 프로젝트명: false, 현황: '승인됨' },
-        { 번호: "Ford", 대분류: "F-Series", 소분류: 33850, 프로젝트명: false, 현황: '승인됨' },
-    ]);
-
-    // Column Definitions: Defines & controls grid columns.
+    const [loading, setLoading] = useState(false); // 로딩중
+    const [conditionVo, setConditionVo] = useState({
+        mainCategory: '',
+        subCategory: '',
+        status: '',
+        projectTitle: '',
+        creator: '',
+        currentPage: ''
+    }); // 검색조건
+    const {mainCategory, subCategory, status, projectTitle, creator, currentPage} = conditionVo;
+    const [pageVo, setPageVo] = useState();
+    const [activePage, setActivePage] = useState(1);
+    const [dataVo, setDataVo] = useState({});
+    const [rowData, setRowData] = useState([]);
     const [colDefs, setColDefs] = useState([
         { field: "번호", autoHeight: true  },
         { field: "대분류" , autoHeight: true },
         { field: "소분류", autoHeight: true  },
         { field: "프로젝트명", autoHeight: true  },
         { field: "현황", autoHeight: true  },
-        { field: "상세 보기", autoHeight: true  }
     ]);
     const pageSize = 10;
 
@@ -112,8 +113,21 @@ const ProjectMain = () => {
         navigate('../project/detail')
     }
 
+    // 프로젝트 조회
     useEffect(()=>{
-        
+        setLoading(true);
+        fetch(`${baseURL}/admin/project?currentPage=${currentPage}`)
+        .then(resp => resp.json())
+        .then(data => {
+            setDataVo(data);
+        })
+        .catch(()=> {
+            alert('데이터를 가져오는 데 실패했습니다.');
+        })
+        .finally(
+            setLoading(false)
+        )
+        ;
     }, [])
 
     return (
@@ -123,16 +137,39 @@ const ProjectMain = () => {
             <div className="searchArea">
                 <Form>
                     <InputGroup className="mb-2">
-                        <InputGroup.Text>검색조건</InputGroup.Text>
-                        <Form.Control placeholder="Username" />
+                        <InputGroup.Text>대분류</InputGroup.Text>
+                        <Form.Select name='mainCategory'>
+                            <option value='all'>전체</option>
+                            <option value='video'>비디오게임</option>
+                            <option value='mobile'>모바일게임</option>
+                        </Form.Select>
+                        <InputGroup.Text>소분류</InputGroup.Text>
+                        <Form.Select name='subCategory'>
+                            <option value='all'>전체</option>
+                            <option>전체</option>
+                            <option>전체</option>
+                            <option>전체</option>
+                            <option>전체</option>
+                            <option>전체</option>
+                        </Form.Select>
+                        <InputGroup.Text>현황</InputGroup.Text>
+                        <Form.Select name='status'>
+                            <option>전체</option>
+                            <option>심사중</option>
+                            <option>승인됨</option>
+                            <option>반려됨</option>
+                            <option>진행중</option>
+                            <option>펀딩종료(성공)</option>
+                            <option>펀딩종료(실패)</option>
+                        </Form.Select>
                     </InputGroup>
                     <InputGroup className="mb-2">
-                        <InputGroup.Text>검색조건</InputGroup.Text>
-                        <Form.Control placeholder="Username" />
+                        <InputGroup.Text>프로젝트명</InputGroup.Text>
+                        <Form.Control placeholder="프로젝트명" />
                     </InputGroup>
                     <InputGroup className="mb-2">
-                        <InputGroup.Text>검색조건</InputGroup.Text>
-                        <Form.Control placeholder="Username" />
+                        <InputGroup.Text>창작자명</InputGroup.Text>
+                        <Form.Control placeholder="창작자명" />
                     </InputGroup>
 
                     <div className="btnArea">
@@ -146,7 +183,7 @@ const ProjectMain = () => {
                 total <strong>30</strong>
             </div>
             <div className="agGridBox ag-theme-quartz">
-                <AgGridReact 
+                <AgGridReact
                     rowData={rowData} 
                     columnDefs={colDefs}
                     animateRows={true} // 행 애니메이션

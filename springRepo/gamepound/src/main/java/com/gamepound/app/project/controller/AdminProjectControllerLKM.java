@@ -25,8 +25,8 @@ public class AdminProjectControllerLKM {
 	
 	// 프로젝트 목록 조회
 	@GetMapping("")
-	public List<ProjectVo> list() {
-		List<ProjectVo> projectList = service.list();
+	public List<ProjectVo> list(ProjectSearchVo vo) {
+		List<ProjectVo> projectList = service.list(vo);
 		
 		return projectList;
 	}
@@ -34,6 +34,7 @@ public class AdminProjectControllerLKM {
 	// 프로젝트 상세 조회
 	@GetMapping("detail")
 	public ProjectDetailVo detail(String projectNo) {
+		projectNo = "1";
 		ProjectDetailVo detailVo = service.detail(projectNo);
 		
 		return detailVo;

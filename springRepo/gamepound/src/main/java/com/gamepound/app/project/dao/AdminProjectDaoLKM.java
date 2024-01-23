@@ -12,10 +12,10 @@ import com.gamepound.app.project.vo.ProjectVo;
 @Repository
 public class AdminProjectDaoLKM {
 
-	public List<ProjectVo> list(SqlSessionTemplate sst) {
+	public List<ProjectVo> list(SqlSessionTemplate sst, ProjectSearchVo vo) {
 		int offset = 0;
 		int limit = 0;
-		return sst.selectList("AdminProjectMapper.list");
+		return sst.selectList("AdminProjectMapper.list", vo);
 	}
 
 	public List<ProjectDetailVo> detail(SqlSessionTemplate sst, String projectNo) {

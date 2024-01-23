@@ -135,8 +135,13 @@ public class UserPageController {
 	
 	// 유저페이지 - 내가 올린 프로젝트 목록 조회
 	@GetMapping("created")
-	public Map<String, Object> listMyProjects(@RequestParam("user") String memberNo) {
-		Map<String, Object> listMap = service.listMyProjects(memberNo);
+	public Map<String, Object> listMyProjects(@RequestParam("user") String memberNo
+											, @RequestParam("yn") String matchYn) {
+		Map<String, Object> map = new HashMap<>();
+		map.put("user", memberNo);
+		map.put("yn", matchYn);
+		System.out.println(map);
+		Map<String, Object> listMap = service.listMyProjects(map);
 		
 		return listMap;
 	}
