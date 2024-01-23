@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="AdminMemberMapper">
+	<select id="List" resultType="com.gamepound.app.member.vo.MemberVo">
+		SELECT
+		    NO
+		    , NAME
+		    , EMAIL
+		    , SITE_URL
+		    , ENROLL_DATE
+		    , UPDATE_DATE
+		    , QUIT_YN
+		FROM MEMBER
+		<if test="no != null and no != ''">
+		WHERE NAME LIKE '%' || #{name} || '%'
+		</if>
+	</select>
+  
+</mapper>
