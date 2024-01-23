@@ -31,8 +31,10 @@ public class AdminMemberControllerHYJ {
 		}
 	}
 	
-	@PostMapping
-	public void memberDetail() {
+	@GetMapping("detail")
+	public void memberDetail(MemberVo vo) {
+		MemberVo detailVo = service.memberDetail(vo);
 		
+		System.out.println(vo);
 	}
 }

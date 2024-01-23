@@ -22,4 +22,9 @@ public class AdminMemberServiceHYJ {
 	public List<MemberVo> memberList(MemberVo vo) {
 		return dao.memberList(vo,sst);
 	}
+
+	//사용자관리 상세
+	public MemberVo memberDetail(MemberVo vo) {
+		return dao.memberDetail(sst, vo);
+	}
 }
