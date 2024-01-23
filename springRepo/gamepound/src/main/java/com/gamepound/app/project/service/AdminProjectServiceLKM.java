@@ -22,12 +22,8 @@ public class AdminProjectServiceLKM {
 	private final SqlSessionTemplate sst;
 	private final AdminProjectDaoLKM dao;
 	
-	public List<ProjectVo> list() {
-		
-		
-		
-		
-		return dao.list(sst);
+	public List<ProjectVo> list(ProjectSearchVo vo) {
+		return dao.list(sst, vo);
 	}
 
 	public ProjectDetailVo detail(String projectNo) {
