@@ -52,7 +52,7 @@ const UserCreated = () => {
     return (
         <StyledUserCreatedDiv>
             {
-                projectsCnt == 0
+                projectsCnt === 0
                 ?
                 <></>
                 :
