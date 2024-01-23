@@ -56,7 +56,7 @@ const AdminMain = () => {
                             <Route path='/backer/*' element={<BackerMain />} />
                             <Route path='/payment/*' element={<PaymentMain />} />
                             <Route path='/project/*' element={<ProjectMain />} />
-                            <Route path='/project/detail' element={<ProjectDetail />} />
+                            <Route path='/project/detail/:no' element={<ProjectDetail />} />
                             <Route path='/user/*' element={<UserMain />} />
                             <Route path='/*' element={<h1>에러페이지</h1>} />
                         </Routes>

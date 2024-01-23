@@ -7,6 +7,7 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
 
+import com.gamepound.app.page.vo.PageVo;
 import com.gamepound.app.project.dao.AdminProjectDaoLKM;
 import com.gamepound.app.project.vo.ProjectDetailVo;
 import com.gamepound.app.project.vo.ProjectSearchVo;
@@ -22,18 +23,38 @@ public class AdminProjectServiceLKM {
 	private final SqlSessionTemplate sst;
 	private final AdminProjectDaoLKM dao;
 	
-	public List<ProjectVo> list(ProjectSearchVo vo) {
-		return dao.list(sst, vo);
+	public Map<String, Object> list(String currentPage_) {
+		String cnt = dao.cntProjects(sst);
+		
+		int listCount = Integer.parseInt(cnt);
+		if(currentPage_ == null) {
+			currentPage_ = "1";
+		}
+		int currentPage = Integer.parseInt(currentPage_);
+		int pageLimit = 5;
+		int boardLimit = 10;
+		
+		PageVo pvo = new PageVo(listCount, currentPage, pageLimit, boardLimit);
+		
+		List<ProjectVo> projectList = dao.list(sst, pvo);
+		
+		Map<String, Object> listMap = new HashMap<>();
+		listMap.put("cnt", cnt);
+		listMap.put("projectList", projectList);
+		
+		return listMap;
 	}
 
 	public ProjectDetailVo detail(String projectNo) {
 		List<ProjectDetailVo> list = dao.detail(sst, projectNo);
-		
+
+		// 프로젝트 정보 담기
 		Map<String, ProjectDetailVo> map = new HashMap<String, ProjectDetailVo>();
 		for(ProjectDetailVo vo : list) {
 			map.put(vo.getNo(), vo);
 		}
 		
+		// 선물 정보 담기
 		for(ProjectDetailVo vo : list) {
 			RewardVoLKM rewardVo = new RewardVoLKM();
 			rewardVo.setRewardNo(vo.getRewardNo());
@@ -41,7 +62,10 @@ public class AdminProjectServiceLKM {
 			rewardVo.setRewardAmount(vo.getRewardAmount());
 			rewardVo.setProjectNo(vo.getNo());
 			
-			vo.getRewardList().add(rewardVo);
+			ProjectDetailVo target = map.get(vo.getNo());
+			if(target.getRewardList() != null) {
+				target.getRewardList().add(rewardVo);
+			}
 		}
 		
 		return map.get(projectNo);

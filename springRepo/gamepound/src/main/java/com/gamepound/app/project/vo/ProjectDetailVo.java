@@ -1,5 +1,6 @@
 package com.gamepound.app.project.vo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.gamepound.app.reward.vo.RewardVo;
@@ -49,7 +50,7 @@ public class ProjectDetailVo {
 	
 	//프로젝트 선물
 	private List<RewardVo> rewardVoList;
-	private List<RewardVoLKM> rewardList;
+	private List<RewardVoLKM> rewardList = new ArrayList<RewardVoLKM>();
 	// rewardList에 담기 위한 필드
 	private String rewardNo;
 	private String rewardAmount;
