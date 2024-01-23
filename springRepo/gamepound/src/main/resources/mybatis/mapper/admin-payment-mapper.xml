@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="AdminPaymentMapper">
+  
+	<select id="countPaymentList" resultType="int">
+		SELECT COUNT(*)
+		FROM PAYMENT P
+		JOIN MEMBER M ON M.NO = P.BACKER_NO 
+		JOIN PROJECT PJ ON PJ.NO = P.PROJECT_NO
+		JOIN PROJECT_STATUS PJS ON PJS.NO = PJ.STATUS_NO
+		JOIN PAYMENT_TYPE PT ON PT.NO = P.PAYMENT_TYPE_NO
+		JOIN PAYMENT_STATUS PS ON PS.NO = P.PAYMENT_STATUS_NO
+		ORDER BY P.NO DESC
+	</select>
+	
+	<select id="getPaymentList" resultType="com.gamepound.app.payment.vo.PaymentVo">
+		SELECT 
+		    P.NO AS NO
+		    , M.NAME AS BACK_NAME
+		    , PJ.TITLE AS PROJECT_TITLE
+		    , PJS.STATUS AS PROJECT_STATUS
+		    , PT.PAYMENT_TYPE AS PAYMENT_TYPE
+		    , PS.PAYMENT_STATUS AS PAYMENT_STATUS
+		    , P.AMOUNT AS AMOUNT
+		    , TO_CHAR(P.PAYMENT_DATE, 'YYYY-MM-DD') AS PAYMENT_DATE
+		FROM PAYMENT P
+		JOIN MEMBER M ON M.NO = P.BACKER_NO
+		JOIN PROJECT PJ ON PJ.NO = P.PROJECT_NO
+		JOIN PROJECT_STATUS PJS ON PJS.NO = PJ.STATUS_NO
+		JOIN PAYMENT_TYPE PT ON PT.NO = P.PAYMENT_TYPE_NO
+		JOIN PAYMENT_STATUS PS ON PS.NO = P.PAYMENT_STATUS_NO
+		ORDER BY P.NO DESC
+	</select>
+  
+</mapper>
