@@ -7,8 +7,10 @@ import java.util.Map;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.gamepound.app.category.vo.CategoryVo;
 import com.gamepound.app.project.service.AdminProjectServiceLKM;
 import com.gamepound.app.project.vo.ProjectDetailVo;
 import com.gamepound.app.project.vo.ProjectSearchVo;
@@ -25,16 +27,18 @@ public class AdminProjectControllerLKM {
 	
 	// 프로젝트 목록 조회
 	@GetMapping("")
-	public List<ProjectVo> list(ProjectSearchVo vo) {
-		List<ProjectVo> projectList = service.list(vo);
+	public Map<String, Object> list(@RequestParam("currentPage") String currentPage) {
+		Map<String, Object> listMap = service.list(currentPage);
 		
-		return projectList;
+		return listMap;
 	}
+
+	// 카테고리 목록 가져오기
+	
 	
 	// 프로젝트 상세 조회
 	@GetMapping("detail")
-	public ProjectDetailVo detail(String projectNo) {
-		projectNo = "1";
+	public ProjectDetailVo detail(@RequestParam("no") String projectNo) {
 		ProjectDetailVo detailVo = service.detail(projectNo);
 		
 		return detailVo;
@@ -72,7 +76,7 @@ public class AdminProjectControllerLKM {
 	}
 
 	// 프로젝트 검색
-	@PostMapping("search")
+	@GetMapping("search")
 	public void search(ProjectSearchVo vo) {
 		List<ProjectVo> searchedList = service.search(vo);
 	}
