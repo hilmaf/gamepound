@@ -14,9 +14,40 @@
 		    , UPDATE_DATE
 		    , QUIT_YN
 		FROM MEMBER
-		<if test="no != null and no != ''">
-		WHERE NAME LIKE '%' || #{name} || '%'
-		</if>
+		<where>
+			<trim prefixOverrides="AND">
+				<if test="no != null and no != ''">
+					NAME LIKE '%' || #{name} || '%'
+				</if>
+				<if test="termStart != null and termStart != ''">
+					AND ENROLL_DATE <![CDATA[ >= ]]> TO_DATE(#{termStart}, 'YYYY.MM.DD')
+				</if>
+				<if test="termEnd != null and termEnd != ''">
+					AND ENROLL_DATE <![CDATA[ <= ]]> TO_DATE(#{termEnd}, 'YYYY.MM.DD')
+				</if>
+			</trim>
+		</where>
+		ORDER BY NO DESC
+	</select>
+	
+<!-- 사용자 관리 목록 게시글 수 -->
+	<select id="Cnt" resultType="_int">
+		SELECT
+		    COUNT(NO)		    
+		FROM MEMBER
+<!-- 		<where>
+			<trim prefixOverrides="AND">
+				<if test="name != null and name != ''">
+					NAME LIKE '%' || #{name} || '%'
+				</if>
+				<if test="termStart != null and termStart != ''">
+					AND ENROLL_DATE <![CDATA[ >= ]]> TO_DATE(#{termStart}, 'YYYY.MM.DD')
+				</if>
+				<if test="termEnd != null and termEnd != ''">
+					AND ENROLL_DATE <![CDATA[ <= ]]> TO_DATE(#{termEnd}, 'YYYY.MM.DD')
+				</if>
+			</trim>
+		</where> -->
 	</select>
 	
 <!-- 사용자 관리 상세 -->
