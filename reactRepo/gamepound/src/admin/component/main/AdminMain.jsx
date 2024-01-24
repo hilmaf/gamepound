@@ -12,6 +12,7 @@ import UserMain from '../../pages/user/UserMain';
 import CategoryDetail from '../../pages/category/CategoryDetail';
 import ProjectDetail from '../../pages/project/ProjectDetail';
 import CategoryCreate from '../../pages/category/CategoryCreate';
+import UserDetail from '../../pages/user/UserDetail';
 
 const StyledWrapDiv = styled.div`
     display: flex;
@@ -58,6 +59,7 @@ const AdminMain = () => {
                             <Route path='/project/*' element={<ProjectMain />} />
                             <Route path='/project/detail/:no' element={<ProjectDetail />} />
                             <Route path='/user/*' element={<UserMain />} />
+                            <Route path='/user/detail/:no' element={<UserDetail />} />
                             <Route path='/*' element={<h1>에러페이지</h1>} />
                         </Routes>
                     </StyledContainerDiv>
