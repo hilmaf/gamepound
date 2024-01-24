@@ -35,12 +35,13 @@
 	    , REGEXP_REPLACE(REVERSE(REGEXP_REPLACE(REVERSE(TO_CHAR(P.CURRENT_AMOUNT)), '(\d{3})', '\1,')), '^,', '') CURRENT_AMOUNT
 	    , P.IMAGE_URL IMAGE_URL
 	    , P.OK_YN OK_YN
-	    , P.OK_DATE OK_DATE
-	    , P.ENROLL_DATE ENROLL_DATE
-	    , P.START_DATE START_DATE
-	    , P.END_DATE END_DATE
-	    , P.CAL_DATE CAL_DATE
+	    , TO_CHAR(P.OK_DATE, 'YY"년" MM"월" DD"일"') OK_DATE
+	    , TO_CHAR(P.ENROLL_DATE, 'YY"년" MM"월" DD"일"') ENROLL_DATE
+	    , TO_CHAR(P.START_DATE, 'YY"년" MM"월" DD"일"') START_DATE
+	    , TO_CHAR(P.END_DATE, 'YY"년" MM"월" DD"일"') END_DATE
+	    , TO_CHAR(P.CAL_DATE, 'YY"년" MM"월" DD"일"') CAL_DATE
 	    , P.DELETE_YN DELETE_YN
+	    , PS.NO STATUS_NO
 	    , PS.STATUS STATUS_NAME
 	    , R.NO REWARD_NO
 	    , R.AMOUNT REWARD_AMOUNT
@@ -49,27 +50,22 @@
 	    , SI.NAME OWNER_NAME
 	    , SI.ACCOUNT_NUM ACCOUNT_NUM
 	FROM PROJECT P
-	JOIN CATEGORY C ON P.CATEGORY_NO = C.NO
-	JOIN PROJECT_STATUS PS ON PS.NO = P.STATUS_NO
-	JOIN MEMBER M ON M.NO = P.MEMBER_NO
-	JOIN REWARD R ON R.PROJECT_NO = P.NO 
-	JOIN SETTLEMENT_INFO SI ON SI.PROJECT_NO = P.NO
+	LEFT OUTER JOIN CATEGORY C ON P.CATEGORY_NO = C.NO
+	LEFT OUTER JOIN PROJECT_STATUS PS ON PS.NO = P.STATUS_NO
+	LEFT OUTER JOIN MEMBER M ON M.NO = P.MEMBER_NO
+	LEFT OUTER JOIN REWARD R ON R.PROJECT_NO = P.NO 
+	LEFT OUTER JOIN SETTLEMENT_INFO SI ON SI.PROJECT_NO = P.NO
+	LEFT OUTER JOIN PROJECT_STATUS PS ON PS.NO = P.STATUS_NO
 	WHERE P.NO = #{projectNo}
 </select>
 
-<update id="approve">
+<update id="update">
 	UPDATE PROJECT
-	    SET STATUS_NO = 3
+	    SET STATUS_NO = #{statusNo}
 	WHERE NO = #{projectNo}
 </update>
  
-<update id="reject">
-	UPDATE PROJECT
-	    SET STATUS_NO = 4
-	WHERE NO = #{projectNo}
-</update>
-
-<select id="search">
+<select id="search" resultType="ProjectVo">
 	SELECT
 	    P.NO NO
 	    , C.MAIN_CATEGORY MAIN_CATEGORY
@@ -81,22 +77,50 @@
 	JOIN CATEGORY C ON P.CATEGORY_NO = C.NO
 	JOIN PROJECT_STATUS PS ON PS.NO = P.STATUS_NO
 	JOIN MEMBER M ON P.MEMBER_NO = M.NO
-	<if test="memberName != null || memberName != ''">
-		<trim prefixOverrides="when">
-			WHERE M.NAME = #{memberName}
-		</trim>
-	</if>
-	<if test="projectTitle != null || projectTitle != ''">
-		<trim prefixOverrides="when">
-			WHERE P.TITLE LIKE '%' || #{projectTitle} || '%'			
-		</trim>
-	</if>
-	<if test="statusNo != null || statusNo != ''">
-		AND PS.NO = #{statusNo}
-	</if>
-	<if test="categoryNo != null || categoryNo != ''">
-		AND C.NO = #{categoryNo}	
-	</if>
+	<trim prefix="WHERE" prefixOverrides="AND">
+		<if test="(status != null || status != '') and (status!=null and !status.equals('all'))">
+			AND PS.STATUS = #{status}
+		</if>
+		<if test="(mainCategory != null || mainCategory != '') and (status!=null and !mainCategory.equals('all'))">
+			AND C.MAIN_CATEGORY = #{mainCategory}
+		</if>
+		<if test="(subCategory != null || subCategory != '') and (subCategory!=null and !subCategory.equals('all'))">
+			AND C.SUB_CATEGORY = #{subCategory}
+		</if>
+		<if test="creator != null and creator != ''">
+			AND M.NAME = #{creator}
+		</if>
+		<if test="projectTitle != null and projectTitle != ''">
+			AND P.TITLE LIKE '%' || #{projectTitle} || '%'			
+		</if>
+	</trim>
+	ORDER BY P.NO DESC
+</select>
+
+<select id="cntSearch" resultType="java.lang.String">
+	SELECT
+	    COUNT(*)
+	FROM PROJECT P
+	JOIN CATEGORY C ON P.CATEGORY_NO = C.NO
+	JOIN PROJECT_STATUS PS ON PS.NO = P.STATUS_NO
+	JOIN MEMBER M ON P.MEMBER_NO = M.NO
+	<trim prefix="WHERE" prefixOverrides="AND">
+		<if test="mainCategory != null || mainCategory != '' and mainCategory != 'all'">
+			AND C.MAIN_CATEGORY = #{mainCategory}
+		</if>
+		<if test="subCategory != null || subCategory != '' and subCategory != 'all'">
+			AND C.SUB_CATEGORY = #{subCategory}
+		</if>
+		<if test="status != null || status != '' || status != 'all'">
+			AND PS.STATUS = #{status}
+		</if>
+		<if test="creator != null || creator != ''">
+			AND M.NAME = #{creator}
+		</if>
+		<if test="projectTitle != null || projectTitle != ''">
+			AND P.TITLE LIKE '%' || #{projectTitle} || '%'			
+		</if>
+	</trim>	
 	ORDER BY P.NO DESC
 </select>
 </mapper>

@@ -67,20 +67,35 @@ public class AdminProjectServiceLKM {
 				target.getRewardList().add(rewardVo);
 			}
 		}
-		
+
 		return map.get(projectNo);
 	}
 
-	public int approve(String projectNo) {
-		return dao.approve(sst, projectNo);
+	public int update(Map<String, Object> paramMap) {
+		return dao.update(sst, paramMap);
 	}
 
-	public int reject(String projectNo) {
-		return dao.reject(sst, projectNo);
-	}
+	public Map<String, Object> search(ProjectSearchVo vo) {
+		String cnt = dao.cntSearch(sst, vo);
+		
+		int listCount = Integer.parseInt(cnt);
+		String currentPage_ = vo.getActivePage();
+		if(currentPage_ == null) {
+			currentPage_ = "1";
+		}
+		int currentPage = Integer.parseInt(currentPage_);
+		int pageLimit = 5;
+		int boardLimit = 10;
 
-	public List<ProjectVo> search(ProjectSearchVo vo) {
-		return dao.search(sst, vo);
+		PageVo pvo = new PageVo(listCount, currentPage, pageLimit, boardLimit);
+		
+		List<ProjectVo> projectList = dao.search(sst, vo, pvo);
+		System.out.println(projectList);
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("cnt", cnt);
+		map.put("projectList", projectList);
+		
+		return map;
 	}
 
 	

@@ -1,6 +1,7 @@
 package com.gamepound.app.project.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
@@ -33,20 +34,21 @@ public class AdminProjectDaoLKM {
 	}
 
 	// 프로젝트 승인 처리
-	public int approve(SqlSessionTemplate sst, String projectNo) {
-		return sst.update("AdminProjectMapper.approve", projectNo);
-	}
-
-	// 프로젝트 반려 처리
-	public int reject(SqlSessionTemplate sst, String projectNo) {
-		return sst.update("AdminProjectMapper.reject", projectNo);
+	public int update(SqlSessionTemplate sst, Map<String, Object> paramMap) {
+		return sst.update("AdminProjectMapper.update", paramMap);
 	}
 
 	// 프로젝트 검색결과 조회
-	public List<ProjectVo> search(SqlSessionTemplate sst, ProjectSearchVo vo) {
-		return sst.selectList("AdminProjectMapper.search", vo);
+	public List<ProjectVo> search(SqlSessionTemplate sst, ProjectSearchVo vo, PageVo pvo) {
+		int offset = (pvo.getCurrentPage()-1) * pvo.getBoardLimit();
+		int limit = pvo.getBoardLimit();
+		RowBounds rb = new RowBounds(offset, limit);
+		return sst.selectList("AdminProjectMapper.search", vo, rb);
 	}
 	
 	// 프로젝트 검색결과 cnt
+	public String cntSearch(SqlSessionTemplate sst, ProjectSearchVo vo) {
+		return sst.selectOne("AdminProjectMapper.cntSearch", vo);
+	}
 
 }
