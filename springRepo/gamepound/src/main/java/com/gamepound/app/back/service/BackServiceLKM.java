@@ -19,12 +19,14 @@ public class BackServiceLKM {
 	private final BackDaoLKM dao;
 	private final SqlSessionTemplate sst;
 	private final DataProcessingUtil util;
+	private String url = "http://127.0.0.1:8889/gamepound/resources/images/projectImg/";
 	
-	// 후원하기(화면) - 프로젝트 정보 가져오기
+	// 후원하기(화면)
 	public BackVo viewBackingPage(BackVo vo) {
+		// 프로젝트 정보(DB)
 		BackVo bvo = dao.viewBackingPage(sst, vo);
 		
-		// 달성률, 마감기한 d- setting
+		// 달성률, 마감기한 d-, 결제예정일, 이미지 경로(서버)
 		String achievementRate = util.achievementRate(bvo.getGoalAmount(), bvo.getCurrentAmount());
 		String remainingPeriod = util.getRemainingPeriod(bvo.getEndDate(), "yyyy년 MM월 dd일");
 		String paymentDueDate = util.calcPaymentDueDate(bvo.getEndDate(), "yyyy년 MM월 dd일");
@@ -32,8 +34,6 @@ public class BackServiceLKM {
 		bvo.setAchievementRate(achievementRate);
 		bvo.setRemainingPeriod(remainingPeriod);
 		bvo.setPaymentDueDate(paymentDueDate);
-		
-		String url = "http://127.0.0.1:8889/gamepound/resources/images/projectImg/";
 		bvo.setProjectImg(url + bvo.getProjectImg());
 		
 		return bvo;
@@ -158,7 +158,7 @@ public class BackServiceLKM {
 		String achievementRate = util.achievementRate(bvo.getGoalAmount(), bvo.getCurrentAmount());
 		bvo.setAchievementRate(achievementRate);
 		
-		String url = "http://127.0.0.1:8889/gamepound/resources/images/projectImg/";
+		
 		bvo.setProjectImg(url + bvo.getProjectImg());
 		
 		return bvo;

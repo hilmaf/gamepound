@@ -89,10 +89,11 @@ const BackingDetails = () => {
     const dataSet = useBackingMemory();
     let back = dataSet.dataVo;
 
+    // 카드 정보 입력 toggle
     const [showCard, setShowCard] = useState(false);
 
+    // 서버에 전송할 데이터에 paymentType 정보 추가(카드), 카드 정보 입력 toggle 열기
     const handleCardClick = (event) => {
-
         const {name, value} = event.target;
 
         back = {
@@ -104,6 +105,7 @@ const BackingDetails = () => {
         setShowCard(true);
     }
 
+    // 서버에 전송할 데이터에 paymentType 정보 추가(카카오페이)
     const handleKakaoPayClick = (event) => {
         const {name, value} = event.target;
 

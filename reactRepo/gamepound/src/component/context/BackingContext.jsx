@@ -1,19 +1,23 @@
-import React, { createContext, useContext, useEffect, useState, useTransition } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useUserMemory } from './UserContext';
 import { useParams } from 'react-router-dom';
 
+// 컨텍스트 생성
 const BackingMemory = createContext();
 
+// 컨텍스트 사용
 const useBackingMemory = () => {
     const obj = useContext(BackingMemory);
     return obj;
 }
 
+// 컨텍스트 Provider
 const BackingMemoryProvider = ({children}) => {
 
     // useContext - loginMember
     const {loginMemberVo} = useUserMemory();
     
+    // 서버에 전송할 데이터
     const [dataVo, setDataVo] = useState([]);
 
     // useParams

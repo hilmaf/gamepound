@@ -69,13 +69,14 @@ const PaymentCheck = () => {
     // useNavigate
     const navigate = useNavigate();
 
-    // useContext
+    // useContext(로그인유저)
     const {loginMemberVo} = useUserMemory();
 
+    // useContext(프로젝트 정보)
     const dataSet = useBackingMemory();
     const back = dataSet.dataVo;
     
-    // 체크박스 체크여부 확인 함수
+    // 체크박스 동의여부 확인 함수
     const checkCheckInput = () => {
         const checkbox = document.querySelector('input[name=check_yn]');
         let is_checked = false;
@@ -168,6 +169,7 @@ const PaymentCheck = () => {
         }
 
         // TODO: 이미 후원한 프로젝트는 또 후원 못하게 유효성 체크
+        // TODO: 로그인 유저 본인이 올린 프로젝트는 후원 불가능하게
         
         if(!paymentTypeDefined){
             alert("후원 정보가 빠진 곳 없이 작성되었는지 확인해주세요.");
@@ -175,7 +177,7 @@ const PaymentCheck = () => {
         }
         
             
-        if(back.paymentType==='kakaopay') {
+        if(back.paymentType==='kakaopay') { // 결제방식: 카카오페이일 때
             const response = await getKakaoPayApi();
 
             if(!customerUid || response !== "success") {
@@ -202,8 +204,9 @@ const PaymentCheck = () => {
                 }
             })
 
-        } else {
-            // PaymentType이 카드 결제일 시 카드정보 null 및 길이 체크
+        } else { // 결제방식: 카드일 때
+
+            // 카드정보 유효성 체크
             const cardInfoOk = checkCardInput();
             // 체크박스 체크 여부
             const checkboxOk = checkCheckInput();
