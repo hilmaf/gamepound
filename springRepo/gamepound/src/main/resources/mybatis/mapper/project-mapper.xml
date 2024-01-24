@@ -462,49 +462,55 @@
 	WHERE C.PROJECT_NO = #{no}
   </select>
   
-<!-- 프로젝트 상세 업데이트 작성 -->
-<insert id="DetailUpdateInsert">
-	INSERT INTO PROJECT_UPDATE(
-	    NO
-	    , PROJECT_NO
-	    , CONTENT
-	)VALUES(
-	    SEQ_PROJECT_UPDATE_NO.NEXTVAL
-	    , #{projectNo}
-	    , #{content}
-	)
-</insert>
+	<!-- 프로젝트 상세 업데이트 작성 -->
+	<insert id="DetailUpdateInsert">
+		INSERT INTO PROJECT_UPDATE(
+		    NO
+		    , PROJECT_NO
+		    , CONTENT
+		)VALUES(
+		    SEQ_PROJECT_UPDATE_NO.NEXTVAL
+		    , #{projectNo}
+		    , #{content}
+		)
+	</insert>
   
   <!-- 프로젝트 상세 커뮤니티(댓글) 작성 -->
-<update id="DetailCommunityReplyInsert">
-	UPDATE COMMUNITY
-	    SET
-	        REPLY = #{reply}
-	        , REPLY_ENROLL_DATE = SYSDATE
-	WHERE NO = #{no};
-</update>  
+	<update id="DetailCommunityReplyInsert">
+		UPDATE COMMUNITY
+		    SET
+		        REPLY = #{reply}
+		        , REPLY_ENROLL_DATE = SYSDATE
+		WHERE NO = #{no};
+	</update>  
 
-<!-- 프로젝트 상세 커뮤니티 작성 -->
-<insert id="DetailCommunityInsert">
-	INSERT INTO
-	COMMUNITY(
-	    NO
-	    , PROJECT_NO
-	    , MEMBER_NO
-	    , CONTENT
-	) VALUES(
-	    SEQ_COMMUNITY_NO.NEXTVAL
-	    , #{projectNo}
-	    , #{memberNo}
-	    , #{content}    
-	)
-</insert>
-<select id="ProjectTotalBackerNo" resultType="com.gamepound.app.project.vo.ProjectDetailVo">
-	SELECT 
-	    COUNT(P.NO) AS TOTAL_BACKER_NO
-	FROM PROJECT P
-	JOIN PAYMENT PM ON P.NO = PM.PROJECT_NO
-	WHERE P.NO = #{no}
-	    AND PM.PAYMENT_STATUS_NO = 1
-</select>
+	<!-- 프로젝트 상세 커뮤니티 작성 -->
+	<insert id="DetailCommunityInsert">
+		INSERT INTO
+		COMMUNITY(
+		    NO
+		    , PROJECT_NO
+		    , MEMBER_NO
+		    , CONTENT
+		) VALUES(
+		    SEQ_COMMUNITY_NO.NEXTVAL
+		    , #{projectNo}
+		    , #{memberNo}
+		    , #{content}    
+		)
+	</insert>
+	
+	<select id="ProjectTotalBackerNo" resultType="com.gamepound.app.project.vo.ProjectDetailVo">
+		SELECT 
+		    COUNT(P.NO) AS TOTAL_BACKER_NO
+		FROM PROJECT P
+		JOIN PAYMENT PM ON P.NO = PM.PROJECT_NO
+		WHERE P.NO = #{no}
+		    AND PM.PAYMENT_STATUS_NO = 1
+	</select>
+
+	<!-- 프로젝트 상태 리스트 가져오기 -->
+	<select id="getProjectStatus" resultType="com.gamepound.app.project.vo.ProjectStatusVo">
+		SELECT NO, STATUS FROM PROJECT_STATUS
+	</select>
 </mapper>
