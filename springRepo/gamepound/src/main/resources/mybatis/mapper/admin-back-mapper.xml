@@ -29,7 +29,7 @@
 	    LEFT JOIN PAYMENT_TYPE PT ON PM.PAYMENT_TYPE_NO = PT.NO
  	</select>
  	
-	<select id="List" resultType="com.gamepound.app.back.vo.AdminBackVo">
+	<select id="Detail" resultType="com.gamepound.app.back.vo.AdminBackVo">
  	SELECT 
  		B.NO AS BACK_NO
 	    , B.MEMBER_NO
