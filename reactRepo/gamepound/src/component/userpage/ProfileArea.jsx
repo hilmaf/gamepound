@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import {useUserPageContext} from '../context/UserPageContext';
+import { useNavigate } from 'react-router-dom';
 
 const StyledProfileAreaDiv = styled.div`
     width: 1200px;
@@ -40,6 +41,13 @@ const StyledProfileAreaDiv = styled.div`
 const ProfileArea = () => {
 
     const {profileVo} = useUserPageContext();
+    const navigate = useNavigate();
+
+    // 계정관리로 페이지 이동
+    const handleBtnClick = () => {
+        navigate('/settings');
+    }
+
 
     return (
         <StyledProfileAreaDiv>
@@ -50,7 +58,7 @@ const ProfileArea = () => {
                 <img src={profileVo.pic} alt="Profile" />
                 <div className='nick_area'>
                     <div id='nick'>{profileVo.name}</div>
-                    <button>계정 관리</button>
+                    <button onClick={handleBtnClick}>계정 관리</button>
                 </div>
                 </>
                 :

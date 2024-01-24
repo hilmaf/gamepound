@@ -21,7 +21,8 @@ const ProjectDetail = () => {
     const [dataVo, setDataVo] = useState({}); // 불러온 데이터 vo
     const [formVo, setFormVo] = useState({}); // 보낼 데이터 vo
     const [isChecked, setIsChecked] = useState(false); // 체크 여부를 저장하는 state 변수
-    console.log('no : ', no);
+    const [status, setStatus] = useState();
+    const [selectEnabled, setSelectEnabled] = useState(false);
 
     // 데이터
     useEffect(() => {
@@ -30,7 +31,8 @@ const ProjectDetail = () => {
         .then(resp => resp.json())
         .then(data => {
             setDataVo(data);
-            console.log(data);
+            setStatus(data.statusNo);
+            data.statusNo === '2' ? setSelectEnabled(true) : setSelectEnabled(false);
         })
         .catch(() => {
             alert('데이터를 불러오는데 실패했습니다.');
@@ -40,6 +42,30 @@ const ProjectDetail = () => {
         });
         ;
     }, []);
+
+
+    // 승인 처리
+    const handleStatusChange = (e) => {
+        setStatus(e.target.value);
+    }
+
+    const handleUpdateBtn = () => {
+        setLoading(true);
+        fetch(`${baseURL}/admin/project/update?no=${no}&statusNo=${status}`)
+        .then(resp => resp.json())
+        .then(data => {
+            if(data.msg === 'good') {
+                alert('프로젝트 상태 수정 완료');
+                // setStatus(status);
+            }
+        })
+        .catch(() => {
+            alert('데이터를 불러오는 데 실패했습니다.');
+        })
+        .finally(()=>{
+            setLoading(false);
+        })
+    }
 
     // 목록버튼
     const handleListBtn = () => {
@@ -74,25 +100,25 @@ const ProjectDetail = () => {
                 <tbody>
                     <tr>
                         <td>프로젝트명</td>
-                        <td colSpan={7}><Form.Control size="sm" type="text" defaultValue={dataVo.title} disabled /></td>
+                        <td colSpan={7}><Form.Control size="sm" type="text" defaultValue={dataVo?.title} disabled /></td>
                     </tr>
                     <tr>
                         <td>프로젝트 번호</td>
-                        <td><Form.Control size="sm" type="text" defaultValue={dataVo.no} disabled /></td>
+                        <td><Form.Control size="sm" type="text" defaultValue={dataVo?.no} disabled /></td>
                         <td>대분류 명</td>
-                        <td><Form.Control size="sm" name='mainCategory' type="text" defaultValue={dataVo.mainCategory} disabled /></td>
+                        <td><Form.Control size="sm" name='mainCategory' type="text" defaultValue={dataVo?.mainCategory} disabled /></td>
                         <td>소분류 명</td>
-                        <td><Form.Control size="sm" name='subCategory' type="text" defaultValue={dataVo.subCategory} onChange={handleInputChange} disabled/></td>
+                        <td><Form.Control size="sm" name='subCategory' type="text" defaultValue={dataVo?.subCategory} onChange={handleInputChange} disabled/></td>
                         <td>창작자 명</td>
-                        <td><Form.Control size="sm" type="text" name='member' defaultValue={dataVo.memberName} disabled/></td>
+                        <td><Form.Control size="sm" type="text" name='member' defaultValue={dataVo?.memberName} disabled/></td>
                     </tr>
                     <tr>
                         <td>목표 금액</td>
-                        <td><Form.Control size="sm" type="text" defaultValue={dataVo.goalAmount} disabled /></td>
+                        <td><Form.Control size="sm" type="text" defaultValue={dataVo?.goalAmount} disabled /></td>
                         <td>모인 금액</td>
-                        <td><Form.Control size="sm" type="text" defaultValue={dataVo.currentAmount} disabled /></td>
+                        <td><Form.Control size="sm" type="text" defaultValue={dataVo?.currentAmount} disabled /></td>
                         <td>달성률</td>
-                        <td><Form.Control size="sm" type="text" defaultValue={dataVo.achievementRate} disabled /></td>
+                        <td><Form.Control size="sm" type="text" defaultValue={dataVo?.achievementRate} disabled /></td>
                         <td colSpan={2}></td>
                     </tr>
                     <tr>
@@ -107,27 +133,27 @@ const ProjectDetail = () => {
                     </tr>
                     <tr>
                         <td>현황</td>
-                        <td><Form.Select size="sm" type="select" defaultValue={dataVo.statusName}>
-                            <option value="작성중">작성중</option>
-                            <option value="심사중">심사중</option>
-                            <option value="승인됨">승인됨</option>
-                            <option value="반려됨">반려됨</option>
-                            <option value="진행중">진행중</option>
-                            <option value="펀딩 성공">펀딩종료(성공)</option>
-                            <option value="펀딩 무산">펀딩종료(실패)</option>
+                        <td><Form.Select size="sm" type="select" name='status' id='status' value={status} onChange={handleStatusChange} disabled={!selectEnabled}>
+                            <option value="1">작성중</option>
+                            <option value="2">심사중</option>
+                            <option value="3">승인됨</option>
+                            <option value="4">반려됨</option>
+                            <option value="5">진행중</option>
+                            <option value="6">펀딩종료(성공)</option>
+                            <option value="7">펀딩종료(실패)</option>
                             </Form.Select></td>
                         <td colSpan={2}></td>
                         <td>등록일</td>
-                        <td><Form.Control size="sm" type="text" defaultValue={dataVo.enrollDate} disabled /></td>
+                        <td><Form.Control size="sm" type="text" defaultValue={dataVo?.enrollDate} disabled /></td>
                         <td>승인일</td>
-                        <td><Form.Control size="sm" type="text" defaultValue={dataVo.okDate} name='okDate' disabled/></td>
+                        <td><Form.Control size="sm" type="text" defaultValue={dataVo?.okDate} name='okDate' disabled/></td>
                     </tr>
                     <tr>
                         <td colSpan={4}></td>
                         <td>펀딩 시작일</td>
-                        <td><Form.Control size="sm" type="text" defaultValue={dataVo.startDate} disabled /></td>
+                        <td><Form.Control size="sm" type="text" defaultValue={dataVo?.startDate} disabled /></td>
                         <td>펀딩 종료일</td>
-                        <td><Form.Control size="sm" type="text" defaultValue={dataVo.endDate} disabled /></td>
+                        <td><Form.Control size="sm" type="text" defaultValue={dataVo?.endDate} disabled /></td>
                     </tr>
                     <tr>
                         <td colSpan={8}></td>
@@ -140,8 +166,8 @@ const ProjectDetail = () => {
                             return (
                                 
                                     <tr>
-                                    <td colSpan={7}><Form.Control size="sm" type="text" defaultValue={reward.rewardName} disabled /></td>
-                                    <td colSpan={7}><Form.Control size="sm" type="text" defaultValue={reward.rewardAmount} disabled /></td>
+                                    <td colSpan={7}><Form.Control size="sm" type="text" defaultValue={reward?.rewardName} disabled /></td>
+                                    <td colSpan={7}><Form.Control size="sm" type="text" defaultValue={reward?.rewardAmount} disabled /></td>
                                     </tr>
                                 
                             )
@@ -155,18 +181,18 @@ const ProjectDetail = () => {
                     </tr>
                     <tr>
                         <td>거래은행</td>
-                        <td><Form.Control size="sm" type="text" defaultValue={dataVo.bankName} disabled /></td>
+                        <td><Form.Control size="sm" type="text" defaultValue={dataVo?.bankName} disabled /></td>
                         <td>예금주 명</td>
-                        <td><Form.Control size="sm" type="text" defaultValue={dataVo.ownerName} disabled /></td>
+                        <td><Form.Control size="sm" type="text" defaultValue={dataVo?.ownerName} disabled /></td>
                         <td>계좌번호</td>
-                        <td colSpan={3}><Form.Control size="sm" type="text" defaultValue={dataVo.accountNum} disabled /></td>
+                        <td colSpan={3}><Form.Control size="sm" type="text" defaultValue={dataVo?.accountNum} disabled /></td>
                     </tr>
                 </tbody>
             </Table>
 
             <div className="btnArea">
                 <Button variant="secondary" onClick={handleListBtn}>목록</Button>
-                <Button variant="primary">수정하기</Button>
+                <Button variant="primary" onClick={handleUpdateBtn}>수정하기</Button>
             </div>
 
             {loading ? <Loading /> : ''}

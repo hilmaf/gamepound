@@ -39,7 +39,6 @@ const UserCreated = () => {
         let matchYn;
 
         loginMemberVo?.no === no ? matchYn = 'y' : matchYn = 'n';
-        console.log(matchYn);
 
         fetch("http://127.0.0.1:8889/gamepound/userpage/created?user=" + no + "&yn=" + matchYn)
         .then(resp => resp.json())

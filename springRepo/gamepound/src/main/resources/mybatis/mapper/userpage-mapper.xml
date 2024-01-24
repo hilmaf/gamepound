@@ -148,7 +148,7 @@
 	JOIN MEMBER M ON P.MEMBER_NO = M.NO
 	JOIN PROJECT_STATUS PS ON P.STATUS_NO = PS.NO
 	WHERE P.MEMBER_NO = #{user}
-	<if test="yn != null and yn.equals('n')">
+	<if test='yn != null and yn.equals("n")'>
 		AND P.STATUS_NO IN(5, 6, 7)
 	</if>
 	ORDER BY P.ENROLL_DATE DESC

@@ -62,6 +62,11 @@ const StyledProjectDiv = styled.div`
             }
         }
     }
+    .ag-header-cell-center {
+        & .ag-header-cell-label {
+            justify-content: center;
+        }
+    }
 
     & .totalArea {
         font-size: 14px;
@@ -77,15 +82,13 @@ const ProjectMain = () => {
 
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false); // 로딩중
-    const [conditionVo, setConditionVo] = useState({
-        mainCategory: '',
-        subCategory: '',
-        status: '',
-        projectTitle: '',
-        creator: ''
-    }); // 검색조건
-    const {mainCategory, subCategory, status, projectTitle, creator} = conditionVo;
+    const [categoryList, setCategoryList] = useState([]);
+    const [selectedCategory, setSelectedCategory] = useState();
     const [activePage, setActivePage] = useState(1);
+    const [conditionVo, setConditionVo] = useState({
+        activePage: activePage
+    }); // 검색조건
+    // const {mainCategory, subCategory, status, projectTitle, creator} = conditionVo;
     const [pageVo, setPageVo] = useState({
         listCount:0,
         activePage:activePage,
@@ -94,11 +97,11 @@ const ProjectMain = () => {
     });
     const [rowData, setRowData] = useState([]);
     const [colDefs, setColDefs] = useState([
-        { headerName: "번호", field: "no", autoHeight: true  },
-        { headerName: "대분류", field: "mainCategory", autoHeight: true },
-        { headerName: "소분류", field: "subCategory", autoHeight: true  },
-        { headerName: "프로젝트명", field: "title", autoHeight: true  },
-        { headerName: "현황", field: "statusName", autoHeight: true  },
+        { headerName: "번호", field: "no", autoHeight: true, width: 40, headerClass: 'ag-header-cell-center', cellStyle: {textAlign: 'center'}},
+        { headerName: "대분류", field: "mainCategory", autoHeight: true, width: 100, headerClass: 'ag-header-cell-center', cellStyle: {textAlign: 'center'} },
+        { headerName: "소분류", field: "subCategory", autoHeight: true, width: 100, headerClass: 'ag-header-cell-center', cellStyle: {textAlign: 'center'}  },
+        { headerName: "프로젝트명", field: "title", autoHeight: true, width: 400, headerClass: 'ag-header-cell-center'},
+        { headerName: "현황", field: "statusName", autoHeight: true, width: 80, headerClass: 'ag-header-cell-center', cellStyle: {textAlign: 'center'}  },
     ]);
 
     // 숫자페이지 눌렀을때 데이터 불러오기
@@ -108,7 +111,8 @@ const ProjectMain = () => {
 
     // 행 클릭 시 해당 detail페이지로 이동
     const rowClicked = (e) => {
-        navigate('../project/detail/${no}')
+        const no = e.data.no;
+        navigate(`../project/detail/${no}`)
     }
 
     // 프로젝트 조회
@@ -139,23 +143,61 @@ const ProjectMain = () => {
         fetch(`${baseURL}/category/list`)
         .then(resp => resp.json())
         .then(data => {
-            console.log(data);
-            // const mainCategorySelect = document.querySelector("#mainCategorySelect");
-            // for(let i=0; i<data?.length(); i++) {
-            //     const newOption = document.createElement("option");
-            //     newOption.value = data[i].categoryNo;
-            //     newOption.text = data[i].categoryNo;
-            //     mainCategorySelect.add(newOption);
-            //     console.log(mainCategorySelect.value);
-            // }
+            setCategoryList(data);
         })
-        .catch()
-        .finally()
+        .catch(() => {
+            alert('데이터를 가져오는데 실패했습니다.');
+        })
+        .finally(() => {
+            setLoading(false); // 로딩중 화면 끝
+        });
     }, [])
+
+    // 선택된 대분류에 따라 소분류 목록 바꿔주고 conditionVo에 대분류 value 넣어주기
+    const handleCategoryChange = (e) => {
+        setSelectedCategory(e.target.value);
+        setConditionVo({
+            ...conditionVo,
+            mainCategory: e.target.value
+        })
+    }
+
+    // conditionVo 세팅
+    const handleSearchInputChange = (e) => {
+        const {name, value} = e.target;
+
+        setConditionVo({
+            ...conditionVo,
+            [name]: value
+        })
+    }
 
     // 프로젝트 검색
     const handleSearchBtn = () => {
+        console.log(conditionVo);
 
+        fetch(`${baseURL}/admin/project/search`, {
+            method: "post",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(conditionVo)
+        })
+        .then(resp => resp.json())
+        .then(data => {
+            setPageVo({
+                ...pageVo,
+                listCount: parseInt(data?.cnt)
+            })
+
+            setRowData(data?.projectList);
+        })
+        .catch(() => {
+            alert('데이터를 가져오는데 실패했습니다.');
+        })
+        .finally(() => {
+            setLoading(false); // 로딩중 화면 끝
+        });
     }
 
     return (
@@ -166,36 +208,59 @@ const ProjectMain = () => {
                 <Form>
                     <InputGroup className="mb-2">
                         <InputGroup.Text>대분류</InputGroup.Text>
-                        <Form.Select name='mainCategory' id='mainCategory'>
+                        <Form.Select name='mainCategory' onChange={handleCategoryChange}>
                             <option value='all'>전체</option>
-                            <option value='all'>전체</option>
-                            <option value='all'>전체</option>
+                            {
+                                categoryList?.map(category=>{
+                                    return <option value={category?.mainCategory}>
+                                        {category?.mainCategory}
+                                    </option>
+                                })
+                            }
                         </Form.Select>
                         <InputGroup.Text>소분류</InputGroup.Text>
-                        <Form.Select name='subCategory' id='subCategory'>
+                        <Form.Select name='subCategory' onChange={handleSearchInputChange}>
                             <option value='all'>전체</option>
-                            <option value='all'>전체</option>
-                            <option value='all'>전체</option>
-                            <option value='all'>전체</option>
+                            
+                            {
+                                selectedCategory == '비디오게임'
+                                ?
+                                categoryList[0]?.subCategoryList.map(subCategory => {
+                                    return <option value={subCategory?.subCategory}>
+                                        {subCategory?.subCategory}
+                                    </option>
+                                })
+                                :
+                                (selectedCategory == '모바일게임'
+                                ?
+                                categoryList[1]?.subCategoryList.map(subCategory => {
+                                    return <option value={subCategory?.subCategory}>
+                                        {subCategory?.subCategory}
+                                    </option>
+                                })
+                                :
+                                <></>)
+                            }
+
                         </Form.Select>
                         <InputGroup.Text>현황</InputGroup.Text>
-                        <Form.Select name='status'>
-                            <option>전체</option>
-                            <option>심사중</option>
-                            <option>승인됨</option>
-                            <option>반려됨</option>
-                            <option>진행중</option>
-                            <option>펀딩종료(성공)</option>
-                            <option>펀딩종료(실패)</option>
+                        <Form.Select name='status' onChange={handleSearchInputChange}>
+                            <option value='all'>전체</option>
+                            <option value='심사중'>심사중</option>
+                            <option value='승인됨'>승인됨</option>
+                            <option value='반려됨'>반려됨</option>
+                            <option value='진행중'>진행중</option>
+                            <option value='펀딩 성공'>펀딩종료(성공)</option>
+                            <option value='펀딩 무산'>펀딩종료(실패)</option>
                         </Form.Select>
                     </InputGroup>
                     <InputGroup className="mb-2">
                         <InputGroup.Text>프로젝트명</InputGroup.Text>
-                        <Form.Control placeholder="프로젝트명" />
+                        <Form.Control placeholder="프로젝트명" name='projectTitle' onChange={handleSearchInputChange}/>
                     </InputGroup>
                     <InputGroup className="mb-2">
                         <InputGroup.Text>창작자명</InputGroup.Text>
-                        <Form.Control placeholder="창작자명" />
+                        <Form.Control placeholder="창작자명" name='creator' onChange={handleSearchInputChange} />
                     </InputGroup>
 
                     <div className="btnArea">
