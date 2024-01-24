@@ -17,4 +17,8 @@ public class MemberVo {
 	private String updateDate;
 	private String quitYn;
 	
+	//검색 가입기간
+	private String termStart;
+	private String termEnd;
+	
 }

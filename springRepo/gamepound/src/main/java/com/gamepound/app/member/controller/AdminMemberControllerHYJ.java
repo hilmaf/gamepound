@@ -25,13 +25,10 @@ public class AdminMemberControllerHYJ {
 	
 	//목록
 	@GetMapping
-	public void memberList(MemberVo vo) {
-		log.info("시작");
-		List<MemberVo> voList = service.memberList(vo);
-		for (MemberVo memberVo : voList) {
-			log.info("memberVo ::: {}",memberVo);
-			
-		}
+	public Map<String, Object> memberList(MemberVo vo, String pageNum) {
+		Map<String, Object> map = service.memberList(vo, pageNum);
+		log.info("map ::: {}", map);
+		return map;
 	}
 	
 	//상세
