@@ -33,11 +33,11 @@ public class AdminMemberControllerHYJ {
 	
 	//상세
 	@GetMapping("detail")
-	public void memberDetail(MemberVo vo) {
+	public MemberVo memberDetail(MemberVo vo) {
 		System.out.println(vo);
 		MemberVo detailVo = service.memberDetail(vo);
 		
-		log.info("detailVo ::: {}" , detailVo);
+		return detailVo;
 	}
 	
 	//수정

@@ -139,7 +139,7 @@ public class MemberServiceHYJ {
 			return -1;
 		}
 		// 비밀번호 검증
-		if(MemberValidation.isValidPwd(vo.getPwd())) {
+		if(!MemberValidation.isValidPwd(vo.getPwd())) {
 			return -1;
 		}
 		//비밀번호 암호화
