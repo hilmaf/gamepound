@@ -142,7 +142,7 @@ public class UserPageController {
 		map.put("yn", matchYn);
 		System.out.println(map);
 		Map<String, Object> listMap = service.listMyProjects(map);
-		
+		System.out.println(listMap);
 		return listMap;
 	}
 	
