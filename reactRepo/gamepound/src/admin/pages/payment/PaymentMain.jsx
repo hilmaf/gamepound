@@ -126,8 +126,14 @@ const PaymentMain = () => {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false); // 로딩중 표시
     const [dataVo, setDataVo] = useState([]); // 데이터
-    const [formVo, setFormVo] = useState({}); // 보낼 데이터
-    const [searchVo, setSearchVo] = useState({}); // 검색데이터
+    const [searchVo, setSearchVo] = useState({
+            "paymentStatus": "",
+            "activePage": '',
+            "projectTitle": "",
+            "backName": "",
+            "projectStatus": "",
+            "paymentDate": ""
+    }); // 검색데이터
     const [pvo, setPvo] = useState({}); // pvo
     const [activePage, setActivePage] = useState(1); // 현재페이지
     const [rowData, setRowData] = useState([]); // 행 데이터
@@ -143,6 +149,8 @@ const PaymentMain = () => {
     ]);
     const [startDate, setStartDate] = useState(null); // 데이트피커
     const [endDate, setEndDate] = useState(null); // 데이트피커
+    const [paymentStatus, setPaymentStatus] = useState([]); // 결제상태
+    const [projectStatus, setProjectStatus] = useState([]); // 프로젝트 상태
 
     // 데이터 조회
     useEffect(() => {
@@ -196,17 +204,70 @@ const PaymentMain = () => {
     }
 
     // 결제상태/프로젝트상태 데이터 가져오기
-    // useEffect(() => {
-    //     fetch(``)
-    //     .then()
-    //     .then()
-    //     .catch()
-    //     .finally()
-    //     ;
-    // });
+    useEffect(() => {
+        // 결제상태
+        setLoading(true);
+        fetch(`${baseURL}/admin/payment/status`)
+        .then(resp => resp.json())
+        .then(data => {
+            setPaymentStatus(data)
+        })
+        .catch(() => {
+            alert('결제 상태 데이터를 불러오는데 실패했습니다.');
+        })
+        .finally(() => {
+            setLoading(false); // 로딩중 화면 끝
+        })
+        ;
+        // 프로젝트상태
+        setLoading(true);
+        fetch(`${baseURL}/project/status`)
+        .then(resp => resp.json())
+        .then(data => {
+            setProjectStatus(data)
+        })
+        .catch(() => {
+            alert('프로젝트 상태 데이터를 불러오는데 실패했습니다.');
+        })
+        .finally(() => {
+            setLoading(false); // 로딩중 화면 끝
+        })
+        ;
 
-    console.log('pvo :: ', pvo);
-    console.log('dataVo :: ', dataVo);
+    }, []);
+
+    // 검색하기
+    const handleSearchBtnClick = () => {
+        console.log('클릭됨');
+        setLoading(true);
+        setSearchVo({
+            ...searchVo,
+            'activePage': activePage
+        })
+        console.log('요청 전 searchVo 값 확인', );
+        fetch(`${baseURL}/admin/payment/search/list`, {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(searchVo),
+        })
+        .then(resp => resp.json())
+        .then(data => {
+            setDataVo(data?.listVo);
+            setPvo(data?.pvo);
+        })
+        .catch(() => {
+            alert('데이터를 가져오는데 실패했습니다.');
+        })
+        .finally(() => {
+            setLoading(false); // 로딩중 화면 끝
+        });
+        ;
+    }
+
+    // console.log('pvo :: ', pvo);
+    // console.log('dataVo :: ', dataVo);
     console.log('searchVo :: ', searchVo);
 
     return (
@@ -221,18 +282,22 @@ const PaymentMain = () => {
                                 <InputGroup className="mb-2">
                                     <InputGroup.Text>결제 상태</InputGroup.Text>
                                     <Form.Select aria-label="전체" name='paymentStatus' onChange={handleInputChange}>
-                                        <option>전체</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
+                                        <option value=''>전체</option>
+                                        {
+                                            paymentStatus.map((vo) => (
+                                                <option key={vo.no} value={vo.no}>{vo.paymentStatus}</option>
+                                            ))
+                                        }
                                     </Form.Select>
 
                                     <InputGroup.Text>프로젝트 상태</InputGroup.Text>
                                     <Form.Select aria-label="전체" name='projectStatus' onChange={handleInputChange}>
-                                        <option>전체</option>
-                                        <option value="1">One</option>
-                                        <option value="2">Two</option>
-                                        <option value="3">Three</option>
+                                        <option value=''>전체</option>
+                                        {
+                                            projectStatus.map((vo) => (
+                                                <option key={vo.no} value={vo.no}>{vo.status}</option>
+                                            ))
+                                        }
                                     </Form.Select>
 
                                     <InputGroup.Text>후원날짜</InputGroup.Text>
@@ -269,7 +334,7 @@ const PaymentMain = () => {
 
                     <div className="btnArea">
                         <Button variant="secondary" >초기화</Button>
-                        <Button variant="primary" >검색</Button>
+                        <Button variant="primary" onClick={handleSearchBtnClick} >검색</Button>
                     </div>
                 </Form>
             </div>
