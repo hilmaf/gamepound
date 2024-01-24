@@ -17,6 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.gamepound.app.member.vo.MemberVo;
 import com.gamepound.app.project.dao.ProjectDaoHJY;
+import com.gamepound.app.project.vo.ProjectStatusVo;
 import com.gamepound.app.project.vo.ProjectVo;
 import com.gamepound.app.reward.dao.RewardDaoHJY;
 import com.gamepound.app.reward.vo.RewardVo;
@@ -264,6 +265,11 @@ public class ProjectServiceHJY {
 	// 프로젝트 승인 요청
 	public int approvalProject(ProjectVo vo) {
 		return dao.approvalProject(sst, vo);
+	}
+
+	// 프로젝트 상태 가져오기
+	public List<ProjectStatusVo> getProjectStatus() {
+		return dao.getProjectStatus(sst);
 	}
 
 	

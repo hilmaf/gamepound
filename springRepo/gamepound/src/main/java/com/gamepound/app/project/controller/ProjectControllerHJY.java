@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.gamepound.app.member.controller.MemberControllerHJY;
 import com.gamepound.app.member.vo.MemberVo;
 import com.gamepound.app.project.service.ProjectServiceHJY;
+import com.gamepound.app.project.vo.ProjectStatusVo;
 import com.gamepound.app.project.vo.ProjectVo;
 import com.gamepound.app.reward.vo.RewardVo;
 import com.gamepound.app.settlement.vo.SettlementVo;
@@ -288,6 +289,12 @@ public class ProjectControllerHJY {
 		}
 		
 		return map;
+	}
+	
+	// 프로젝트 상태 가져오기
+	@GetMapping("status")
+	public List<ProjectStatusVo> getProjectStatus(){
+		return service.getProjectStatus();
 	}
 	
 }

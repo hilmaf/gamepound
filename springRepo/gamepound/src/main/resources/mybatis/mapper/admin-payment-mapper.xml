@@ -8,19 +8,19 @@
 	<select id="countPaymentList" resultType="int">
 		SELECT COUNT(*)
 		FROM PAYMENT P
-		JOIN PROJECT PJ ON PJ.NO = P.PROJECT_NO
-		JOIN PROJECT_STATUS PJS ON PJS.NO = PJ.STATUS_NO
-		JOIN PAYMENT_TYPE PT ON PT.NO = P.PAYMENT_TYPE_NO
-		JOIN PAYMENT_STATUS PS ON PS.NO = P.PAYMENT_STATUS_NO
-		JOIN BACKER B ON B.PROJECT_NO = PJ.NO
-		JOIN MEMBER M ON M.NO = B.MEMBER_NO
+		JOIN PROJECT PJ ON PJ.NO = P.PROJECT_NO                 
+		JOIN PROJECT_STATUS PJS ON PJS.NO = PJ.STATUS_NO        
+		JOIN PAYMENT_TYPE PT ON PT.NO = P.PAYMENT_TYPE_NO       
+		JOIN PAYMENT_STATUS PS ON PS.NO = P.PAYMENT_STATUS_NO   
+		JOIN BACKER B ON B.NO = P.BACKER_NO                   
+		JOIN MEMBER M ON M.NO = B.MEMBER_NO                     
 		ORDER BY P.NO DESC
 	</select>
 	
 	<!-- 전체조회 -->
 	<select id="getPaymentList" resultType="com.gamepound.app.payment.vo.PaymentVo">
 		SELECT 
-			P.NO AS NO
+		    P.NO AS NO
 		    , M.NAME AS BACK_NAME
 		    , PJ.TITLE AS PROJECT_TITLE
 		    , PJS.STATUS AS PROJECT_STATUS
@@ -29,12 +29,12 @@
 		    , P.AMOUNT AS AMOUNT
 		    , TO_CHAR(P.PAYMENT_DATE, 'YYYY-MM-DD') AS PAYMENT_DATE
 		FROM PAYMENT P
-		JOIN PROJECT PJ ON PJ.NO = P.PROJECT_NO
-		JOIN PROJECT_STATUS PJS ON PJS.NO = PJ.STATUS_NO
-		JOIN PAYMENT_TYPE PT ON PT.NO = P.PAYMENT_TYPE_NO
-		JOIN PAYMENT_STATUS PS ON PS.NO = P.PAYMENT_STATUS_NO
-		JOIN BACKER B ON B.PROJECT_NO = PJ.NO
-		JOIN MEMBER M ON M.NO = B.MEMBER_NO
+		JOIN PROJECT PJ ON PJ.NO = P.PROJECT_NO                 
+		JOIN PROJECT_STATUS PJS ON PJS.NO = PJ.STATUS_NO        
+		JOIN PAYMENT_TYPE PT ON PT.NO = P.PAYMENT_TYPE_NO       
+		JOIN PAYMENT_STATUS PS ON PS.NO = P.PAYMENT_STATUS_NO   
+		JOIN BACKER B ON B.NO = P.BACKER_NO                   
+		JOIN MEMBER M ON M.NO = B.MEMBER_NO                     
 		ORDER BY P.NO DESC
 	</select>
 	
@@ -66,4 +66,78 @@
 		AND M.NAME LIKE '%' || #{backName} || '%'
 		ORDER BY P.NO DESC
 	</select>  
+	
+	<!-- 결제 상태 리스트 가져오기 -->
+	<select id="getPaymentStatus" resultType="com.gamepound.app.payment.vo.PaymentStatusVo">
+		SELECT NO, PAYMENT_STATUS FROM PAYMENT_STATUS
+	</select>
+	
+	<!-- 검색 리스트 카운트 -->
+	<select id="countPaymentSearchList" resultType="int">
+	    SELECT COUNT(*)
+	    FROM PAYMENT P
+		JOIN PROJECT PJ ON PJ.NO = P.PROJECT_NO                 
+		JOIN PROJECT_STATUS PJS ON PJS.NO = PJ.STATUS_NO        
+		JOIN PAYMENT_TYPE PT ON PT.NO = P.PAYMENT_TYPE_NO       
+		JOIN PAYMENT_STATUS PS ON PS.NO = P.PAYMENT_STATUS_NO   
+		JOIN BACKER B ON B.NO = P.BACKER_NO                   
+		JOIN MEMBER M ON M.NO = B.MEMBER_NO
+	    <trim prefix="WHERE" prefixOverrides="AND">
+	        <if test="paymentStatus != null and !paymentStatus.isEmpty()">
+	            (PS.NO = #{paymentStatus}) 
+	        </if>
+	        <if test="projectStatus != null and !projectStatus.isEmpty()">
+	            AND (PJS.NO = #{projectStatus})
+	        </if>
+	        <if test="paymentDate != null and !paymentDate.isEmpty()">
+	            AND (P.PAYMENT_DATE = #{paymentDate})
+	        </if>
+	        <if test="projectTitle != null and !projectTitle.isEmpty()">
+	            AND (PJ.TITLE LIKE '%' || #{projectTitle} || '%')
+	        </if>
+	        <if test="backName != null and !backName.isEmpty()">
+	            AND (M.NAME LIKE '%' || #{backName} || '%')
+	        </if>
+	    </trim>
+	</select>
+	
+	<!-- 검색 리스트 -->
+	<select id="getPaymentSearchList" resultType="com.gamepound.app.payment.vo.PaymentVo">
+	    SELECT
+		    P.NO AS NO
+		    , M.NAME AS BACK_NAME
+		    , PJ.TITLE AS PROJECT_TITLE
+		    , PJS.STATUS AS PROJECT_STATUS
+		    , PT.PAYMENT_TYPE AS PAYMENT_TYPE
+		    , PS.PAYMENT_STATUS AS PAYMENT_STATUS
+		    , P.AMOUNT AS AMOUNT
+		    , TO_CHAR(P.PAYMENT_DATE, 'YYYY-MM-DD') AS PAYMENT_DATE
+	    FROM PAYMENT P
+		JOIN PROJECT PJ ON PJ.NO = P.PROJECT_NO                 
+		JOIN PROJECT_STATUS PJS ON PJS.NO = PJ.STATUS_NO        
+		JOIN PAYMENT_TYPE PT ON PT.NO = P.PAYMENT_TYPE_NO       
+		JOIN PAYMENT_STATUS PS ON PS.NO = P.PAYMENT_STATUS_NO   
+		JOIN BACKER B ON B.NO = P.BACKER_NO                   
+		JOIN MEMBER M ON M.NO = B.MEMBER_NO
+	    <trim prefix="WHERE" prefixOverrides="AND">
+	        <if test="paymentStatus != null and !paymentStatus.isEmpty()">
+	            (PS.NO = #{paymentStatus}) 
+	        </if>
+	        <if test="projectStatus != null and !projectStatus.isEmpty()">
+	            AND (PJS.NO = #{projectStatus})
+	        </if>
+	        <if test="paymentDate != null and !paymentDate.isEmpty()">
+	            AND (P.PAYMENT_DATE = #{paymentDate})
+	        </if>
+	        <if test="projectTitle != null and !projectTitle.isEmpty()">
+	            AND (PJ.TITLE LIKE '%' || #{projectTitle} || '%')
+	        </if>
+	        <if test="backName != null and !backName.isEmpty()">
+	            AND (M.NAME LIKE '%' || #{backName} || '%')
+	        </if>
+	    </trim>
+		ORDER BY P.NO DESC
+	</select>
+	
+	
 </mapper>

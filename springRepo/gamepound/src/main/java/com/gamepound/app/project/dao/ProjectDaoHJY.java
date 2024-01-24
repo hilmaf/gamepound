@@ -6,6 +6,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.gamepound.app.member.vo.MemberVo;
+import com.gamepound.app.project.vo.ProjectStatusVo;
 import com.gamepound.app.project.vo.ProjectVo;
 import com.gamepound.app.reward.vo.RewardVo;
 import com.gamepound.app.settlement.vo.SettlementVo;
@@ -90,6 +91,11 @@ public class ProjectDaoHJY {
 	// 프로젝트 승인 요청
 	public int approvalProject(SqlSessionTemplate sst, ProjectVo vo) {
 		return sst.update("ProjectCreateMapper.approvalProject", vo);
+	}
+
+	// 프로젝트 상태 가져오기
+	public List<ProjectStatusVo> getProjectStatus(SqlSessionTemplate sst) {
+		return sst.selectList("ProjectMapper.getProjectStatus");
 	}
 
 }
