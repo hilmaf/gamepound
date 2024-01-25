@@ -3,9 +3,12 @@ package com.gamepound.app.member.controller;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,32 +30,33 @@ public class AdminMemberControllerHYJ {
 	@GetMapping
 	public Map<String, Object> memberList(MemberVo vo, String pageNum) {
 		Map<String, Object> map = service.memberList(vo, pageNum);
-		log.info("map ::: {}", map);
+		return map;
+	}
+	
+	//검색
+	@PostMapping
+	public Map<String, Object> searchMemberList(@RequestBody MemberVo vo, String pageNum) {
+		Map<String, Object> map = service.memberList(vo, pageNum);
 		return map;
 	}
 	
 	//상세
 	@GetMapping("detail")
 	public MemberVo memberDetail(MemberVo vo) {
-		System.out.println(vo);
 		MemberVo detailVo = service.memberDetail(vo);
 		
 		return detailVo;
 	}
 	
 	//수정
-	@PostMapping("edit")
-	public void memberEdit(MemberVo vo) {
+	@PutMapping("edit")
+	public ResponseEntity<String> memberEdit(@RequestBody MemberVo vo) {
 		int result = service.memberEdit(vo);
 		
-		log.info("result ::: {}", result);
+		if(result != 1) {
+			return ResponseEntity.ok("bad");
+		}
+		return ResponseEntity.ok("good");
 	}
 	
-	//삭제
-	@GetMapping("delete")
-	public void memberDelete(MemberVo vo) {
-		int result = service.memberDelete(vo);
-		
-		log.info("result ::: {}", result);
-	}
 }

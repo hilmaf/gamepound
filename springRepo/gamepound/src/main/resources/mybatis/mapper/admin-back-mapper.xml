@@ -3,6 +3,8 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="AdminBackMapper">
+
+<!-- 후원자 관리 목록 -->
  	<select id="List" resultType="com.gamepound.app.back.vo.AdminBackVo">
  	SELECT 
  		B.NO AS BACK_NO
@@ -17,6 +19,7 @@
 	    , R.NAME AS REWARD_NAME
 	    , REGEXP_REPLACE(REVERSE(REGEXP_REPLACE(REVERSE(TO_CHAR(R.AMOUNT)), '(\d{3})', '\1,')), '^,', '') AS "REWARD_AMOUNT"
 	    , TO_CHAR(B.BACKING_DATE, 'YYYY.MM.DD') AS BACKING_DATE
+	    , B.RETRACT_YN AS BACK_RETRACT_YN
 	    , PS.PAYMENT_STATUS
 	    , PT.PAYMENT_TYPE
 	FROM BACKER B
@@ -46,30 +49,33 @@
 	ORDER BY B.BACKING_DATE DESC
  	</select>
  	
-	<select id="Detail" resultType="com.gamepound.app.back.vo.AdminBackVo">
- 	SELECT 
- 		B.NO AS BACK_NO
-	    , B.MEMBER_NO
-	    , M.NAME AS MEMBER_NAME
-	    , P.TITLE AS PROJECT_TITLE
-	    , P.NO AS PROJECT_NO
-	    , TO_CHAR(P.START_DATE, 'YYYY.MM.DD') AS START_DATE
-	    , TO_CHAR(P.END_DATE, 'YYYY.MM.DD') AS END_DATE
-	    , TO_CHAR(P.CAL_DATE, 'YYYY.MM.DD') AS CAL_DATE
-	    , PS.STATUS
-	    , R.NAME AS REWARD_NAME
-	    , REGEXP_REPLACE(REVERSE(REGEXP_REPLACE(REVERSE(TO_CHAR(R.AMOUNT)), '(\d{3})', '\1,')), '^,', '') AS "REWARD_AMOUNT"
-	    , TO_CHAR(B.BACKING_DATE, 'YYYY.MM.DD') AS BACKING_DATE
-	    , PS.PAYMENT_STATUS
-	    , PT.PAYMENT_TYPE
-	FROM BACKER B
-	    JOIN MEMBER M ON B.MEMBER_NO = M.NO
-	    JOIN PROJECT P ON B.PROJECT_NO = P.NO 
-	    JOIN PROJECT_STATUS PS ON P.STATUS_NO = PS.NO
-	    JOIN REWARD R ON B.REWARD_NO = R.NO
-	    LEFT JOIN PAYMENT PM ON PM.BACKER_NO = B.NO
-	    LEFT JOIN PAYMENT_STATUS PS ON PM.PAYMENT_STATUS_NO = PS.NO
-	    LEFT JOIN PAYMENT_TYPE PT ON PM.PAYMENT_TYPE_NO = PT.NO
-	WHERE B.NO = #{backNo}
+ <!-- 후원자 관리 목록 게시글 수 -->
+ 	<select id="Cnt" resultType="_int">
+	 	SELECT 
+	 		COUNT(B.NO) 
+		FROM BACKER B
+		    JOIN MEMBER M ON B.MEMBER_NO = M.NO
+		    JOIN PROJECT P ON B.PROJECT_NO = P.NO 
+		    JOIN PROJECT_STATUS PS ON P.STATUS_NO = PS.NO
+		    JOIN REWARD R ON B.REWARD_NO = R.NO
+		    LEFT JOIN PAYMENT PM ON PM.BACKER_NO = B.NO
+		    LEFT JOIN PAYMENT_STATUS PS ON PM.PAYMENT_STATUS_NO = PS.NO
+		    LEFT JOIN PAYMENT_TYPE PT ON PM.PAYMENT_TYPE_NO = PT.NO
+		<where>
+			<trim prefixOverrides="AND">
+				<if test=" projectTitle != null and projectTitle != '' " >
+					P.TITLE LIKE '%' || #{projectTitle} || '%'
+				</if>
+				<if test=" memberName != null and memberName != '' " >
+					AND M.NAME LIKE '%' || #{memberName} || '%'
+				</if>
+				<if test=" termStart != null and termStart != '' " >
+					AND B.BACKING_DATE <![CDATA[ >= ]]> TO_DATE(#{termStart},'YYYY.MM.DD')
+				</if>
+				<if test=" termEnd != null and termEnd != '' " >
+			        AND B.BACKING_DATE <![CDATA[ <= ]]> TO_DATE(#{termEnd},'YYYY.MM.DD')
+				</if>
+			</trim>
+		</where>
  	</select>
 </mapper>

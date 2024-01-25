@@ -44,13 +44,13 @@ const UserDetail = () => {
 
     // isChecked
     useEffect(() => {
-        if (dataVo?.delYn === 'Y') {
+        if (dataVo?.quitYn === 'Y') {
             console.log('와이');
             setIsChecked(true);
         } else {
             setIsChecked(false);
         }
-    }, [dataVo?.delYn]);
+    }, [dataVo?.quitYn]);
 
     // 목록버튼
     const handleListBtn = () => {
@@ -130,44 +130,44 @@ const UserDetail = () => {
 
             <Table bordered responsive>
                 <colgroup>
-                    <col width='20%'/>
+                    <col width='10%'/>
+                    <col width='*'/>
+                    <col width='10%'/>
+                    <col width='*'/>
+                    <col width='10%'/>
                     <col width='*'/>
                 </colgroup>
                 <tbody>
                     <tr>
                         <td>회원 번호</td>
                         <td><Form.Control size="sm" type="text" defaultValue={dataVo?.no} disabled /></td>
+                        <td>가입일</td>
+                        <td><Form.Control size="sm" type="text" defaultValue={dataVo?.enrollDate} disabled /></td>
+                        <td>탈퇴여부</td>
+                        <td><Form.Check type="switch" name='quitYn' checked={isChecked} onChange={handleRadioChange} /></td>
                     </tr>
                     <tr>
                         <td>회원 이름</td>
-                        <td><Form.Control size="sm" type="text" name='name' defaultValue={dataVo?.name} onChange={handleInputChange} /></td>
+                        <td colSpan={5}><Form.Control size="sm" type="text" name='name' defaultValue={dataVo?.name} onChange={handleInputChange} /></td>
                     </tr>
                     <tr>
                         <td>이메일</td>
-                        <td><Form.Control size="sm" name='email' type="text" defaultValue={dataVo?.email} onChange={handleInputChange} /></td>
+                        <td colSpan={5}><Form.Control size="sm" name='email' type="text" defaultValue={dataVo?.email} onChange={handleInputChange} /></td>
                     </tr>
                     <tr>
                         <td>소개</td>
-                        <td><Form.Control size="sm" name='intro' type="text" defaultValue={dataVo?.intro} onChange={handleInputChange} /></td>
+                        <td colSpan={5}><Form.Control size="sm" name='intro' type="text" defaultValue={dataVo?.intro} onChange={handleInputChange} /></td>
                     </tr>
                     <tr>
                         <td>사이트 URL</td>
-                        <td><Form.Control size="sm" name='siteUrl' type="text" defaultValue={dataVo?.siteUrl} onChange={handleInputChange} /></td>
-                    </tr>
-                    <tr>
-                        <td>가입일</td>
-                        <td><Form.Control size="sm" type="text" defaultValue={dataVo?.enrollDate} disabled /></td>
-                    </tr>
-                    <tr>
-                        <td>탈퇴여부</td>
-                        <td><Form.Control size="sm" type="text" defaultValue={dataVo?.quitYn} disabled /></td>
+                        <td colSpan={5}><Form.Control size="sm" type="text" defaultValue={dataVo?.siteUrl} disabled/></td>
                     </tr>
                 </tbody>
             </Table>
 
             <div className="btnArea">
                 <Button variant="secondary" onClick={handleListBtn}>목록</Button>
-                <Button variant="primary" onClick={handleEdit}>수정하기</Button>
+                <Button variant="primary" onClick={handleEdit}>수정</Button>
             </div>
 
             {loading ? <Loading /> : ''}

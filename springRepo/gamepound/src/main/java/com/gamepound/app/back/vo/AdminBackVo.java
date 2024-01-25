@@ -26,6 +26,7 @@ public class AdminBackVo {
 	private String backingDate;
 	private String paymentStatus;
 	private String paymentType;
+	private String backRetractYn;
 	
 	//검색 후원기간
 	private String termStart;

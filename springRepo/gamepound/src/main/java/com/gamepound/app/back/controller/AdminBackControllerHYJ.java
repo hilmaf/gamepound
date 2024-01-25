@@ -1,6 +1,7 @@
 package com.gamepound.app.back.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,20 +24,9 @@ public class AdminBackControllerHYJ {
 	
 	//목록
 	@GetMapping
-	public void backList() {
-		List<AdminBackVo>voList = service.backList();
+	public Map<String, Object> backList(AdminBackVo vo, String pageNum) {
+		Map<String, Object>map = service.backList(vo, pageNum);
 		
-		for (AdminBackVo adminBackVo : voList) {
-			System.out.println(adminBackVo);
-		}
+		return map;
 	}
-	
-	//상세
-	@GetMapping("detail")
-	public void backDetail(AdminBackVo vo) {
-		AdminBackVo detailVo = service.backDetail(vo);
-		
-		System.out.println(detailVo);
-	}
-	
 }

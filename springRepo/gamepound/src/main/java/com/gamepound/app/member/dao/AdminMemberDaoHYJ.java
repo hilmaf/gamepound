@@ -41,9 +41,5 @@ public class AdminMemberDaoHYJ {
 		return sst.update("AdminMemberMapper.edit", vo);
 	}
 
-	//삭제
-	public int memberDelete(SqlSessionTemplate sst, MemberVo vo) {
-		return sst.update("AdminMemberMapper.delete", vo);
-	}
 
 }

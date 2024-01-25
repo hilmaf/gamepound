@@ -119,16 +119,17 @@ const BackerMain = () => {
     const [activePage, setActivePage] = useState(1); // 현재페이지
     const [rowData, setRowData] = useState([]); // 행 데이터
     const [colDefs] = useState([ // 제목 데이터
-        { headerName: "번호", field: "backNo", autoHeight: true, width: 3, headerClass: 'ag-header-cell-center', cellStyle: {textAlign: 'center'}},
+        { headerName: "번호", field: "backNo", autoHeight: true, width: 1, headerClass: 'ag-header-cell-center', cellStyle: {textAlign: 'center'}},
         { headerName: "후원자명", field: "memberName" , autoHeight: true, width: 30, headerClass: 'ag-header-cell-center', cellStyle: {textAlign:'center'} },
-        { headerName: "후원 프로젝트", field: "projectTitle", autoHeight: true, width: 40,headerClass: 'ag-header-cell-center' , cellStyle: {textAlign:'center'} },
-        { headerName: "프로젝트 시작일", field: "startDate", autoHeight: true, width: 40, headerClass: 'ag-header-cell-center', cellStyle: {textAlign: 'center'} },
-        { headerName: "프로젝트 종료일", field: "endDate", autoHeight: true, width: 30, headerClass: 'ag-header-cell-center', cellStyle: {textAlign: 'center'} },
-        { headerName: "프로젝트 정산일", field: "calDate", autoHeight: true, width: 30, headerClass: 'ag-header-cell-center', cellStyle: {textAlign: 'center'} },
+        { headerName: "후원 프로젝트", field: "projectTitle", autoHeight: true, width: 60,headerClass: 'ag-header-cell-center' , cellStyle: {textAlign:'center'} },
+        { headerName: "프로젝트 시작일", field: "startDate", autoHeight: true, width: 5, headerClass: 'ag-header-cell-center', cellStyle: {textAlign: 'center'} },
+        { headerName: "프로젝트 종료일", field: "endDate", autoHeight: true, width: 5, headerClass: 'ag-header-cell-center', cellStyle: {textAlign: 'center'} },
+        { headerName: "프로젝트 정산일", field: "calDate", autoHeight: true, width: 5, headerClass: 'ag-header-cell-center', cellStyle: {textAlign: 'center'} },
         { headerName: "프로젝트 상태", field: "status", autoHeight: true, width: 3, headerClass: 'ag-header-cell-center', cellStyle: {textAlign: 'center'} },
-        { headerName: "선물명", field: "rewardName", autoHeight: true, width: 3, headerClass: 'ag-header-cell-center', cellStyle: {textAlign: 'center'} },
+        { headerName: "선물명", field: "rewardName", autoHeight: true, width: 65, headerClass: 'ag-header-cell-center', cellStyle: {textAlign: 'center'} },
         { headerName: "후원 금액", field: "rewardAmount", autoHeight: true, width: 3, headerClass: 'ag-header-cell-center', cellStyle: {textAlign: 'center'} },
-        { headerName: "후원일", field: "backingDate", autoHeight: true, width: 3, headerClass: 'ag-header-cell-center', cellStyle: {textAlign: 'center'} },
+        { headerName: "후원일", field: "backingDate", autoHeight: true, width: 5, headerClass: 'ag-header-cell-center', cellStyle: {textAlign: 'center'} },
+        { headerName: "후원 취소 여부", field: "backRetractYn", autoHeight: true, width: 1, headerClass: 'ag-header-cell-center', cellStyle: {textAlign: 'center'} },
         { headerName: "후원 상태", field: "paymentStatus", autoHeight: true, width: 3, headerClass: 'ag-header-cell-center', cellStyle: {textAlign: 'center'} },
         { headerName: "후원 방법", field: "paymentType", autoHeight: true, width: 3, headerClass: 'ag-header-cell-center', cellStyle: {textAlign: 'center'} }
     ]);
@@ -136,7 +137,7 @@ const BackerMain = () => {
     // 유저 조회
     useEffect(() => {
         setLoading(true);
-        fetch(`${baseURL}/admin/backer?pageNum=${activePage}`)
+        fetch(`${baseURL}/admin/back?pageNum=${activePage}`)
         .then(resp => resp.json())
         .then(data => {
             setDataVo(data?.voList);
@@ -159,12 +160,6 @@ const BackerMain = () => {
     // 숫자페이지 눌렀을때 데이터 불러오기
     const handlePageNumBtn = (pageNumber) => {
         setActivePage(pageNumber);
-    }
-
-    // 행 클릭시 해당 detail로 이동
-    const rowClicked = (e) => {
-        const no = e.data.no;
-        navigate(`../user/detail/${no}`);
     }
 
     // 검색어 저장
@@ -211,7 +206,7 @@ const BackerMain = () => {
 
     return (
         <StyledCategoryDiv>
-            <h2>사용자 관리</h2>
+            <h2>후원자 관리</h2>
             
             <div className="searchArea">
                 <Form>
@@ -262,7 +257,6 @@ const BackerMain = () => {
                     animateRows={true} // 행 애니메이션
                     domLayout='autoHeight' // 자동높이
                     onGridReady={(e) => {e.api.sizeColumnsToFit();}} // 칼럼꽉차게
-                    onRowClicked={(e) => {rowClicked(e)}} // 행 클릭시 이벤트
                 />
             </div>
             {
