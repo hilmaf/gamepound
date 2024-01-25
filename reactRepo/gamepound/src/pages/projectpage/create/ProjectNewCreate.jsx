@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { useUserMemory } from '../../../component/context/UserContext';
 
+const baseURL = process.env.REACT_APP_API_URL;
+
 const StyledNewCreateDiv = styled.div`
     display: flex;
     flex-direction: column;
@@ -162,7 +164,7 @@ const ProjectNewCreate = () => {
 
     // 작성중인 프로젝트가 있으면 조회
     useEffect(() => {
-        fetch('http://localhost:8889/gamepound/project/getCurrentProject', {
+        fetch(`${baseURL}/project/getCurrentProject`, {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json'
@@ -178,16 +180,12 @@ const ProjectNewCreate = () => {
         .catch(error => {
             console.error('Error fetching data:', error);
         });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [formVo.no, loginMemberVo]);
     
     // 카테고리 가져오기
     useEffect(() => {
-        fetch('http://localhost:8889/gamepound/category/list', {
-            method: 'get',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        })
+        fetch(`${baseURL}/category/list`)
         .then(resp => resp.json())
         .then(data => {
             if(data.length > 0){
@@ -197,6 +195,7 @@ const ProjectNewCreate = () => {
         .catch(error => {
             console.error('Error fetching data:', error);
         });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     // formVo 저장
@@ -210,7 +209,7 @@ const ProjectNewCreate = () => {
             });
         }
     }
-    console.log('formVo :: ', formVo);
+    
     // 프로젝트 저장
     const handleCreateProject = () => {
 
@@ -224,7 +223,7 @@ const ProjectNewCreate = () => {
             return;
         }
 
-        fetch('http://localhost:8889/gamepound/project/create/new', {
+        fetch(`${baseURL}/project/create/new`, {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json'

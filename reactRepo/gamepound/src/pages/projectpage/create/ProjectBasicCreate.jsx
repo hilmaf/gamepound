@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { useParams } from 'react-router-dom';
 import { useProjectCreateMemory } from '../../../component/context/ProjectCreateContext';
 
+const baseURL = process.env.REACT_APP_API_URL;
+
 const StyledCreateBasicDiv = styled.div`
     padding: 40px 0;
     & .contentDiv {
@@ -111,21 +113,23 @@ const ProjectBasicCreate = () => {
                 'no': projectNo,
             },
         })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     // 데이터 불러오기
     useEffect(() => {
-        fetch('http://localhost:8889/gamepound/project/create/main?no=' + projectNo)
+        fetch(`${baseURL}/project/create/main?no=${projectNo}`)
         .then(resp => resp.json())
         .then(data => {
             setDataVo(data);
         })
         ;
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
     
     // 카테고리 대분류 조회하기
     useEffect(() => {
-        fetch('http://localhost:8889/gamepound/category/list')
+        fetch(`${baseURL}/category/list`)
         .then(resp => resp.json())
         .then(data => {
             if(data){
@@ -133,6 +137,7 @@ const ProjectBasicCreate = () => {
             }
         })
         ;
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     // formVo에 값 저장
@@ -152,6 +157,7 @@ const ProjectBasicCreate = () => {
             const selectedCategory = categoryVo.find((vo) => vo.mainCategoryNo === dataVo.mainVo.mainCategoryNo);
             setSubCategory(selectedCategory.subCategoryList);
         } 
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [categoryVo]);
 
     // 카테고리 값 저장
@@ -159,7 +165,6 @@ const ProjectBasicCreate = () => {
         const selectMainCategory = e.target;
         const {name, value} = e.target;
 
-        console.log('벨류', selectMainCategory.value);
         if(categoryVo && dataVo){
             const selectCategory = categoryVo.find((vo) => vo.mainCategoryNo === selectMainCategory.value);
             setSubCategory(selectCategory.subCategoryList);

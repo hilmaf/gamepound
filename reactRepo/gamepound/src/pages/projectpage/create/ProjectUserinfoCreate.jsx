@@ -79,10 +79,9 @@ const ProjectUserinfoCreate = () => {
             setDataVo(data);
             setSelectedBank(data.bankName ? data.bankName : '');
         })
-        .catch(() => {
-            alert('창작자 정보조회에 실패했습니다.');
-        })
+        .catch(() => {})
         ;
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     // 은행 테이블 하드코딩
@@ -96,6 +95,7 @@ const ProjectUserinfoCreate = () => {
           { value: '카카오뱅크', label: '카카오뱅크' },
         ];
         setBankOptions(fetchedBankOptions);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     // 컨텍스트 데이터에 프로젝트 넘버 저장
@@ -110,6 +110,7 @@ const ProjectUserinfoCreate = () => {
             ...headerFormVo,
             'projectNo': projectNo,
         });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [projectNo, setProjectCreateData, setHeaderFormVo]);
 
     // headerFormVo 에 저장

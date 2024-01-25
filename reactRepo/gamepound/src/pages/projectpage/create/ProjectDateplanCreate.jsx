@@ -7,6 +7,7 @@ import { useProjectCreateMemory } from '../../../component/context/ProjectCreate
 import { useParams } from 'react-router';
 Quill.register('modules/ImageResize', ImageResize);
 
+const baseURL = process.env.REACT_APP_API_URL;
 
 const StyledCreateDateplanDiv = styled.div`
     & .inner {
@@ -80,7 +81,7 @@ const ProjectDateplanCreate = () => {
     useEffect(() => {
         if(projectNo){
 
-            fetch('http://localhost:8889/gamepound/project/get/dateplan?no=' + projectNo)
+            fetch(`${baseURL}/project/get/dateplan?no=${projectNo}`)
             .then(resp => resp.json())
             .then(data => {
                 if(data.msg === 'good'){
@@ -96,8 +97,7 @@ const ProjectDateplanCreate = () => {
                 }
             })
             .catch((e) => {
-                // alert('프로젝트 내용을 가져오는데 실패했습니다.');
-                alert(e);
+                alert('프로젝트 내용을 가져오는데 실패했습니다.');
             })
             ;
         }
@@ -124,7 +124,7 @@ const ProjectDateplanCreate = () => {
             formData.append('img', file);
 
             let imgUrl = null; // url 담을 변수
-            fetch('http://localhost:8889/gamepound/project/save/image', {
+            fetch(`${baseURL}/project/save/image`, {
                     method: 'post',
                     body: formData,
             })

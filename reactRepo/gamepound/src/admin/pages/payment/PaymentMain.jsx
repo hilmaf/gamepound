@@ -1,11 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { Button, Col, Container, Form, InputGroup, Row } from 'react-bootstrap';
 import { AgGridReact } from 'ag-grid-react'; // React Grid Logic
 import "ag-grid-community/styles/ag-grid.css"; // Core CSS
 import "ag-grid-community/styles/ag-theme-quartz.css"; // Theme
 import Loading from '../../../component/common/Loading';
-import { useNavigate } from 'react-router-dom';
 import Pagination from 'react-js-pagination';
 import ReactDatePicker from 'react-datepicker';
 import { format } from 'date-fns';
@@ -123,7 +122,6 @@ const StyledPaymentMainDiv = styled.div`
 
 const PaymentMain = () => {
 
-    const navigate = useNavigate();
     const [loading, setLoading] = useState(false); // 로딩중 표시
     const [dataVo, setDataVo] = useState([]); // 데이터
     const [searchVo, setSearchVo] = useState({
@@ -137,7 +135,7 @@ const PaymentMain = () => {
     const [pvo, setPvo] = useState({}); // pvo
     const [activePage, setActivePage] = useState(1); // 현재페이지
     const [rowData, setRowData] = useState([]); // 행 데이터
-    const [colDefs, setColDefs] = useState([ // 제목 데이터
+    const [colDefs] = useState([ // 제목 데이터
         { headerName: "번호", field: "no", autoHeight: true, width: 80, headerClass: 'ag-header-cell-center', cellStyle: {textAlign: 'center'}},
         { headerName: "프로젝트명", field: "projectTitle", autoHeight: true, width: 300, headerClass: 'ag-header-cell-center' },
         { headerName: "프로젝트 상태", field: "projectStatus", autoHeight: true, headerClass: 'ag-header-cell-center', cellStyle: {textAlign: 'center'}},
@@ -148,7 +146,7 @@ const PaymentMain = () => {
         { headerName: "결제 날짜", field: "paymentDate", autoHeight: true, headerClass: 'ag-header-cell-center', cellStyle: {textAlign: 'center'}}
     ]);
     const [startDate, setStartDate] = useState(null); // 데이트피커
-    const [endDate, setEndDate] = useState(null); // 데이트피커
+    const [endDate] = useState(null); // 데이트피커
     const [paymentStatus, setPaymentStatus] = useState([]); // 결제상태
     const [projectStatus, setProjectStatus] = useState([]); // 프로젝트 상태
 
@@ -233,18 +231,17 @@ const PaymentMain = () => {
             setLoading(false); // 로딩중 화면 끝
         })
         ;
-
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     // 검색하기
     const handleSearchBtnClick = () => {
-        console.log('클릭됨');
         setLoading(true);
         setSearchVo({
             ...searchVo,
             'activePage': activePage
         })
-        console.log('요청 전 searchVo 값 확인', );
+
         fetch(`${baseURL}/admin/payment/search/list`, {
             method: 'post',
             headers: {
@@ -265,10 +262,6 @@ const PaymentMain = () => {
         });
         ;
     }
-
-    // console.log('pvo :: ', pvo);
-    // console.log('dataVo :: ', dataVo);
-    console.log('searchVo :: ', searchVo);
 
     return (
         <StyledPaymentMainDiv>

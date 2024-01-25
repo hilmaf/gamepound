@@ -3,6 +3,8 @@ import styled from 'styled-components';
 import { useProjectCreateMemory } from '../../../component/context/ProjectCreateContext';
 import { useParams } from 'react-router';
 
+const baseURL = process.env.REACT_APP_API_URL;
+
 const StyledCreateRewardDiv = styled.div`
     & .inner {
         display: flex;
@@ -184,7 +186,7 @@ const ProjectRewardCreate = () => {
 
     // 데이터 불러오기
     useEffect(() => {
-        fetch('http://localhost:8889/gamepound/project/get/reward?no=' + projectNo)
+        fetch(`${baseURL}/project/get/reward?no=${projectNo}`)
         .then(resp => resp.json())
         .then(data => {
             if(data.msg === 'good'){
@@ -291,7 +293,7 @@ const ProjectRewardCreate = () => {
 
         // no값이 있으면 수정하기, 없으면 새로만들기
         if(headerFormVo.no){ // 수정하기
-            fetch('http://localhost:8889/gamepound/project/save/reword', {
+            fetch(`${baseURL}/project/save/reword`, {
                 method: 'post',
                 headers: {
                     'Content-Type': 'application/json'
@@ -319,7 +321,7 @@ const ProjectRewardCreate = () => {
                 alert('선물 금액이 비어있습니다.');
                 return;
             }
-            fetch('http://localhost:8889/gamepound/project/create/reword', {
+            fetch(`${baseURL}/project/create/reword`, {
                 method: 'post',
                 headers: {
                     'Content-Type': 'application/json'
@@ -344,7 +346,7 @@ const ProjectRewardCreate = () => {
     const handleDelete = (no) => {
         const confirmDelete = window.confirm("정말 삭제하시겠습니까?");
         if(confirmDelete){
-            fetch('http://localhost:8889/gamepound/project/delete/reword', {
+            fetch(`${baseURL}/project/delete/reword`, {
                 method: 'post',
                 headers: {
                     'Content-Type': 'application/json'

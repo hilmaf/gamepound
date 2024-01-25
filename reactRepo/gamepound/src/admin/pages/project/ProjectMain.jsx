@@ -121,7 +121,6 @@ const ProjectMain = () => {
         fetch(`${baseURL}/admin/project?currentPage=${activePage}`)
         .then(resp => resp.json())
         .then(data => {
-            console.log(data?.projectList);
             setPageVo({
                 ...pageVo,
                 listCount: parseInt(data?.cnt)
@@ -174,7 +173,6 @@ const ProjectMain = () => {
 
     // 프로젝트 검색
     const handleSearchBtn = () => {
-        console.log(conditionVo);
 
         fetch(`${baseURL}/admin/project/search`, {
             method: "post",
