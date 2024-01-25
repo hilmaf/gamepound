@@ -129,6 +129,7 @@ const BackerMain = () => {
         { headerName: "선물명", field: "rewardName", autoHeight: true, width: 3, headerClass: 'ag-header-cell-center', cellStyle: {textAlign: 'center'} },
         { headerName: "후원 금액", field: "rewardAmount", autoHeight: true, width: 3, headerClass: 'ag-header-cell-center', cellStyle: {textAlign: 'center'} },
         { headerName: "후원일", field: "backingDate", autoHeight: true, width: 3, headerClass: 'ag-header-cell-center', cellStyle: {textAlign: 'center'} },
+        { headerName: "후원 취소 여부", field: "backRetractYn", autoHeight: true, width: 3, headerClass: 'ag-header-cell-center', cellStyle: {textAlign: 'center'} },
         { headerName: "후원 상태", field: "paymentStatus", autoHeight: true, width: 3, headerClass: 'ag-header-cell-center', cellStyle: {textAlign: 'center'} },
         { headerName: "후원 방법", field: "paymentType", autoHeight: true, width: 3, headerClass: 'ag-header-cell-center', cellStyle: {textAlign: 'center'} }
     ]);
@@ -136,7 +137,7 @@ const BackerMain = () => {
     // 유저 조회
     useEffect(() => {
         setLoading(true);
-        fetch(`${baseURL}/admin/backer?pageNum=${activePage}`)
+        fetch(`${baseURL}/admin/back?pageNum=${activePage}`)
         .then(resp => resp.json())
         .then(data => {
             setDataVo(data?.voList);
@@ -211,7 +212,7 @@ const BackerMain = () => {
 
     return (
         <StyledCategoryDiv>
-            <h2>사용자 관리</h2>
+            <h2>후원자 관리</h2>
             
             <div className="searchArea">
                 <Form>

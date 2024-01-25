@@ -15,8 +15,14 @@ public class AdminBackDaoHYJ {
 		return sst.selectList("AdminBackMapper.List");
 	}
 
+	//목록 조회시 게시글 갯수
+	public int listCnt(SqlSessionTemplate sst, AdminBackVo vo) {
+		return sst.selectOne("AdminBackMapper.Cnt", vo);
+	}
+	
 	public AdminBackVo backDetail(SqlSessionTemplate sst, AdminBackVo vo) {
 		return sst.selectOne("AdminBackMapper.Detail", vo);
 	}
+
 
 }
