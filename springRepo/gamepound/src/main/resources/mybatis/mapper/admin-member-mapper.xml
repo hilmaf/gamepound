@@ -68,27 +68,22 @@
 	<update id="edit">
 		UPDATE MEMBER
 		SET
-		<if test=" name != null and name != '' " >
-			NAME = #{name},
-		</if>
-		<if test=" email != null and email != '' " >
-			EMAIL = #{email},
-		</if>		
-		<if test=" intro != null and intro != '' " >			
-			INTRO = #{intro},
-		</if>			
-		<if test=" siteUrl != null and siteUrl != '' " >
-			SITE_URL = #{siteUrl}
-		</if>			
+			ENROLL_DATE = SYSDATE
+			<if test=" name != null and name != '' " >
+				, NAME = #{name}
+			</if>
+			<if test=" email != null and email != '' " >
+				, EMAIL = #{email}
+			</if>		
+			<if test=" intro != null and intro != '' " >			
+				, INTRO = #{intro}
+			</if>			
+			<if test=" siteUrl != null and siteUrl != '' " >
+				, SITE_URL = #{siteUrl}
+			</if>	
+			<if test="quitYn != null and quitYn != ''">
+				, QUIT_YN = #{quitYn}
+			</if>
 		WHERE NO = #{no}
 	</update>
-	
-<!-- 사용자 관리 삭제 -->
-	<update id="delete">
-		UPDATE MEMBER
-		SET
-			QUIT_YN = 'Y'
-		WHERE NO = #{no}
-	</update>
-  
 </mapper>

@@ -57,8 +57,4 @@ public class AdminMemberServiceHYJ {
 		return dao.memberEdit(sst, vo);
 	}
 
-	//삭제
-	public int memberDelete(MemberVo vo) {
-		return dao.memberDelete(sst, vo);
-	}
 }
