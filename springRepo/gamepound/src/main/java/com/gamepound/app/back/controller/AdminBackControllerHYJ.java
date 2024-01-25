@@ -28,15 +28,5 @@ public class AdminBackControllerHYJ {
 		Map<String, Object>map = service.backList(vo, pageNum);
 		
 		return map;
-		
 	}
-	
-	//상세
-	@GetMapping("detail")
-	public void backDetail(AdminBackVo vo) {
-		AdminBackVo detailVo = service.backDetail(vo);
-		
-		System.out.println(detailVo);
-	}
-	
 }

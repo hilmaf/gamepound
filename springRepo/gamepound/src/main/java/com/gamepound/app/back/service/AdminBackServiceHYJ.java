@@ -39,14 +39,9 @@ public class AdminBackServiceHYJ {
 		map.put("pvo", pvo);
 		
 		//조건에 맞는 게시글들
-		List<AdminBackVo>voList = dao.backList(sst);
+		List<AdminBackVo>voList = dao.backList(sst, vo, pvo);
 		map.put("voList", voList);
 		
 		return map; 
-	}
-
-	//상세
-	public AdminBackVo backDetail(AdminBackVo vo) {
-		return dao.backDetail(sst, vo);
 	}
 }
