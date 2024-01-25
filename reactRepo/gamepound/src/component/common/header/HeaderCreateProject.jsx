@@ -52,16 +52,20 @@ const HeaderCreateProject = () => {
             .then(resp => resp.json())
             .then(data => {
                 if(data.msg === 'good'){
-                    setLoading(false); // 로딩중 화면 끝
                     alert('프로젝트 내용이 저장되었습니다.');
                     navigate(`/projectCreate/main/index/basic/${projectNo.no}`);
+                } else {
+                    throw new Error();
                 }
             })
             .catch(() => {
                 alert('오류가 발생했습니다. 다시 시도해주세요.');
             })
+            .finally(() => {
+                setLoading(false); // 로딩중 화면 끝
+                setIsProjectInputChange(false);
+            })
             ;
-            setIsProjectInputChange(false);
         }
         
         // plan 저장
@@ -84,39 +88,25 @@ const HeaderCreateProject = () => {
             .then(resp => resp.json())
             .then(data => {
                 if(data.msg === 'good'){
-                    setLoading(false); // 로딩중 화면 끝
                     alert('프로젝트 내용이 저장되었습니다.');
                     navigate(`/projectCreate/main/index/plan/${projectNo.no}`);
                 } else {
                     throw new Error();
                 }
             })
-            .catch((e) => {
-                setLoading(false); // 로딩중 화면 끝
+            .catch(() => {
                 alert('오류가 발생했습니다. 다시 시도해주세요.');
             })
+            .finally(() => {
+                setLoading(false); // 로딩중 화면 끝
+                setIsProjectInputChange(false);
+            })
             ;
-            setIsProjectInputChange(false);
             
         }
 
         // dateplan 저장
         if(name === 'dateplan'){
-
-            const fieldsToCheck = [
-                { field: headerFormVo.txtDescription, label: '프로젝트 소개' },
-                { field: headerFormVo.txtBudget, label: '프로젝트 예산' },
-                { field: headerFormVo.txtSchedule, label: '프로젝트 일정' },
-                { field: headerFormVo.txtTeam, label: '프로젝트 팀 소개' },
-                { field: headerFormVo.txtItem, label: '프로젝트 선물 소개' }
-            ];
-            // 프로젝트 내용 검증
-            // for (const fieldData of fieldsToCheck) {
-            //     if (fieldData.field && fieldData.field.length > 2000) {
-            //         alert(`${fieldData.label}은(는) 2000글자 이내로 작성해 주시기 바랍니다.`);
-            //         return;
-            //     }
-            // }
 
             setLoading(true); // 로딩중 화면 표시
             fetch(`${baseURL}/project/save/dateplan`, {
@@ -129,18 +119,19 @@ const HeaderCreateProject = () => {
             .then(resp => resp.json())
             .then(data => {
                 if(data.msg === 'good'){
-                    setLoading(false); // 로딩중 화면 끝
                     alert('프로젝트 내용이 저장되었습니다.');
                 } else {
                     throw new Error();
                 }
             })
             .catch(() => {
-                setLoading(false); // 로딩중 화면 끝
                 alert('오류가 발생했습니다. 다시 시도해주세요.');
             })
+            .finally(() => {
+                setLoading(false); // 로딩중 화면 끝
+                setIsProjectInputChange(false);
+            })
             ;
-            setIsProjectInputChange(false);
         }
 
         // userinfo 저장
@@ -176,19 +167,22 @@ const HeaderCreateProject = () => {
             .then(resp => resp.json())
             .then(data => {
                 if(data.msg === 'good'){
-                    setLoading(false); // 로딩중 화면 끝
                     alert('프로젝트 내용이 저장되었습니다.');
                 } else {
                     throw new Error();
                 }
             })
             .catch(() => {
-                setLoading(false); // 로딩중 화면 끝
                 alert('오류가 발생했습니다. 다시 시도해주세요.');
             })
+            .finally(() => {
+                setLoading(false); // 로딩중 화면 끝
+                setIsProjectInputChange(false);
+            })
             ;
-            setIsProjectInputChange(false);
         }
+
+        window.location.reload(); // 새로고침
     }
 
     // 승인요청 
@@ -212,15 +206,15 @@ const HeaderCreateProject = () => {
             const data = await response.json();
         
             if (data.msg === 'good') {
-                setLoading(false); // 로딩중 화면 끝
                 alert('승인 요청이 완료되었습니다.');
                 navigate('/');
             } else {
                 throw new Error();
             }
         } catch (error) {
-            setLoading(false); // 로딩중 화면 끝
             alert('승인 요청에 실패했습니다. 다시 시도해주세요.');
+        } finally {
+            setLoading(false); // 로딩중 화면 끝
         }
     };
 

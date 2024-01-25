@@ -9,6 +9,8 @@ import ProjectPlanCreate from './ProjectPlanCreate';
 import { useHeaderMemory } from '../../../component/context/HeaderContext';
 import { useProjectCreateMemory } from '../../../component/context/ProjectCreateContext';
 
+const baseURL = process.env.REACT_APP_API_URL;
+
 const StyledCreateBasicIndexDiv = styled.div`
     box-sizing: border-box;
     min-height: calc(100vh - 202px);
@@ -75,9 +77,7 @@ const ProjectCreateMainIndex = () => {
 
     // 데이터 불러오기
     useEffect(() => {
-        fetch('http://localhost:8889/gamepound/project/create/main?no=' + projectNo, {
-            method: 'get',
-        })
+        fetch(`${baseURL}/project/create/main?no=${projectNo}`)
         .then(resp => resp.json())
         .then(data => {
             setProjectTitle(data.mainVo.title);

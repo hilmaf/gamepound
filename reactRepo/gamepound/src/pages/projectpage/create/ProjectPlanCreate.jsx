@@ -2,10 +2,11 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import DatePicker from "react-datepicker";
 import { format } from 'date-fns';
-
 import "react-datepicker/dist/react-datepicker.css";
 import { useParams } from 'react-router-dom';
 import { useProjectCreateMemory } from '../../../component/context/ProjectCreateContext';
+
+const baseURL = process.env.REACT_APP_API_URL;
 
 const StyledCreatePlanDiv = styled.div`
     padding: 40px 0;
@@ -101,11 +102,12 @@ const ProjectPlanCreate = () => {
             ...headerFormVo,
             'no': projectNo,
         });
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     // 데이터 불러오기
     useEffect(() => {
-        fetch(`http://localhost:8889/gamepound/project/get/plan?no=${projectNo}`)
+        fetch(`${baseURL}/project/get/plan?no=${projectNo}`)
         .then(resp => resp.json())
         .then(data => {
             setMoney(data.vo?.goalAmount);
@@ -118,6 +120,7 @@ const ProjectPlanCreate = () => {
             }
         })
         ;
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     // 콤마추가
@@ -160,7 +163,6 @@ const ProjectPlanCreate = () => {
             setDataFrom('plan');
         }
     };
-    console.log(headerFormVo);
 
     // 시작날짜 저장
     const handleStartDateChange = (date) => {

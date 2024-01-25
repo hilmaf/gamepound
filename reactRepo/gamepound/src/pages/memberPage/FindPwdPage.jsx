@@ -5,6 +5,8 @@ import InpText from './input/InpText';
 import { Link, useNavigate } from 'react-router-dom';
 import Loading from '../../component/common/Loading';
 
+const baseURL = process.env.REACT_APP_API_URL;
+
 const StyledFindPwdPageDiv = styled.div`
     display: flex;
     align-items: center;
@@ -97,7 +99,7 @@ const FindPwdPage = () => {
         }
 
         setLoading(true); // 로딩중 화면 표시
-        fetch('http://localhost:8889/gamepound/confirmPassword', {
+        fetch(`${baseURL}/confirmPassword`, {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json'
@@ -107,12 +109,17 @@ const FindPwdPage = () => {
         .then(resp => resp.json())
         .then(data => {
             if(data.msg === 'good'){
-                setLoading(false); // 로딩중 화면 끝
                 alert('새 비밀번호 관리 메일이 발송되었습니다.');
                 navigate('/');
             } else {
-                alert('오류가 발생했습니다.');
+                throw new Error();
             }
+        })
+        .catch(() => {
+            alert('오류가 발생했습니다.');
+        })
+        .finally(() => {
+            setLoading(false); // 로딩중 화면 끝
         })
         ;
     }

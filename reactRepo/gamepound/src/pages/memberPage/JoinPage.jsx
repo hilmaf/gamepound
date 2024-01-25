@@ -6,6 +6,8 @@ import InpText from './input/InpText';
 import InpTextNon from './input/InpTextNon';
 import Loading from './../../component/common/Loading';
 
+const baseURL = process.env.REACT_APP_API_URL;
+
 const StyledJoinPageDiv = styled.div`
     display: flex;
     align-items: center;
@@ -178,7 +180,7 @@ const JoinPage = () => {
     
         // 가입진행
         setLoading(true); // 로딩중 화면 표시
-        fetch('http://localhost:8889/gamepound/join', {
+        fetch(`${baseURL}/join`, {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json'
@@ -188,13 +190,15 @@ const JoinPage = () => {
         .then(resp => resp.json())
         .then(data => {
             if(data.msg === 'good'){
-                setLoading(false); // 로딩중 화면 끝
                 alert('가입 완료되었습니다.');
                 navigate('/login')
-            } else {
-                setLoading(false); // 로딩중 화면 끝
-                alert('가입 실패되었습니다. 입력하신 정보를 확인해주세요.');
             }
+        })
+        .catch(() => {
+            alert('가입 실패되었습니다. 입력하신 정보를 확인해주세요.');
+        })
+        .finally(() => {
+            setLoading(false); // 로딩중 화면 끝
         })
         ;
     }
@@ -224,16 +228,20 @@ const JoinPage = () => {
         .then(resp => resp.json())
         .then(data => {
             if(data.msg === 'good'){
-                setLoading(false); // 로딩중 화면 끝
                 alert('이 이메일로 가입하실 수 있습니다.');
                 const sendBtn = document.querySelector('.send');
                 sendBtn.parentNode.classList.add('active');
                 const emailInput = document.querySelector('input[name=email]');
                 emailInput.disabled = true;
             } else {
-                setLoading(false); // 로딩중 화면 끝
-                alert('이미 가입된 이메일 입니다.');
+                throw new Error();
             }
+        })
+        .catch(() => {
+            alert('이미 가입된 이메일 입니다.');
+        })
+        .finally(() => {
+            setLoading(false); // 로딩중 화면 끝
         })
         ;
         
@@ -253,12 +261,19 @@ const JoinPage = () => {
             })
             .then(resp => resp.json())
             .then(data => {
+                if(data.msg === 'good'){
+                    alert('인증메일이 전송되었습니다.');
+                }
+                console.log(data.verificationCode); // 인증번호 확인용
+            })
+            .catch(() => {
+                alert('인증번호 전송에 실패했습니다.');
+            })
+            .finally(() => {
                 setLoading(false); // 로딩중 화면 끝
-                console.log(data.msg);
-                console.log(data.verificationCode);
+                setIsSendEmail(true); // 이메일 보내기 완료
             })
             ;
-            setIsSendEmail(true);
         }
     }
 
@@ -279,7 +294,6 @@ const JoinPage = () => {
             const msg = document.querySelector('.email.msg');
 
             if (data.msg === 'good') {
-                setLoading(false); // 로딩중 화면 끝
                 alert('인증이 성공했습니다.');
                 authenticationBtn.disabled = true;
                 authenticationBtn.innerHTML = '인증완료';
@@ -287,12 +301,17 @@ const JoinPage = () => {
                 sendBtn.disabled = true;
                 msg.innerHTML = '인증완료 되었습니다.';
             } else {
-                setLoading(false); // 로딩중 화면 끝
-                alert('인증번호가 틀렸습니다.');
                 sendBtn.innerHTML = '다시보내기';
                 sendBtn.disabled = false;
                 msg.innerHTML = '인증실패하였습니다.';
+                throw new Error();
             }
+        })
+        .catch(() => {
+            alert('인증번호가 틀렸습니다.');
+        })
+        .finally(() => {
+            setLoading(false); // 로딩중 화면 끝
         })
         ;
     }

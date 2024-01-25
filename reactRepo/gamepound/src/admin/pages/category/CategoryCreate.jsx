@@ -97,7 +97,6 @@ const CategoryCreate = () => {
         })
         ;
     }
-    console.log(formVo);
 
     // 목록버튼
     const handleListBtn = () => {

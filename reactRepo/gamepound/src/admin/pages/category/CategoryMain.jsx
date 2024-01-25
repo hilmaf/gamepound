@@ -118,7 +118,7 @@ const CategoryMain = () => {
     const [pvo, setPvo] = useState(); // pvo
     const [activePage, setActivePage] = useState(1); // 현재페이지
     const [rowData, setRowData] = useState([]); // 행 데이터
-    const [colDefs, setColDefs] = useState([ // 제목 데이터
+    const [colDefs] = useState([ // 제목 데이터
         { headerName: "번호", field: "no", autoHeight: true, width: 50, headerClass: 'ag-header-cell-center', cellStyle: {textAlign: 'center'}},
         { headerName: "대분류명", field: "mainCategory" , autoHeight: true, headerClass: 'ag-header-cell-center'},
         { headerName: "소분류명", field: "subCategory", autoHeight: true, headerClass: 'ag-header-cell-center' },
@@ -193,7 +193,6 @@ const CategoryMain = () => {
         fetch(`${baseURL}/category/admin/search?mainCategory=${mainCategory}&subCategory=${subCategory}&pageNum=${activePage}`)
         .then(resp => resp.json())
         .then(data => {
-            console.log(data);
             setDataVo(data?.categoryList);
             setPvo(data?.pvo);
         })
@@ -205,7 +204,6 @@ const CategoryMain = () => {
         });
         ;
     };
-    console.log(searchVo);
 
     return (
         <StyledCategoryDiv>

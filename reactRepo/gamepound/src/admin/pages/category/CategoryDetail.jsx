@@ -39,12 +39,12 @@ const CategoryDetail = () => {
             setLoading(false); // 로딩중 화면 끝
         });
         ;
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     // isChecked
     useEffect(() => {
         if (dataVo?.delYn === 'Y') {
-            console.log('와이');
             setIsChecked(true);
         } else {
             setIsChecked(false);
@@ -120,8 +120,6 @@ const CategoryDetail = () => {
         ;
     }
 
-    console.log('formVo: ', formVo);
-    console.log('dataVo: ', dataVo);
     return (
         <StyledCategoryDetailDiv>
 

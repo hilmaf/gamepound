@@ -9,6 +9,8 @@ import ProjectDateplanCreate from './ProjectDateplanCreate';
 import ProjectUserinfoCreate from './ProjectUserinfoCreate';
 import { useProjectCreateMemory } from '../../../component/context/ProjectCreateContext';
 
+const baseURL = process.env.REACT_APP_API_URL;
+
 const StyledCreateMainDiv = styled.div`
     box-sizing: border-box;
     min-height: calc(100vh - 202px);
@@ -116,9 +118,7 @@ const ProjectCreateMain = () => {
 
     useEffect(() => {
         // 데이터 불러오기
-        fetch('http://localhost:8889/gamepound/project/create/main?no=' + projectNo, {
-            method: 'get',
-        })
+        fetch(`${baseURL}/project/create/main?no=${projectNo}`)
         .then(resp => resp.json())
         .then(data => {
             setDataVo(data);

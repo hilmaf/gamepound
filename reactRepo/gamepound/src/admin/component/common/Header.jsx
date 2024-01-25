@@ -38,14 +38,14 @@ const Header = () => {
         // 로그인 체크
         if(!sessionStorage.getItem('adminMember')){
             alert('로그인 후 이용하실 수 있습니다.');
-            navigate(-1);
+            navigate('/admin');
         }
         setAdminMember(JSON.parse(sessionStorage.getItem('adminMember')));
     }, []);
 
     const handleLogout = () => {
         sessionStorage.removeItem('adminMember');
-        navigate('../');
+        navigate('/admin');
     }
 
     return (

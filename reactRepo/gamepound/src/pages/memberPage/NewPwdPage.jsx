@@ -6,6 +6,8 @@ import InpText from './input/InpText';
 import InpTextNon from './input/InpTextNon';
 import Loading from '../../component/common/Loading';
 
+const baseURL = process.env.REACT_APP_API_URL;
+
 const StyledNewPwdPageDiv = styled.div`
     display: flex;
     align-items: center;
@@ -82,7 +84,7 @@ const NewPwdPage = () => {
         e.preventDefault();
         
         setLoading(true); // 로딩중 화면 표시
-        fetch('http://localhost:8889/gamepound/resetPassword', {
+        fetch(`${baseURL}/resetPassword`, {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json'
@@ -91,9 +93,7 @@ const NewPwdPage = () => {
         })
         .then(resp => resp.json())
         .then(data => {
-            console.log(data);
             if (data.msg === 'good') {
-                setLoading(false); // 로딩중 화면 끝
                 alert('비밀번호 변경이 완료되었습니다.');
                 navigate('/');
             } else {
@@ -102,7 +102,11 @@ const NewPwdPage = () => {
         })
         .catch(error => {
             alert(error.message);
-        });
+        })
+        .finally(() => {
+            setLoading(false); // 로딩중 화면 끝
+        })
+        ;
     }
 
     // 토큰 FormVo에 저장
@@ -115,6 +119,7 @@ const NewPwdPage = () => {
         });
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
+
     // formVo 저장
     const handleInputChange = (e) => {
         const {name, value} = e.target;

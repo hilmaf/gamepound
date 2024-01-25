@@ -5,6 +5,9 @@ import logoImage from '../../assets/images/logo_big.svg';
 import InpText from './input/InpText';
 import { useUserMemory } from '../../component/context/UserContext';
 import { useIsFirstMemory } from '../../component/context/IsFirstContext';
+import Loading from '../../component/common/Loading';
+
+const baseURL = process.env.REACT_APP_API_URL;
 
 const StyledQuitDiv = styled.div`
     display: flex;
@@ -63,6 +66,7 @@ const QuitPage = () => {
     const navigate = useNavigate();
     const { loginMemberVo, setLoginMemberVo } = useUserMemory(); // 로그인 유저정보
     const { isFirst, setIsFirst } = useIsFirstMemory(); // 렌더링 체크
+    const [loading, setLoading] = useState(false);
 
     // 탈퇴처리
     const handleQuit = (e) => {
@@ -70,7 +74,8 @@ const QuitPage = () => {
         const userConfirmed = window.confirm('정말 탈퇴하시겠어요?');
 
         if (userConfirmed) {
-            fetch('http://localhost:8889/gamepound/quit', {
+            setLoading(true); // 로딩중 화면 표시
+            fetch(`${baseURL}/quit`, {
                 method: 'post',
                 headers: {
                     'Content-Type': 'application/json'
@@ -85,8 +90,14 @@ const QuitPage = () => {
                     setLoginMemberVo(null)
                     navigate('/');
                 } else {
-                    alert('알 수 없는 이유로 탈퇴 처리가 완료되지 않았습니다.');
+                    throw new Error();
                 }
+            })
+            .catch(() => {
+                alert('탈퇴에 실패했습니다.');
+            })
+            .finally(() => {
+                setLoading(true); // 로딩중 화면 표시
             })
             ;
         } 
@@ -131,6 +142,7 @@ const QuitPage = () => {
                     <button>회원탈퇴</button>
                 </form>
             </div>
+            {loading ? <Loading /> : ''}
         </StyledQuitDiv>
     );
 };

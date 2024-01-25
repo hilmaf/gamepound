@@ -6,6 +6,8 @@ import logoImage from '../../assets/images/logo_big.svg';
 import { useUserMemory } from '../../component/context/UserContext';
 import Loading from '../../component/common/Loading';
 
+const baseURL = process.env.REACT_APP_API_URL;
+
 const StyledLoginPageDiv = styled.div`
     display: flex;
     align-items: center;
@@ -92,7 +94,7 @@ const LoginPage = () => {
     const handleLogin = (e) => {
         e.preventDefault();
         setLoading(true); // 로딩중 화면 표시
-        fetch('http://localhost:8889/gamepound/login', {
+        fetch(`${baseURL}/login`, {
             method: 'post',
             headers: {
                 'Content-Type': 'application/json'
@@ -102,20 +104,19 @@ const LoginPage = () => {
         .then(resp => resp.json())
         .then((data) => {
             if(data.msg === 'good'){
-                setLoading(false); // 로딩중 화면 끝
                 sessionStorage.setItem("loginMemberVo" , JSON.stringify(data.loginMember));
-                
                 setLoginMemberVo(JSON.parse(sessionStorage.getItem('loginMemberVo')));
                 navigate('/')
             } else {
-                setLoading(false); // 로딩중 화면 끝
-                alert('로그인에 실패했습니다.');
+                throw new Error();
             }
         })
         .catch(() => {
-            setLoading(false); // 로딩중 화면 끝
             alert('로그인에 실패했습니다.');
-        });
+        })
+        .finally(() => {
+            setLoading(false); // 로딩중 화면 끝
+        })
         ;
     }
 
