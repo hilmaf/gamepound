@@ -3,8 +3,8 @@ import styled from 'styled-components';
 import { useBackingMemory } from '../context/BackingContext';
 
 const StyledEnrollCardDiv = styled.div`
-    width: 700px;
-    height: 250px;
+    width: 780px;
+    height: 300px;
     border: 1px solid #3d3d3d22;
     border-radius: 5px;
     padding: 30px;

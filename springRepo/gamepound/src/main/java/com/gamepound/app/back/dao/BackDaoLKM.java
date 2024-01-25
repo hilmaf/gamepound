@@ -46,7 +46,7 @@ public class BackDaoLKM {
 	}
 	
 	// 후원 취소(결제정보 delete)
-	public int deletePayment(SqlSessionTemplate sst, String backNo) {
+	public int updatePayment(SqlSessionTemplate sst, String backNo) {
 		return sst.update("BackMapper.updatePayment", backNo);
 	}
 

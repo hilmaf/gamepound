@@ -62,9 +62,11 @@ const StyledPaymentCheckDiv = styled.div`
     }
 `;
 
+const baseURL = process.env.REACT_APP_API_URL;
+
 const PaymentCheck = () => {
 
-    let customerUid = "defaulttttt";
+    let customerUid = "default";
 
     // useNavigate
     const navigate = useNavigate();
@@ -90,29 +92,18 @@ const PaymentCheck = () => {
     // 카드 정보 입력값 유효성 체크
     const checkCardInput = () => {
 
-        const isNotEmpty = (value) => value && value.length>0;
         const isValidLength = (value, length) => value.length === length;
 
-        const notNull= isNotEmpty(back.cardNo1) &&
-                    isNotEmpty(back.cardNo2) &&
-                    isNotEmpty(back.cardNo3) &&
-                    isNotEmpty(back.cardNo4) &&
-                    isNotEmpty(back.validThru1) &&
-                    isNotEmpty(back.validThru2) &&
-                    isNotEmpty(back.cardPwd) &&
-                    isNotEmpty(back.birthDate);
+        if(!back.cardNo1 || !back.cardNo2 || !back.cardNo3 || !back.cardNo4 || !back.validThru1 || !back.validThru2 || !back.cardPwd || !back.birthDate) {
+            return false;
+        }
 
+        if(!isValidLength(back.cardNo1, 4) || !isValidLength(back.cardNo2, 4) || !isValidLength(back.cardNo3, 4) || !isValidLength(back.cardNo4, 4) ||
+        !isValidLength(back.validThru1, 2) || !isValidLength(back.validThru2, 2) || !isValidLength(back.cardPwd, 2) || !isValidLength(back.birthDate, 6)) {
+            return false;
+        }
     
-        const lengthValid = isValidLength(back.cardNo1, 4) &&
-                            isValidLength(back.cardNo2, 4) &&
-                            isValidLength(back.cardNo3, 4) &&
-                            isValidLength(back.cardNo4, 4) &&
-                            isValidLength(back.validThru1, 2) &&
-                            isValidLength(back.validThru2, 2) &&
-                            isValidLength(back.cardPwd, 2) &&
-                            isValidLength(back.birthDate, 6);
-        
-        return notNull && lengthValid;
+        return true;
 
     }
 
@@ -161,74 +152,69 @@ const PaymentCheck = () => {
     const handleBackBtnClick = async (e) => {
 
         e.preventDefault();
-
-        // PaymentType undefined체크
-        let paymentTypeDefined = false;
-        if(back.paymentType) {
-            paymentTypeDefined = true;
-        }
-
+        
         // TODO: 이미 후원한 프로젝트는 또 후원 못하게 유효성 체크
         // TODO: 로그인 유저 본인이 올린 프로젝트는 후원 불가능하게
         
-        if(!paymentTypeDefined){
+
+        // 체크박스 체크 여부 확인
+        const checkboxOk = checkCheckInput();
+        if(!checkboxOk) {
+            alert("필수 동의사항을 체크해주세요");
+            return;
+        }
+        
+
+        // 결제수단 선택 여부 확인
+        if(!back.paymentType) {
             alert("후원 정보가 빠진 곳 없이 작성되었는지 확인해주세요.");
             return;
         }
         
-            
-        if(back.paymentType==='kakaopay') { // 결제방식: 카카오페이일 때
+        let sendVo = {};
+        if(back.paymentType==='kakaopay') { // 결제방식: 카카오페이일 때 sendVo 세팅
             const response = await getKakaoPayApi();
 
             if(!customerUid || response !== "success") {
-                alert("다시다시");
+                alert("결제 오류. 다시 시도해주세요");
+                return;
             }
 
-            const sendVo = {
+            sendVo = {
                 ...back,
                 "customerUid": customerUid
             }
 
-
-            fetch("http://127.0.0.1:8889/gamepound/back/process", {
-                method: "post",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify(sendVo)
-            })
-            .then(resp => resp.json())
-            .then(data => {
-                if(data.result==="success") {
-                        navigate("/back/completed/" + back.projectNo);
-                }
-            })
-
-        } else { // 결제방식: 카드일 때
+        } else { // 결제방식: 카드일 때 sendVo 세팅
 
             // 카드정보 유효성 체크
             const cardInfoOk = checkCardInput();
-            // 체크박스 체크 여부
-            const checkboxOk = checkCheckInput();
+            console.log(cardInfoOk);
+            if(!cardInfoOk) {
+                alert("후원 정보가 빠진 곳 없이 작성되었는지 확인해주세요.");
+                return;
+            } 
             
-            cardInfoOk && checkboxOk 
-            ? 
-            fetch("http://127.0.0.1:8889/gamepound/back/process", {
+            sendVo = {
+                ...back
+            }
+            
+        }
+
+        // fetch 작업 실행
+        fetch(`${baseURL}/back/process`, {
                     method: "post",
                     headers: {
                         "Content-Type": "application/json"
                     },
-                    body: JSON.stringify(back)
+                    body: JSON.stringify(sendVo)
             })
             .then(resp => resp.json())
             .then(data => {
                 if(data.result==="success") {
                         navigate("/back/completed/" + back.projectNo);
                 }
-            })
-            : 
-            alert("후원 정보가 빠진 곳 없이 작성되었는지 확인해주세요.");
-        }
+        })
         
     }
 

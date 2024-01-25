@@ -21,11 +21,13 @@ import com.gamepound.app.back.vo.BackDetailVo;
 import com.gamepound.app.back.vo.BackVo;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("back")
 @CrossOrigin("*")
+@Slf4j
 public class BackControllerLKM {
 	
 	private final BackServiceLKM service;	
@@ -37,17 +39,10 @@ public class BackControllerLKM {
 		return bvo;
 	}
 	
-	/**
-	 * - 후원정보 테이블에 INSERT
-	 * - 정기결제 등록
-	 * - 결제일에 결제 성공 및 실패 시 그에 따라 결제 상태 update
-	 * - 결제 실패 시 +7일 후 결제 요청 다시 하게끔 로직 설정
-	 */	
 	// 후원하기
 	@PostMapping("process")
 	public Map<String, String> back(@RequestBody BackDetailVo vo) throws Exception {
-		System.out.println("server side backing process start ::: !!");
-		System.out.println(vo);
+		log.info("<후원하기> process start ...");
 		boolean backed = service.back(vo);
 		
 		Map<String, String> map = new HashMap<String, String>();
@@ -63,7 +58,7 @@ public class BackControllerLKM {
 	// 후원 완료(화면)
 	@GetMapping("completed")
 	public ResponseEntity<String> completed(@RequestParam("no") String projectNo) {
-		
+		// 몇번째 후원
 		String nthBacker = service.cntBacker(projectNo);
 		
 		HttpHeaders header = getHttpHeaders("String");
@@ -82,8 +77,6 @@ public class BackControllerLKM {
 	// 후원 취소
 	@PostMapping("canceled")
 	public Map<String, String> cancel(@RequestBody BackVo backVo) throws Exception {
-		System.out.println(backVo.getBackNo());
-		
 		boolean canceled = service.cancel(backVo.getBackNo());
 	
 		Map<String, String> map = new HashMap<>();

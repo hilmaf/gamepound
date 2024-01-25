@@ -33,14 +33,9 @@ const BackCanceled = () => {
 
     const {no} = useParams();
 
-    // useEffect(()=>{
-    //     fetch("http://127.0.0.1:8889/gamepound/")
-    // }, [])
-
     return (
         <StyledBackCanceledDiv>
             <div>후원이 취소되었습니다.</div>
-            <div>--후원 마감기한--까지 다시 후원하실 수 있습니다.</div>
             <button><Link to={`/back/detail/${no}`}>후원 상세</Link></button>
         </StyledBackCanceledDiv>
     );
