@@ -5,9 +5,44 @@ import styled from 'styled-components';
 const StyledAllDiv = styled.div`
     width: 100%;
 `;
+const StyledReplyDiv = styled.div`
+    margin-top: 50px;
+    width: 100%;
+    padding: 5px 20px 5px 0px;
+    & > div{
+        width: 88%;
+        display: flex;
+        align-items: center;
+        background-color: #f7f7f7;
+        padding: 15px 15px 15px 25px;
+        border-radius: 5px;
+        & > textarea{
+            resize: none;
+            width: calc(100% - 20px);
+            background-color: #f7f7f7;
+            &::placeholder{
+                color: #adadad;
+            }
+        }
+        & > button{
+            margin: 0px 10px 0px 15px;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f7f7f7;
+            
+            & > svg{
+                width: 100%;
+                height: 100%;
+                filter: invert(91%) sepia(7%) saturate(20%) hue-rotate(354deg) brightness(78%) contrast(83%);
+            }
+        }
+    }
+`;
 const StyledCommunityDiv = styled.div`
     height: 700px;
-    margin-top: 20px;
 
     //커뮤니티 없을때
     .communityNull{
@@ -102,15 +137,23 @@ const CommunityPage = () => {
 
     return (
         <StyledAllDiv>
+            <StyledReplyDiv>
+                <div>
+                    <textarea name="content" id="content" placeholder='글을 쓸 수 있어요.'/>
+                    <button id='buttonArea'>
+                        <svg xmlns="http://www.w3.org/2000/svg" id="Filled" viewBox="0 0 24 24" width="512" height="512"><path d="M1.172,19.119A4,4,0,0,0,0,21.947V24H2.053a4,4,0,0,0,2.828-1.172L18.224,9.485,14.515,5.776Z"/><path d="M23.145.855a2.622,2.622,0,0,0-3.71,0L15.929,4.362l3.709,3.709,3.507-3.506A2.622,2.622,0,0,0,23.145.855Z"/></svg>
+                    </button>
+                </div>
+            </StyledReplyDiv>
             <StyledCommunityDiv>
                 {
                     detailCommunityVoList.length == 0
                     ?
                     <div className='communityNull'>
                         <div>
-                            <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 24 24">
-                                <path d="m12.5,12h1.586c.936,0,1.814-.364,2.475-1.025l6.707-6.707c.473-.472.732-1.1.732-1.768s-.26-1.296-.732-1.768c-.975-.975-2.561-.975-3.535,0l-6.707,6.707c-.651.651-1.025,1.554-1.025,2.475v1.586c0,.276.224.5.5.5Zm.5-2.086c0-.658.267-1.302.732-1.768l6.707-6.707c.584-.585,1.537-.585,2.121,0,.283.283.439.66.439,1.061s-.156.777-.439,1.061l-6.707,6.707c-.472.472-1.1.732-1.768.732h-1.086v-1.086Zm-1,6.086c0-.552.448-1,1-1s1,.448,1,1-.448,1-1,1-1-.448-1-1Zm-7-1c.552,0,1,.448,1,1s-.448,1-1,1-1-.448-1-1,.448-1,1-1Zm5,1c0,.552-.448,1-1,1s-1-.448-1-1,.448-1,1-1,1,.448,1,1Zm14-3.5v6c0,2.481-2.019,4.5-4.5,4.5H4.5c-2.481,0-4.5-2.019-4.5-4.5v-6c0-2.481,2.019-4.5,4.5-4.5h5c.276,0,.5.224.5.5s-.224.5-.5.5h-5c-1.93,0-3.5,1.57-3.5,3.5v6c0,1.93,1.57,3.5,3.5,3.5h15c1.93,0,3.5-1.57,3.5-3.5v-6c0-1.246-.671-2.408-1.75-3.032-.239-.138-.321-.444-.183-.683s.446-.32.683-.182c1.388.802,2.25,2.296,2.25,3.897Z"/>
-                            </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" id="Layer_1" data-name="Layer 1" viewBox="0 0 24 24">
+                            <path d="m22.75,9.693c.806.914,1.25,2.088,1.25,3.307v5c0,2.757-2.243,5-5,5H5c-2.757,0-5-2.243-5-5v-5c0-2.757,2.243-5,5-5h4c.553,0,1,.448,1,1s-.447,1-1,1h-4c-1.654,0-3,1.346-3,3v5c0,1.654,1.346,3,3,3h14c1.654,0,3-1.346,3-3v-5c0-.731-.267-1.436-.75-1.984-.365-.414-.326-1.046.089-1.412.413-.364,1.045-.326,1.411.088ZM5,15.5c0,.828.672,1.5,1.5,1.5s1.5-.672,1.5-1.5-.672-1.5-1.5-1.5-1.5.672-1.5,1.5Zm6.5,1.5c.828,0,1.5-.672,1.5-1.5s-.672-1.5-1.5-1.5-1.5.672-1.5,1.5.672,1.5,1.5,1.5Zm.5-6v-1.586c0-1.068.416-2.073,1.172-2.828L18.879.879c1.17-1.17,3.072-1.17,4.242,0,.566.566.879,1.32.879,2.121s-.313,1.555-.879,2.122l-5.707,5.707c-.755.755-1.76,1.172-2.828,1.172h-1.586c-.553,0-1-.448-1-1Zm2-1h.586c.534,0,1.036-.208,1.414-.586l5.707-5.707c.189-.189.293-.44.293-.707s-.104-.518-.293-.707c-.391-.391-1.023-.39-1.414,0l-5.707,5.707c-.372.373-.586.888-.586,1.414v.586Z"/>
+                        </svg>
                         </div>
                         <div>
                            게시글이 없습니다.
