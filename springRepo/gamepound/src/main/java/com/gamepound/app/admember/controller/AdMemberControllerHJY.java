@@ -1,5 +1,8 @@
 package com.gamepound.app.admember.controller;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,7 +26,7 @@ public class AdMemberControllerHJY {
 	
 	// 로그인
 	@PostMapping("login")
-	public ResponseEntity<AdMemberVo> login(@RequestBody AdMemberVo vo) {
+	public ResponseEntity<AdMemberVo> login(@RequestBody AdMemberVo vo, HttpServletRequest req) {
 
 		log.info("전달받은 vo 값 : {}", vo);
 		
@@ -32,6 +35,8 @@ public class AdMemberControllerHJY {
 		if (resultVo == null) {
 	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 	    }
+		// 세션에 로그인 vo 저장
+		req.getSession().setAttribute("loginMember", resultVo);
 		
 		return ResponseEntity.status(HttpStatus.OK).body(resultVo);
 	}
