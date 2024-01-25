@@ -28,7 +28,7 @@ public class AdMemberControllerHJY {
 		log.info("전달받은 vo 값 : {}", vo);
 		
 		AdMemberVo resultVo = service.login(vo);
-		System.out.println(resultVo);
+		
 		if (resultVo == null) {
 	        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 	    }
