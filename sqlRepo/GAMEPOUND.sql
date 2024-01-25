@@ -323,7 +323,7 @@ CREATE TABLE PAYMENT (
     , PROJECT_NO            NUMBER          NOT NULL
     , PAYMENT_TYPE_NO       NUMBER          NOT NULL
     , PAYMENT_STATUS_NO     NUMBER          DEFAULT 1 NOT NULL
-    , PAYMENT_DATE          TIMESTAMP       DEFAULT SYSDATE NOT NULL
+    , PAYMENT_DATE          TIMESTAMP       
     , AMOUNT                NUMBER          NOT NULL
 );
 COMMENT ON COLUMN PAYMENT.NO IS '결제정보 번호';
