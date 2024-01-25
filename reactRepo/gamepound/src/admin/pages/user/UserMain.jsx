@@ -131,6 +131,7 @@ const UserMain = () => {
         "name": "",
         "termStart": '',
         "termEnd": "",
+        "pageNum": ""
     }); // 검색데이터
     const [pvo, setPvo] = useState({}); // pvo
     const [activePage, setActivePage] = useState(1); // 현재페이지
@@ -152,7 +153,7 @@ const UserMain = () => {
     useEffect(() => {
         setStay(1);
         setLoading(true);
-        fetch(`${baseURL}/admin/user?pageNum=${activePage}`)
+        fetch(`${baseURL}/admin/user?pageNum=${activePage}&name=${searchVo.name}&termStart=${searchVo.termStart}&termEnd=${searchVo.termEnd}`)
         .then(resp => resp.json())
         .then(data => {
             setDataVo(data?.voList);
@@ -216,33 +217,8 @@ const UserMain = () => {
 
     // 검색하기
     const handleSearchBtnClick = () => {
-        console.log('클릭됨');
-        setLoading(true);
-        setSearchVo({
-            ...searchVo,
-            'activePage': activePage
-        })
-        console.log('요청 전 searchVo 값 확인', );
-        console.log(searchVo);
-        fetch(`${baseURL}/admin/user`, {
-            method: 'post',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(searchVo),
-        })
-        .then(resp => resp.json())
-        .then(data => {
-            setDataVo(data?.voList);
-            setPvo(data?.pvo);
-        })
-        .catch(() => {
-            alert('데이터를 가져오는데 실패했습니다.');
-        })
-        .finally(() => {
-            setLoading(false); // 로딩중 화면 끝
-        });
-        ;
+        setActivePage(1);
+        setStay(2);
     }
 
     return (
