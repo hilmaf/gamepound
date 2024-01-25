@@ -10,10 +10,11 @@ import com.gamepound.app.project.vo.ProjectBriefVo;
 import com.gamepound.app.util.DataProcessingUtil;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
-
+@Slf4j
 public class BackServiceLKM {
 
 	private final BackDaoLKM dao;
@@ -41,25 +42,24 @@ public class BackServiceLKM {
 	}
 	
 	/**
-	 * BACKER 테이블에 INSERT
-	 * PAYMENT 테이블에 INSERT
-	 * CARD 테이블에 INSERT 또는 KAKAOPAY 테이블에 INSERT
+	 * 후원하기
+	 * @param vo
+	 * @return boolean (3번의 insert 작업이 모두 성공했다는 의미)
+	 * @throws Exception
 	 */
-	// 후원하기
 	public boolean back(BackDetailVo vo) throws Exception {
 		// 결제수단 not null
 		if(vo.getPaymentType() == null) {
 			throw new Exception("결제수단 선택 필요");
 		}
 
-		// paymentType no setting
+		// paymentType 카드결제일 떄, 카카오페이일 때
+		// TODO: enum 활용 가능해보임
 		if(vo.getPaymentType().equals("card")) {	
 			vo = validateCardInfo(vo);
 		} else {
 			vo.setPaymentTypeNo("2");
 		}
-		
-		System.out.println(vo);
 		
 		// rewardAmount 수정
 		vo.setRewardAmount(util.removeCommas(vo.getRewardAmount()));
@@ -69,6 +69,9 @@ public class BackServiceLKM {
 		
 		int result1 = dao.insertBack(sst, vo);
 		int result2 = dao.insertPayment(sst, vo);
+		log.info("result1: {} result2: {}", result1, result2);
+		
+		
 		int result3 = 0;
 		if("1".equals(vo.getPaymentTypeNo())) {
 			// 카드 정보 테이블 insert
@@ -78,11 +81,7 @@ public class BackServiceLKM {
 			result3 = dao.insertKakaopay(sst, vo);	
 		}
 
-		if(result1 == 1 && result2 == 1 && result3 == 1) {
-			return true;
-		} else {
-			return false;
-		}
+		return result1 == 1 && result2 == 1 && result3 ==1;
 		
 	}
 	
@@ -139,15 +138,13 @@ public class BackServiceLKM {
 		// 후원정보 update
 		int result1 = dao.updateRetractYn(sst, backNo);
 		// 결제정보 delete
-		int result2 = dao.deletePayment(sst, backNo);
+		int result2 = dao.updatePayment(sst, backNo);
 		
 		if(result1 != 1 && result2 != 1) {
 			throw new Exception("후원 취소에 실패함");
 		}
 		
-		boolean canceled = true;
-		
-		return canceled;
+		return result1 == 1 && result2 == 1;
 	}
 	
 	// 후원 상세 조회

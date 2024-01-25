@@ -66,8 +66,6 @@ public class UserPageService {
 		
 		// 리뷰 목록
 		List<ReviewVo> reviewList = dao.listReview(sst, map.get("memberNo"), pvo);
-		System.out.println(reviewList.size());
-		
 		
 		// TODO: 만족도 DOUBLE 타입으로 변경하는 거 삭제하기 (더미데이터를 수정하는 방향으로)
 		// 만족도 double 타입으로 변경해서 다시 셋팅하기
@@ -93,7 +91,6 @@ public class UserPageService {
 	// 리뷰 작성
 	public int write(ReviewVo vo) {	
 		// TODO: review 파일명 변경
-		
 		
 		return dao.write(sst, vo);
 	}
@@ -128,18 +125,15 @@ public class UserPageService {
 	public Map<String, Object> listMyBackedProjects(String memberNo) {
 		// 후원 성공 목록 : 프로젝트 펀딩 성공
 		List<BackDetailVo> successList = dao.backedSuccessfully(sst, memberNo);
-		
-		String url = "http://127.0.0.1:8889/gamepound/resources/images/projectImg/";
 		for (BackDetailVo backDetailVo : successList) {
 			backDetailVo.setProjectImg(url + backDetailVo.getProjectImg());
 		}
-		System.out.println(successList);
+		
 		// 후원 실패 목록 : 프로젝트 펀딩 실패 OR 후원 취소
 		List<BackDetailVo> failList = dao.backedUnsuccessfully(sst, memberNo);
 		for (BackDetailVo backDetailVo : failList) {
 			backDetailVo.setProjectImg(url + backDetailVo.getProjectImg());
 		}
-		System.out.println(failList);
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("successList", successList);
@@ -171,8 +165,6 @@ public class UserPageService {
 
 	public ReviewVo viewMyReview(String reviewNo) {
 		ReviewVo reviewVo = dao.viewMyReview(sst, reviewNo);
-		
-		String url = "http://127.0.0.1:8889/gamepound/resources/images/projectImg/";
 		reviewVo.setProjectImg(url + reviewVo.getProjectImg());
 		
 		return reviewVo;
@@ -181,8 +173,7 @@ public class UserPageService {
 	// 유저페이지 - 프로필
 	public MemberVo userProfile(String memberNo) {
 		MemberVo vo = dao.userProfile(sst, memberNo);
-		String url = "http://127.0.0.1:8889/gamepound/resources/images/memberProfileImg/";
-		vo.setPic(url + vo.getPic());
+		vo.setPic(url2 + vo.getPic());
 		
 		return vo;
 	}
