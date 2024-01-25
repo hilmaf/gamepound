@@ -68,7 +68,7 @@
 	<update id="edit">
 		UPDATE MEMBER
 		SET
-			ENROLL_DATE = SYSDATE
+			UPDATE_DATE = SYSDATE
 			<if test=" name != null and name != '' " >
 				, NAME = #{name}
 			</if>
