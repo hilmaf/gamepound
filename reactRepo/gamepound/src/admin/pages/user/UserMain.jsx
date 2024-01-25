@@ -120,8 +120,8 @@ const UserMain = () => {
     const [rowData, setRowData] = useState([]); // 행 데이터
     const [colDefs] = useState([ // 제목 데이터
         { headerName: "번호", field: "no", autoHeight: true, width: 3, headerClass: 'ag-header-cell-center', cellStyle: {textAlign: 'center'}},
-        { headerName: "이름", field: "name" , autoHeight: true, width: 30, headerClass: 'ag-header-cell-center'},
-        { headerName: "이메일", field: "email", autoHeight: true, width: 40,headerClass: 'ag-header-cell-center' , cellStyl: {textAlign:'center'} },
+        { headerName: "이름", field: "name" , autoHeight: true, width: 30, headerClass: 'ag-header-cell-center', cellStyle: {textAlign: 'center'}},
+        { headerName: "이메일", field: "email", autoHeight: true, width: 40,headerClass: 'ag-header-cell-center' , cellStyle: {textAlign: 'center'} },
         { headerName: "웹 사이트", field: "siteUrl", autoHeight: true, width: 40, headerClass: 'ag-header-cell-center', cellStyle: {textAlign: 'center'} },
         { headerName: "계정 생성 일자", field: "enrollDate", autoHeight: true, width: 30, headerClass: 'ag-header-cell-center', cellStyle: {textAlign: 'center'} },
         { headerName: "계정 수정 일자", field: "updateDate", autoHeight: true, width: 30, headerClass: 'ag-header-cell-center', cellStyle: {textAlign: 'center'} },
