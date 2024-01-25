@@ -33,6 +33,13 @@ public class AdminMemberControllerHYJ {
 		return map;
 	}
 	
+	//검색
+	@PostMapping
+	public Map<String, Object> searchMemberList(@RequestBody MemberVo vo, String pageNum) {
+		Map<String, Object> map = service.memberList(vo, pageNum);
+		return map;
+	}
+	
 	//상세
 	@GetMapping("detail")
 	public MemberVo memberDetail(MemberVo vo) {
@@ -44,7 +51,6 @@ public class AdminMemberControllerHYJ {
 	//수정
 	@PutMapping("edit")
 	public ResponseEntity<String> memberEdit(@RequestBody MemberVo vo) {
-		log.info("MemberVo ::: {}",vo);
 		int result = service.memberEdit(vo);
 		
 		if(result != 1) {

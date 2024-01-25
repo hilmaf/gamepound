@@ -16,7 +16,7 @@
 		FROM MEMBER
 		<where>
 			<trim prefixOverrides="AND">
-				<if test="no != null and no != ''">
+				<if test="name != null and name != ''">
 					NAME LIKE '%' || #{name} || '%'
 				</if>
 				<if test="termStart != null and termStart != ''">
@@ -35,7 +35,7 @@
 		SELECT
 		    COUNT(NO)		    
 		FROM MEMBER
-<!-- 		<where>
+ 		<where>
 			<trim prefixOverrides="AND">
 				<if test="name != null and name != ''">
 					NAME LIKE '%' || #{name} || '%'
@@ -47,7 +47,7 @@
 					AND ENROLL_DATE <![CDATA[ <= ]]> TO_DATE(#{termEnd}, 'YYYY.MM.DD')
 				</if>
 			</trim>
-		</where> -->
+		</where>
 	</select>
 	
 <!-- 사용자 관리 상세 -->

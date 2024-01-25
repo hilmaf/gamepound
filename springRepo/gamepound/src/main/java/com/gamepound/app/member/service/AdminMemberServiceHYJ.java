@@ -42,6 +42,11 @@ public class AdminMemberServiceHYJ {
 		
 		//조건에 맞는 게시글들
 		List<MemberVo> voList = dao.memberList(sst, vo, pvo);
+		for (MemberVo memberVo : voList) {
+			if(memberVo.getUpdateDate() == null) {
+				memberVo.setUpdateDate("-");
+			}
+		}
 		map.put("voList", voList);
 		
 		return map;
