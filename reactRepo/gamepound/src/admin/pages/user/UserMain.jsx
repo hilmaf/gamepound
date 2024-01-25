@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Button, Col, Container, Form, InputGroup, Row } from 'react-bootstrap';
 import { AgGridReact } from 'ag-grid-react'; // React Grid Logic
@@ -7,6 +7,7 @@ import "ag-grid-community/styles/ag-theme-quartz.css"; // Theme
 import Loading from '../../../component/common/Loading';
 import Pagination from 'react-js-pagination';
 import ReactDatePicker from 'react-datepicker';
+import { useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarDays } from '@fortawesome/free-solid-svg-icons';
@@ -125,6 +126,10 @@ const StyledPaymentMainDiv = styled.div`
 
 const UserMain = () => {
 
+    const navigate = useNavigate();
+    const gridRef = useRef();
+
+
     const [loading, setLoading] = useState(false); // 로딩중 표시
     const [dataVo, setDataVo] = useState([]); // 데이터
     const [searchVo, setSearchVo] = useState({
@@ -186,6 +191,12 @@ const UserMain = () => {
     // 숫자페이지 눌렀을때 데이터 불러오기
     const handlePageNumBtn = (pageNumber) => {
         setActivePage(pageNumber);
+    }
+
+    // 행 클릭시 해당 detail로 이동
+    const rowClicked = (e) => {
+        const no = e.data.no;
+        navigate(`../user/detail/${no}`);
     }
 
     // 후원날짜 change
@@ -281,11 +292,13 @@ const UserMain = () => {
             </div>
             <div className="agGridBox ag-theme-quartz">
                 <AgGridReact 
+                    ref={gridRef}
                     rowData={rowData} 
                     columnDefs={colDefs}
                     animateRows={true} // 행 애니메이션
                     domLayout='autoHeight' // 자동높이
                     onGridReady={(e) => {e.api.sizeColumnsToFit();}} // 칼럼꽉차게
+                    onRowClicked={(e)=>{rowClicked(e)}} // 행 클릭시 이벤트
                 />
             </div>
             {
