@@ -204,15 +204,18 @@
 <select id="myReview" resultType="com.gamepound.app.review.vo.ReviewVo">
 	SELECT
 		    R.CONTENT AS REVIEW_CONTENT
-		    , R.IMAGE AS REVIEW_IMAGE
+		    , R.IMAGE AS REVIEW_IMG
 		    , R.RATING AS RATING
 		    , R.ENROLL_DATE AS ENROLL_DATE
 	        , P.TITLE AS PROJECT_TITLE
 	        , P.IMAGE_URL AS PROJECT_IMG
+	        , M.PIC AS PROFILE_IMG
+	        , M.NAME AS MEMBER_NAME
 	FROM REVIEW R
 	JOIN BACKER B ON B.NO = R.BACKER_NO
 	JOIN PROJECT P ON P.NO = B.PROJECT_NO
-	WHERE R.NO=#{memberNo}
+	JOIN MEMBER M ON M.NO = R.MEMBER_NO
+	WHERE R.NO=#{reviewNo}
 </select>
   
 </mapper>
