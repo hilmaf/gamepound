@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Button, Col, Container, Form, InputGroup, Row } from 'react-bootstrap';
 import { AgGridReact } from 'ag-grid-react'; // React Grid Logic
@@ -7,6 +7,7 @@ import "ag-grid-community/styles/ag-theme-quartz.css"; // Theme
 import Loading from '../../../component/common/Loading';
 import Pagination from 'react-js-pagination';
 import ReactDatePicker from 'react-datepicker';
+import { useNavigate } from 'react-router-dom';
 import { format } from 'date-fns';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarDays } from '@fortawesome/free-solid-svg-icons';
@@ -125,12 +126,17 @@ const StyledPaymentMainDiv = styled.div`
 
 const UserMain = () => {
 
+    const navigate = useNavigate();
+    const gridRef = useRef();
+
+
     const [loading, setLoading] = useState(false); // 로딩중 표시
     const [dataVo, setDataVo] = useState([]); // 데이터
     const [searchVo, setSearchVo] = useState({
         "name": "",
         "termStart": '',
         "termEnd": "",
+        "pageNum": ""
     }); // 검색데이터
     const [pvo, setPvo] = useState({}); // pvo
     const [activePage, setActivePage] = useState(1); // 현재페이지
@@ -152,7 +158,7 @@ const UserMain = () => {
     useEffect(() => {
         setStay(1);
         setLoading(true);
-        fetch(`${baseURL}/admin/user?pageNum=${activePage}`)
+        fetch(`${baseURL}/admin/user?pageNum=${activePage}&name=${searchVo.name}&termStart=${searchVo.termStart}&termEnd=${searchVo.termEnd}`)
         .then(resp => resp.json())
         .then(data => {
             setDataVo(data?.voList);
@@ -187,6 +193,12 @@ const UserMain = () => {
         setActivePage(pageNumber);
     }
 
+    // 행 클릭시 해당 detail로 이동
+    const rowClicked = (e) => {
+        const no = e.data.no;
+        navigate(`../user/detail/${no}`);
+    }
+
     // 후원날짜 change
     const handleStartDateChange = (date) => {
         setStartDate(date);
@@ -216,33 +228,8 @@ const UserMain = () => {
 
     // 검색하기
     const handleSearchBtnClick = () => {
-        console.log('클릭됨');
-        setLoading(true);
-        setSearchVo({
-            ...searchVo,
-            'activePage': activePage
-        })
-        console.log('요청 전 searchVo 값 확인', );
-        console.log(searchVo);
-        fetch(`${baseURL}/admin/user`, {
-            method: 'post',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(searchVo),
-        })
-        .then(resp => resp.json())
-        .then(data => {
-            setDataVo(data?.voList);
-            setPvo(data?.pvo);
-        })
-        .catch(() => {
-            alert('데이터를 가져오는데 실패했습니다.');
-        })
-        .finally(() => {
-            setLoading(false); // 로딩중 화면 끝
-        });
-        ;
+        setActivePage(1);
+        setStay(2);
     }
 
     return (
@@ -305,11 +292,13 @@ const UserMain = () => {
             </div>
             <div className="agGridBox ag-theme-quartz">
                 <AgGridReact 
+                    ref={gridRef}
                     rowData={rowData} 
                     columnDefs={colDefs}
                     animateRows={true} // 행 애니메이션
                     domLayout='autoHeight' // 자동높이
                     onGridReady={(e) => {e.api.sizeColumnsToFit();}} // 칼럼꽉차게
+                    onRowClicked={(e)=>{rowClicked(e)}} // 행 클릭시 이벤트
                 />
             </div>
             {

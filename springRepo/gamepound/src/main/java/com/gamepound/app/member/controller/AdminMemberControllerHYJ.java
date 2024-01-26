@@ -32,14 +32,7 @@ public class AdminMemberControllerHYJ {
 		Map<String, Object> map = service.memberList(vo, pageNum);
 		return map;
 	}
-	
-	//검색
-	@PostMapping
-	public Map<String, Object> searchMemberList(@RequestBody MemberVo vo, String pageNum) {
-		Map<String, Object> map = service.memberList(vo, pageNum);
-		return map;
-	}
-	
+
 	//상세
 	@GetMapping("detail")
 	public MemberVo memberDetail(MemberVo vo) {

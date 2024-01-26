@@ -1,16 +1,20 @@
 import React, { useEffect, useRef, useState } from 'react';
+import styled from 'styled-components';
+import { Button, Col, Container, Form, InputGroup, Row } from 'react-bootstrap';
 import { AgGridReact } from 'ag-grid-react'; // React Grid Logic
 import "ag-grid-community/styles/ag-grid.css"; // Core CSS
 import "ag-grid-community/styles/ag-theme-quartz.css"; // Theme
-import styled from 'styled-components';
-import { Button, Col, Container, Form, InputGroup, Row } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
-import Pagination from 'react-js-pagination';
 import Loading from '../../../component/common/Loading';
+import Pagination from 'react-js-pagination';
+import ReactDatePicker from 'react-datepicker';
+import { useNavigate } from 'react-router-dom';
+import { format } from 'date-fns';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCalendarDays } from '@fortawesome/free-solid-svg-icons';
 
 const baseURL = process.env.REACT_APP_API_URL;
 
-const StyledCategoryDiv = styled.div`
+const StyledPaymentMainDiv = styled.div`
     // search
     & .searchArea {
         padding: 30px;
@@ -106,16 +110,36 @@ const StyledCategoryDiv = styled.div`
             }
         }
     }
+
+    // 데이트피커
+    .react-datepicker__input-container {
+        height: 36px;
+
+        & input {
+            height: 100%;
+            box-sizing: border-box;
+            border: 1px solid #ddd;
+            padding: 10px;
+        }
+    }
 `;
 
 const BackerMain = () => {
 
     const navigate = useNavigate();
     const gridRef = useRef();
+
+
     const [loading, setLoading] = useState(false); // 로딩중 표시
     const [dataVo, setDataVo] = useState([]); // 데이터
-    const [searchVo, setSearchVo] = useState({ "memberName": '', termStart: '' , termEnd: ''}); // 검색데이터
-    const [pvo, setPvo] = useState(); // pvo
+    const [searchVo, setSearchVo] = useState({
+        "memberName": "",
+        "projectTitle": "",
+        "termStart": '',
+        "termEnd": "",
+        "pageNum": ""
+    }); // 검색데이터
+    const [pvo, setPvo] = useState({}); // pvo
     const [activePage, setActivePage] = useState(1); // 현재페이지
     const [rowData, setRowData] = useState([]); // 행 데이터
     const [colDefs] = useState([ // 제목 데이터
@@ -133,11 +157,15 @@ const BackerMain = () => {
         { headerName: "후원 상태", field: "paymentStatus", autoHeight: true, width: 3, headerClass: 'ag-header-cell-center', cellStyle: {textAlign: 'center'} },
         { headerName: "후원 방법", field: "paymentType", autoHeight: true, width: 3, headerClass: 'ag-header-cell-center', cellStyle: {textAlign: 'center'} }
     ]);
+    const [startDate, setStartDate] = useState(null); // 데이트피커
+    const [endDate, setEndDate] = useState(null); // 데이트피커
+    const [stay, setStay] = useState([]);
 
     // 유저 조회
     useEffect(() => {
+        setStay(1);
         setLoading(true);
-        fetch(`${baseURL}/admin/back?pageNum=${activePage}`)
+        fetch(`${baseURL}/admin/back?pageNum=${activePage}&memberName=${searchVo.memberName}&projectTitle=${searchVo.projectTitle}&termStart=${searchVo.termStart}&termEnd=${searchVo.termEnd}`)
         .then(resp => resp.json())
         .then(data => {
             setDataVo(data?.voList);
@@ -150,98 +178,122 @@ const BackerMain = () => {
             setLoading(false); // 로딩중 화면 끝
         });
         ;
-    }, [activePage]);
-    
+    }, [activePage, stay]);
+
     // 컬럼 데이터 채우기
     useEffect(() => {
         setRowData(dataVo);
     }, [dataVo]);
+
+    // 초기화 버튼
+    const resetBtnClick = () => {
+        setSearchVo({
+            "memberName": "",
+            "projectTitle": "",
+            "termStart": '',
+            "termEnd": "",
+            "pageNum": ""
+        });
+        setStay(0);
+    }
 
     // 숫자페이지 눌렀을때 데이터 불러오기
     const handlePageNumBtn = (pageNumber) => {
         setActivePage(pageNumber);
     }
 
-    // 검색어 저장
-    const searchInputChange = (e) => {
-        const { name, value } = e.target;
+    // 후원날짜 change
+    const handleStartDateChange = (date) => {
+        setStartDate(date);
+        setSearchVo({
+            ...searchVo,
+            'termStart': date ? format(date, 'yyyy.MM.dd') : '',
+        });
+    };
+    // 후원날짜 change
+    const handleEndDateChange = (date) => {
+        setEndDate(date);
+        setSearchVo({
+            ...searchVo,
+            'termEnd': date ? format(date, 'yyyy.MM.dd') : '',
+        });
+    };
+
+    // searchVo 저장
+    const handleInputChange = (e) => {
+        const {name, value} = e.target;
         setSearchVo({
             ...searchVo,
             [name]: value,
         });
+        console.log(e.target);
     }
 
-    // 초기화 버튼
-    const resetBtnClick = () => {
-        setSearchVo({
-            mainCategory: '',
-            subCategory: ''
-        });
+    // 검색하기
+    const handleSearchBtnClick = () => {
+        setActivePage(1);
+        setStay(2);
     }
-    
-    // 검색버튼
-    const searchBtnClick = () => {
-        searchCategory();
-    }
-
-    // 검색 조회 함수
-    const searchCategory = () => {
-        const { mainCategory, subCategory } = searchVo; // 검색어
-
-        fetch(`${baseURL}/admin/user?mainCategory=${mainCategory}&subCategory=${subCategory}&pageNum=${activePage}`)
-        .then(resp => resp.json())
-        .then(data => {
-            console.log(data);
-            setDataVo(data?.categoryList);
-            setPvo(data?.pvo);
-        })
-        .catch(() => {
-            alert('데이터를 가져오는데 실패했습니다.');
-        })
-        .finally(() => {
-            setLoading(false); // 로딩중 화면 끝
-        });
-        ;
-    };
 
     return (
-        <StyledCategoryDiv>
-            <h2>후원자 관리</h2>
-            
+        <StyledPaymentMainDiv>
+            <h2>사용자 관리</h2>
+
             <div className="searchArea">
                 <Form>
                     <Container>
                         <Row>
-
                             <Col>
                                 <InputGroup className="mb-2">
-                                    <InputGroup.Text>사용자명</InputGroup.Text>
-                                    <Form.Control name='memberName' onChange={searchInputChange} value={searchVo?.mainCategory} />
+                                    <InputGroup.Text>프로젝트 명</InputGroup.Text>
+                                    <Form.Control name='projectTitle' onChange={handleInputChange} value={searchVo?.projectTitle}/>
                                 </InputGroup>
                             </Col>
                         </Row>
                         <Row>
-
                             <Col>
                                 <InputGroup className="mb-2">
-                                    <InputGroup.Text>가입일</InputGroup.Text>
-                                    <Form.Control name='termStart' onChange={searchInputChange} value={searchVo?.subCategory} />
+                                    <InputGroup.Text>사용자 명</InputGroup.Text>
+                                    <Form.Control name='memberName' onChange={handleInputChange} value={searchVo?.memberName}/>
                                 </InputGroup>
                             </Col>
+                        </Row>
+                        <Row>
                             <Col>
                                 <InputGroup className="mb-2">
-                                    <InputGroup.Text>가입일</InputGroup.Text>
-                                    <Form.Control name='termEnd' onChange={searchInputChange} value={searchVo?.subCategory} />
+                                    <InputGroup.Text>후원날짜</InputGroup.Text>
+                                    <InputGroup.Text><FontAwesomeIcon icon={faCalendarDays} /></InputGroup.Text>
+                                    <ReactDatePicker 
+                                        name='termStart'
+                                        dateFormat='yyyy-MM-dd' // 날짜 형태
+                                        shouldCloseOnSelect // 날짜를 선택하면 datepicker가 자동으로 닫힘
+                                        selected={startDate}
+                                        onChange={handleStartDateChange}
+                                        selectsStart
+                                        startDate={startDate}
+                                        endDate={endDate}
+                                        value={searchVo?.termStart}
+                                    />
+                                    <InputGroup.Text> ~ </InputGroup.Text>
+                                    <ReactDatePicker 
+                                        name='termEnd'
+                                        dateFormat='yyyy-MM-dd' // 날짜 형태
+                                        shouldCloseOnSelect // 날짜를 선택하면 datepicker가 자동으로 닫힘
+                                        selected={endDate}
+                                        onChange={handleEndDateChange}
+                                        selectsStart
+                                        startDate={startDate}
+                                        endDate={endDate}
+                                        value={searchVo?.termEnd}
+                                    />
                                 </InputGroup>
                             </Col>
-                            
-
                         </Row>
                     </Container>
 
                     <div className="btnArea">
                         <Button variant="secondary" onClick={resetBtnClick}>초기화</Button>
-                        <Button variant="primary" onClick={searchBtnClick}>검색</Button>
+                        <Button variant="primary" onClick={handleSearchBtnClick} >검색</Button>
                     </div>
                 </Form>
             </div>
@@ -260,7 +312,7 @@ const BackerMain = () => {
                 />
             </div>
             {
-                pvo ? 
+                pvo.listCount ? 
                 <Pagination
                     activePage={activePage} // 현재 보고있는 페이지 
                     itemsCountPerPage={pvo.boardLimit} // 한페이지에 출력할 아이템수
@@ -273,7 +325,8 @@ const BackerMain = () => {
             }
             
             {loading ? <Loading /> : ''}
-        </StyledCategoryDiv>
+
+        </StyledPaymentMainDiv>
     );
 };
 
