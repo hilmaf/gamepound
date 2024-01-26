@@ -138,6 +138,9 @@ public class ProjectServiceHYJ {
 		vo.setImageUrl(localAddr + projectPath + vo.getImageUrl());
 		vo.setMemberPic(localAddr + creatorPath + vo.getMemberPic());
 		
+		//커뮤니티, 업데이트 게시글 갯수
+		//TODO-HYJ 해야함
+		
 		return vo;
 	}
 

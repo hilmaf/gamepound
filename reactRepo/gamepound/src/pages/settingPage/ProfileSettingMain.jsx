@@ -199,7 +199,7 @@ const ProfileSettingMain = () => {
             "no" : profile.no,
             "pwd" : classCheckPwd.value
         };
-        fetch(process.env.REACT_APP_API_URL + "/settings/checkPwd",{
+        fetch(baseURL + "/settings/checkPwd",{
             method: 'post',
             headers:{
                 "Content-Type" : 'application/json'

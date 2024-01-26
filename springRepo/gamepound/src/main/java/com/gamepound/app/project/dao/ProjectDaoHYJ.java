@@ -75,14 +75,14 @@ public class ProjectDaoHYJ {
 		return sst.insert("ProjectMapper.DetailUpdateInsert", vo);
 	}
 
-	//프로젝트 상세 조회 - 커뮤니티 작성(댓글)
-	public int projectDetailCommunityReply(SqlSessionTemplate sst, ProjectCommunityVo vo) {
-		return sst.update("ProjectMapper.DetailCommunityReplyInsert", vo);
-	}
-
 	//프로젝트 상세 조회 - 커뮤니티 작성
 	public int projectDetailCommunity(SqlSessionTemplate sst, ProjectCommunityVo vo) {
 		return sst.insert("ProjectMapper.DetailCommunityInsert", vo);
+	}
+	
+	//프로젝트 상세 조회 - 커뮤니티 작성(댓글)
+	public int projectDetailCommunityReply(SqlSessionTemplate sst, ProjectCommunityVo vo) {
+		return sst.update("ProjectMapper.DetailCommunityReplyInsert", vo);
 	}
 
 	//프로젝트 후원자 수
