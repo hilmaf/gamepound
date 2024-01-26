@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import { useUserMemory } from '../../../component/context/UserContext';
 
 const StyledAllDiv = styled.div`
     width: 100%;
 `;
-const StyledReplyDiv = styled.div`
+const StyledInputCoummunityDiv = styled.div`
     margin-top: 50px;
     width: 100%;
-    padding: 5px 20px 5px 0px;
+    padding: 5px 20px 5px 10px;
     & > div{
         width: 88%;
         display: flex;
@@ -115,36 +116,159 @@ const StyledCommunityDiv = styled.div`
         }
     }
 `;
+const StyledReplyDiv = styled.div`
+width: 100%;
+padding: 5px 20px 5px 0px;
+& > div{
+    width: 90%;
+    display: flex;
+    align-items: center;
+    background-color: #f7f7f7;
+    padding: 15px 15px 15px 25px;
+    border-radius: 5px;
+    & > textarea{
+        resize: none;
+        width: calc(100% - 20px);
+        background-color: #f7f7f7;
+        &::placeholder{
+            color: #adadad;
+        }
+    }
+    & > button{
+        margin: 0px 10px 0px 15px;
+        width: 20px;
+        height: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f7f7f7;
+        
+        & > svg{
+            width: 100%;
+            height: 100%;
+            filter: invert(91%) sepia(7%) saturate(20%) hue-rotate(354deg) brightness(78%) contrast(83%);
+        }
+    }
+}
+`;
 
 
 const CommunityPage = () => {
 
+    //스프링 기본 경로
+    const baseURL = process.env.REACT_APP_API_URL;
+
+    //로그인한 회원
+    const {loginMemberVo} = useUserMemory();
+
     const {no} = useParams();
 
     const [detailCommunityVoList, setDetailCommunityVoList] = useState([]);
+    const [content, setContent] = useState({
+        "projectNo" : no,
+        "memberNo" : "",
+        "content" : ""
+    });
+    const [reply, setReply] = useState({
+        "reply" : "",
+        "no" : ""
+    })
+    const [set, setSet] = useState(0);
+    let contentArea = document.querySelector("#content");
 
+    //기본
     useEffect(()=>{
+        setSet(0)
         fetch("http://127.0.0.1:8889/gamepound/project/detail/community?no=" + no)
         .then((resp)=>{return resp.json()})
         .then((data)=>{
+            console.log("data ::: ",data);
             setDetailCommunityVoList(data);
         })
         .catch((e)=>{console.log("오류 : " + e);})
         ;
-    }, [no]);
+    }, [no, set]);
 
-    console.log(detailCommunityVoList);
+    //커뮤니티 작성
+    const handlePutContent = (e)=>{
+        if(loginMemberVo==null){
+            alert("로그인 후 이용가능합니다.")
+            e.target.value = "";
+        }else{
+            setContent({
+                ...content,
+                "memberNo" : loginMemberVo.no,
+                "content" : e.target.value
+            });
+        }
+    }
+    const handleSendContent = ()=>{
+        if(content.content == ""){
+            alert("내용을 입력하지 않았습니다.")
+        }else{
+            fetch(baseURL + "/project/detail/community",{
+                method: 'post',
+                headers:{
+                    "Content-Type" : 'application/json'
+                },
+                body: JSON.stringify(content),
+            })
+            .then(resp=>resp.json())
+            .then(data=>{
+                if(data.msg=="bad"){
+                    alert("작성 중 실패");
+                }
+                setSet(1);
+                contentArea.value = "";
+            })
+        }
+    }
+
+    //커뮤니티 댓글 작성
+    const handlePutReply = (e, vo)=>{
+        if(loginMemberVo==null){
+            alert("로그인 후 이용가능합니다.")
+            e.target.value = "";
+        }else{
+            setReply({
+                ...reply,
+                "reply" : e.target.value,
+                "no" : vo.no
+            });
+        }
+    }
+    const handleSendReply = ()=>{
+        if(reply.reply == ""){
+            alert("내용을 입력하지 않았습니다.")
+        }else{
+            fetch(baseURL + "/project/detail/community",{
+                method: 'post',
+                headers:{
+                    "Content-Type" : 'application/json'
+                },
+                body: JSON.stringify(reply),
+            })
+            .then(resp=>resp.json())
+            .then(data=>{
+                if(data.msg=="bad"){
+                    alert("작성 중 실패");
+                }
+                setSet(1);
+                contentArea.value = "";
+            })
+        }
+    }
 
     return (
         <StyledAllDiv>
-            <StyledReplyDiv>
+            <StyledInputCoummunityDiv>
                 <div>
-                    <textarea name="content" id="content" placeholder='글을 쓸 수 있어요.'/>
-                    <button id='buttonArea'>
+                    <textarea name="content" id="content" placeholder='글을 쓸 수 있어요.' onChange={(e)=>{handlePutContent(e)}}/>
+                    <button id='buttonArea' onClick={handleSendContent}>
                         <svg xmlns="http://www.w3.org/2000/svg" id="Filled" viewBox="0 0 24 24" width="512" height="512"><path d="M1.172,19.119A4,4,0,0,0,0,21.947V24H2.053a4,4,0,0,0,2.828-1.172L18.224,9.485,14.515,5.776Z"/><path d="M23.145.855a2.622,2.622,0,0,0-3.71,0L15.929,4.362l3.709,3.709,3.507-3.506A2.622,2.622,0,0,0,23.145.855Z"/></svg>
                     </button>
                 </div>
-            </StyledReplyDiv>
+            </StyledInputCoummunityDiv>
             <StyledCommunityDiv>
                 {
                     detailCommunityVoList.length == 0
@@ -176,6 +300,24 @@ const CommunityPage = () => {
                                     </div>
                                     <div>{vo.content}</div>
                                 </li>
+                                {
+                                vo.reply == null
+                                ?
+                                vo.replyerNo != loginMemberVo.no
+                                ?
+                                <li></li>
+                                :
+                                <li>
+                                    <StyledReplyDiv>
+                                        <div>
+                                            <textarea name="content" id="content" placeholder='댓글을 쓸 수 있어요.' onChange={(e)=>{handlePutReply(e, vo)}}/>
+                                            <button id='buttonArea' onClick={handleSendReply}>
+                                                <svg xmlns="http://www.w3.org/2000/svg" id="Filled" viewBox="0 0 24 24" width="512" height="512"><path d="M1.172,19.119A4,4,0,0,0,0,21.947V24H2.053a4,4,0,0,0,2.828-1.172L18.224,9.485,14.515,5.776Z"/><path d="M23.145.855a2.622,2.622,0,0,0-3.71,0L15.929,4.362l3.709,3.709,3.507-3.506A2.622,2.622,0,0,0,23.145.855Z"/></svg>
+                                            </button>
+                                        </div>
+                                    </StyledReplyDiv>
+                                </li>
+                                :
                                 <li>
                                     <div>
                                         <div>{vo.replyerName}<span>창작자</span></div>
@@ -183,6 +325,7 @@ const CommunityPage = () => {
                                     </div>
                                     <div>{vo.reply}</div>
                                 </li>
+                                }
                             </ul>
                         </div>
                         );

@@ -460,6 +460,7 @@
 	JOIN MEMBER M1 ON C.MEMBER_NO = M1.NO
 	JOIN MEMBER M2 ON P.MEMBER_NO = M2.NO
 	WHERE C.PROJECT_NO = #{no}
+	ORDER BY C.NO DESC
   </select>
   
 	<!-- 프로젝트 상세 업데이트 작성 -->
@@ -481,7 +482,7 @@
 		    SET
 		        REPLY = #{reply}
 		        , REPLY_ENROLL_DATE = SYSDATE
-		WHERE NO = #{no};
+		WHERE NO = #{no}
 	</update>  
 
 	<!-- 프로젝트 상세 커뮤니티 작성 -->
