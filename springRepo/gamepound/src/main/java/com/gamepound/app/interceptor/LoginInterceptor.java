@@ -12,8 +12,17 @@ public class LoginInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
+		
 		HttpSession session = request.getSession(false); // 세션이 없으면 null 반환
-	    return session != null && session.getAttribute("loginMember") != null;
+		
+		if(session!=null && session.getAttribute("loginMember") != null) {			
+			return true;
+		}
+		
+		response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+		response.getWriter().write("{\"error\":\"Unauthorized\"}");
+		
+	    return false;
 	}
 
 	@Override

@@ -121,6 +121,12 @@ const ProjectMain = () => {
         fetch(`${baseURL}/admin/project?currentPage=${activePage}`)
         .then(resp => resp.json())
         .then(data => {
+
+            if(data.error === 'Unauthorized') {
+                alert('로그인 필요');
+                navigate('/admin/');    
+            }
+
             setPageVo({
                 ...pageVo,
                 listCount: parseInt(data?.cnt)
@@ -128,7 +134,7 @@ const ProjectMain = () => {
 
             setRowData(data?.projectList);
         })
-        .catch(()=> {
+        .catch( () => {
             alert('데이터를 가져오는 데 실패했습니다.');
         })
         .finally(
