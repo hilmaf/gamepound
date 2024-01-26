@@ -90,7 +90,6 @@ public class AdminProjectServiceLKM {
 		PageVo pvo = new PageVo(listCount, currentPage, pageLimit, boardLimit);
 		
 		List<ProjectVo> projectList = dao.search(sst, vo, pvo);
-		System.out.println(projectList);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("cnt", cnt);
 		map.put("projectList", projectList);

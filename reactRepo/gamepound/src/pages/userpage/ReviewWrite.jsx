@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 const StyledReviewWriteDiv = styled.div`
     width: 1200px;
-    height: 400px;
+    height: 450px;
     margin: auto;
     margin-top: 30px;
     padding: 30px;
@@ -216,8 +216,8 @@ const ReviewWrite = ({item}) => {
         .then(data => {
             console.log(data);
             alert("리뷰 작성이 완료되었습니다.");
-            navigate("/userpage/backed");
-        })
+            window.location.reload();
+        });
     }
 
     return (

@@ -159,6 +159,15 @@ const ProjectMain = () => {
             ...conditionVo,
             mainCategory: e.target.value
         })
+    };
+
+    // 초기화 버튼
+    const resetBtnClick = () => {
+        setConditionVo({
+            activePage: 1
+        });
+
+        window.location.reload();
     }
 
     // conditionVo 세팅
@@ -210,7 +219,7 @@ const ProjectMain = () => {
                             <option value='all'>전체</option>
                             {
                                 categoryList?.map(category=>{
-                                    return <option value={category?.mainCategory}>
+                                    return <option key={category?.mainCategory} value={category?.mainCategory}>
                                         {category?.mainCategory}
                                     </option>
                                 })
@@ -224,7 +233,7 @@ const ProjectMain = () => {
                                 selectedCategory == '비디오게임'
                                 ?
                                 categoryList[0]?.subCategoryList.map(subCategory => {
-                                    return <option value={subCategory?.subCategory}>
+                                    return <option key={subCategory?.subCategory} value={subCategory?.subCategory}>
                                         {subCategory?.subCategory}
                                     </option>
                                 })
@@ -232,7 +241,7 @@ const ProjectMain = () => {
                                 (selectedCategory == '모바일게임'
                                 ?
                                 categoryList[1]?.subCategoryList.map(subCategory => {
-                                    return <option value={subCategory?.subCategory}>
+                                    return <option key={subCategory?.subCategory} value={subCategory?.subCategory}>
                                         {subCategory?.subCategory}
                                     </option>
                                 })
@@ -262,7 +271,7 @@ const ProjectMain = () => {
                     </InputGroup>
 
                     <div className="btnArea">
-                        <Button variant="secondary">초기화</Button>
+                        <Button variant="secondary" onClick={resetBtnClick}>초기화</Button>
                         <Button variant="primary" onClick={handleSearchBtn}>검색</Button>
                     </div>
                 </Form>

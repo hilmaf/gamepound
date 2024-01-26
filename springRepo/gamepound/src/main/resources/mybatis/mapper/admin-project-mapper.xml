@@ -78,14 +78,14 @@
 	JOIN PROJECT_STATUS PS ON PS.NO = P.STATUS_NO
 	JOIN MEMBER M ON P.MEMBER_NO = M.NO
 	<trim prefix="WHERE" prefixOverrides="AND">
-		<if test="(status != null || status != '') and (status!=null and !status.equals('all'))">
-			AND PS.STATUS = #{status}
-		</if>
-		<if test="(mainCategory != null || mainCategory != '') and (status!=null and !mainCategory.equals('all'))">
+		<if test='(mainCategory != null || mainCategory != "") and (mainCategory!=null and !mainCategory.equals("all"))'>
 			AND C.MAIN_CATEGORY = #{mainCategory}
 		</if>
-		<if test="(subCategory != null || subCategory != '') and (subCategory!=null and !subCategory.equals('all'))">
+		<if test='(subCategory != null || subCategory != "") and (subCategory!=null and !subCategory.equals("all"))'>
 			AND C.SUB_CATEGORY = #{subCategory}
+		</if>
+		<if test='(status != null || status != "") and (status!=null and !status.equals("all"))'>
+			AND PS.STATUS = #{status}
 		</if>
 		<if test="creator != null and creator != ''">
 			AND M.NAME = #{creator}
@@ -105,19 +105,19 @@
 	JOIN PROJECT_STATUS PS ON PS.NO = P.STATUS_NO
 	JOIN MEMBER M ON P.MEMBER_NO = M.NO
 	<trim prefix="WHERE" prefixOverrides="AND">
-		<if test="mainCategory != null || mainCategory != '' and mainCategory != 'all'">
+		<if test='(mainCategory != null || mainCategory != "") and (mainCategory != null and !mainCategory.equals("all"))'>
 			AND C.MAIN_CATEGORY = #{mainCategory}
 		</if>
-		<if test="subCategory != null || subCategory != '' and subCategory != 'all'">
+		<if test='(subCategory != null || subCategory != "") and (subCategory!=null and !subCategory.equals("all"))'>
 			AND C.SUB_CATEGORY = #{subCategory}
 		</if>
-		<if test="status != null || status != '' || status != 'all'">
+		<if test='(status != null || status != "") and (status!=null and !status.equals("all"))'>
 			AND PS.STATUS = #{status}
 		</if>
-		<if test="creator != null || creator != ''">
+		<if test="creator != null and creator != ''">
 			AND M.NAME = #{creator}
 		</if>
-		<if test="projectTitle != null || projectTitle != ''">
+		<if test="projectTitle != null and projectTitle != ''">
 			AND P.TITLE LIKE '%' || #{projectTitle} || '%'			
 		</if>
 	</trim>	
