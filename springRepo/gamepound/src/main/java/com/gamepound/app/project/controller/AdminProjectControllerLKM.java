@@ -31,16 +31,10 @@ public class AdminProjectControllerLKM {
 		return listMap;
 	}
 
-	// 카테고리 목록 가져오기
-	
-	
 	// 프로젝트 상세 조회
 	@GetMapping("detail")
 	public ProjectDetailVo detail(@RequestParam("no") String projectNo) {
-		System.out.println(projectNo);
 		ProjectDetailVo detailVo = service.detail(projectNo);
-		System.out.println(detailVo);
-		
 		return detailVo;
 	}
 	
@@ -68,6 +62,7 @@ public class AdminProjectControllerLKM {
 	// 프로젝트 검색
 	@PostMapping("search")
 	public Map<String, Object> search(@RequestBody ProjectSearchVo vo) {
+		System.out.println(vo);
 		Map<String, Object> searchedMap = service.search(vo);
 	
 		return searchedMap;

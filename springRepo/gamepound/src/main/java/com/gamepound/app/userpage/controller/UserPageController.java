@@ -31,7 +31,6 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("userpage")
-@CrossOrigin("*")
 public class UserPageController {
 	
 	private final UserPageService service;
@@ -109,8 +108,6 @@ public class UserPageController {
 		
 		vo.setReviewImg(fileName);
 		
-		System.out.println(fileName);
-		
 		// service
 		int result = service.write(vo);
 		
@@ -127,9 +124,7 @@ public class UserPageController {
 	// 내 리뷰 조회
 	@GetMapping("backed/review")
 	public ReviewVo viewMyReview(@RequestParam String reviewNo) {
-		System.out.println(reviewNo);
 		ReviewVo reviewVo = service.viewMyReview(reviewNo);
-		System.out.println(reviewVo);
 		return reviewVo;
 	}
 	
@@ -140,9 +135,7 @@ public class UserPageController {
 		Map<String, Object> map = new HashMap<>();
 		map.put("user", memberNo);
 		map.put("yn", matchYn);
-		System.out.println(map);
 		Map<String, Object> listMap = service.listMyProjects(map);
-		System.out.println(listMap);
 		return listMap;
 	}
 	
