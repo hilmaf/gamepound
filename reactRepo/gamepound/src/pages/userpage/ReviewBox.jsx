@@ -130,14 +130,20 @@ const ReviewBox = ({item}) => {
             </div>
             <div className='rating'>
                 <span>만족도</span>
-                <span>{item.rating}</span>
+                <span>{item.rating}.0</span>
             </div>
             <div className='content' key={item.reviewNo}>
                 <span>후기</span>
                 <span>{item.reviewContent}</span>
             </div>
             <div className='reviewImg'>
-                <img id='img' src={item.reviewImg} onClick={handleImgClick} alt='리뷰이미지'></img>
+                {
+                    item.reviewImg
+                    ?
+                    <img id='img' src={item.reviewImg} onClick={handleImgClick} alt='리뷰이미지'></img>
+                    :
+                    <></>
+                }
             </div>
             <div className='project'>
                 <img src={item.projectImg} alt='프로젝트이미지'></img>
