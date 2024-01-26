@@ -31,7 +31,7 @@ public class UserPageService {
 	
 	private String url = "http://127.0.0.1:8889/gamepound/resources/images/projectImg/";
 	private String url2 = "http://127.0.0.1:8889/gamepound/resources/images/memberProfileImg/";
-	private String url3 = "http://127.0.0.1:8889/gamepound/resources/images/reviewImg/";
+	private String reviewUrl = "http://127.0.0.1:8889/gamepound/resources/images/reviewImg/";
 	
 	// 유저페이지 - 프로필 소개
 	public String userIntro (String memberNo) {
@@ -75,7 +75,7 @@ public class UserPageService {
 				vo.setRating(util.castToDouble(vo.getRating()));
 				vo.setProjectImg(url + vo.getProjectImg());
 				vo.setProfileImg(url2 + vo.getProfileImg());
-				vo.setReviewImg(url3 + vo.getReviewImg());
+				vo.setReviewImg(reviewUrl + vo.getReviewImg());
 			}			
 		}
 		
@@ -90,8 +90,6 @@ public class UserPageService {
 
 	// 리뷰 작성
 	public int write(ReviewVo vo) {	
-		// TODO: review 파일명 변경
-		
 		return dao.write(sst, vo);
 	}
 	
@@ -163,8 +161,12 @@ public class UserPageService {
 		return fileName;
 	}
 
+	// 유저페이지 - 내가 남긴 후기 보기
 	public ReviewVo viewMyReview(String reviewNo) {
 		ReviewVo reviewVo = dao.viewMyReview(sst, reviewNo);
+		
+		reviewVo.setProfileImg(url2 + reviewVo.getProfileImg());
+		reviewVo.setReviewImg(reviewUrl + reviewVo.getReviewImg());
 		reviewVo.setProjectImg(url + reviewVo.getProjectImg());
 		
 		return reviewVo;

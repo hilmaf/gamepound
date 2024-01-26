@@ -33,6 +33,10 @@ const BackCanceled = () => {
 
     const {no} = useParams();
 
+    // useEffect(()=>{
+    //     fetch("http://127.0.0.1:8889/gamepound/")
+    // }, [])
+
     return (
         <StyledBackCanceledDiv>
             <div>후원이 취소되었습니다.</div>
