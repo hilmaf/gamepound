@@ -88,6 +88,11 @@ const PrelaunchStyledProjectDetailNaviDiv = styled.div`
 
         }
     }
+    .cnt{
+        margin-left: 5px;
+        font-size: 12px;
+        vertical-align: top;
+    }
 `;
 const PrelaunchStyledProjectSelectDiv = styled.div`
     width: 100%;
@@ -137,13 +142,15 @@ const PrelaunchDetailMain = () => {
     const {temp, no} = useParams();
 
     const [detailPrelaunchVo, setDetailPrelaunchVo] = useState([]);
+    const [detailCntVo, setDetailCntVo] = useState([]);
 
 
     useEffect(()=>{
         fetch("http://127.0.0.1:8889/gamepound/project/detail/prelaunch?no="+no)
         .then((resp)=>{return resp.json()})
         .then((data)=>{
-            setDetailPrelaunchVo(data);
+            setDetailPrelaunchVo(data.detailVo);
+            setDetailCntVo(data.detailCntVo);
         })
         .catch((e)=>{console.log("오류 : " + e);})
         ;
@@ -188,7 +195,7 @@ const PrelaunchDetailMain = () => {
                 <div className="inner">
                     <div>
                         <span><NavLink to={`/project/detail/prelaunch/story/${no}`}>프로젝트 계획</NavLink></span>
-                        <span><NavLink to={`/project/detail/prelaunch/update/${no}`}>업데이트</NavLink></span>
+                        <span><NavLink to={`/project/detail/prelaunch/update/${no}`}>업데이트<span className='cnt'>{detailCntVo.updateCnt === "0"?null:detailCntVo.updateCnt}</span></NavLink></span>
                     </div>
                 </div>
             </PrelaunchStyledProjectDetailNaviDiv>

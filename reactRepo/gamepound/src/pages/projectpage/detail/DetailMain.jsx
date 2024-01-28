@@ -143,6 +143,11 @@ const StyledProjectDetailNaviDiv = styled.div`
 
         }
     }
+    .cnt{
+        margin-left: 5px;
+        font-size: 12px;
+        vertical-align: top;
+    }
 `;
 const StyledProjectSelectDiv = styled.div`
     width: 100%;
@@ -231,25 +236,24 @@ const DetailMain = () => {
 
     //회원번호
     const {loginMemberVo} = useUserMemory();
-    console.log(loginMemberVo);
 
     const {temp, no} = useParams();
     const [detailVo, setDetailVo] = useState([]);
     const [rewardVoList, setRewardVoList] = useState([]);
     const [selectReward, setSelectReward] = useState();
-    
+    const [detailCntVo, setDetailCntVo] = useState([]);
     
 
     useEffect(()=>{
         fetch("http://127.0.0.1:8889/gamepound/project/detail?no=" + no)
         .then((resp)=>{return resp.json()})
         .then((data)=>{
-            setDetailVo(data);
-            console.log(data);
-            setRewardVoList(data.rewardVoList)
+            setDetailCntVo(data.detailCntVo);
+            setDetailVo(data.detailVo);
+            setRewardVoList(data.detilVo.rewardVoList)
         })
-        .catch((e)=>{console.log("오류 : " + e);})
-        ;
+        .catch((e)=>{console.log("오류1 : " + e);})
+
     }, [no]);
 
     //선택한 선물 색변경
@@ -266,7 +270,6 @@ const DetailMain = () => {
         return '/back/process/' + no + '/' + selectReward;
     }
 
-    console.log(selectReward);
     return (
         <StyledAllDiv>
             <StyledProjectDetailDiv>
@@ -326,8 +329,8 @@ const DetailMain = () => {
                 <div className="inner">
                     <div>
                         <span><NavLink to={`/project/detail/story/${no}`}>프로젝트 계획</NavLink></span>
-                        <span><NavLink to={`/project/detail/update/${no}`}>업데이트</NavLink></span>
-                        <span><NavLink to={`/project/detail/community/${no}`}>커뮤니티</NavLink></span>
+                        <span><NavLink to={`/project/detail/update/${no}`}>업데이트<span className='cnt'>{detailCntVo.updateCnt==="0"?null:detailCntVo.updateCnt}</span></NavLink></span>
+                        <span><NavLink to={`/project/detail/community/${no}`}>커뮤니티<span className='cnt'>{detailCntVo.communityCnt==="0"?null:detailCntVo.communityCnt}</span></NavLink></span>
                     </div>
                 </div>
             </StyledProjectDetailNaviDiv>

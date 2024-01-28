@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gamepound.app.project.service.ProjectServiceHYJ;
 import com.gamepound.app.project.vo.ProjectCommunityVo;
+import com.gamepound.app.project.vo.ProjectDetailCntVo;
 import com.gamepound.app.project.vo.ProjectDetailVo;
 import com.gamepound.app.project.vo.ProjectStoryVo;
 import com.gamepound.app.project.vo.ProjectUpdateVo;
@@ -30,9 +31,10 @@ public class ProjectDetailControllerHYJ {
 	
 	//프로젝트 상세 조회 - 타이틀
 	@GetMapping
-	public ProjectDetailVo projectDetail(String no) {
-		ProjectDetailVo detailVo = service.projectDetail(no);
-		return detailVo;
+	public Map<String, Object> projectDetail(String no) {
+		Map<String, Object>map = service.projectDetail(no);
+
+		return map;
 	}
 	
 	//프로젝트 상세 조회 - 프로젝트 계획
@@ -59,9 +61,9 @@ public class ProjectDetailControllerHYJ {
 	
 	//공개예정 프로젝트 상세 조회 - 타이틀
 	@GetMapping("prelaunch")
-	public ProjectDetailVo projectDetailPrelaunch(String no) {
-		ProjectDetailVo detailPrelaunchVo = service.projectDetail(no);
-		return detailPrelaunchVo;
+	public Map<String, Object> projectDetailPrelaunch(String no) {
+		Map<String, Object> map = service.projectDetail(no);
+		return map;
 	}
 	
 	//공개예정 프로젝트 상세 조회 - 프로젝트 계획

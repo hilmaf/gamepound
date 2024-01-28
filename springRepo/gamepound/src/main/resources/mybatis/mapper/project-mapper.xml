@@ -411,6 +411,33 @@
 	WHERE PROJECT_NO = #{no}
   </select>
   
+    <!-- 프로젝트 상세 창작자 번호 -->
+  <select id="CreatorNo" resultType="com.gamepound.app.project.vo.ProjectDetailCntVo">
+	SELECT
+	    M.NO	AS CREATOR_NO
+	FROM PROJECT P
+	JOIN MEMBER M ON M.NO = P.MEMBER_NO
+	WHERE P.NO=#{no}
+  </select>
+  
+  <!-- 프로젝트 상세 업데이트 수 -->
+  <select id="UpdateCnt" resultType="string">
+	SELECT 
+	    COUNT(P.NO)
+	FROM PROJECT P
+	JOIN PROJECT_UPDATE PU ON P.NO = PU.PROJECT_NO
+	WHERE P.NO = #{no}
+  </select>
+
+  <!-- 프로젝트 상세 커뮤니티 수 -->
+  <select id="CommunityCnt" resultType="string">
+  	SELECT 
+	    COUNT(P.NO)
+	FROM PROJECT P
+	JOIN COMMUNITY C ON P.NO = C.PROJECT_NO
+	WHERE P.NO = #{no}
+  </select>
+  
   <!-- 프로젝트 상세 계획 -->
   <select id="DetailStory" resultType="com.gamepound.app.project.vo.ProjectStoryVo">
 	SELECT 

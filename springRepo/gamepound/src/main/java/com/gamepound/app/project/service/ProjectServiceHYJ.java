@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.gamepound.app.project.dao.ProjectDaoHYJ;
 import com.gamepound.app.project.vo.ProjectCommunityVo;
+import com.gamepound.app.project.vo.ProjectDetailCntVo;
 import com.gamepound.app.project.vo.ProjectDetailVo;
 import com.gamepound.app.project.vo.ProjectListVo;
 import com.gamepound.app.project.vo.ProjectStoryVo;
@@ -117,7 +118,7 @@ public class ProjectServiceHYJ {
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 	//프로젝트 상세 조회 - 타이틀
-	public ProjectDetailVo projectDetail(String no) {
+	public Map<String, Object> projectDetail(String no) {
 		ProjectDetailVo vo = dao.projectDetail(sst, no);
 		
 		//후원자 수 추가
@@ -138,10 +139,14 @@ public class ProjectServiceHYJ {
 		vo.setImageUrl(localAddr + projectPath + vo.getImageUrl());
 		vo.setMemberPic(localAddr + creatorPath + vo.getMemberPic());
 		
-		//커뮤니티, 업데이트 게시글 갯수
-		//TODO-HYJ 해야함
+		//프로젝트 업데이트 수 + 커뮤니티 수 + 창작자 번호
+		ProjectDetailCntVo detailCntVo = dao.projectCnt(sst, no);
 		
-		return vo;
+		Map<String, Object>map = new HashMap<String, Object>();
+		map.put("detailVo", vo);
+		map.put("detailCntVo", detailCntVo);
+		
+		return map;
 	}
 
 	//프로젝트 상세 조회 - 프로젝트 계획
@@ -195,6 +200,8 @@ public class ProjectServiceHYJ {
 		}
 		return result;
 	}
+
+
 	////////////////////////////////////////////////////////////////////////////////////////////////
 	
 
