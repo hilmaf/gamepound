@@ -53,10 +53,9 @@ public class ProjectDetailControllerHYJ {
 	
 	//프로젝트 상세 조회 - 커뮤니티
 	@GetMapping("community")
-	public List<ProjectCommunityVo> projectDetailCommunity(String no) {
-		List<ProjectCommunityVo>voList = service.projectDetailCommunity(no);
-		log.info("커뮤니티 리스트 ::: {}", voList);
-		return voList;
+	public Map<String, Object> projectDetailCommunity(String no) {
+		Map<String, Object>map = service.projectDetailCommunity(no);
+		return map;
 	}
 	
 	//공개예정 프로젝트 상세 조회 - 타이틀

@@ -82,7 +82,7 @@ const PrelaunchUpdatePage = () => {
         <StyledAllDiv>
             <StyledUpdateDiv>
                 {
-                    detailPrelaunchUpdateVoList.length == 0
+                    detailPrelaunchUpdateVoList.length === 0
                     ?
                     <div className='communityNull'>
                         <div>

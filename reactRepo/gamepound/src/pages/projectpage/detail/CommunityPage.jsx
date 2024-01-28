@@ -98,7 +98,7 @@ const StyledCommunityDiv = styled.div`
             }
             & > li:last-child{
                 padding: 15px;
-                margin-left: 25px;
+                /* margin-left: 25px; */
                 & > div:first-child{
                     margin-bottom: 15px;
                     & > div:first-child{
@@ -117,39 +117,39 @@ const StyledCommunityDiv = styled.div`
     }
 `;
 const StyledReplyDiv = styled.div`
-width: 100%;
-padding: 5px 20px 5px 0px;
-& > div{
-    width: 90%;
-    display: flex;
-    align-items: center;
-    background-color: #f7f7f7;
-    padding: 15px 15px 15px 25px;
-    border-radius: 5px;
-    & > textarea{
-        resize: none;
-        width: calc(100% - 20px);
-        background-color: #f7f7f7;
-        &::placeholder{
-            color: #adadad;
-        }
-    }
-    & > button{
-        margin: 0px 10px 0px 15px;
-        width: 20px;
-        height: 20px;
+    width: 100%;
+    padding: 5px 20px 5px 0px;
+    & > div{
+        width: 90%;
         display: flex;
         align-items: center;
-        justify-content: center;
         background-color: #f7f7f7;
-        
-        & > svg{
-            width: 100%;
-            height: 100%;
-            filter: invert(91%) sepia(7%) saturate(20%) hue-rotate(354deg) brightness(78%) contrast(83%);
+        padding: 15px 15px 15px 25px;
+        border-radius: 5px;
+        & > textarea{
+            resize: none;
+            width: calc(100% - 20px);
+            background-color: #f7f7f7;
+            &::placeholder{
+                color: #adadad;
+            }
+        }
+        & > button{
+            margin: 0px 10px 0px 15px;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f7f7f7;
+            
+            & > svg{
+                width: 100%;
+                height: 100%;
+                filter: invert(91%) sepia(7%) saturate(20%) hue-rotate(354deg) brightness(78%) contrast(83%);
+            }
         }
     }
-}
 `;
 
 
@@ -174,6 +174,7 @@ const CommunityPage = () => {
         "no" : ""
     })
     const [set, setSet] = useState(0);
+    const [detailCntVo, setDetailCntVo] = useState([]);
     let contentArea = document.querySelector("#content");
 
     //기본
@@ -182,8 +183,9 @@ const CommunityPage = () => {
         fetch("http://127.0.0.1:8889/gamepound/project/detail/community?no=" + no)
         .then((resp)=>{return resp.json()})
         .then((data)=>{
-            console.log("data ::: ",data);
-            setDetailCommunityVoList(data);
+            setDetailCommunityVoList(data.voList);
+            setDetailCntVo(data.detailCntVo);
+            console.log(data.detailCntVo);
         })
         .catch((e)=>{console.log("오류 : " + e);})
         ;
@@ -194,6 +196,9 @@ const CommunityPage = () => {
         if(loginMemberVo==null){
             alert("로그인 후 이용가능합니다.")
             e.target.value = "";
+        }else if(loginMemberVo.no === detailCntVo.creatorNo){
+            alert("창작자는 이용할 수 없습니다.")
+            e.target.value = "";
         }else{
             setContent({
                 ...content,
@@ -203,7 +208,7 @@ const CommunityPage = () => {
         }
     }
     const handleSendContent = ()=>{
-        if(content.content == ""){
+        if(content.content === ""){
             alert("내용을 입력하지 않았습니다.")
         }else{
             fetch(baseURL + "/project/detail/community",{
@@ -215,7 +220,7 @@ const CommunityPage = () => {
             })
             .then(resp=>resp.json())
             .then(data=>{
-                if(data.msg=="bad"){
+                if(data.msg === "bad"){
                     alert("작성 중 실패");
                 }
                 setSet(1);
@@ -226,7 +231,7 @@ const CommunityPage = () => {
 
     //커뮤니티 댓글 작성
     const handlePutReply = (e, vo)=>{
-        if(loginMemberVo==null){
+        if(loginMemberVo == null){
             alert("로그인 후 이용가능합니다.")
             e.target.value = "";
         }else{
@@ -238,7 +243,7 @@ const CommunityPage = () => {
         }
     }
     const handleSendReply = ()=>{
-        if(reply.reply == ""){
+        if(reply.reply === ""){
             alert("내용을 입력하지 않았습니다.")
         }else{
             fetch(baseURL + "/project/detail/community",{
@@ -250,7 +255,7 @@ const CommunityPage = () => {
             })
             .then(resp=>resp.json())
             .then(data=>{
-                if(data.msg=="bad"){
+                if(data.msg === "bad"){
                     alert("작성 중 실패");
                 }
                 setSet(1);
@@ -271,7 +276,7 @@ const CommunityPage = () => {
             </StyledInputCoummunityDiv>
             <StyledCommunityDiv>
                 {
-                    detailCommunityVoList.length == 0
+                    detailCommunityVoList.length === 0
                     ?
                     <div className='communityNull'>
                         <div>
@@ -303,20 +308,24 @@ const CommunityPage = () => {
                                 {
                                 vo.reply == null
                                 ?
-                                vo.replyerNo != loginMemberVo.no
-                                ?
-                                <li></li>
-                                :
-                                <li>
-                                    <StyledReplyDiv>
-                                        <div>
-                                            <textarea name="content" id="content" placeholder='댓글을 쓸 수 있어요.' onChange={(e)=>{handlePutReply(e, vo)}}/>
-                                            <button id='buttonArea' onClick={handleSendReply}>
-                                                <svg xmlns="http://www.w3.org/2000/svg" id="Filled" viewBox="0 0 24 24" width="512" height="512"><path d="M1.172,19.119A4,4,0,0,0,0,21.947V24H2.053a4,4,0,0,0,2.828-1.172L18.224,9.485,14.515,5.776Z"/><path d="M23.145.855a2.622,2.622,0,0,0-3.71,0L15.929,4.362l3.709,3.709,3.507-3.506A2.622,2.622,0,0,0,23.145.855Z"/></svg>
-                                            </button>
-                                        </div>
-                                    </StyledReplyDiv>
-                                </li>
+                                !loginMemberVo
+                                    ?
+                                    null
+                                    :
+                                    detailCntVo.creatorNo !== loginMemberVo.no
+                                    ?
+                                    <li></li>
+                                    :
+                                    <li>
+                                        <StyledReplyDiv>
+                                            <div>
+                                                <textarea name="content" id="content" placeholder='댓글을 쓸 수 있어요.' onChange={(e)=>{handlePutReply(e, vo)}}/>
+                                                <button id='buttonArea' onClick={handleSendReply}>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" id="Filled" viewBox="0 0 24 24" width="512" height="512"><path d="M1.172,19.119A4,4,0,0,0,0,21.947V24H2.053a4,4,0,0,0,2.828-1.172L18.224,9.485,14.515,5.776Z"/><path d="M23.145.855a2.622,2.622,0,0,0-3.71,0L15.929,4.362l3.709,3.709,3.507-3.506A2.622,2.622,0,0,0,23.145.855Z"/></svg>
+                                                </button>
+                                            </div>
+                                        </StyledReplyDiv>
+                                    </li>
                                 :
                                 <li>
                                     <div>

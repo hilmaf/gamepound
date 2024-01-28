@@ -83,7 +83,7 @@ const UpdatePage = () => {
         <StyledAllDiv>
             <StyledUpdateDiv>
                 {
-                    detailUpdateVoList.length == 0
+                    detailUpdateVoList.length === 0
                     ?
                     <div className='communityNull'>
                         <div>

@@ -254,7 +254,7 @@ const DetailMain = () => {
         })
         .catch((e)=>{console.log("오류1 : " + e);})
 
-    }, [no]);
+    }, [no, temp]);
 
     //선택한 선물 색변경
     const handleRewardClick = (rewardNo, e)=>{

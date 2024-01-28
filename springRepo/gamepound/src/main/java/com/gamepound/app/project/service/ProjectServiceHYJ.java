@@ -169,7 +169,7 @@ public class ProjectServiceHYJ {
 	}
 
 	//프로젝트 상세 조회 - 커뮤니티
-	public List<ProjectCommunityVo> projectDetailCommunity(String no) {
+	public Map<String, Object> projectDetailCommunity(String no) {
 		
 		String localAddr = "http://127.0.0.1:8889/gamepound";
 		String path = "/resources/images/memberProfileImg/";
@@ -180,7 +180,15 @@ public class ProjectServiceHYJ {
 			vo.setReplyerPic(localAddr + path + vo.getReplyerPic());
 		}
 		
-		return voList;
+		//프로젝트 업데이트 수 + 커뮤니티 수 + 창작자 번호
+		ProjectDetailCntVo detailCntVo = dao.projectCnt(sst, no);
+		
+		Map<String, Object>map = new HashMap<String, Object>();
+		map.put("voList", voList);
+		map.put("detailCntVo", detailCntVo);
+		
+		
+		return map;
 	}
 	
 	///////////////////////////////////////////////////////////////////////
