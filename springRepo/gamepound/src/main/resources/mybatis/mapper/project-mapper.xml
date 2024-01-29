@@ -58,19 +58,20 @@
 		        JOIN MEMBER M ON P.MEMBER_NO = M.NO
 		        JOIN CATEGORY C ON P.CATEGORY_NO = C.NO
 		        JOIN PROJECT_STATUS PS ON P.STATUS_NO = PS.NO
-	        <if test=" statusNo == null or statusNo == ''" >
-		        WHERE 
-		        P.STATUS_NO = 3 
-		        OR P.STATUS_NO = 5 
-		        OR P.STATUS_NO = 6 
-		        OR P.STATUS_NO = 7
-	        </if>
-	        <if test=" statusNo != null and statusNo != '' " >
-	        	WHERE P.STATUS_NO = #{statusNo}
-	        </if>
+		    <where>
+		        <if test=" statusNo != null and statusNo != '' " >
+		        	P.STATUS_NO = #{statusNo}
+		        </if>
+		        <if test=" statusNo == null or statusNo == ''" >
+			        P.STATUS_NO = 3 
+			        OR P.STATUS_NO = 5 
+			        OR P.STATUS_NO = 6 
+			        OR P.STATUS_NO = 7
+		        </if>
+	        </where>
 		    )
+		    <where>
 		    <if test="(achievementRateStart != null and achievementRateStart != '') or (achievementRateEnd != null and achievementRateEnd != '')">
-				WHERE 
 				<trim prefixOverrides="AND">
 					<if test="achievementRateStart != null and achievementRateStart != ''">
 						<![CDATA[CURRENT_AMOUNT*100/GOAL_AMOUNT >= #{achievementRateStart}]]>
@@ -80,6 +81,7 @@
 					</if>
 				</trim>
 		    </if>
+		    </where>
 		    ORDER BY DECODE(STATUS_NO, 5, 1), STATUS_NO
   </select>
   

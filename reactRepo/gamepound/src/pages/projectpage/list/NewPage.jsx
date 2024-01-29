@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import ProjectListBoxInfo from '../../../component/project/ProjectListBoxInfo';
-import Condition from '../../../component/search/Condition';
 
 const StyledAllDiv = styled.div`
     width: 100%;
@@ -26,14 +25,32 @@ const StyledAllDiv = styled.div`
     }
 `;
 
+const StyledSearchConditionDiv = styled.div`
+    width: 1200px;
+    height: 80px;
+    display: flex;
+    align-items: center;
+
+    
+    & > .achieveRate {
+        border: 1px solid #112155;
+        border-radius: 5px;
+        padding: 5px 10px;
+        margin-right: 10px;
+    }
+`;
+
 const NewPage = () => {
 
     const [newVoList, setNewVoList] = useState([]);
 
     const [projectPcs, setProjectPcs] = useState([]);
+    const [sendVo, setSendVo] = useState({
+        "achievementRate" : "",
+    });
 
     useEffect(()=>{
-        fetch("http://127.0.0.1:8889/gamepound/project/list/new")
+        fetch("http://127.0.0.1:8889/gamepound/project/list/new?statusNo=" + sendVo.statusNo + "&achievementRate=" + sendVo.achievementRate)
         .then((resp)=>{return resp.json()})
         .then((data)=>{
             setNewVoList(data.voList);
@@ -41,14 +58,29 @@ const NewPage = () => {
         })
         .catch((e)=>{console.log("오류 : " + e);})
         ;
-    }, []);
+    }, [sendVo]);
+
+    const handleSelectChange = (e) => {
+        const {name, value} = e.target;
+        setSendVo({
+            ...sendVo,
+            [name] : value
+        })
+    }
 
     return (
         <StyledAllDiv>
             <div className='inner'>
                 <div>
                     <div>
-                        <Condition />
+                        <StyledSearchConditionDiv>
+                            <select name='achievementRate' defaultValue='' className='achieveRate' onChange={handleSelectChange}>
+                                <option value="">달성률</option>
+                                <option value="under75">75% 이하</option>
+                                <option value="between">75% ~ 100%</option>
+                                <option value="over100">100% 이상</option>
+                            </select>
+                        </StyledSearchConditionDiv>
                     </div>
                     <div><span>{projectPcs}</span>개의 프로젝트가 있습니다.</div>
                 </div>
