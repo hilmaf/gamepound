@@ -33,7 +33,6 @@ public class ProjectServiceHYJ {
 		//달성률 추가
 		achievementRate(vo);
 		
-		log.info("vo ::: {}",vo);
 		
 		List<ProjectVo> voList = dao.projectListCategory(sst, vo);
 		
