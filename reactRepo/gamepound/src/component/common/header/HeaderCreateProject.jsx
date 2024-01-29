@@ -166,14 +166,13 @@ const HeaderCreateProject = () => {
             })
             .then(resp => resp.json())
             .then(data => {
+                console.log(data);
                 if(data.msg === 'good'){
                     alert('프로젝트 내용이 저장되었습니다.');
-                } else {
-                    throw new Error();
-                }
+                } 
             })
-            .catch(() => {
-                alert('오류가 발생했습니다. 다시 시도해주세요.');
+            .catch((e) => {
+                
             })
             .finally(() => {
                 setLoading(false); // 로딩중 화면 끝
