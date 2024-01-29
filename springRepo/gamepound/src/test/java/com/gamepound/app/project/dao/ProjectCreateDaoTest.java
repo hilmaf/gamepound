@@ -17,12 +17,13 @@ import org.springframework.transaction.annotation.Transactional;
 import com.gamepound.app.member.vo.MemberVo;
 import com.gamepound.app.project.vo.ProjectVo;
 import com.gamepound.app.reward.vo.RewardVo;
+import com.gamepound.app.settlement.vo.SettlementVo;
 
 
 @Transactional // 테스트만 수행하고 DB 롤백
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(locations = "file:src/main/webapp/WEB-INF/spring/*.xml")
-class ProjectDaoTest {
+class ProjectCreateDaoTest {
 
 	private ProjectDaoHJY dao;
 	
@@ -196,13 +197,18 @@ class ProjectDaoTest {
 		
 	}
 	@DisplayName("프로젝트 선물삭제 : 선물구성")
-	@Test
+	@Test // 프로젝트 진행중일시 삭제 불가
 	void deleteReword() {
 		
 		// given
 		RewardVo rewardVo = new RewardVo();
+		rewardVo.setNo("50");
+		
 		// when
+		int result = dao.deleteReword(sst, rewardVo);
+		
 		// then
+		assertTrue(result == 1);
 		
 	}
 	
@@ -211,8 +217,19 @@ class ProjectDaoTest {
 	void saveDateplan() {
 		
 		// given
+		ProjectVo projectVo = new ProjectVo();
+		projectVo.setNo("1");
+		projectVo.setTxtDescription("작성내용");
+		projectVo.setTxtBudget("작성내용");
+		projectVo.setTxtSchedule("작성내용");
+		projectVo.setTxtTeam("작성내용");
+		projectVo.setTxtItem("작성내용");
+		
 		// when
+		int result = dao.saveDateplan(sst, projectVo);
+		
 		// then
+		assertTrue(result == 1);
 		
 	}
 	@DisplayName("프로젝트 작성저장 : 창작자 정보")
@@ -220,8 +237,18 @@ class ProjectDaoTest {
 	void saveUserinfo() {
 		
 		// given
+		SettlementVo settlementVo = new SettlementVo();
+		settlementVo.setProjectNo("21");
+		settlementVo.setBankName("기업은행");
+		settlementVo.setName("홍길동");
+		settlementVo.setAccountNum("123412341234");
+		
 		// when
+		int result = dao.saveUserinfo(sst, settlementVo);
+		
 		// then
+		assertTrue(result == 1);
+		
 		
 	}
 	@DisplayName("프로젝트 승인 요청")
@@ -229,17 +256,14 @@ class ProjectDaoTest {
 	void approvalProject() {
 		
 		// given
-		// when
-		// then
+		ProjectVo projectVo = new ProjectVo();
+		projectVo.setNo("20");
 		
-	}
-	@DisplayName("프로젝트 상태 가져오기")
-	@Test
-	void getProjectStatus() {
-		
-		// given
 		// when
+		int result = dao.approvalProject(sst, projectVo);
+		
 		// then
+		assertTrue(result == 1);
 		
 	}
 
