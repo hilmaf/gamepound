@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import { useUserMemory } from '../../../component/context/UserContext';
 
 const StyledAllDiv = styled.div`
     width: 100%;
+`;
+const SytledButton = styled.div`
+    margin-top: 20px;
+    margin-right: 40px;
+    display: flex;
+    flex-direction: row-reverse;
 `;
 const StyledUpdateDiv = styled.div`
     height: 700px;
@@ -40,6 +47,7 @@ const StyledUpdateDiv = styled.div`
     & > div{
         border-bottom: 1px solid #ebebeb;
         padding-top: 40px;
+        padding-bottom: 20px;
         margin: 15px;
         & > ul{
             margin-right: 20px;
@@ -65,22 +73,42 @@ const StyledUpdateDiv = styled.div`
 
 const UpdatePage = () => {
 
+    //회원번호
+    const {loginMemberVo} = useUserMemory();
+
     const {no} = useParams();
 
     const [detailUpdateVoList, setDetailUpdateVoList] = useState([]);
+    const [detailCntVo, setDetailCntVo] = useState([]);
 
     useEffect(()=>{
         fetch("http://127.0.0.1:8889/gamepound/project/detail/update?no=" + no)
         .then((resp)=>{return resp.json()})
         .then((data)=>{
-            setDetailUpdateVoList(data);
+            setDetailUpdateVoList(data.voList);
+            setDetailCntVo(data.detailCntVo);
         })
         .catch((e)=>{console.log("오류 : " + e);})
         ;
     }, [no]);
 
+
+
     return (
         <StyledAllDiv>
+            {
+                loginMemberVo
+                ?
+                loginMemberVo.no === detailCntVo.creatorNo
+                    ?
+                    <SytledButton>
+                        <NavLink to={`/project/detail/createUpdate/${no}`}>업데이트 작성</NavLink>
+                    </SytledButton>
+                    :
+                    null
+                :
+                null
+            }
             <StyledUpdateDiv>
                 {
                     detailUpdateVoList.length === 0
