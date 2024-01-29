@@ -5,6 +5,7 @@ import UpdatePage from "./UpdatePage";
 import { Link, NavLink, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { useUserMemory } from '../../../component/context/UserContext';
+import UpdateCreatePage from './UpdateCreatePage';
 
 const StyledAllDiv = styled.div`
     width: 100%;
@@ -158,6 +159,9 @@ const StyledProjectSelectDiv = styled.div`
         display: grid;
         grid-template-rows: 1fr;
         grid-template-columns: 7fr 3fr;
+        & > div:first-child{
+            height: 1200px;
+        }
         & > div:last-child{
             width: 100%;
             height: auto;
@@ -250,7 +254,7 @@ const DetailMain = () => {
         .then((data)=>{
             setDetailCntVo(data.detailCntVo);
             setDetailVo(data.detailVo);
-            setRewardVoList(data.detilVo.rewardVoList)
+            setRewardVoList(data.detailVo.rewardVoList)
         })
         .catch((e)=>{console.log("오류1 : " + e);})
 
@@ -339,6 +343,7 @@ const DetailMain = () => {
                     {temp === 'story' ? <StoryPage/> : null}
                     {temp === 'update' ? <UpdatePage/> : null}
                     {temp === 'community' ? <CommunityPage/> : null}
+                    {temp === 'createUpdate' ? <UpdateCreatePage/>:null}
                     <div>
                         <div>
                             <div>창작자 소개</div>
