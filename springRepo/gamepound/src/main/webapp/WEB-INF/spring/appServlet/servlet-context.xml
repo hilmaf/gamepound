@@ -59,14 +59,14 @@
 		/>	
 	</cors>
 	
-	<interceptors>
-		<interceptor>
-			<mapping path="/admin/*" />
-			<mapping path="/category/admin/*" />
-			<mapping path="/admin/payment/*" />
-				<exclude-mapping path="/admin/login"/>
-			<beans:bean class="com.gamepound.app.interceptor.LoginInterceptor"></beans:bean>
-		</interceptor>
-	</interceptors>
+<!-- 	<interceptors> -->
+<!-- 		<interceptor> -->
+<!-- 			<mapping path="/admin/*" /> -->
+<!-- 			<mapping path="/category/admin/*" /> -->
+<!-- 			<mapping path="/admin/payment/*" /> -->
+<!-- 				<exclude-mapping path="/admin/login"/> -->
+<!-- 			<beans:bean class="com.gamepound.app.interceptor.LoginInterceptor"></beans:bean> -->
+<!-- 		</interceptor> -->
+<!-- 	</interceptors> -->
 	
 </beans:beans>
