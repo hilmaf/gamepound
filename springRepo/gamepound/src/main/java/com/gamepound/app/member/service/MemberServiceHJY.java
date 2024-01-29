@@ -60,8 +60,7 @@ public class MemberServiceHJY {
 		}
 		
 		// 비밀번호 암호화
-		String securityPwd = encoder.encode(vo.getPwd());
-		vo.setPwd(securityPwd);
+		vo.setPwd(encryptionPwd(vo.getPwd()));
 		
 		return dao.join(sst, vo);
 	}
@@ -107,7 +106,7 @@ public class MemberServiceHJY {
 		}
 		
 		// 비밀번호 암호화
-		vo.setPwd(encoder.encode(vo.getPwd()));
+		vo.setPwd(encryptionPwd(vo.getPwd()));
 		
 		// 결과 리턴
 		int result = dao.resetPassword(sst, vo);
@@ -123,6 +122,11 @@ public class MemberServiceHJY {
 	// 회원 탈퇴처리
 	public int quit(MemberVo vo) {
 		return dao.quit(sst, vo);
+	}
+	
+	// 비밀번호 암호화
+	public String encryptionPwd(String pwd) {
+		return encoder.encode(pwd);
 	}
 
 }
