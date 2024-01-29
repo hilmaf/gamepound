@@ -59,4 +59,11 @@
   			, UPDATE_DATE = SYSDATE
   	WHERE NO = #{no}
   </update>
+  
+  <select id="getNewLoginData" resultType="com.gamepound.app.member.vo.MemberVo">
+	SELECT NO, NAME, EMAIL, PWD, PIC, INTRO, SITE_URL, ENROLL_DATE, UPDATE_DATE, QUIT_YN
+	FROM MEMBER
+	WHERE EMAIL = #{no}
+	AND QUIT_YN = 'N'
+  </select>
 </mapper>
