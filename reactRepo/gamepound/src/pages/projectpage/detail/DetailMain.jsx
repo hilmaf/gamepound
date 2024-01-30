@@ -122,7 +122,7 @@ const StyledProjectDetailNaviDiv = styled.div`
     align-items: center;
     position: sticky;
     top: 126px;
-    z-index: 9;
+    z-index: 8;
     background-color: #fff;
     & > div {
         & > div{
