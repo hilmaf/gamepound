@@ -70,7 +70,7 @@ const ReviewList = () => {
             setReviewList(data.reviewList);
             setCnt(parseInt(data.size));
         });
-    }, [activePage])
+    }, [activePage, profileVo])
 
 
     return (

@@ -24,14 +24,15 @@ const StyledSearchConditionDiv = styled.div`
     }
     
     & > .project_status {
-        border: 1px solid #112155;
+        border: 1px solid #333;
         border-radius: 5px;
         padding: 5px 10px;
         margin-right: 10px;
     }
     
-    & > .achieveRate {
-        background-color: #f5f5f5;
+    & > .achievementRate {
+        border: 1px solid #333;
+        border-radius: 5px;
         padding: 5px 10px;
         margin-right: 10px;
     }
@@ -82,7 +83,7 @@ const Condition = (query) => {
                 ?
                 <></>
                 :
-                <select name='achievementRate' onChange={handleSelectChange}>
+                <select name='achievementRate' className='achievementRate' onChange={handleSelectChange}>
                     <option value="all">달성률</option>
                     <option value="under75">75% 이하</option>
                     <option value="between">75% ~ 100%</option>

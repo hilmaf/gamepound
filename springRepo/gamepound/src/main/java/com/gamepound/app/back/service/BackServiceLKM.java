@@ -138,7 +138,7 @@ public class BackServiceLKM {
 		// 후원정보 update
 		int result1 = dao.updateRetractYn(sst, backNo);
 		// 결제정보 delete
-		int result2 = dao.updatePayment(sst, backNo);
+		int result2 = dao.updateRetractYn(sst, backNo);
 		
 		if(result1 != 1 && result2 != 1) {
 			throw new Exception("후원 취소에 실패함");

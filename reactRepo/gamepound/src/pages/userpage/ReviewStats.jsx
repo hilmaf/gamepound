@@ -13,8 +13,8 @@ const StyledReviewStatsDiv = styled.div`
     align-items: center;
 
     & > .rating_avg {
-        padding-top: 30px;
-        padding-bottom: 35px;
+        padding-top: 20px;
+        padding-bottom: 20px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -29,8 +29,17 @@ const StyledReviewStatsDiv = styled.div`
         }
 
         & > #avg {
+            margin-top: 10px;
+            width: 60px;
+            height: 60px;
             font-size: 32px;
             color: var(--red-color);
+            border: 3px solid var(--red-color);
+            border-radius: 60px;
+            font-weight: 800;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
     }
 
@@ -81,7 +90,7 @@ const ReviewStats = () => {
             setStatVo(data);
             console.log(statVo);
         })
-    }, [])
+    }, [profileVo])
 
     return (
         <StyledReviewStatsDiv>

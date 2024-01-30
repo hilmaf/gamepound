@@ -8,16 +8,24 @@ const StyledUserBackedDiv = styled.div`
     padding-left: 20px;
 
     & > #cnt {
-        height: 80px;
-        line-height: 80px;
+        height: 20px;
+        margin-top: 20px;
+
+        & > span {
+            color: var(--red-color);
+            font-weight: 500;
+            margin-right: 3px;
+            margin-left: 3px;
+        }
     }
 
     & > .back_items {
 
         & > #success_cnt, #fail_cnt {
             height: 50px;
-            line-height: 50px;
+            margin-top: 40px;
             padding-bottom: 10px;
+            font-size: 14px;
         }
     }
 `;
@@ -43,7 +51,7 @@ const UserBacked = () => {
     
     return (
         <StyledUserBackedDiv>
-                <div id="cnt">{cnt}건의 후원 내역이 있습니다.</div>
+                <div id="cnt"><span>{cnt}</span>건의 후원 내역이 있습니다.</div>
                 <div className='back_items'>
                     <div id='success_cnt'>후원 성공({successCnt}개)</div>
                     {
