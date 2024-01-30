@@ -66,6 +66,13 @@ const StyledProjectBoxInfoDiv = styled.div`
             & > #achievement_amnt {
                 font-size: 16px;
             }
+
+            & > #start_date {
+                font-size: 16px;
+                font-weight: 400;
+                padding-right: 5px;
+                color: var(--red-color);
+            }
         }
 
         & > .status {
@@ -94,15 +101,35 @@ const ProjectBoxInfo = ({no, project}) => {
             <div className='title' onClick={handleBoxClick}>
                 {project.projectTitle}
             </div>
-            <div className='progressInfo'>
-                <div className='achievement'>
-                    <span id='achievement_rate'>{project.achievementRate}%</span>
-                    <span id='achievement_amnt'>{project.currentAmount}원</span>
-                </div>
-                <div className='status'>
-                    {project.projectStatus}
-                </div>
-            </div>
+
+            {
+                project.projectStatus === '승인됨'
+                ?
+                <>
+                    <div className='progressInfo'>
+                    <div className='achievement'>
+                        <span id='start_date'>{project.startDate}</span>
+                    </div>
+                    <div className='status'>
+                        공개예정
+                    </div>
+                    </div>
+                </>
+                :
+                <>
+                    <div className='progressInfo'>
+                        <div className='achievement'>
+                            <span id='achievement_rate'>{project.achievementRate}%</span>
+                            <span id='achievement_amnt'>{project.currentAmount}원</span>
+                        </div>
+                        <div className='status'>
+                            {project.projectStatus}
+                        </div>
+                    </div>
+                </>
+            }
+
+
         </StyledProjectBoxInfoDiv>
     );
 };

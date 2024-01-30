@@ -86,16 +86,14 @@ const ReviewStats = () => {
         })
         .then(resp => resp.json())
         .then(data => {
-            console.log(data);
             setStatVo(data);
-            console.log(statVo);
         })
     }, [profileVo])
 
     return (
         <StyledReviewStatsDiv>
             {
-                statVo === null || statVo === undefined
+                statVo === null || statVo === undefined || statVo.ratingAvg === undefined || statVo.ratingAvg === null
                 ?
                 <></>
                 :

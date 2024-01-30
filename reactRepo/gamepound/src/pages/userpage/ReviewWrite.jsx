@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import {useUserMemory} from '../../component/context/UserContext';
-import { useNavigate } from 'react-router-dom';
 
 const StyledReviewWriteDiv = styled.div`
     width: 1200px;
@@ -133,8 +132,6 @@ const StyledReviewWriteDiv = styled.div`
 
 const ReviewWrite = ({item}) => {
 
-    const navigate = useNavigate();
-
     const {loginMemberVo} = useUserMemory();
     const [reviewVo, setReviewVo] = useState({
         memberNo: loginMemberVo.no,
@@ -227,7 +224,7 @@ const ReviewWrite = ({item}) => {
                     후기 작성
                 </div>
                 <div className='writer_area'>
-                    <img src={loginMemberVo.pic} />
+                    <img src={loginMemberVo.pic} alt='프로필사진' />
                     <span>{loginMemberVo.name}</span>
                 </div>
                 <div className='rating_area'>
@@ -241,7 +238,7 @@ const ReviewWrite = ({item}) => {
                 <div className='content'>
                     <textarea name='reviewContent' onChange={handleInputChange}></textarea>
                 </div>
-                <input type='file' id='inputImg' name='reviewImg' accept='image/*' hidden onChange={handleFileChange}/>
+                <input type='file' id='inputImg' name='reviewImg' accept='image/*' alt='리뷰이미지' hidden onChange={handleFileChange}/>
                 <div className='upload'>
                     <div id='upload_area'>
                     이미지 업로드

@@ -4,6 +4,8 @@ import ProjectBriefInfo from '../../../component/project/ProjectBriefInfo';
 import BackingForm from './BackingForm';
 import {BackingMemoryProvider, useBackingMemory} from '../../../component/context/BackingContext';
 
+const baseURL = process.env.REACT_APP_API_URL;
+
 const StyledBackingFormDiv = styled.div`
     display: flex;
     flex-direction: column;

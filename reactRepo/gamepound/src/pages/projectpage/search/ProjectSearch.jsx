@@ -1,7 +1,6 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import ProjectBoxInfo from '../../../component/project/ProjectBoxInfo';
-import { useSearchContext } from '../../../component/context/SearchContext';
 
 const StyledProjectSearchDiv = styled.div`
     width: 1200px;

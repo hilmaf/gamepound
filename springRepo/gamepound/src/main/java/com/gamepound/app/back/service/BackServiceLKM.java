@@ -1,5 +1,9 @@
 package com.gamepound.app.back.service;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
 
@@ -7,6 +11,7 @@ import com.gamepound.app.back.dao.BackDaoLKM;
 import com.gamepound.app.back.vo.BackDetailVo;
 import com.gamepound.app.back.vo.BackVo;
 import com.gamepound.app.project.vo.ProjectBriefVo;
+import com.gamepound.app.userpage.dao.UserPageDao;
 import com.gamepound.app.util.DataProcessingUtil;
 
 import lombok.RequiredArgsConstructor;
@@ -54,8 +59,7 @@ public class BackServiceLKM {
 		}
 
 		// paymentType 카드결제일 떄, 카카오페이일 때
-		// TODO: enum 활용 가능해보임
-		if(vo.getPaymentType().equals("card")) {	
+		if("card".equals(vo.getPaymentType())) {	
 			vo = validateCardInfo(vo);
 		} else {
 			vo.setPaymentTypeNo("2");
@@ -69,7 +73,6 @@ public class BackServiceLKM {
 		
 		int result1 = dao.insertBack(sst, vo);
 		int result2 = dao.insertPayment(sst, vo);
-		log.info("result1: {} result2: {}", result1, result2);
 		
 		
 		int result3 = 0;
