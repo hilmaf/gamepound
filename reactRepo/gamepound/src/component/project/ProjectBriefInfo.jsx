@@ -60,7 +60,7 @@ const ProjectBriefInfo = ({ProjectBriefInfo}) => {
 
     return (
         <StyledProjectBriefInfoDiv>
-            <img src={conditionalVo.projectImg}/>
+            <img src={conditionalVo.projectImg} alt='프로젝트이미지'/> 
             <div className='project_summary'>
                 <div className='category'>{conditionalVo.categoryName}</div>
                 <div className='title' onClick={handleTitleClick}>{conditionalVo.projectTitle}</div>
