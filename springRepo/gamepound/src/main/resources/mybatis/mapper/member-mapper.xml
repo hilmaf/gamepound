@@ -36,12 +36,19 @@
 		AND QUIT_YN = 'N'
 	</update>
 	
+	<!-- 넘버로 회원조회 -->
+	<select id="selectByNo" resultType="com.gamepound.app.member.vo.MemberVo">
+		SELECT NO, NAME, EMAIL, PWD, PIC, INTRO, SITE_URL, ENROLL_DATE, UPDATE_DATE, QUIT_YN
+		FROM MEMBER
+		WHERE NO = #{no}
+		AND QUIT_YN = 'N'
+	</select>
+	
 	<!-- 회원탈퇴 -->
 	<update id="quit">
 		UPDATE MEMBER
 		    SET QUIT_YN = 'Y'
 		WHERE NO = #{no}
-		AND PWD = #{pwd}
 		AND QUIT_YN = 'N'
 	</update>
 	

@@ -40,4 +40,9 @@ public class MemberDaoHJY {
 		return sst.update("MemberMapper.quit", vo);
 	}
 
+	// 회원번호로 회원 조회
+	public MemberVo selectByNo(SqlSessionTemplate sst, MemberVo vo) {
+		return sst.selectOne("MemberMapper.selectByNo", vo);
+	}
+
 }
