@@ -543,4 +543,13 @@
 	<select id="getProjectStatus" resultType="com.gamepound.app.project.vo.ProjectStatusVo">
 		SELECT NO, STATUS FROM PROJECT_STATUS
 	</select>
+	
+	<!-- 로그인회원 후원목록 가져오기 -->
+	<select id="backList" resultType="com.gamepound.app.reward.vo.RewardVo">
+		SELECT 
+		    NO
+		    , PROJECT_NO
+		FROM BACKER
+		WHERE MEMBER_NO = #{no}
+	</select>
 </mapper>

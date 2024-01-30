@@ -7,6 +7,7 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
+import com.gamepound.app.member.vo.MemberVo;
 import com.gamepound.app.project.vo.ProjectCommunityVo;
 import com.gamepound.app.project.vo.ProjectDetailCntVo;
 import com.gamepound.app.project.vo.ProjectDetailVo;
@@ -14,6 +15,7 @@ import com.gamepound.app.project.vo.ProjectListVo;
 import com.gamepound.app.project.vo.ProjectStoryVo;
 import com.gamepound.app.project.vo.ProjectUpdateVo;
 import com.gamepound.app.project.vo.ProjectVo;
+import com.gamepound.app.reward.vo.RewardVo;
 
 @Repository
 public class ProjectDaoHYJ {
@@ -97,6 +99,10 @@ public class ProjectDaoHYJ {
 	//프로젝트 후원자 수
 	public ProjectDetailVo projectDetailTotalBackerNo(SqlSessionTemplate sst, String no) {
 		return sst.selectOne("ProjectMapper.ProjectTotalBackerNo", no);
+	}
+
+	public List<RewardVo> checkBack(SqlSessionTemplate sst, MemberVo vo) {
+		return sst.selectList("ProjectMapper.backList", vo);
 	}
 
 

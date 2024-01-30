@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.gamepound.app.member.vo.MemberVo;
 import com.gamepound.app.project.service.ProjectServiceHYJ;
 import com.gamepound.app.project.vo.ProjectCommunityVo;
 import com.gamepound.app.project.vo.ProjectDetailCntVo;
@@ -40,6 +41,13 @@ public class ProjectDetailControllerHYJ {
 		Map<String, Object>map = service.projectDetail(no);
 
 		return map;
+	}
+	
+	//프로젝트 상세 조회 - 로그인회원 후원 목록
+	@GetMapping("check")
+	public MemberVo checkBack(MemberVo vo) {
+		MemberVo loginMemberVo = service.checkBack(vo);
+		return loginMemberVo;
 	}
 	
 	//프로젝트 상세 조회 - 프로젝트 계획

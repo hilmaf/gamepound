@@ -7,6 +7,7 @@ import java.util.Map;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
 
+import com.gamepound.app.member.vo.MemberVo;
 import com.gamepound.app.project.dao.ProjectDaoHYJ;
 import com.gamepound.app.project.vo.ProjectCommunityVo;
 import com.gamepound.app.project.vo.ProjectDetailCntVo;
@@ -175,6 +176,13 @@ public class ProjectServiceHYJ {
 		
 		return map;
 	}
+	
+	//프로젝트 상세 조회 - 로그인회원 후원 목록
+	public MemberVo checkBack(MemberVo vo) {
+		MemberVo loginMemberVo = new MemberVo();
+		loginMemberVo.setRewardVoList(dao.checkBack(sst, vo));
+		return loginMemberVo;
+	}
 
 	//프로젝트 상세 조회 - 프로젝트 계획
 	public ProjectStoryVo projectDetailStory(String no) {
@@ -242,6 +250,7 @@ public class ProjectServiceHYJ {
 		}
 		return result;
 	}
+
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////
