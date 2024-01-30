@@ -77,11 +77,15 @@ const StyledBackInfoDiv = styled.div`
         padding-bottom: 30px;
         text-align: center;
         font-size: 12px;
-        cursor: pointer;
         color: var(--black-color);
         opacity: 0.7;
-            
-       
+        
+
+        & > .div {
+            cursor: pointer;
+        }
+
+    
         
     }
 `;
@@ -195,7 +199,6 @@ const BackInfo = ({BackInfo}) => {
             <div className='detail_box' id='reward_info'>
                 <div className='title'>
                     <span>선물 정보</span>
-                    <button onClick={handleRewardChangeClick}>변경</button>
                 </div>
                 <div className='detail'>
                     <div className='detail_1'>
@@ -211,7 +214,6 @@ const BackInfo = ({BackInfo}) => {
             <div className='detail_box' id='reward_info'>
                 <div className='title'>
                     <span>결제 정보</span>
-                    <button onClick={handlePaymentChangeClick}>변경</button>
                 </div>
                 <div className='detail'>
                     <div className='detail_1'>
@@ -228,8 +230,10 @@ const BackInfo = ({BackInfo}) => {
             {
                 BackInfo.retractYn === 'N'
                 ?
-                <div className='cancel_area' onClick={handleCancelClick}>
+                <div className='cancel_area'>
+                    <div onClick={handleCancelClick}>
                     후원을 취소하시겠습니까?
+                    </div>
                 </div>
                 :
                 <></>
