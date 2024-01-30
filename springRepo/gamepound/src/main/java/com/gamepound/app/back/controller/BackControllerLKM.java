@@ -42,7 +42,6 @@ public class BackControllerLKM {
 	// 후원하기
 	@PostMapping("process")
 	public Map<String, String> back(@RequestBody BackDetailVo vo) throws Exception {
-		log.info("<후원하기> process start ...");
 		boolean backed = service.back(vo);
 		
 		Map<String, String> map = new HashMap<String, String>();

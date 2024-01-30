@@ -9,6 +9,13 @@ const StyledReviewListDiv = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    & > .noReview {
+        height: 100px;
+        display: flex;
+        align-items: center;
+        color: var(--black-color);
+    }
 `;
 
 const PaginationBox = styled.div`
@@ -76,34 +83,36 @@ const ReviewList = () => {
     return (
         <StyledReviewListDiv>
             {
-                reviewList === null || reviewList === undefined
+                reviewList === null || reviewList === undefined || reviewList.length===0
                 ?
-                <>
-                </>
+                <div className='noReview'>
+                    아직 등록된 후기가 없습니다.
+                </div>
                 :
                 <>
                     {reviewList.map((item)=> (
                         <ReviewBox key={item.reviewNo} item={item}/>
                     ))} 
+
+                    <PaginationBox>
+                        <Pagination
+                        // 현제 보고있는 페이지 
+                        activePage={activePage}
+                        // 한페이지에 출력할 아이템수
+                        itemsCountPerPage={itemsPerPage}
+                        // 총 아이템수
+                        totalItemsCount={cnt}
+                        // 표시할 페이지수
+                        pageRangeDisplayed={5}
+                        // 함수
+                        onChange={handlePageChange}>
+                        </Pagination>
+                    </PaginationBox>
                 </>
                 
 
             }
 
-            <PaginationBox>
-                <Pagination
-                // 현제 보고있는 페이지 
-                activePage={activePage}
-                // 한페이지에 출력할 아이템수
-                itemsCountPerPage={itemsPerPage}
-                // 총 아이템수
-                totalItemsCount={cnt}
-                // 표시할 페이지수
-                pageRangeDisplayed={5}
-                // 함수
-                onChange={handlePageChange}>
-                </Pagination>
-            </PaginationBox>
         </StyledReviewListDiv>
     );
 };

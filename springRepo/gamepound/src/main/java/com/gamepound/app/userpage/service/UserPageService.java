@@ -67,9 +67,6 @@ public class UserPageService {
 		// 리뷰 목록
 		List<ReviewVo> reviewList = dao.listReview(sst, map.get("memberNo"), pvo);
 		
-		// TODO: 만족도 DOUBLE 타입으로 변경하는 거 삭제하기 (더미데이터를 수정하는 방향으로)
-		// 만족도 double 타입으로 변경해서 다시 셋팅하기
-		
 		if(reviewList.size() > 0) {
 			for(ReviewVo vo : reviewList) {
 				vo.setRating(util.castToDouble(vo.getRating()));
@@ -102,7 +99,7 @@ public class UserPageService {
 		// 달성률, 마감기한 d- setting
 		for(ProjectBriefVo vo : myProjectList) {
 			String achievementRate = null;
-			if(vo.getGoalAmount() != null) {
+			if(vo.getGoalAmount() != null && vo.getCurrentAmount() != null) {
 				achievementRate = util.achievementRate(vo.getGoalAmount(), vo.getCurrentAmount());
 			}
 			String remainingPeriod = util.getRemainingPeriod(vo.getEndDate(), "yyyy년 MM월 dd일");

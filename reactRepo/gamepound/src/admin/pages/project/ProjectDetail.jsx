@@ -20,7 +20,6 @@ const ProjectDetail = () => {
     const [loading, setLoading] = useState(false); // 로딩중 표시
     const [dataVo, setDataVo] = useState({}); // 불러온 데이터 vo
     const [formVo, setFormVo] = useState({}); // 보낼 데이터 vo
-    const [isChecked, setIsChecked] = useState(false); // 체크 여부를 저장하는 state 변수
     const [status, setStatus] = useState();
     const [selectEnabled, setSelectEnabled] = useState(false);
 
@@ -50,22 +49,31 @@ const ProjectDetail = () => {
     }
 
     const handleUpdateBtn = () => {
-        setLoading(true);
-        fetch(`${baseURL}/admin/project/update?no=${no}&statusNo=${status}`)
-        .then(resp => resp.json())
-        .then(data => {
-            if(data.msg === 'good') {
-                alert('프로젝트 상태 수정 완료');
-                // setStatus(status);
-                window.location.reload();
-            }
-        })
-        .catch(() => {
-            alert('데이터를 불러오는 데 실패했습니다.');
-        })
-        .finally(()=>{
-            setLoading(false);
-        })
+
+        // 심사중이 아닌 상태에 수정 버튼을 클릭한 경우 막기
+        document.querySelector('#status').value === '2'
+        ?
+        function() {
+            setLoading(true);
+            fetch(`${baseURL}/admin/project/update?no=${no}&statusNo=${status}`)
+            .then(resp => resp.json())
+            .then(data => {
+                if(data.msg === 'good') {
+                    alert('프로젝트 상태 수정 완료');
+                    // setStatus(status);
+                    window.location.reload();
+                }
+            })
+            .catch(() => {
+                alert('데이터를 불러오는 데 실패했습니다.');
+            })
+            .finally(()=>{
+                setLoading(false);
+            });
+
+        }()
+        :
+        alert('심사중인 프로젝트에 대해서만 수정 권한이 있습니다.');
     }
 
     // 목록버튼

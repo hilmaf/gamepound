@@ -3,6 +3,17 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const StyledBackInfoDiv = styled.div`
+
+    & > .retractYn {
+        background-color: #f5f5f5;
+        color: var(--red-color);
+        height: 70px;
+        border-radius: 5px;
+        padding-left: 20px;
+        display: flex;
+        align-items: center;
+    }
+
     & > .detail_box {
         width: 1200px;
         padding-top: 20px;
@@ -113,6 +124,15 @@ const BackInfo = ({BackInfo}) => {
 
     return (
         <StyledBackInfoDiv>
+            {
+                BackInfo.retractYn === 'Y'
+                ?
+                <div className='retractYn'>
+                    취소된 후원내역입니다!
+                </div>
+                :
+                <></>
+            }
             <div className='detail_box' id='reward_info'>
                 <div className='title'>
                     후원 정보
