@@ -237,7 +237,7 @@ const BackerMain = () => {
 
     return (
         <StyledPaymentMainDiv>
-            <h2>사용자 관리</h2>
+            <h2>후원자 관리</h2>
 
             <div className="searchArea">
                 <Form>
