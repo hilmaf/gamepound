@@ -59,11 +59,12 @@ const HeaderCreateProject = () => {
                 }
             })
             .catch(() => {
-                alert('오류가 발생했습니다. 다시 시도해주세요.');
+                //alert('오류가 발생했습니다. 다시 시도해주세요.');
             })
             .finally(() => {
                 setLoading(false); // 로딩중 화면 끝
                 setIsProjectInputChange(false);
+                window.location.reload(); // 새로고침
             })
             ;
         }
@@ -95,11 +96,12 @@ const HeaderCreateProject = () => {
                 }
             })
             .catch(() => {
-                alert('오류가 발생했습니다. 다시 시도해주세요.');
+                //alert('오류가 발생했습니다. 다시 시도해주세요.');
             })
             .finally(() => {
                 setLoading(false); // 로딩중 화면 끝
                 setIsProjectInputChange(false);
+                window.location.reload(); // 새로고침
             })
             ;
             
@@ -130,6 +132,7 @@ const HeaderCreateProject = () => {
             .finally(() => {
                 setLoading(false); // 로딩중 화면 끝
                 setIsProjectInputChange(false);
+                window.location.reload(); // 새로고침
             })
             ;
         }
@@ -177,11 +180,11 @@ const HeaderCreateProject = () => {
             .finally(() => {
                 setLoading(false); // 로딩중 화면 끝
                 setIsProjectInputChange(false);
+                window.location.reload(); // 새로고침
             })
             ;
         }
 
-        window.location.reload(); // 새로고침
     }
 
     // 승인요청 

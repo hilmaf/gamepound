@@ -121,6 +121,15 @@ public class MemberServiceHJY {
 
 	// 회원 탈퇴처리
 	public int quit(MemberVo vo) {
+		
+		MemberVo dbVo = dao.selectByNo(sst, vo);
+		
+		// 암호화 비밀번호 비교
+		boolean isOk = encoder.matches(vo.getPwd(), dbVo.getPwd());
+		if(!isOk) {
+			return 0;
+		}
+		
 		return dao.quit(sst, vo);
 	}
 	

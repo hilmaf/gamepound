@@ -97,7 +97,7 @@ const QuitPage = () => {
                 alert('탈퇴에 실패했습니다.');
             })
             .finally(() => {
-                setLoading(true); // 로딩중 화면 표시
+                setLoading(false); // 로딩중 화면 표시
             })
             ;
         } 
@@ -128,7 +128,6 @@ const QuitPage = () => {
             [name]: value,
         });
     }
-
 
     return (
         <StyledQuitDiv>

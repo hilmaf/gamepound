@@ -97,7 +97,7 @@ const StyledHeaderDiv = styled.header`
         }
         & .topArea {
             & h1 {
-                display: none;
+                margin-left: 100px;
             }
             & .userArea {
                 & > a {

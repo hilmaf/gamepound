@@ -55,7 +55,7 @@ public class ProjectServiceHJY {
 		
 		// 타이틀 null이거나 ''빈값 검증 후 true면 프로젝트 타이틀을 설정해주세요 라고 하기
 		if(vo.getTitle() == null || vo.getTitle().isEmpty()) {
-			vo.setTitle("프로젝트 타이틀을 설정해주세요.");
+			vo.setTitle("");
 		}
 		
 		// 이미지 null이면 디폴트이미지 insert

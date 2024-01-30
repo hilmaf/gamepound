@@ -158,7 +158,7 @@ const ProjectBasicCreate = () => {
             setSubCategory(selectedCategory.subCategoryList);
         } 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [categoryVo]);
+    }, [categoryVo, subCategory]);
 
     // 카테고리 값 저장
     const handleMainCategoryChange = (e) => {

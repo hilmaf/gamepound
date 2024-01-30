@@ -175,7 +175,7 @@ const PaymentMain = () => {
 
     // 초기화 버튼
     const resetBtnClick = () => {
-        
+        window.location.reload();
     }
 
     // 숫자페이지 눌렀을때 데이터 불러오기
@@ -326,7 +326,7 @@ const PaymentMain = () => {
                     </Container>
 
                     <div className="btnArea">
-                        <Button variant="secondary" >초기화</Button>
+                        <Button variant="secondary" onClick={resetBtnClick}>초기화</Button>
                         <Button variant="primary" onClick={handleSearchBtnClick} >검색</Button>
                     </div>
                 </Form>
