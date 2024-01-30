@@ -1,5 +1,9 @@
 package com.gamepound.app.member.vo;
 
+import java.util.List;
+
+import com.gamepound.app.reward.vo.RewardVo;
+
 import lombok.Data;
 
 @Data
@@ -20,5 +24,8 @@ public class MemberVo {
 	//검색 가입기간
 	private String termStart;
 	private String termEnd;
+	
+	//후원한 목록
+	private List<RewardVo> rewardVoList;
 	
 }

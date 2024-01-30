@@ -46,7 +46,7 @@ const StyledUpdateDiv = styled.div`
 
     & > div{
         border-bottom: 1px solid #ebebeb;
-        padding-top: 40px;
+        padding-top: 20px;
         padding-bottom: 20px;
         margin: 15px;
         & > ul{

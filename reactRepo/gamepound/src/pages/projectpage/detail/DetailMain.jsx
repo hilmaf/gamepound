@@ -247,6 +247,7 @@ const DetailMain = () => {
     const [rewardVoList, setRewardVoList] = useState([]);
     const [selectReward, setSelectReward] = useState();
     const [detailCntVo, setDetailCntVo] = useState([]);    
+    const [loginMemberRewardList, setLoginMemberRewardList] = useState();
 
     
     useEffect(()=>{
@@ -255,10 +256,29 @@ const DetailMain = () => {
         .then((data)=>{
             setDetailCntVo(data.detailCntVo);
             setDetailVo(data.detailVo);
-            setRewardVoList(data.detailVo.rewardVoList)
+            setRewardVoList(data.detailVo.rewardVoList);
+            console.log(data.detailVo);
         })
         .catch((e)=>{console.log("오류1 : " + e);})
     }, [no, temp]);
+
+    useEffect(()=>{
+        if(loginMemberVo){
+            fetch("http://127.0.0.1:8889/gamepound/project/detail/check?no=" + loginMemberVo.no)
+            .then(resp=>resp.json())
+            .then(data=>{
+                console.log(data.rewardVoList);
+                for (let index = 0; index < data.rewardVoList.length; index++) {
+                    if(data.rewardVoList[index].projectNo === detailVo.no){
+                        setLoginMemberRewardList(true);
+                        console.log(index);
+                    }
+
+                }
+                console.log(loginMemberRewardList);
+            })
+        }
+    }, [loginMemberVo, detailVo])
 
 
     //선택한 선물 색변경
@@ -324,6 +344,10 @@ const DetailMain = () => {
                                 ?
                                 null
                                 :
+                                loginMemberRewardList
+                                ?
+                                <button>이미 후원한 프로젝트입니다.</button>
+                                :
                                 selectReward
                                 ?
                                 <Link to={handleSupport()}><button>이 프로젝트 후원하기</button></Link>
@@ -363,6 +387,10 @@ const DetailMain = () => {
                         </div>
                         <div>
                         {
+                            detailVo.remainingPeriod === "펀딩 종료"
+                            ?
+                            null
+                            :
                             rewardVoList.map((vo)=>{
                                 return(
                                     <button key={vo.no} onClick={
@@ -371,6 +399,10 @@ const DetailMain = () => {
                                         null
                                         :
                                         loginMemberVo.no === detailVo.memberNo
+                                        ?
+                                        null
+                                        :
+                                        loginMemberRewardList
                                         ?
                                         null
                                         :
