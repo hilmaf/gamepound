@@ -128,7 +128,6 @@ const QuitPage = () => {
             [name]: value,
         });
     }
-    console.log(formVo);
 
     return (
         <StyledQuitDiv>
