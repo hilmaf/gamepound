@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 
@@ -40,6 +41,13 @@ const StyledMainPageDiv = styled.div`
 `;
 
 const MainPage = () => {
+
+    const navigate = useNavigate();
+
+    const handleBtnClick = () => {
+        navigate('../project/list/popular');
+    }
+
     return (
         <StyledMainPageDiv>
             <div id='mainimg'>
@@ -47,7 +55,7 @@ const MainPage = () => {
             </div>
             <div id='slogan'>Pound for Indie Games</div>
             {/* <img src='http://127.0.0.1:8889/gamepound/resources/images/'></img> */}
-            <button>프로젝트 둘러보기</button>
+            <button onClick={handleBtnClick}>프로젝트 둘러보기</button>
             
         </StyledMainPageDiv>
     );
