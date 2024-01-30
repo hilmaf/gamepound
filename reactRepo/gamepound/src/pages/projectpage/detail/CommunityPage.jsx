@@ -84,6 +84,9 @@ const StyledCommunityDiv = styled.div`
                     align-items: center;
                     & > div:first-child{
                         margin-right: 15px;
+                        & > img{
+                            border-radius: 50px;
+                        }
                     }
                 }
                 & > div > div > img{

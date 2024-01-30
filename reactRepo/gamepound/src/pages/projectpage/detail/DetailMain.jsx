@@ -78,7 +78,7 @@ const StyledProjectDetailDiv = styled.div`
             }
             & > li > table{
                 margin-top: 25px;
-                width: 85%;
+                width: 100%;
                 border-top: 1px solid #ececec;
                 
                 & > tbody > tr > td:nth-child(2){
@@ -97,9 +97,9 @@ const StyledProjectDetailDiv = styled.div`
                 }
             }
             & > li button{
-                width: 85%;
+                width: 100%;
                 height: 60px;
-                font-size: 16px;
+                font-size: 18px;
                 color: white;
                 background-color: var(--red-color);
                 font-weight: 500;
@@ -122,7 +122,7 @@ const StyledProjectDetailNaviDiv = styled.div`
     align-items: center;
     position: sticky;
     top: 126px;
-    z-index: 9;
+    z-index: 8;
     background-color: #fff;
     & > div {
         & > div{
@@ -190,6 +190,7 @@ const StyledProjectSelectDiv = styled.div`
                             width: 100%;
                             height: 100%;
                             object-fit: cover;
+                            border-radius: 50px;
                         }
                     }
                     & > span{
@@ -245,9 +246,9 @@ const DetailMain = () => {
     const [detailVo, setDetailVo] = useState([]);
     const [rewardVoList, setRewardVoList] = useState([]);
     const [selectReward, setSelectReward] = useState();
-    const [detailCntVo, setDetailCntVo] = useState([]);
-    
+    const [detailCntVo, setDetailCntVo] = useState([]);    
 
+    
     useEffect(()=>{
         fetch("http://127.0.0.1:8889/gamepound/project/detail?no=" + no)
         .then((resp)=>{return resp.json()})
@@ -257,8 +258,8 @@ const DetailMain = () => {
             setRewardVoList(data.detailVo.rewardVoList)
         })
         .catch((e)=>{console.log("오류1 : " + e);})
-
     }, [no, temp]);
+
 
     //선택한 선물 색변경
     const handleRewardClick = (rewardNo, e)=>{
@@ -310,19 +311,24 @@ const DetailMain = () => {
                                 </table>
                             </li>
                             <li>
-                                {!loginMemberVo
+                                {
+                                detailVo.remainingPeriod === "펀딩 종료"
+                                ?
+                                <button>후원 종료</button>
+                                :
+                                !loginMemberVo
                                 ?
                                 <Link to='/login'><button>로그인 후 이용 가능</button></Link>
                                 :
                                 loginMemberVo.no ===  detailVo.memberNo
-                                    ?
-                                    null
-                                    :
-                                    selectReward
-                                        ?
-                                        <Link to={handleSupport()}><button>이 프로젝트 후원하기</button></Link>
-                                        :
-                                        <button>이 프로젝트 후원하기</button>
+                                ?
+                                null
+                                :
+                                selectReward
+                                ?
+                                <Link to={handleSupport()}><button>이 프로젝트 후원하기</button></Link>
+                                :
+                                <button>이 프로젝트 후원하기</button>
                                 }
                             </li>
                         </ul>
@@ -359,7 +365,17 @@ const DetailMain = () => {
                         {
                             rewardVoList.map((vo)=>{
                                 return(
-                                    <button key={vo.no} onClick={(e)=>{handleRewardClick(vo.no, e)}} className='reward'>
+                                    <button key={vo.no} onClick={
+                                        !loginMemberVo
+                                        ?
+                                        null
+                                        :
+                                        loginMemberVo.no === detailVo.memberNo
+                                        ?
+                                        null
+                                        :
+                                        (e)=>{handleRewardClick(vo.no, e)}
+                                        } className='reward'>
                                         <div>{vo.amount}원 + </div>
                                         <div>{vo.name}</div>
                                     </button>

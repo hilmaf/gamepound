@@ -7,6 +7,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,9 +22,11 @@ import com.gamepound.app.member.dao.MemberDaoHYJ;
 import com.gamepound.app.member.vo.MemberVo;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class MemberServiceHYJ {
 	
 	private final MemberDaoHYJ dao;
@@ -55,18 +59,28 @@ public class MemberServiceHYJ {
 	////////////////////////////////////////////////////////////////////////////////////
 
 	//프로필 사진 변경
-	public int editPic(MemberVo vo, MultipartFile f, HttpServletRequest req) throws Exception {
+	public Map<String, Object> editPic(MemberVo vo, MultipartFile f, HttpServletRequest req) throws Exception {
+		Map<String, Object>map = new HashMap<String, Object>();
 		
 		//저장한 사진 이름 가져오기
 		String pic = savePic(f, req);
 		vo.setPic(pic);
 		if(vo.getPic() == null || vo.getPic()=="") {
-			return -1;
+			map.put("msg", "bad");
+			return map;
 		}
+		int result = dao.editPic(vo, sst);
 		
+		map.put("msg", "good");
+		if(result != 1) {
+			map.put("msg", "bad");
+		}
 		MemberVo newLoginData = dao.newLoginData(sst, vo);
+		insertPath(newLoginData);
+		map.put("newLoginData", newLoginData);
 		
-		return dao.editPic(vo, sst);
+		
+		return map;
 	}
 	
 	//프로필 사진 저장
@@ -107,49 +121,107 @@ public class MemberServiceHYJ {
 	}
 
 	//프로필 이름 변경
-	public int editName(MemberVo vo) throws Exception {
+	public Map<String, Object> editName(MemberVo vo) throws Exception {
+		Map<String, Object>map = new HashMap<String, Object>();
 		if(vo.getName() == null || vo.getName()=="") {
-			return -1;
+			map.put("msg", "bad");
+			return map;
 		}
 		if(!MemberValidation.isValidName(vo.getName())) {
-			return -1;
+			map.put("msg", "bad");
+			return map;
 		}
 		
-		return dao.editName(vo, sst);
+		int result = dao.editName(vo, sst);
+		map.put("msg", "good");
+		if(result != 1) {
+			map.put("msg", "bad");
+		}
+		MemberVo newLoginData = dao.newLoginData(sst, vo);
+		insertPath(newLoginData);
+		map.put("newLoginData", newLoginData);
+		
+		return map;
 	}
 
 	//프로필 소개 변경
-	public int editIntro(MemberVo vo) throws Exception {
+	public Map<String, Object> editIntro(MemberVo vo) throws Exception {
+		Map<String, Object>map = new HashMap<String, Object>();
 		if(vo.getIntro() == null || vo.getIntro()=="") {
-			return -1;
+			map.put("msg", "bad");
+			return map;
 		}
 		
-		return dao.editIntro(sst, vo);
+		int result = dao.editIntro(sst, vo);
+		map.put("msg", "good");
+		if(result != 1) {
+			map.put("msg", "bad");
+		}
+		
+		MemberVo newLoginData = dao.newLoginData(sst, vo);
+		insertPath(newLoginData);
+		map.put("newLoginData", newLoginData);
+		
+		return map;
 	}
 
 	//프로필 웹사이트 변경
-	public int editSiteUrl(MemberVo vo) throws Exception {
+	public Map<String, Object> editSiteUrl(MemberVo vo) throws Exception {
+		Map<String, Object>map = new HashMap<String, Object>();
 		if(vo.getSiteUrl() == null || vo.getSiteUrl() == "") {
-			return -1;
+			map.put("msg", "bad");
+			return map;
 		}
 		
-		return dao.editSiteUrl(sst, vo);
+		int result = dao.editSiteUrl(sst, vo);
+		map.put("msg", "good");	
+		if(result != 1) {
+			map.put("msg", "bad");
+		}
+		MemberVo newLoginData = dao.newLoginData(sst, vo);
+		insertPath(newLoginData);
+		map.put("newLoginData", newLoginData);
+		
+		return map; 
 	}
 
 	//프로필 비밀번호 변경
-	public int editPwd(MemberVo vo) throws Exception {
+	public Map<String, Object> editPwd(MemberVo vo) throws Exception {
+		Map<String, Object>map = new HashMap<String, Object>();
 		if(vo.getPwd() == null || vo.getPwd() == "") {
-			return -1;
+			map.put("msg", "bad");
+			return map;
 		}
 		// 비밀번호 검증
 		if(!MemberValidation.isValidPwd(vo.getPwd())) {
-			return -1;
+			map.put("msg", "bad");
+			return map;
 		}
 		//비밀번호 암호화
 		String securityPwd = encoder.encode(vo.getPwd());
 		vo.setPwd(securityPwd);
 		
-		return dao.editPwd(sst, vo);
+		int result = dao.editPwd(sst, vo);
+		map.put("msg", "good");
+		if(result != 1) {
+			map.put("msg", "bad");
+		}
+		
+		MemberVo newLoginData = dao.newLoginData(sst, vo);
+		insertPath(newLoginData);
+		map.put("newLoginData", newLoginData);
+		
+		return map;
+	}
+	
+	//////////////////////////////////////////////////////////////////////////////
+	
+	
+	//이미지 주소 추가
+	public void insertPath(MemberVo newLoginData) {
+		String localAddr = "http://127.0.0.1:8889/gamepound";
+		String path = "/resources/images/memberProfileImg/";
+		newLoginData.setPic(localAddr + path + newLoginData.getPic());
 	}
 	
 }
