@@ -359,7 +359,17 @@ const DetailMain = () => {
                         {
                             rewardVoList.map((vo)=>{
                                 return(
-                                    <button key={vo.no} onClick={(e)=>{handleRewardClick(vo.no, e)}} className='reward'>
+                                    <button key={vo.no} onClick={
+                                        !loginMemberVo
+                                        ?
+                                        null
+                                        :
+                                        loginMemberVo.no === detailVo.memberNo
+                                        ?
+                                        null
+                                        :
+                                        (e)=>{handleRewardClick(vo.no, e)}
+                                        } className='reward'>
                                         <div>{vo.amount}원 + </div>
                                         <div>{vo.name}</div>
                                     </button>
