@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { useBackingMemory } from '../context/BackingContext';
+import { useNavigate } from 'react-router-dom';
 
 const StyledProjectBriefInfoDiv = styled.div`
     width: 1200px;
@@ -29,6 +30,7 @@ const StyledProjectBriefInfoDiv = styled.div`
 
         & > .title {
             font-size: 28px;
+            cursor: pointer;
         }
 
         & > .achievement {
@@ -48,15 +50,20 @@ const StyledProjectBriefInfoDiv = styled.div`
 
 const ProjectBriefInfo = ({ProjectBriefInfo}) => {  
 
+    const navigate = useNavigate();
     const dataSet = useBackingMemory();
     const conditionalVo = ProjectBriefInfo===undefined ? dataSet.dataVo : ProjectBriefInfo;
+
+    const handleTitleClick = () => {
+        navigate(`../../project/detail/story/${conditionalVo.projectNo}`)
+    }
 
     return (
         <StyledProjectBriefInfoDiv>
             <img src={conditionalVo.projectImg}/>
             <div className='project_summary'>
                 <div className='category'>{conditionalVo.categoryName}</div>
-                <div className='title'>{conditionalVo.projectTitle}</div>
+                <div className='title' onClick={handleTitleClick}>{conditionalVo.projectTitle}</div>
                 <div className='achievement'>
                     <span>{conditionalVo.currentAmount}원</span>
                     <strong>{conditionalVo.achievementRate}%</strong> 

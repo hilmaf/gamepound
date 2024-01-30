@@ -44,7 +44,7 @@ const ProjectDetail = () => {
     }, []);
 
 
-    // 승인 처리
+    // 승인반려 처리
     const handleStatusChange = (e) => {
         setStatus(e.target.value);
     }
@@ -57,6 +57,7 @@ const ProjectDetail = () => {
             if(data.msg === 'good') {
                 alert('프로젝트 상태 수정 완료');
                 // setStatus(status);
+                window.location.reload();
             }
         })
         .catch(() => {

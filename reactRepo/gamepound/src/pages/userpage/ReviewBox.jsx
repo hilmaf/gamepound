@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const StyledReviewBoxDiv = styled.div`
@@ -116,10 +117,26 @@ const StyledReviewBoxDiv = styled.div`
 
 const ReviewBox = ({item}) => {
 
+    const navigate = useNavigate();
+
     const [clicked, setClicked] = useState(false);
 
     const handleImgClick = (e) => {
+        if(clicked===false) {
+            e.target.style.width='100%';
+            e.target.style.height='80%';
 
+            setClicked(true);
+        } else {
+            e.target.style.width='';
+            e.target.style.height='';
+
+            setClicked(false);
+        }
+    }
+
+    const handleProjectClick = () => {
+        navigate(`../project/detail/story/${item.projectNo}`);
     }
 
     return (
@@ -130,7 +147,7 @@ const ReviewBox = ({item}) => {
             </div>
             <div className='rating'>
                 <span>만족도</span>
-                <span>{item.rating}.0</span>
+                <span>{item.rating}</span>
             </div>
             <div className='content' key={item.reviewNo}>
                 <span>후기</span>
@@ -145,7 +162,7 @@ const ReviewBox = ({item}) => {
                     <></>
                 }
             </div>
-            <div className='project'>
+            <div className='project' onClick={handleProjectClick}>
                 <img src={item.projectImg} alt='프로젝트이미지'></img>
                 <div>{item.projectTitle}</div>
             </div>

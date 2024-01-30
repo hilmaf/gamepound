@@ -45,11 +45,6 @@ public class BackDaoLKM {
 		return sst.update("BackMapper.updateRetractYn", backNo);
 	}
 	
-	// 후원 취소(결제정보 delete)
-	public int updatePayment(SqlSessionTemplate sst, String backNo) {
-		return sst.update("BackMapper.updatePayment", backNo);
-	}
-
 	// 후원 상세 조회
 	public BackDetailVo detail(SqlSessionTemplate sst, String backNo) {
 		return sst.selectOne("BackMapper.detail", backNo);

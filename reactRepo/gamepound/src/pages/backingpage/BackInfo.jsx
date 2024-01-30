@@ -1,9 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import RewardChangeModal from './RewardChangeModal';
-import PaymentChangeModal from './PaymentChangeModal';
-import ReactModal from 'react-modal';
 
 const StyledBackInfoDiv = styled.div`
     & > .detail_box {
@@ -81,11 +78,9 @@ const StyledBackInfoDiv = styled.div`
         opacity: 0.7;
         
 
-        & > .div {
+        & > div {
             cursor: pointer;
         }
-
-    
         
     }
 `;
@@ -95,27 +90,6 @@ const StyledBackInfoDiv = styled.div`
 const BackInfo = ({BackInfo}) => {
 
     const navigate = useNavigate();
-    const [rewardChange, setRewardChange] = useState(false);
-    const [paymentChange, setPaymentChange] = useState(false);
-
-    const handleRewardChangeClick = () => {
-        setRewardChange(true);
-    }
-
-    const closeRewardChange = () => {
-        setRewardChange(false);
-    }
-
-    const handlePaymentChangeClick = () => {
-        setPaymentChange(true);
-        return true;
-    };
-
-    const closePaymentChange = () => {
-        setPaymentChange(false);
-    };
-
-
     const handleCancelClick = () => {
         fetch("http://127.0.0.1:8889/gamepound/back/canceled", {
             method: "post",
@@ -126,11 +100,9 @@ const BackInfo = ({BackInfo}) => {
         })
         .then(resp => resp.json())
         .then(data => {
-            console.log(data);
             if(data.msg === "canceled") {
                 navigate("/back/canceled/" + BackInfo.backNo);
             } else {
-
                 alert("후원 취소 실패. 다시 시도해주세요.");
             }
         })
@@ -141,42 +113,6 @@ const BackInfo = ({BackInfo}) => {
 
     return (
         <StyledBackInfoDiv>
-            <ReactModal isOpen={paymentChange} onRequestClose={closePaymentChange}
-            style={{
-                overlay: {
-                  backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                },
-                content: {
-                  width: '400px',
-                  height: '400px',
-                  margin: 'auto',
-                  borderRadius: '10px',
-                  zIndex: '100'
-                },
-              }}>
-                <PaymentChangeModal />
-            </ReactModal>
-            <ReactModal isOpen={rewardChange} onRequestClose={closeRewardChange}
-             style={{
-                overlay: {
-                  backgroundColor: 'rgba(0, 0, 0, 0.5)',
-                },
-                content: {
-                  width: '400px',
-                  height: '300px',
-                  margin: 'auto',
-                  borderRadius: '10px',
-                },
-              }}>
-                <RewardChangeModal />
-            </ReactModal>
-            {/* {
-                paymentChange === true
-                ?
-                <PaymentChangeModal />
-                :
-                <></>
-            } */}
             <div className='detail_box' id='reward_info'>
                 <div className='title'>
                     후원 정보
