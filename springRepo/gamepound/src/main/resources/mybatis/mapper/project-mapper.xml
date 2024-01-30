@@ -58,19 +58,20 @@
 		        JOIN MEMBER M ON P.MEMBER_NO = M.NO
 		        JOIN CATEGORY C ON P.CATEGORY_NO = C.NO
 		        JOIN PROJECT_STATUS PS ON P.STATUS_NO = PS.NO
-	        <if test=" statusNo == null or statusNo == ''" >
-		        WHERE 
-		        P.STATUS_NO = 3 
-		        OR P.STATUS_NO = 5 
-		        OR P.STATUS_NO = 6 
-		        OR P.STATUS_NO = 7
-	        </if>
-	        <if test=" statusNo != null and statusNo != '' " >
-	        	WHERE P.STATUS_NO = #{statusNo}
-	        </if>
+		    <where>
+		        <if test=" statusNo != null and statusNo != '' " >
+		        	P.STATUS_NO = #{statusNo}
+		        </if>
+		        <if test=" statusNo == null or statusNo == ''" >
+			        P.STATUS_NO = 3 
+			        OR P.STATUS_NO = 5 
+			        OR P.STATUS_NO = 6 
+			        OR P.STATUS_NO = 7
+		        </if>
+	        </where>
 		    )
+		    <where>
 		    <if test="(achievementRateStart != null and achievementRateStart != '') or (achievementRateEnd != null and achievementRateEnd != '')">
-				WHERE 
 				<trim prefixOverrides="AND">
 					<if test="achievementRateStart != null and achievementRateStart != ''">
 						<![CDATA[CURRENT_AMOUNT*100/GOAL_AMOUNT >= #{achievementRateStart}]]>
@@ -80,6 +81,7 @@
 					</if>
 				</trim>
 		    </if>
+		    </where>
 		    ORDER BY DECODE(STATUS_NO, 5, 1), STATUS_NO
   </select>
   
@@ -409,6 +411,33 @@
 	  , NAME
 	FROM REWARD
 	WHERE PROJECT_NO = #{no}
+  </select>
+  
+    <!-- 프로젝트 상세 창작자 번호 -->
+  <select id="CreatorNo" resultType="com.gamepound.app.project.vo.ProjectDetailCntVo">
+	SELECT
+	    M.NO	AS CREATOR_NO
+	FROM PROJECT P
+	JOIN MEMBER M ON M.NO = P.MEMBER_NO
+	WHERE P.NO=#{no}
+  </select>
+  
+  <!-- 프로젝트 상세 업데이트 수 -->
+  <select id="UpdateCnt" resultType="string">
+	SELECT 
+	    COUNT(P.NO)
+	FROM PROJECT P
+	JOIN PROJECT_UPDATE PU ON P.NO = PU.PROJECT_NO
+	WHERE P.NO = #{no}
+  </select>
+
+  <!-- 프로젝트 상세 커뮤니티 수 -->
+  <select id="CommunityCnt" resultType="string">
+  	SELECT 
+	    COUNT(P.NO)
+	FROM PROJECT P
+	JOIN COMMUNITY C ON P.NO = C.PROJECT_NO
+	WHERE P.NO = #{no}
   </select>
   
   <!-- 프로젝트 상세 계획 -->

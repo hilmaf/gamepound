@@ -5,6 +5,7 @@ import UpdatePage from "./UpdatePage";
 import { Link, NavLink, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { useUserMemory } from '../../../component/context/UserContext';
+import UpdateCreatePage from './UpdateCreatePage';
 
 const StyledAllDiv = styled.div`
     width: 100%;
@@ -143,6 +144,11 @@ const StyledProjectDetailNaviDiv = styled.div`
 
         }
     }
+    .cnt{
+        margin-left: 5px;
+        font-size: 12px;
+        vertical-align: top;
+    }
 `;
 const StyledProjectSelectDiv = styled.div`
     width: 100%;
@@ -153,6 +159,9 @@ const StyledProjectSelectDiv = styled.div`
         display: grid;
         grid-template-rows: 1fr;
         grid-template-columns: 7fr 3fr;
+        & > div:first-child{
+            height: 1200px;
+        }
         & > div:last-child{
             width: 100%;
             height: auto;
@@ -231,26 +240,25 @@ const DetailMain = () => {
 
     //회원번호
     const {loginMemberVo} = useUserMemory();
-    console.log(loginMemberVo);
 
     const {temp, no} = useParams();
     const [detailVo, setDetailVo] = useState([]);
     const [rewardVoList, setRewardVoList] = useState([]);
     const [selectReward, setSelectReward] = useState();
-    
+    const [detailCntVo, setDetailCntVo] = useState([]);
     
 
     useEffect(()=>{
         fetch("http://127.0.0.1:8889/gamepound/project/detail?no=" + no)
         .then((resp)=>{return resp.json()})
         .then((data)=>{
-            setDetailVo(data);
-            console.log(data);
-            setRewardVoList(data.rewardVoList)
+            setDetailCntVo(data.detailCntVo);
+            setDetailVo(data.detailVo);
+            setRewardVoList(data.detailVo.rewardVoList)
         })
-        .catch((e)=>{console.log("오류 : " + e);})
-        ;
-    }, [no]);
+        .catch((e)=>{console.log("오류1 : " + e);})
+
+    }, [no, temp]);
 
     //선택한 선물 색변경
     const handleRewardClick = (rewardNo, e)=>{
@@ -266,7 +274,6 @@ const DetailMain = () => {
         return '/back/process/' + no + '/' + selectReward;
     }
 
-    console.log(selectReward);
     return (
         <StyledAllDiv>
             <StyledProjectDetailDiv>
@@ -326,8 +333,8 @@ const DetailMain = () => {
                 <div className="inner">
                     <div>
                         <span><NavLink to={`/project/detail/story/${no}`}>프로젝트 계획</NavLink></span>
-                        <span><NavLink to={`/project/detail/update/${no}`}>업데이트</NavLink></span>
-                        <span><NavLink to={`/project/detail/community/${no}`}>커뮤니티</NavLink></span>
+                        <span><NavLink to={`/project/detail/update/${no}`}>업데이트<span className='cnt'>{detailCntVo.updateCnt==="0"?null:detailCntVo.updateCnt}</span></NavLink></span>
+                        <span><NavLink to={`/project/detail/community/${no}`}>커뮤니티<span className='cnt'>{detailCntVo.communityCnt==="0"?null:detailCntVo.communityCnt}</span></NavLink></span>
                     </div>
                 </div>
             </StyledProjectDetailNaviDiv>
@@ -336,6 +343,7 @@ const DetailMain = () => {
                     {temp === 'story' ? <StoryPage/> : null}
                     {temp === 'update' ? <UpdatePage/> : null}
                     {temp === 'community' ? <CommunityPage/> : null}
+                    {temp === 'createUpdate' ? <UpdateCreatePage/>:null}
                     <div>
                         <div>
                             <div>창작자 소개</div>

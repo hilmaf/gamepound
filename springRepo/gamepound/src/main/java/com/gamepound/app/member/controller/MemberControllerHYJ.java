@@ -50,8 +50,6 @@ public class MemberControllerHYJ {
 	//프로필 사진 변경
 	@PostMapping("pic")
 	public Map<String, String> editPic(@ModelAttribute MemberVo vo, @RequestParam("f") MultipartFile f, HttpServletRequest req) throws Exception {
-		System.out.println(vo);
-		System.out.println(f);
 		int result = service.editPic(vo, f, req);
 		
 		map.put("msg", "good");

@@ -4,18 +4,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.gamepound.app.project.service.ProjectServiceHYJ;
 import com.gamepound.app.project.vo.ProjectCommunityVo;
+import com.gamepound.app.project.vo.ProjectDetailCntVo;
 import com.gamepound.app.project.vo.ProjectDetailVo;
 import com.gamepound.app.project.vo.ProjectStoryVo;
 import com.gamepound.app.project.vo.ProjectUpdateVo;
+import com.gamepound.app.project.vo.ProjectVo;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,9 +36,10 @@ public class ProjectDetailControllerHYJ {
 	
 	//프로젝트 상세 조회 - 타이틀
 	@GetMapping
-	public ProjectDetailVo projectDetail(String no) {
-		ProjectDetailVo detailVo = service.projectDetail(no);
-		return detailVo;
+	public Map<String, Object> projectDetail(String no) {
+		Map<String, Object>map = service.projectDetail(no);
+
+		return map;
 	}
 	
 	//프로젝트 상세 조회 - 프로젝트 계획
@@ -44,24 +51,23 @@ public class ProjectDetailControllerHYJ {
 	
 	//프로젝트 상세 조회 - 업데이트
 	@GetMapping("update")
-	public List<ProjectUpdateVo> projectDetailUpdate(String no) {
-		List<ProjectUpdateVo>voList = service.projectDetailUpdate(no);
-		return voList;
+	public Map<String, Object> projectDetailUpdate(String no) {
+		Map<String, Object>map = service.projectDetailUpdate(no);
+		return map;
 	}
 	
 	//프로젝트 상세 조회 - 커뮤니티
 	@GetMapping("community")
-	public List<ProjectCommunityVo> projectDetailCommunity(String no) {
-		List<ProjectCommunityVo>voList = service.projectDetailCommunity(no);
-		log.info("커뮤니티 리스트 ::: {}", voList);
-		return voList;
+	public Map<String, Object> projectDetailCommunity(String no) {
+		Map<String, Object>map = service.projectDetailCommunity(no);
+		return map;
 	}
 	
 	//공개예정 프로젝트 상세 조회 - 타이틀
 	@GetMapping("prelaunch")
-	public ProjectDetailVo projectDetailPrelaunch(String no) {
-		ProjectDetailVo detailPrelaunchVo = service.projectDetail(no);
-		return detailPrelaunchVo;
+	public Map<String, Object> projectDetailPrelaunch(String no) {
+		Map<String, Object> map = service.projectDetail(no);
+		return map;
 	}
 	
 	//공개예정 프로젝트 상세 조회 - 프로젝트 계획
@@ -73,22 +79,31 @@ public class ProjectDetailControllerHYJ {
 	
 	//공개예정 프로젝트 상세 조회 - 업데이트
 	@GetMapping("prelaunch/update")
-	public List<ProjectUpdateVo> projectDetailPrelaunchUpdate(String no) {
-		List<ProjectUpdateVo>voList = service.projectDetailUpdate(no);
-		return voList;
+	public Map<String, Object> projectDetailPrelaunchUpdate(String no) {
+		Map<String, Object>map = service.projectDetailUpdate(no);
+		return map;
 	}
 	
 	
 	//////////////////////////////////////////////////////////////
 	//프로젝트 상세 조회 - 업데이트 작성
 	@PostMapping("update")
-	public void projectDetailUpdate(@RequestBody ProjectUpdateVo vo) throws Exception {
+	public Map<String, String> projectDetailUpdate(@RequestBody ProjectUpdateVo vo) throws Exception {
 		int result = service.projectDetailUpdate(vo);
+		Map<String, String>map = new HashMap<String, String>();
+		map.put("msg", "good");
 		if(result != 1) {
-			System.out.println("[프로젝트 업데이트 작성] 실패");
+			map.put("msg", "bad");
 		}
-		System.out.println("[프로젝트 업데이트 작성] 성공");
+
+		return map;
 	}
+	//----------------------------------------------------------------------------------//
+
+	//----------------------------------------------------------------------------------//
+	
+	
+	
 	
 	//프로젝트 상세 조회 - 커뮤니티 작성
 	@PostMapping("community")
@@ -105,12 +120,15 @@ public class ProjectDetailControllerHYJ {
 	
 	//공개예정 프로젝트 상세 조회 - 업데이트 작성
 	@PostMapping("prelaunch/update")
-	public void projectDetailPrelaunchUpdate(@RequestBody ProjectUpdateVo vo) {
+	public Map<String, String> projectDetailPrelaunchUpdate(@RequestBody ProjectUpdateVo vo) {
 		int result = service.projectDetailUpdate(vo);
+		Map<String, String>map = new HashMap<String, String>();
+		map.put("msg", "good");
 		if(result != 1) {
-			System.out.println("[프로젝트 업데이트 작성] 실패");
+			map.put("msg", "bad");
 		}
-		System.out.println("[프로젝트 업데이트 작성] 성공");
+
+		return map;
 	}
 	
 }

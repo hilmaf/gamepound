@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.gamepound.app.project.vo.ProjectCommunityVo;
+import com.gamepound.app.project.vo.ProjectDetailCntVo;
 import com.gamepound.app.project.vo.ProjectDetailVo;
 import com.gamepound.app.project.vo.ProjectListVo;
 import com.gamepound.app.project.vo.ProjectStoryVo;
@@ -54,6 +55,14 @@ public class ProjectDaoHYJ {
 		detailVo.setRewardVoList(sst.selectList("ProjectMapper.DetailReward", no));
 		return detailVo;
 	}
+	
+	//프로젝트 상세 조회 - 커뮤니티 수 + 업데이트 수 + 창작자
+	public ProjectDetailCntVo projectCnt(SqlSessionTemplate sst, String no) {
+		ProjectDetailCntVo detailCntVo = sst.selectOne("ProjectMapper.CreatorNo", no);
+		detailCntVo.setUpdateCnt(sst.selectOne("ProjectMapper.UpdateCnt", no));
+		detailCntVo.setCommunityCnt(sst.selectOne("ProjectMapper.CommunityCnt", no));
+		return detailCntVo;
+	}
 
 	//상세조회 - 계획
 	public ProjectStoryVo projectDetailStory(SqlSessionTemplate sst, String no) {
@@ -89,6 +98,8 @@ public class ProjectDaoHYJ {
 	public ProjectDetailVo projectDetailTotalBackerNo(SqlSessionTemplate sst, String no) {
 		return sst.selectOne("ProjectMapper.ProjectTotalBackerNo", no);
 	}
+
+
 
 
 

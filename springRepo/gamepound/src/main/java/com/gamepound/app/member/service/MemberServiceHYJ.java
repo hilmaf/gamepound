@@ -63,6 +63,9 @@ public class MemberServiceHYJ {
 		if(vo.getPic() == null || vo.getPic()=="") {
 			return -1;
 		}
+		
+		MemberVo newLoginData = dao.newLoginData(sst, vo);
+		
 		return dao.editPic(vo, sst);
 	}
 	
@@ -148,8 +151,5 @@ public class MemberServiceHYJ {
 		
 		return dao.editPwd(sst, vo);
 	}
-
-
-
 	
 }

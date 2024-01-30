@@ -67,12 +67,14 @@ const PrelaunchUpdatePage = () => {
     const {no} = useParams();
 
     const [detailPrelaunchUpdateVoList, setDetailPrelaunchUpdateVoList] = useState([]);
+    const [detailCntVo, setDetailCntVo] = useState([]);
 
     useEffect(()=>{
         fetch("http://127.0.0.1:8889/gamepound/project/detail/prelaunch/update?no=" + no)
         .then((resp)=>{return resp.json()})
         .then((data)=>{
-            setDetailPrelaunchUpdateVoList(data);
+            setDetailPrelaunchUpdateVoList(data.voList);
+            setDetailCntVo(data.detailCntVo);
         })
         .catch((e)=>{console.log("오류 : " + e);})
         ;
@@ -82,7 +84,7 @@ const PrelaunchUpdatePage = () => {
         <StyledAllDiv>
             <StyledUpdateDiv>
                 {
-                    detailPrelaunchUpdateVoList.length == 0
+                    detailPrelaunchUpdateVoList.length === 0
                     ?
                     <div className='communityNull'>
                         <div>
