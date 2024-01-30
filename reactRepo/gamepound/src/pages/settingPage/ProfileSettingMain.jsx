@@ -48,7 +48,7 @@ const StyledStartDiv = styled.div`
                 & > input{
                     margin-top: 5px;
                     height: 40px;
-                    width: 200px;
+                    width: 230px;
                     border: 1px solid #e0e0e0;
                     border-radius: 5px;
                     padding: 8px 0px 8px 10px;
@@ -193,6 +193,8 @@ const ProfileSettingMain = () => {
     const [changeNewPwd, setChangeNewPwd] = useState({});
     const [start, setStart] = useState();
 
+    const {setLoginMemberVo} = useUserMemory();
+
     const handleCheckPwd = ()=>{
         const classCheckPwd = document.querySelector('.checkPwd')
         const checkPwd = {
@@ -258,6 +260,8 @@ const ProfileSettingMain = () => {
         .then(data=>{
             if(data.msg === "good"){
                 alert("프로필 사진 변경 성공");
+                sessionStorage.setItem("loginMemberVo" , JSON.stringify(data.newLoginData));
+                setLoginMemberVo(JSON.parse(sessionStorage.getItem('loginMemberVo')));
             }else{
                 alert("프로필 사진 변경 실패");
             }
@@ -288,6 +292,8 @@ const ProfileSettingMain = () => {
         .then(data=>{
             if(data.msg === "good"){
                 alert('이름 변경 성공');
+                sessionStorage.setItem("loginMemberVo" , JSON.stringify(data.newLoginData));
+                setLoginMemberVo(JSON.parse(sessionStorage.getItem('loginMemberVo')));
             }else{
                 alert('이름 변경 실패');
             }
@@ -322,6 +328,8 @@ const ProfileSettingMain = () => {
         .then(data=>{
             if(data.msg === "good"){
                 alert('소개 변경 성공');
+                sessionStorage.setItem("loginMemberVo" , JSON.stringify(data.newLoginData));
+                setLoginMemberVo(JSON.parse(sessionStorage.getItem('loginMemberVo')));
             }else{
                 alert('소개 변경 실패');
             }
@@ -355,6 +363,8 @@ const ProfileSettingMain = () => {
         .then(data=>{
             if(data.msg === "good"){
                 alert('소개 변경 성공');
+                sessionStorage.setItem("loginMemberVo" , JSON.stringify(data.newLoginData));
+                setLoginMemberVo(JSON.parse(sessionStorage.getItem('loginMemberVo')));
             }else{
                 alert('소개 변경 실패');
             }
@@ -389,6 +399,9 @@ const ProfileSettingMain = () => {
         .then(data=>{
             if(data.msg === "good"){
                 alert('비밀번호 변경 성공');
+                sessionStorage.setItem("loginMemberVo" , JSON.stringify(data.newLoginData));
+                setLoginMemberVo(JSON.parse(sessionStorage.getItem('loginMemberVo')));
+                navigate('/');
             }else{
                 alert('비밀번호 변경 실패');
             }
@@ -417,8 +430,8 @@ const ProfileSettingMain = () => {
                                 <div><span>비밀번호를 다시 한 번 확인</span>합니다</div>
                             </div>
                             <div>
-                                <div>아이디</div>
-                                <div>{profile.name}</div>
+                                <div>이메일</div>
+                                <div>{profile.email}</div>
                             </div>
                             <div>
                                 <div>비밀번호</div>
