@@ -467,6 +467,7 @@
 	JOIN PROJECT P ON P.NO = PU.PROJECT_NO
 	JOIN MEMBER M ON M.NO = P.MEMBER_NO
 	WHERE PROJECT_NO = #{no}
+	ORDER BY PU.NO DESC
   </select>
   
   <!-- 프로젝트 상세 커뮤니티 -->
@@ -547,8 +548,8 @@
 	<!-- 로그인회원 후원목록 가져오기 -->
 	<select id="backList" resultType="com.gamepound.app.reward.vo.RewardVo">
 		SELECT 
-		    NO
-		    , PROJECT_NO
+            NO
+			, PROJECT_NO
 		FROM BACKER
 		WHERE MEMBER_NO = #{no}
 	</select>

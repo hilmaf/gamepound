@@ -95,8 +95,9 @@ public class ProjectDetailControllerHYJ {
 	
 	//////////////////////////////////////////////////////////////
 	//프로젝트 상세 조회 - 업데이트 작성
-	@PostMapping("update")
+	@PostMapping("update/save")
 	public Map<String, String> projectDetailUpdate(@RequestBody ProjectUpdateVo vo) throws Exception {
+		log.info("vo ::: {}",vo);
 		int result = service.projectDetailUpdate(vo);
 		Map<String, String>map = new HashMap<String, String>();
 		map.put("msg", "good");
@@ -106,8 +107,31 @@ public class ProjectDetailControllerHYJ {
 
 		return map;
 	}
-	//----------------------------------------------------------------------------------//
 
+	//----------------------------------------------------------------------------------//
+	// 프로젝트 계획 이미지 업로드
+	@PostMapping("update/save/image")
+	public Map<String, String> saveImage(@RequestPart MultipartFile img, HttpServletRequest req) throws Exception {
+		
+		// 파일저장 service
+		String uploadDir = "/resources/images/projectUpdateImg/";
+	    String root = req.getServletContext().getRealPath(uploadDir); // 저장경로
+	    String fileName = null;
+	    if(!(img == null) && !(img.isEmpty())) { // 이미지 파일 처리
+	    	fileName = service.imagefileSave(img, root);        	
+	    }
+	    
+	    // 결과
+	    String resultFileName = "http://localhost:8889/gamepound" + uploadDir + fileName;
+	    Map<String, String> map = new HashMap<>();
+	    map.put("msg", "good");
+	    map.put("fileUrl", resultFileName);
+	    if(fileName == null) {
+	    	map.put("msg", "bad");
+	    }
+		
+		return map;
+	}
 	//----------------------------------------------------------------------------------//
 	
 	

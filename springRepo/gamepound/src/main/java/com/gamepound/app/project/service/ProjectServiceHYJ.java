@@ -1,11 +1,19 @@
 package com.gamepound.app.project.service;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.gamepound.app.member.vo.MemberVo;
 import com.gamepound.app.project.dao.ProjectDaoHYJ;
@@ -239,6 +247,36 @@ public class ProjectServiceHYJ {
 	public int projectDetailUpdate(ProjectUpdateVo vo) {
 		return dao.projectDetailUpdate(sst, vo);
 	}
+	
+	// 이미지 파일저장
+	public String imagefileSave(MultipartFile image, String root) throws Exception {
+
+		// 랜덤파일이름 생성
+		String fileName = image.getOriginalFilename();
+		String fileExtension = fileName.substring(fileName.lastIndexOf('.') + 1);
+		UUID uuid = UUID.randomUUID();
+		fileName = uuid.toString() + "." + fileExtension;
+		
+		// 현재 날짜 기준으로 폴더 생성
+	    LocalDate currentDate = LocalDate.now();
+	    String currentDatePath = currentDate.format(DateTimeFormatter.ofPattern("yyyyMMdd")) + "/";
+	    String folderPath = root + currentDatePath;
+	    String filePath = folderPath + fileName;
+	    
+	    // 이미지를 저장할 디렉토리 경로
+	    Path directoryPath = Paths.get(folderPath);
+
+	    // 디렉토리가 없으면 생성
+	    if (!Files.exists(directoryPath)) {
+	        Files.createDirectories(directoryPath);
+	    }
+	    
+	    // 이미지 파일 저장
+	    File dest = new File(filePath);
+	    image.transferTo(dest);
+
+	    return currentDatePath + fileName; // 최종 파일이름 반환
+	}
 
 	//프로젝트 상세 조회 - 커뮤니티 작성
 	public int projectDetailCommunity(ProjectCommunityVo vo) {
@@ -250,7 +288,6 @@ public class ProjectServiceHYJ {
 		}
 		return result;
 	}
-
 
 
 	////////////////////////////////////////////////////////////////////////////////////////////////

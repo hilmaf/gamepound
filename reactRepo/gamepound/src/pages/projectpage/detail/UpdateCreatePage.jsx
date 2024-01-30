@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import styled from 'styled-components';
+import { useNavigate } from 'react-router-dom';
 import ReactQuill, { Quill } from 'react-quill';
 import ImageResize from '@looop/quill-image-resize-module-react';
 import 'react-quill/dist/quill.snow.css';
@@ -65,7 +66,20 @@ const formats = [
 const ProjectDateplanCreate = () => {
 
     const { no } = useParams(); // 파라미터
+    const navigate = useNavigate();
     const quillRefs = [useRef(), useRef(), useRef(), useRef(), useRef()]; // 에디터 접근을 위한 ref
+    const [headerFormVo, setHeaderFormVo] = useState({
+        "projectNo" : "",
+        "content" : ""
+    }); // 저장하기 버튼에 전달할 formVo
+
+    useEffect(()=>{
+        setHeaderFormVo({
+            ...headerFormVo,
+            'projectNo': no,
+        });
+    },[no])
+
 
     // 이미지 리사이즈 모듈을 useEffect 내에서 초기화
     useEffect(() => {
@@ -88,7 +102,7 @@ const ProjectDateplanCreate = () => {
             formData.append('img', file);
 
             let imgUrl = null; // url 담을 변수
-            fetch(`${baseURL}/projectUpdate/save/image`, {
+            fetch(`${baseURL}/project/detail/update/save/image`, {
                     method: 'post',
                     body: formData,
             })
@@ -122,13 +136,18 @@ const ProjectDateplanCreate = () => {
     };
 
     // quill state
-    const [txtDescription, setTxtDescription] = useState();
+    const [content, setContent] = useState();
 
     
     // 각 상태를 업데이트 하는 함수
     const updateProjectData = (fieldName, value) => {
-        if(fieldName === 'txtDescription'){
-            setTxtDescription(value);
+
+        if(fieldName === 'content'){
+            setContent(value);
+            setHeaderFormVo({
+                ...headerFormVo,
+                'content': value,
+            });
         }
     };
 
@@ -156,6 +175,37 @@ const ProjectDateplanCreate = () => {
         };
     }, []);
 
+
+    // 저장하기
+    const handleSaveData = () => {
+        // const { name } = e.target;
+        // setLoading(true); // 로딩중 화면 표시
+        fetch(`${baseURL}/project/detail/update/save/`, {
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(headerFormVo),
+        })
+        .then(resp => resp.json())
+        .then(data => {
+            if(data.msg === 'good'){
+                alert('업데이트 내용이 저장되었습니다.');
+            } else {
+                throw new Error();
+            }
+        })
+        .catch(() => {
+            alert('오류가 발생했습니다. 다시 시도해주세요.');
+        })
+        .finally(() => {
+            // setLoading(false); // 로딩중 화면 끝
+            // setIsProjectInputChange(false);
+            navigate('/project/detail/update/' + headerFormVo.projectNo);
+        })
+        ;
+    }
+
     return (
         <StyledCreateDateplanDiv>
             <div className="inner">
@@ -169,15 +219,15 @@ const ProjectDateplanCreate = () => {
                                     theme="snow"
                                     modules={modules}
                                     formats={formats}
-                                    value={txtDescription}
-                                    onChange={(content) => updateProjectData("txtDescription", content)}
+                                    value={content}
+                                    onChange={(content) => updateProjectData("content", content)}
                                 />
                             </dd>
                         </dl>
                     </dd>
                 </dl>
             </div>
-            <div className='buttonArea'><button>저장</button></div>
+            <div className='buttonArea'><button name="dateplan" onClick={handleSaveData}>저장</button></div>
         </StyledCreateDateplanDiv>
     );
 };
