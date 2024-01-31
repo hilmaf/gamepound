@@ -20,7 +20,7 @@ const UserPageContextProvider = ({children}) => {
         .then(data => {
             setProfileVo(data);
         })
-    }, []);
+    }, [profileVo]);
 
     return (
         <UserPageContext.Provider value={{profileVo, setProfileVo}}>
