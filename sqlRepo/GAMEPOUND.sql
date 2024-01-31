@@ -364,7 +364,7 @@ ALTER TABLE KAKAOPAY ADD CONSTRAINT FK_KAKAOPAY_PAYMENT FOREIGN KEY(PAYMENT_NO) 
 --------------------------------------------------------------------------------------------------------------------------------------------------------------
 -- MEMBER(회원) 테이블 더미 데이터
 INSERT INTO MEMBER (NO, NAME, EMAIL, PWD, PIC, INTRO, SITE_URL, ENROLL_DATE, UPDATE_DATE, QUIT_YN)
-VALUES (SEQ_MEMBER_NO.NEXTVAL, '현지연', 'clsrnclsrn1111@naver.com', '$2a$10$EAUCN4zA7ZBj6CZwAoCIbeSmQ9ujAXECLR.cx0T1CydXJ7cU.7JgG', 'default_avatar.webp', '향수 애호가를 위한 프래그런스 브랜드. 세이리.', 'http://www.example.com/john', '2022-02-12', NULL, 'N');
+VALUES (SEQ_MEMBER_NO.NEXTVAL, '현지연', 'clsrnclsrn1111@naver.com', '$2a$10$EAUCN4zA7ZBj6CZwAoCIbeSmQ9ujAXECLR.cx0T1CydXJ7cU.7JgG', 'default_avatar.webp', '현지연입니다. 열심히하겠습니다.', 'http://www.example.com/john', '2022-02-12', NULL, 'N');
 INSERT INTO MEMBER (NO, NAME, EMAIL, PWD, PIC, INTRO, SITE_URL, ENROLL_DATE, UPDATE_DATE, QUIT_YN)
 VALUES (SEQ_MEMBER_NO.NEXTVAL, '한윤지', 'gksdbswl@gmail.com', '$2a$10$EAUCN4zA7ZBj6CZwAoCIbeSmQ9ujAXECLR.cx0T1CydXJ7cU.7JgG', 'default_avatar.webp', '창작자분들을 위한 유니크한 자료를 만듭니다.', 'http://www.example.com/john', '2022-03-12', NULL, 'N');
 INSERT INTO MEMBER (NO, NAME, EMAIL, PWD, PIC, INTRO, SITE_URL, ENROLL_DATE, UPDATE_DATE, QUIT_YN)
@@ -382,7 +382,7 @@ VALUES (SEQ_MEMBER_NO.NEXTVAL, '하이꽈베트남어', 'betnam@gmail.com', '$2a
 INSERT INTO MEMBER (NO, NAME, EMAIL, PWD, PIC, INTRO, SITE_URL, ENROLL_DATE, UPDATE_DATE, QUIT_YN)
 VALUES (SEQ_MEMBER_NO.NEXTVAL, '위콘 게임즈 (WeCon Games)', 'wecon@naver.com', '$2a$10$EAUCN4zA7ZBj6CZwAoCIbeSmQ9ujAXECLR.cx0T1CydXJ7cU.7JgG', 'default_avatar.webp', '안녕하세요! 보드게임 작가 도지 입니다.', 'http://www.example.com/john', '2022-10-12', NULL, 'N');
 INSERT INTO MEMBER (NO, NAME, EMAIL, PWD, PIC, INTRO, SITE_URL, ENROLL_DATE, UPDATE_DATE, QUIT_YN)
-VALUES (SEQ_MEMBER_NO.NEXTVAL, '야생의 멧씨', 'metcy@naver.com', '$2a$10$EAUCN4zA7ZBj6CZwAoCIbeSmQ9ujAXECLR.cx0T1CydXJ7cU.7JgG', 'default_avatar.webp', '솔직한 즐거움으로 보드게임을 만들고 있는 멧씨입니다.', 'http://www.example.com/john', '2022-11-12', NULL, 'N');
+VALUES (SEQ_MEMBER_NO.NEXTVAL, '팀 도그풋(Team DogFoot)', 'DogFoot@naver.com', '$2a$10$EAUCN4zA7ZBj6CZwAoCIbeSmQ9ujAXECLR.cx0T1CydXJ7cU.7JgG', 'default_avatar.webp', '소개', 'http://www.example.com/john', '2022-11-12', NULL, 'N');
 commit;
 
 -- AD_MEMBER(관리자) 테이블 더미 데이터
