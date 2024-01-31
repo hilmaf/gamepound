@@ -138,6 +138,7 @@ const ReviewBox = ({item}) => {
     const handleProjectClick = () => {
         navigate(`../project/detail/story/${item.projectNo}`);
     }
+    
 
     return (
         <StyledReviewBoxDiv>
@@ -155,7 +156,7 @@ const ReviewBox = ({item}) => {
             </div>
             <div className='reviewImg'>
                 {
-                    item.reviewImg
+                    item.reviewImg !== 'http://127.0.0.1:8889/gamepound/resources/images/reviewImg/null'
                     ?
                     <img id='img' src={item.reviewImg} onClick={handleImgClick} alt='리뷰이미지'></img>
                     :

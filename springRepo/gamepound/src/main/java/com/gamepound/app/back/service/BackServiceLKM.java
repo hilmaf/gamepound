@@ -94,7 +94,6 @@ public class BackServiceLKM {
 	
 	private BackDetailVo validateCardInfo(BackDetailVo vo) throws Exception {
 		
-		System.out.println(1);
 		// 숫자only 정규표현식
 		String numRegex = "\\d+";
 		
