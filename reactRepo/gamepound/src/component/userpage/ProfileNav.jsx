@@ -38,7 +38,7 @@ const ProfileNav = () => {
             <NavLink to={`/userpage/profile/${no}`}><span>프로필 소개</span></NavLink>
             <NavLink to={`/userpage/created/${no}`}><span>올린 프로젝트</span></NavLink>
             {
-                no === loginMemberVo.no
+                no === loginMemberVo?.no
                 ?
                 <NavLink to={`/userpage/backed/${no}`}><span>후원한 프로젝트</span></NavLink>
                 :
