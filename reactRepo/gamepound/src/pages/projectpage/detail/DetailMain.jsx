@@ -154,6 +154,7 @@ const StyledProjectSelectDiv = styled.div`
     width: 100%;
     display: flex;
     justify-content: center;
+    height: 2200px;
     & > div{
         width: 1200px;
         display: grid;
