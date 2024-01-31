@@ -37,7 +37,18 @@ const StoryPage = () => {
         ;
     }, [no]);
 
-
+    useEffect(()=>{
+        const txtDescriptionArea = document.querySelector(".txtDescriptionArea");
+        const txtBudgetArea = document.querySelector(".txtBudgetArea");
+        const txtScheduleArea = document.querySelector(".txtScheduleArea");
+        const txtTeamArea = document.querySelector(".txtTeamArea");
+        const txtItemArea = document.querySelector(".txtItemArea");
+        txtDescriptionArea.innerHTML = detailStoryVo.txtDescription;
+        txtBudgetArea.innerHTML = detailStoryVo.txtBudget;
+        txtScheduleArea.innerHTML = detailStoryVo.txtSchedule;
+        txtTeamArea.innerHTML = detailStoryVo.txtTeam;
+        txtItemArea.innerHTML = detailStoryVo.txtItem;
+    }, [detailStoryVo]);
 
 
     return (
@@ -45,15 +56,15 @@ const StoryPage = () => {
             <StyledStoryDiv>
                 <ul>
                     <li>| 프로젝트 소개</li>
-                    <li>{detailStoryVo.txtDescription}</li>
+                    <li className='txtDescriptionArea'></li>
                     <li>| 프로젝트 예산</li>
-                    <li>{detailStoryVo.txtBudget}</li>
+                    <li className='txtBudgetArea'></li>
                     <li>| 프로젝트 일정</li>
-                    <li>{detailStoryVo.txtSchedule}</li>
+                    <li className='txtScheduleArea'></li>
                     <li>| 팀 소개</li>
-                    <li>{detailStoryVo.txtTeam}</li>
+                    <li className='txtTeamArea'></li>
                     <li>| 선물 설명</li>
-                    <li>{detailStoryVo.txtItem}</li>
+                    <li className='txtItemArea'></li>
                 </ul>
             </StyledStoryDiv>
         </StyledAllDiv>
