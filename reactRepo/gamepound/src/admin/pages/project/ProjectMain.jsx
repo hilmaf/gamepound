@@ -10,6 +10,25 @@ import Pagination from 'react-js-pagination';
 const baseURL = process.env.REACT_APP_API_URL;
 
 const StyledProjectDiv = styled.div`
+
+    & .pagination {
+        justify-content: center;
+        margin-top: 30px;
+        & li {
+            & a {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-width: 31px;
+                color: #333;
+            }
+            &.active a {
+                background-color: #333;
+                color: #fff;
+            }
+        }
+    }
+
     // search
     & .searchArea {
         padding: 30px;
@@ -46,22 +65,8 @@ const StyledProjectDiv = styled.div`
     .ag-theme-quartz .ag-cell {
         white-space: normal !important; /* 텍스트 래핑 활성화 */
     }
-    .pagination {
-        justify-content: center;
-        margin-top: 30px;
-        & li {
-            & .page-link {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                min-width: 31px;
-                color: #333;
-            }
-            &.active .page-link {
-                color: #fff;
-            }
-        }
-    }
+
+    
     .ag-header-cell-center {
         & .ag-header-cell-label {
             justify-content: center;
