@@ -947,13 +947,17 @@ COMMIT;
 INSERT INTO REVIEW(NO, MEMBER_NO, BACKER_NO, CONTENT, IMAGE, RATING) VALUES(SEQ_REVIEW_NO.NEXTVAL, 2, 1, '시간순삭... 도깨비 하나 키우다가 48시간이 훌쩍 지나갔어요. 꿀잼', 'screenshot_040122_115244.png', 5.0);
 INSERT INTO REVIEW(NO, MEMBER_NO, BACKER_NO, CONTENT, IMAGE, RATING) VALUES(SEQ_REVIEW_NO.NEXTVAL, 4, 3, '그냥 그래요... 노가다가 너무 심해요', 'screenshot_240122.png', 3.0);
 INSERT INTO REVIEW(NO, MEMBER_NO, BACKER_NO, CONTENT, IMAGE, RATING) VALUES(SEQ_REVIEW_NO.NEXTVAL, 10, 9, '생각보다 진짜 재밌는데요? 크게 기대 안했는데', 'teahouse_review1.png', 4.0);
-INSERT INTO REVIEW(NO, MEMBER_NO, BACKER_NO, CONTENT, IMAGE, RATING) VALUES(SEQ_REVIEW_NO.NEXTVAL, 1, 11, '마지막에 달 뒷편 비밀 밝혀질 때 나 왜 울어...', '리뷰이미지4', 5.0);
-INSERT INTO REVIEW(NO, MEMBER_NO, BACKER_NO, CONTENT, IMAGE, RATING) VALUES(SEQ_REVIEW_NO.NEXTVAL, 3, 13, '잘 하다가 중간은 조금 지루....', '리뷰이미지5', 2.0);
+INSERT INTO REVIEW(NO, MEMBER_NO, BACKER_NO, CONTENT, IMAGE, RATING) VALUES(SEQ_REVIEW_NO.NEXTVAL, 1, 11, '마지막에 달 뒷편 비밀 밝혀질 때 눈물 찔끔 난다ㅜㅜ', 'cheesemoon_review01.png', 5.0);
+INSERT INTO REVIEW(NO, MEMBER_NO, BACKER_NO, CONTENT, IMAGE, RATING) VALUES(SEQ_REVIEW_NO.NEXTVAL, 3, 13, '덕분에 오랜만에 정말 좋은 게임을 했습니다. 감동..', 'cheesemoon_review02.png', 5.0);
 INSERT INTO REVIEW(NO, MEMBER_NO, BACKER_NO, CONTENT, IMAGE, RATING) VALUES(SEQ_REVIEW_NO.NEXTVAL, 7, 17, '스타듀밸리 같은 게임 찾아다닌지 어언 5년... 드디어 찾았다', '리뷰이미지6', 5.0);
 INSERT INTO REVIEW(NO, MEMBER_NO, BACKER_NO, CONTENT, IMAGE, RATING) VALUES(SEQ_REVIEW_NO.NEXTVAL, 9, 19, '노가다 너무 심해요. 스팀에서 샀으면 2시간 하기 전에 환불했을 텐데 이건 환불도 못하고', '리뷰이미지7', 1.0);
 INSERT INTO REVIEW(NO, MEMBER_NO, BACKER_NO, CONTENT, IMAGE, RATING) VALUES(SEQ_REVIEW_NO.NEXTVAL, 1, 21, '시간 때우기 딱 좋아요', '리뷰이미지8', 3.0);
 INSERT INTO REVIEW(NO, MEMBER_NO, BACKER_NO, CONTENT, IMAGE, RATING) VALUES(SEQ_REVIEW_NO.NEXTVAL, 5, 25, '은근 중독성 있네 이거....', '리뷰이미지9', 3.0);
 INSERT INTO REVIEW(NO, MEMBER_NO, BACKER_NO, CONTENT, IMAGE, RATING) VALUES(SEQ_REVIEW_NO.NEXTVAL, 10, 30, '이거 명작이다...... 스토리부터 그래픽까지 뭐 하나 완벽하지 않은 게 없다....', '리뷰이미지10', 5.0);
+
+INSERT INTO REVIEW(NO, MEMBER_NO, BACKER_NO, CONTENT, IMAGE, RATING) VALUES(SEQ_REVIEW_NO.NEXTVAL, 2, 12, '마음이 따뜻해지는 힐링게임. 그래픽도 심플하면서 효과적임. 뭣보다 스토리가 재밌음.', 'cheesemoon_review03.png', 4.0);
+INSERT INTO REVIEW(NO, MEMBER_NO, BACKER_NO, CONTENT, IMAGE, RATING) VALUES(SEQ_REVIEW_NO.NEXTVAL, 4, 14, '모바일이라서 아쉬움... 조금만 피씨용으로 더 다듬었다면 더 감동적으로 엔딩 봤을 것 같은데.', 'cheesemoon_review04.png', 4.0);
+INSERT INTO REVIEW(NO, MEMBER_NO, BACKER_NO, CONTENT, RATING) VALUES(SEQ_REVIEW_NO.NEXTVAL, 5, 15, '이 게임을 시작으로 도그풋 게임은 무조건 후원한다..는 저만의 규칙이 생겼다죠. 방금 다른 게임도 후원하고 오는 중입니다. 엔딩이 조금 아쉽지만 그래도 명작.', 4.0);
 COMMIT;
 
 --  PAYMENT_STATUS(결제상태) 테이블 더미 데이터
