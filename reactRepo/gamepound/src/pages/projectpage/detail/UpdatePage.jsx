@@ -49,6 +49,7 @@ const StyledUpdateDiv = styled.div`
         padding-top: 20px;
         padding-bottom: 20px;
         margin: 15px;
+        
         & > ul{
             margin-right: 20px;
             & > li:nth-child(1){
@@ -92,6 +93,13 @@ const UpdatePage = () => {
         .catch((e)=>{console.log("오류 : " + e);})
         ;
     }, [no]);
+
+    useEffect(()=>{
+        const content = document.querySelectorAll('.content_text');
+        for (let index = 0; index < detailUpdateVoList.length; index++) {
+            content[index].innerHTML = detailUpdateVoList[index].content;
+        }
+    }, [detailUpdateVoList]);
 
 
 
@@ -139,7 +147,7 @@ const UpdatePage = () => {
                                     </div>
                                 </li>
                                 <li>
-                                    <div>{vo.content}</div>
+                                    <div className='content_text'></div>
                                 </li>
                             </ul>
                         </div>

@@ -44,17 +44,26 @@ const PrelaunchStoryPage = () => {
         ;
     }, [no]);
 
+    useEffect(()=>{
+        const txtDescriptionArea = document.querySelector(".txtDescriptionArea");
+        const txtTeamArea = document.querySelector(".txtTeamArea");
+        const txtItemArea = document.querySelector(".txtItemArea");
+        txtDescriptionArea.innerHTML = detailPrelaunchStoryVo.txtDescription;
+        txtTeamArea.innerHTML = detailPrelaunchStoryVo.txtTeam;
+        txtItemArea.innerHTML = detailPrelaunchStoryVo.txtItem;
+    }, [detailPrelaunchStoryVo]);
+
     return (
         <StyledAllDiv>
             <StyledStoryDiv>
                 <ul>
                     <li>❗ 해당 프로젝트 정보는 미리 보기 용으로 상세 내용은 펀딩 시작 전 변경될 수 있습니다.</li>
                     <li>| 프로젝트 소개</li>
-                    <li>{detailPrelaunchStoryVo.txtDescription}</li>
+                    <li className='txtDescriptionArea'>{detailPrelaunchStoryVo.txtDescription}</li>
                     <li>| 팀 소개</li>
-                    <li>{detailPrelaunchStoryVo.txtTeam}</li>
+                    <li className='txtTeamArea'>{detailPrelaunchStoryVo.txtTeam}</li>
                     <li>| 선물 설명</li>
-                    <li>{detailPrelaunchStoryVo.txtItem}</li>
+                    <li className='txtItemArea'>{detailPrelaunchStoryVo.txtItem}</li>
                 </ul>
             </StyledStoryDiv>
         </StyledAllDiv>
