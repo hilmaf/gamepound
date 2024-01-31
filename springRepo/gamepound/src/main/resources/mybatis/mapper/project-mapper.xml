@@ -532,12 +532,12 @@
 	</insert>
 	
 	<select id="ProjectTotalBackerNo" resultType="com.gamepound.app.project.vo.ProjectDetailVo">
-		SELECT 
-		    COUNT(P.NO) AS TOTAL_BACKER_NO
+		SELECT
+		    COUNT(B.NO) AS TOTAL_BACKER_NO
 		FROM PROJECT P
-		JOIN PAYMENT PM ON P.NO = PM.PROJECT_NO
+		JOIN BACKER B ON P.NO = B.PROJECT_NO
 		WHERE P.NO = #{no}
-		    AND PM.PAYMENT_STATUS_NO = 1
+		    AND RETRACT_YN = 'N'
 	</select>
 
 	<!-- 프로젝트 상태 리스트 가져오기 -->
