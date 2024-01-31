@@ -56,7 +56,7 @@ public class DataProcessingUtil {
 		
 		Date parsedEndDate = support.parseDate(endDate, format);
 		
-		// Calnedar 객체에 펀딩종료일 셋팅
+		// Calendar 객체에 펀딩종료일 셋팅
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(parsedEndDate);
 		

@@ -22,7 +22,6 @@ const ProjectDetail = () => {
     const [formVo, setFormVo] = useState({}); // 보낼 데이터 vo
     const [status, setStatus] = useState();
     const [selectEnabled, setSelectEnabled] = useState(false);
-    const [updateEnabled, setUpdatedEnabled] = useState(false);
 
     // 데이터
     useEffect(() => {
@@ -32,19 +31,19 @@ const ProjectDetail = () => {
         .then(data => {
             setDataVo(data);
             setStatus(data.statusNo);
-
+            console.log(data.statusNo);
 
             data.statusNo === '2' 
             ?
-            <>
-            setSelectEnabled(true); 
-            setUpdatedEnabled(true);
-            </>
+            // <>
+            setSelectEnabled(true) 
+            // setUpdatedEnabled(true)
+            // </>
             :
-            <>
-            setSelectEnabled(false);
-            setUpdatedEnabled(false);
-            </>
+            // <>
+            setSelectEnabled(false)
+            // setUpdatedEnabled(false)
+            // </>
         })
         .catch(() => {
             alert('데이터를 불러오는데 실패했습니다.');
@@ -66,7 +65,7 @@ const ProjectDetail = () => {
 
 
         // 심사중이 아닌 상태에 수정 버튼을 클릭한 경우 막기
-        updateEnabled === true && selectEnabled == true
+        selectEnabled == true
         ?
         function() {
             setLoading(true);
