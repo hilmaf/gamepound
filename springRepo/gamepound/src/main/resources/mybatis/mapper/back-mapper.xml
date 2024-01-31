@@ -161,4 +161,10 @@
 	WHERE NO = #{backNo}
   </update>
   
+  <update id="plusCurrentAmnt">
+  	UPDATE PROJECT
+  		SET CURRENT_AMOUNT = CURRENT_AMOUNT + #{rewardAmount}
+  	WHERE NO = #{projectNo}
+  </update>
+  
 </mapper>
