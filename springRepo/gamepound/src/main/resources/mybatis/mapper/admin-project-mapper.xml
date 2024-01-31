@@ -61,7 +61,7 @@
 
 <update id="update">
 	UPDATE PROJECT
-	    SET STATUS_NO = #{statusNo}
+	    SET STATUS_NO = #{statusNo}, OK_YN = 'Y', OK_DATE = SYSDATE
 	WHERE NO = #{projectNo}
 </update>
  

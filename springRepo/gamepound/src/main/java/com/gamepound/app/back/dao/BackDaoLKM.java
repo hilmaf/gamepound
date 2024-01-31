@@ -59,6 +59,11 @@ public class BackDaoLKM {
 	public int changePayment(SqlSessionTemplate sst, BackVo vo) {
 		return sst.update("BackMapper.changePayment", vo);
 	}
+
+	// 후원하기 - 모인 금액 증가
+	public int plusCurrentAmnt(SqlSessionTemplate sst, BackDetailVo vo) {
+		return sst.update("BackMapper.plusCurrentAmnt", vo);
+	}
 	
 	
 

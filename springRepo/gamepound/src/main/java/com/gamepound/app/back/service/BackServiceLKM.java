@@ -79,12 +79,16 @@ public class BackServiceLKM {
 		if("1".equals(vo.getPaymentTypeNo())) {
 			// 카드 정보 테이블 insert
 			result3 = dao.insertCard(sst, vo);			
-		} else {
+		} else if("2".equals(vo.getPaymentTypeNo())) {
 			// 카카오페이 정보 테이블 insert
 			result3 = dao.insertKakaopay(sst, vo);	
+		} else {
+			throw new Exception("후원정보, 결제정보 insert 작업 실패");
 		}
+		
+		int result4 = dao.plusCurrentAmnt(sst, vo);
 
-		return result1 == 1 && result2 == 1 && result3 ==1;
+		return result1 == 1 && result2 == 1 && result3 ==1 && result4 == 1;
 		
 	}
 	
